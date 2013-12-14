@@ -4,29 +4,18 @@ import xoric.prism.data.modules.ActorID;
 import xoric.prism.data.modules.ErrorCode;
 import xoric.prism.data.modules.ErrorID;
 import xoric.prism.data.modules.IActor;
-import xoric.prism.data.modules.ModuleID;
-import xoric.prism.data.modules.PrismException;
+import xoric.prism.exceptions.PrismException;
 
 public class Doorman implements IActor
 {
-	@Override
-	public ErrorCode getErrorCode(ErrorID errorID)
-	{
-		return new ErrorCode(ModuleID.SERVER, ActorID.DOORMAN, errorID);
-	}
-
-	@Override
-	public void throwException(ErrorID errorID, String info) throws PrismException
-	{
-		throw new PrismException(getErrorCode(errorID), info);
-	}
-
 	public static void main(String args[])
 	{
 		Doorman d = new Doorman();
 		try
 		{
-			d.throwException(ErrorID.INVALID_LOGIN, "Test");
+			ErrorCode c = new ErrorCode(d, ErrorID.INVALID_LOGIN);
+			PrismException e = new PrismException(c);
+			throw e;
 		}
 		catch (PrismException e)
 		{
@@ -41,5 +30,11 @@ public class Doorman implements IActor
 
 			}
 		}
+	}
+
+	@Override
+	public ActorID getActorID()
+	{
+		return ActorID.DOORMAN;
 	}
 }

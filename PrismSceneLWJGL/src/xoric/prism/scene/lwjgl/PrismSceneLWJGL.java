@@ -70,7 +70,8 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 	{
 		try
 		{
-			DisplayMode mode = findDisplay(800, 600);
+			DisplayMode mode = findDisplay(width, height);
+			System.out.println("Setting display size to " + mode.getWidth() + " x " + height);
 			Display.setDisplayMode(mode);
 			Display.create();
 		}
@@ -105,7 +106,7 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		//		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
 		/* test */GL11.glMatrixMode(GL11.GL_PROJECTION); // Den richtigen Stack aktivieren
-		GL11.glLoadIdentity(); // Die Matrix zurücksetzen
+		GL11.glLoadIdentity(); // Die Matrix zurï¿½cksetzen
 
 		//		GL11.glEnable(GL11.GL_DEPTH_TEST); // Tiefentest (mit dem Z-Buffer) aktivieren
 
@@ -142,6 +143,9 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 			e1.printStackTrace();
 		}
 
+		int frameCounter = 0;
+		int frameTimerMs = 0;
+
 		do
 		{
 			long currentMs = System.currentTimeMillis();
@@ -162,6 +166,15 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 					//					drawGround();
 				}
 
+				frameTimerMs += passedMs;
+				if (frameTimerMs >= 3000)
+				{
+					int fps = (frameCounter * 1000) / frameTimerMs;
+					Display.setTitle(fps + " fps");
+					frameCounter = 0;
+					frameTimerMs = 0;
+				}
+
 				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
 				// client returns false if the scene should be closed
@@ -169,6 +182,7 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 
 				// update the scene
 				Display.update();
+				++frameCounter;
 				resumeTimer &= !Display.isCloseRequested();
 
 				// keep track of passed ms

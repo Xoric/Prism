@@ -12,9 +12,6 @@ public class PrismClient implements ISceneListener
 {
 	private IScene scene;
 
-	private float nx = 0.0f;
-	private float ny = 0.0f;
-	private float nz = 0.0f;
 	private int ni = 0;
 
 	private float slope = 0.1f;
@@ -35,13 +32,13 @@ public class PrismClient implements ISceneListener
 	{
 		this.scene = scene;
 
-		testPlane = new FloatRect(0.0f, 0.0f, 800.0f, 600.0f);
+		testPlane = new FloatRect(0.0f, 0.0f, 800.0f, 480.0f);
 
 		testMan = new FloatPoint[4];
 		testMan[0] = new FloatPoint(0.0f, 0.0f);
 		testMan[1] = new FloatPoint(800.0f - manSize.getX(), 0.0f);
-		testMan[2] = new FloatPoint(0.0f, 600.0f);
-		testMan[3] = new FloatPoint(800.0f - manSize.getX(), 600.0f);
+		testMan[2] = new FloatPoint(0.0f, 480.0f);
+		testMan[3] = new FloatPoint(800.0f - manSize.getX(), 480.0f);
 
 		walkingMan = new FloatPoint(400.0f, 300.0f);
 		walkingX = 4.0f;
@@ -49,12 +46,12 @@ public class PrismClient implements ISceneListener
 
 		temp = new FloatPoint();
 		temp2 = new FloatPoint();
-		cam = new Camera(0.0f, 0.0f, 800.0f, 600.0f);
+		cam = new Camera(0.0f, 0.0f, 800.0f, 480.0f);
 	}
 
 	public void start()
 	{
-		scene.createWindow(800, 600, false);
+		scene.createWindow(800, 480, false);
 		scene.startLoop(this);
 	}
 
@@ -107,7 +104,7 @@ public class PrismClient implements ISceneListener
 		{
 			walkingY = (float) (1.0f + Math.random() * 4.0f);
 		}
-		else if (walkingMan.y > 600.0f)
+		else if (walkingMan.y > 480.0f)
 		{
 			walkingY = -1.0f * (float) (1.0f + Math.random() * 4.0f);
 		}
@@ -147,7 +144,6 @@ public class PrismClient implements ISceneListener
 	@Override
 	public void onClosingScene()
 	{
-		System.out.println("client is being notified that scene is closing");
-
+		System.out.println("Client is being notified that scene is closing");
 	}
 }
