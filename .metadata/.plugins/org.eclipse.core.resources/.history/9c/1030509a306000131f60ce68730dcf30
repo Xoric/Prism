@@ -1,0 +1,8 @@
+package xoric.prism.scene;
+
+public interface IRendererListener
+{
+	public void setColor(float r, float g, float b);
+
+	public void drawQuad(float x, float y, float z, float w, float h);
+}

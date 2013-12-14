@@ -1,0 +1,19 @@
+1385740475128	Copy compilation unit
+1385740506478	Copy compilation unit
+1385740598083	Rename type 'ISafeRect'
+1385740607330	Rename type 'ISafeIntRect'
+1385740611821	Rename type 'ISafeIntRect_'
+1385740616539	Rename type 'IIntRect_'
+1385740629910	Rename type 'IIntRect_r'
+1385740636486	Rename type 'ISafeDimension'
+1385740644590	Rename type 'ISafePoint'
+1385740694052	Rename method 'calcWidth'
+1385740697803	Rename method 'calcHeight'
+1385740772635	Rename type 'IntRect_r'
+1385741593806	Rename type 'IIntRect_r'
+1385741612722	Rename type 'IntRect'
+1385741756777	Delete element
+1385742243351	Copy compilation unit
+1385742632183	Delete element
+1385742767953	Rename local variable 'p'
+1385742777395	Rename local variable 's'

@@ -1,0 +1,28 @@
+package xoric.prism.scene;
+
+public interface IRenderer
+{
+	public Renderer(IRendererListener scene)
+	{
+		this.scene = scene;
+	}
+
+	public void drawQuad3D(float x, float y, float w, float h, float zTop, float zBottom)
+	{
+		float f = (y + 0.7f) * 0.6f;
+		float f2 = (x + 0.7f) * 0.6f;
+
+		//		scene.setColor((float) Math.random(), (float) Math.random(), (float) Math.random());
+		scene.setColor(f, f, f2);
+
+		//		scene.drawQuad3D(x, y, -1.6f, -1.8f, w, h);
+		scene.drawQuad3D(x, y, w, h, zTop, zBottom);
+	}
+
+	public void drawQuad2D(float x, float y, float w, float h)
+	{
+		scene.setColor((float) Math.random(), (float) Math.random(), (float) Math.random());
+
+		scene.drawQuad2D(x, y, w, h);
+	}
+}

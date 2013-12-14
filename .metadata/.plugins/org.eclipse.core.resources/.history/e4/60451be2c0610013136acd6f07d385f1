@@ -1,0 +1,6 @@
+package xoric.prism.scene;
+
+public interface ICameraTransform
+{
+	public void transform(IFloatPoint_r in, FloatPoint out);
+}

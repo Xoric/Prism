@@ -1,0 +1,13 @@
+package xoric.prism.swing;
+
+import java.util.Timer;
+
+public class PrismTimer
+{
+	private Timer timer;
+
+	public PrismTimer()
+	{
+		timer = new Timer();
+	}
+}

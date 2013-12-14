@@ -1,0 +1,28 @@
+package xoric.prism.meta;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MetaList
+{
+	private final List<MetaBlock> blocks;
+
+	public MetaList()
+	{
+		blocks = new ArrayList<MetaBlock>();
+	}
+
+	public MetaBlock getMetaBlock(MetaBlockToken t)
+	{
+		for (MetaBlock b : blocks)
+			if (b.getToken() == t)
+				return b;
+
+		return null;
+	}
+
+	public boolean hasMetaBlock(MetaBlockToken t)
+	{
+		return getMetaBlock(t) != null;
+	}
+}

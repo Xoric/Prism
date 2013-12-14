@@ -1,0 +1,9 @@
+package xoric.prism.scene;
+
+public interface IRendererListener
+{
+	public void drawQuad(float x, float y, float w, float h)
+	{
+
+	}
+}

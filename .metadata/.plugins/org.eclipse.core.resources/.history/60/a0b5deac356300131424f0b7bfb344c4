@@ -1,0 +1,71 @@
+package xoric.prism.meta;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import xoric.prism.data.IPackable;
+import xoric.prism.data.IntPacker;
+
+public class MetaList implements IPackable
+{
+	private final List<MetaBlock> blocks;
+	private int localFileVersion;
+	private final IntPacker intPacker;
+
+	public MetaList()
+	{
+		blocks = new ArrayList<MetaBlock>();
+		intPacker = new IntPacker();
+	}
+
+	public void addMetaBlock(MetaBlock b)
+	{
+		blocks.add(b);
+	}
+
+	public MetaBlock getMetaBlock(MetaBlockToken t)
+	{
+		for (MetaBlock b : blocks)
+			if (b.getToken() == t)
+				return b;
+
+		return null;
+	}
+
+	public boolean hasMetaBlock(MetaBlockToken t)
+	{
+		return getMetaBlock(t) != null;
+	}
+
+	public int getLocalFileVersion()
+	{
+		return localFileVersion;
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int getPackedSize()
+	{
+		// localFileVersion
+		intPacker.setValue(localFileVersion);
+		int size = intPacker.getPackedSize();
+
+		return size;
+	}
+}

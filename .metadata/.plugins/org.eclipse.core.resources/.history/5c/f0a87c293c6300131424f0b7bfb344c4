@@ -1,0 +1,14 @@
+package xoric.prism.server.main;
+
+public class PrismServer
+{
+	private static PrismFrame server;
+
+	public static void main(String args[])
+	{
+		ErrorCode.defaultModule = ModuleID.SERVER;
+
+		server = new PrismFrame("Prism Server", 800, 480, true);
+		server.setVisible(true);
+	}
+}

@@ -1,0 +1,6 @@
+package xoric.prism.data.modules;
+
+public enum ErrorID
+{
+	GENERIC, INVALID_LOGIN, ATTACHMENT_NOT_FOUND
+}

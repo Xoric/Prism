@@ -1,0 +1,260 @@
+package xoric.prism.meta;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import xoric.prism.data.IPackable;
+import xoric.prism.data.IntPacker;
+import xoric.prism.data.modules.ActorID;
+import xoric.prism.data.modules.ErrorCode;
+import xoric.prism.data.modules.ErrorID;
+import xoric.prism.data.modules.IActor;
+import xoric.prism.exceptions.PrismMetaFileException;
+
+/**
+ * @author Felix Möhrle
+ * @since 26.06.2011, 15:35:16
+ */
+public class AttachmentLoader implements IActor, IPackable
+{
+	private static final int FILLER = 0x20000000;
+
+	private final File file;
+	private final List<Integer> attachmentSizes;
+	private final IntPacker intPacker;
+	private int attachmentStart;
+
+	/**
+	 * AttachmentLoader constructor.
+	 * @param file
+	 */
+	public AttachmentLoader(File file)
+	{
+		this.file = file;
+		this.attachmentSizes = new ArrayList<Integer>();
+		this.intPacker = new IntPacker();
+	}
+
+	/**
+	 * @return Number of attachments in the file.
+	 */
+	public int getAttachmentCount()
+	{
+		return attachmentSizes.size();
+	}
+
+	/**
+	 * @return File
+	 */
+	public File getFile()
+	{
+		return file;
+	}
+
+	public void setAttachmentStart(int attachmentStart)
+	{
+		this.attachmentStart = attachmentStart;
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException
+	{
+		// write number of attachments
+		intPacker.setValue(attachmentSizes.size());
+		intPacker.pack(stream);
+
+		// write attachment sizes
+		for (int i = 0; i < attachmentSizes.size(); ++i)
+		{
+			intPacker.setValue(attachmentSizes.get(i));
+			intPacker.pack(stream);
+		}
+
+		// write attachment start
+		intPacker.setValue(attachmentStart | FILLER); // ensure 4 bytes are being used 
+		intPacker.pack(stream);
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException
+	{
+		// read number of attachments
+		intPacker.unpack(stream);
+		int n = intPacker.getValue();
+
+		// read attachment sizes
+		attachmentSizes.clear();
+		for (int i = 0; i < n; ++i)
+		{
+			intPacker.unpack(stream);
+			int size = intPacker.getValue();
+			attachmentSizes.add(size);
+		}
+
+		// read attachment start
+		intPacker.unpack(stream);
+		attachmentStart = intPacker.getValue() & ~FILLER;
+	}
+
+	@Override
+	public int getPackedSize()
+	{
+		// number of attachments
+		intPacker.setValue(attachmentSizes.size());
+		int size = intPacker.getPackedSize();
+
+		// attachment sizes
+		for (int i = 0; i < attachmentSizes.size(); ++i)
+		{
+			intPacker.setValue(attachmentSizes.get(i));
+			size += intPacker.getPackedSize();
+		}
+
+		// attachment start
+		size += 4;
+
+		return size;
+	}
+
+	/**
+	 * Loads an attachment from a MetaFile.
+	 * @param attachmentIndex
+	 * @return ByteArrayInputStream
+	 * @throws IOException
+	 * @throws PrismMetaFileException
+	 */
+	public ByteArrayInputStream loadAttachment(int attachmentIndex) throws IOException, PrismMetaFileException
+	{
+		if (attachmentIndex < 0 && attachmentIndex >= getAttachmentCount())
+		{
+			ErrorCode c = new ErrorCode(this, ErrorID.ATTACHMENT_NOT_FOUND);
+			PrismMetaFileException e = new PrismMetaFileException(c, file.toString());
+			e.appendInfo("attachmentIndex", String.valueOf(attachmentIndex));
+			throw e;
+		}
+		ByteArrayInputStream stream = null;
+
+		// get start position and size of the attachment
+		int start = calcAttachmentStart(attachmentIndex);
+		int size = attachmentSizes[attachmentIndex];
+
+		if (start > 0 && size > 0)
+		{
+			// open file and load attachment
+			FileInputStream fin = new FileInputStream(file);
+			byte[] buf = new byte[size];
+			fin.getChannel().position(start);
+			fin.read(buf);
+			fin.close();
+			stream = new ByteArrayInputStream(buf);
+		}
+		else
+			throw new MetaFileException(file, ExceptionTag.ATTACHMENT_NOT_FOUND, "index " + attachmentIndex);
+
+		return stream;
+	}
+
+	/**
+	 * Loads an attachment as String-Array.
+	 * @param index
+	 * @return String[]
+	 * @throws IOException
+	 * @throws MetaFileException
+	 */
+	public String[] loadAttachmentAsStringArray(int index) throws IOException, MetaFileException
+	{
+		ByteArrayInputStream stream = loadAttachment(index);
+		BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+
+		StringBuilder lines = new StringBuilder();
+		String line;
+		while ((line = br.readLine()) != null)
+			lines.append(line + '\n');
+		stream.close();
+
+		String[] result = new String[] { lines.toString() };
+		return result;
+	}
+
+	/**
+	 * Loads attachment count and attachment sizes from the given FileInputStream.
+	 * @param fin
+	 * @throws IOException
+	 */
+	public void loadSizes(FileInputStream fin, int attachmentCount) throws IOException
+	{
+		// create attachment sizes buffer
+		attachmentSizes = new int[attachmentCount];
+		byte[] attachmentSizesBuf = new byte[attachmentCount * ATTACHMENT_SIZE_BYTES];
+		fin.read(attachmentSizesBuf);
+		BinPosition pos = new BinPosition(0);
+
+		// read attachment sizes
+		for (int i = 0; i < attachmentCount; ++i)
+		{
+			int attachmentSize = Bin.readInt(attachmentSizesBuf, pos, ATTACHMENT_SIZE_BYTES);
+			attachmentSizes[i] = attachmentSize;
+		}
+		// store the first attachment's starting position
+		attachmentStart = (int) fin.getChannel().position();
+	}
+
+	/**
+	 * Calculates and returns the start position of the requested attachment.
+	 * @param index
+	 * @return int
+	 * @throws MetaFileException
+	 */
+	private int calcAttachmentStart(int index) throws PrismMetaFileException
+	{
+		int start = 0;
+
+		if (index >= 0 && index < attachmentSizes.size())
+		{
+			start = attachmentStart;
+
+			for (int i = 0; i < index; ++i)
+				start += attachmentSizes.get(i);
+		}
+		else
+		{
+			ErrorCode c = new ErrorCode(this, ErrorID.ATTACHMENT_NOT_FOUND);
+			PrismMetaFileException e = new PrismMetaFileException(c, file);
+			throw new MetaFileException(file, ExceptionTag.ATTACHMENT_NOT_FOUND, "index " + index);
+		}
+
+		return start;
+	}
+
+	public static AttachmentLoader createFromStream(File file, FileInputStream fin) throws IOException
+	{
+		AttachmentLoader attachmentLoader = null;
+
+		// get attachment count
+		byte[] attachmentCountBuf = new byte[ATTACHMENT_COUNT_BYTES];
+		fin.read(attachmentCountBuf);
+		BinPosition pos = new BinPosition(0);
+		int attachmentCount = Bin.readInt(attachmentCountBuf, pos, AttachmentLoader.ATTACHMENT_COUNT_BYTES);
+
+		if (attachmentCount > 0)
+		{
+			attachmentLoader = new AttachmentLoader(file);
+			attachmentLoader.loadSizes(fin, attachmentCount);
+		}
+		return attachmentLoader;
+	}
+
+	@Override
+	public ActorID getActorID()
+	{
+		return ActorID.ATTACHMENT_LOADER;
+	}
+}

@@ -1,0 +1,39 @@
+package xoric.prism.client.bootstrap;
+
+import java.io.File;
+
+import xoric.prism.client.main.PrismClient;
+import xoric.prism.data.modules.ErrorCode;
+import xoric.prism.data.modules.ModuleID;
+import xoric.prism.meta.MetaBlock;
+import xoric.prism.meta.MetaFile;
+import xoric.prism.meta.MetaLine;
+import xoric.prism.scene.IScene;
+import xoric.prism.scene.lwjgl.PrismSceneLWJGL;
+
+public class PrismClientBootstrap
+{
+	private static IScene scene;
+	private static PrismClient client;
+
+	public static void main(String[] args)
+	{
+		// register as default module
+		ErrorCode.defaultModuleID = ModuleID.CLIENT;
+
+		// create scene and client
+		scene = new PrismSceneLWJGL();
+		client = new PrismClient(scene);
+
+		MetaFile f = new MetaFile(new File("E:/Temp/Prism/test.tmp"));
+		MetaBlock b = new MetaBlock();
+		MetaLine l = new MetaLine();
+		l.getHeap().ints.add(13);
+		b.addMetaLine(l);
+		f.getMetaList().addMetaBlock(b);
+		f.write();
+
+		// start client
+		client.start();
+	}
+}

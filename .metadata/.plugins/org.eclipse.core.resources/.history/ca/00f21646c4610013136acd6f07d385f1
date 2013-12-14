@@ -1,0 +1,15 @@
+package xoric.prism.scene;
+
+import xoric.prism.data.FloatPoint;
+import xoric.prism.data.IFloatPoint_r;
+
+public interface ICameraTransform
+{
+	/**
+	 * Transforms a given point within the map {@code x_in: [0; width], y_in: [0; height]} to the visible area
+	 * {@code x_out: [0.0f; 1.0f], y_out: [0.0f; 1.0f]}.
+	 * @param in point in map coordinates
+	 * @param out point within visible area
+	 */
+	public void transformXY(IFloatPoint_r in, FloatPoint out);
+}

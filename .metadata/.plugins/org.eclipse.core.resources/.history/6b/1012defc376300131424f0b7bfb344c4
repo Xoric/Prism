@@ -1,0 +1,8 @@
+package xoric.prism.data.modules;
+
+import xoric.prism.exceptions.PrismException;
+
+public interface IActor
+{
+	public ActorID getActorID();
+}

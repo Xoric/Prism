@@ -1,0 +1,6 @@
+package xoric.prism.scene;
+
+public enum SceneStage
+{
+	SOIL, WORLD, OVERLAY
+}

@@ -1,0 +1,14 @@
+package xoric.prism.scene;
+
+import xoric.prism.data.IFloatPoint_r;
+
+public interface IRenderer
+{
+	public void setColor(float r, float g, float b);
+
+	public void drawWorldTile(IFloatPoint_r position, IFloatPoint_r size);
+
+	public void drawWorldObject(IFloatPoint_r position, IFloatPoint_r size);
+
+	public void drawQuad2D(float x, float y, float w, float h);
+}

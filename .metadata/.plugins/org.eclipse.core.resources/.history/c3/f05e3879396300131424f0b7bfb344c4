@@ -1,0 +1,25 @@
+package xoric.prism.exceptions;
+
+import java.io.File;
+
+import xoric.prism.data.modules.ErrorCode;
+
+public class PrismMetaFileException extends PrismException
+{
+	private static final long serialVersionUID = 1L;
+
+	private final File file;
+
+	public PrismMetaFileException(ErrorCode errorCode, String info, File file)
+	{
+		super(errorCode, info);
+		this.file = file;
+	}
+
+	@Override
+	protected void listInfo(StringBuffer sb)
+	{
+		super.listInfo(sb);
+		appendInfo(sb, "file", file.toString());
+	}
+}

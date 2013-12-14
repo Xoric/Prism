@@ -1,0 +1,12 @@
+package xoric.prism.exceptions;
+
+import xoric.prism.data.modules.ErrorCode;
+
+public class PrismMetaFileException extends PrismException
+{
+	public PrismMetaFileException(ErrorCode errorCode, String info)
+	{
+		super(errorCode, info);
+		// TODO Auto-generated constructor stub
+	}
+}

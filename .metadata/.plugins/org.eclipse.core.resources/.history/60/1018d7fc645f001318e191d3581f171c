@@ -1,0 +1,6 @@
+package xoric.prism.constants;
+
+public interface PrismConstants
+{
+public static final int TIMER_INTERVAL = 25;
+}

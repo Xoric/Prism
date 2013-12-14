@@ -1,0 +1,27 @@
+package xoric.prism.swing;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class PrismTimer extends TimerTask
+{
+	private final Timer timer;
+
+	public PrismTimer()
+	{
+		timer = new Timer();
+		timer.sc
+	}
+	
+	public void start()
+	{
+		
+	}
+
+	@Override
+	public void run()
+	{
+		// TODO Auto-generated method stub
+
+	}
+}

@@ -1,0 +1,8 @@
+package xoric.prism.meta;
+
+import xoric.prism.data.IPackable;
+
+public class MetaBlock implements IPackable
+{
+
+}

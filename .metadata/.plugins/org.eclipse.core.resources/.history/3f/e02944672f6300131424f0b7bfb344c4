@@ -1,0 +1,43 @@
+package xoric.prism.meta;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+
+import xoric.prism.data.IPackable;
+
+public class MetaBlock implements IPackable
+{
+	private final MetaBlockToken token;
+	private final List<MetaLine> list;
+
+	public MetaBlock(MetaBlockToken token)
+	{
+		this.token = token;
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int getPackedSize()
+	{
+		int size = 2;
+		for (MetaLine l : list)
+			size += l.getPackedSize();
+
+		return size;
+	}
+}

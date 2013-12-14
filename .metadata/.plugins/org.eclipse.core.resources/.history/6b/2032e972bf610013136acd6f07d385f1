@@ -1,0 +1,37 @@
+package xoric.prism.data;
+
+public class FloatRect
+{
+	public final FloatPoint topLeft;
+	public final FloatPoint size;
+
+	public FloatRect(IFloatPoint_r topLeft, IFloatPoint_r size)
+	{
+		this.topLeft = new FloatPoint(topLeft);
+		this.size = new FloatPoint(size);
+	}
+
+	public void set(IFloatPoint_r topLeft, IFloatPoint_r size)
+	{
+		this.topLeft.copyFrom(topLeft);
+		this.size.copyFrom(size);
+	}
+
+	public IFloatPoint_r getTopLeft()
+	{
+		return topLeft;
+	}
+
+	public IFloatPoint_r getSize()
+	{
+		return size;
+	}
+
+	public FloatPoint calcBottomRight()
+	{
+		FloatPoint p = new FloatPoint(topLeft);
+		p.add(size);
+
+		return p;
+	}
+}

@@ -1,0 +1,25 @@
+package xoric.prism.meta;
+
+import xoric.prism.data.Heap;
+
+public class MetaLine implements IPackable
+{
+	private final char token;
+	private final Heap heap;
+
+	public MetaLine(char token)
+	{
+		this.token = token;
+		this.heap = new Heap();
+	}
+
+	public char getToken()
+	{
+		return token;
+	}
+
+	public Heap getHeap()
+	{
+		return heap;
+	}
+}

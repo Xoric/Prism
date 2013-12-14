@@ -1,0 +1,10 @@
+package xoric.prism.data;
+
+public interface IFloatRect_r extends IStackable
+{
+	public IFloatPoint_r getTopLeft();
+
+	public IFloatPoint_r getSize();
+
+	public FloatPoint calcBottomRight();
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="xoric.prism.server.actors.ServerActorID"/>
+<fullyQualifiedTypeName name="xoric.prism.data.IIntRect_r"/>
+<fullyQualifiedTypeName name="java.awt.Dimension"/>
+<fullyQualifiedTypeName name="com.jogamp.opengl.swt.GLCanvas"/>
+<fullyQualifiedTypeName name="javax.swing.JFrame"/>
+<fullyQualifiedTypeName name="org.lwjgl.opengl.DisplayMode"/>
+<fullyQualifiedTypeName name="org.lwjgl.input.Keyboard"/>
+<fullyQualifiedTypeName name="java.awt.List"/>
+<fullyQualifiedTypeName name="java.util.Timer"/>
+<fullyQualifiedTypeName name="java.util.TimerTask"/>
+<fullyQualifiedTypeName name="xoric.prism.client.main.PrismClient"/>
+<fullyQualifiedTypeName name="xoric.prism.scene.ISceneListener"/>
+<fullyQualifiedTypeName name="xoric.prism.scene.Renderer"/>
+<fullyQualifiedTypeName name="xoric.prism.data.FloatPoint"/>
+<fullyQualifiedTypeName name="xoric.prism.data.IFloatPoint_r"/>
+<fullyQualifiedTypeName name="xoric.prism.scene.SceneStage"/>
+<fullyQualifiedTypeName name="xoric.prism.scene.camera.Camera"/>
+<fullyQualifiedTypeName name="xoric.prism.scene.TexturedVertex"/>
+<fullyQualifiedTypeName name="de.matthiasmann.twl.utils.PNGDecoder.Format"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="org.lwjgl.BufferUtils"/>
+<fullyQualifiedTypeName name="xoric.prism.data.HeapPacker"/>
+<fullyQualifiedTypeName name="xoric.prism.meta.MetaLine"/>
+<fullyQualifiedTypeName name="xoric.prism.data.IntPacker"/>
+<fullyQualifiedTypeName name="xoric.prism.data.modules.IActor"/>
+<fullyQualifiedTypeName name="xoric.prism.data.modules.ActorID"/>
+<fullyQualifiedTypeName name="xoric.prism.swing.PrismFrame"/>
+<fullyQualifiedTypeName name="xoric.prism.data.modules.ErrorCode"/>
+<fullyQualifiedTypeName name="xoric.prism.data.modules.ModuleID"/>
+<fullyQualifiedTypeName name="java.io.FileInputStream"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="xoric.prism.data.modules.ErrorID"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+</qualifiedTypeNameHistroy>
