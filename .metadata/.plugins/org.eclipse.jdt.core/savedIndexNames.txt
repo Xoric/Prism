@@ -23,7 +23,6 @@ INDEX VERSION 1.126+E:\Projekte\Java\Prism\.metadata\.plugins\org.eclipse.jdt.co
 3133528496.index
 4108727661.index
 1299022128.index
-324125054.index
 1697886153.index
 3675316606.index
 4155206848.index
