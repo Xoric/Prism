@@ -12,7 +12,7 @@
 	<item value="200" key="clean_up_save_particpant_modify_dialog.preferred_y"/>
 	<item value="583" key="clean_up_save_particpant_modify_dialog.preferred_height"/>
 	<item value="1920" key="clean_up_save_particpant_modify_dialog.preferred_x"/>
-	<item value="E:\Java\twl-png-decoder" key="org.eclipse.jdt.ui.lastextjar"/>
+	<item value="E:\Java\twl-png-decoder\%LWJGL%\jar" key="org.eclipse.jdt.ui.lastextjar"/>
 	<item value="8" key="org.eclipse.jdt.uiformatter_page.modify_dialog_tab_page.last_focus_index"/>
 	<item value="887" key="org.eclipse.jdt.uicleanup_pagemodify_dialog.preferred_width"/>
 	<item value="D:\Dropbox\XoricLink\Projekte\Java" key="org.eclipse.jdt.ui.codeformatter.loadpath"/>
@@ -26,7 +26,7 @@
 		<item value="true" key="org.eclipse.jdt.ui.typecomment.deprecated"/>
 	</section>
 	<section name="BuildPathsPropertyPage">
-		<item value="1" key="pageIndex"/>
+		<item value="2" key="pageIndex"/>
 	</section>
 	<section name="JarPackageWizard">
 		<item value="false" key="JarPackageWizardPage.INCLUDE_DIRECTORY_ENTRIES"/>
