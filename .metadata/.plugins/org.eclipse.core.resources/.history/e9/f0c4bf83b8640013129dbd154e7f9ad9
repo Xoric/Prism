@@ -131,8 +131,8 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		try
 		{
 			textures = new TextureIO[2];
-			textures[0] = new TextureIO(new FileInputStream("../debug/g1.png"));
-			textures[1] = new TextureIO(new FileInputStream("../debug/g2.png"));
+			textures[0] = new TextureIO(new FileInputStream("E:/Temp/Prism/g1.png"));
+			textures[1] = new TextureIO(new FileInputStream("E:/Temp/Prism/g2.png"));
 			GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_REPLACE);
 			textures[0].init();
 			textures[1].init();
