@@ -1,6 +1,0 @@
-package xoric.prism.swing;
-
-public class PrismTimer
-{
-private	Timer timer = new Timer();
-}

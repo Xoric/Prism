@@ -93,6 +93,42 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		}
 	}
 
+	/*
+	void testShader() throws FileNotFoundException
+	{
+		String file = "../debug/tex.glsl";
+		ClassLoader loader = PrismSceneLWJGL.class.getClassLoader();
+		InputStream is = loader.getResourceAsStream(file);
+		byte[] shadercode = null;
+		try
+		{
+			DataInputStream dis = new DataInputStream(is);
+			dis.readFully(shadercode = new byte[is.available()]);
+			dis.close();
+			is.close();
+
+			// copy code into a byte buffer for lwjgl
+			ByteBuffer shader = BufferUtils.createByteBuffer(shadercode.length);
+			shader.put(shadercode);
+			shader.flip();
+
+			// register shaders and request two ints to reference them
+			int vertexShaderID = ARBShaderObjects.glCreateShaderObjectARB(ARBVertexShader.GL_VERTEX_SHADER_ARB);
+			int pixelShaderID = ARBShaderObjects.glCreateShaderObjectARB(ARBFragmentShader.GL_FRAGMENT_SHADER_ARB);
+
+			// pass source code to openGL and compile it
+			ARBShaderObjects.glShaderSourceARB(vertexShaderID, vertexShader);
+			ARBShaderObjects.glCompileShaderARB(vertexShaderID);
+			ARBShaderObjects.glShaderSourceARB(pixelShaderID, pixelShader);
+			ARBShaderObjects.glCompileShaderARB(pixelShaderID);
+		}
+		catch (IOException e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
+	*/
+
 	@Override
 	public void startLoop(ISceneListener listener)
 	{
@@ -153,19 +189,6 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 
 			if (passedMs >= loopInterval)
 			{
-				//				GL11.glRotated(1, 1, 0.2, 0);
-
-				{
-					// Clear the screen and depth buffer
-					//					GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-
-					// set the color of the quad (R,G,B,A)
-					//					GL11.glColor3f(0.5f, 0.5f, 1.0f);
-
-					/* keep */
-					//					drawGround();
-				}
-
 				frameTimerMs += passedMs;
 				if (frameTimerMs >= 3000)
 				{
@@ -185,7 +208,7 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 				++frameCounter;
 				resumeTimer &= !Display.isCloseRequested();
 
-				// keep track of passed ms
+				// keep track of time passed
 				lastMs = currentMs;
 			}
 			else
@@ -202,6 +225,10 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 			}
 		}
 		while (resumeTimer);
+
+		// clean up (TODO: move to client)
+		for (int i = 0; i < textures.length; ++i)
+			GL11.glDeleteTextures(textures[i].getProgramID());
 
 		// destroy scene
 		listener.onClosingScene();
@@ -254,12 +281,7 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 	@Override
 	public void drawPlane(IFloatPoint_r position, IFloatPoint_r size)
 	{
-		//		GL11.glBegin(GL11.GL_QUADS);
-
 		bindTexture(textures[0].getProgramID());
-
-		// Draw the vertices
-		//		GL11.glDrawElements(GL11.GL_TRIANGLES, indicesCount, GL11.GL_UNSIGNED_BYTE, 0);
 
 		GL11.glBegin(GL11.GL_QUADS);
 
@@ -316,21 +338,12 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 	@Override
 	public void drawSprite(float x, float y, float w, float h)
 	{
-		//		y = (float) (height - y);
-
-		//		setColor((float) Math.random(), (float) Math.random(), (float) Math.random());
-
 		GL11.glBegin(GL11.GL_QUADS);
 
 		GL11.glVertex2f(x, y);
 		GL11.glVertex2f(x + w, y);
 		GL11.glVertex2f(x + w, y + h);
 		GL11.glVertex2f(x, y + h);
-
-		//		GL11.glVertex2f(x, y - h);
-		//		GL11.glVertex2f(x + w, y - h);
-		//		GL11.glVertex2f(x + w, y);
-		//		GL11.glVertex2f(x, y);
 
 		GL11.glEnd();
 	}

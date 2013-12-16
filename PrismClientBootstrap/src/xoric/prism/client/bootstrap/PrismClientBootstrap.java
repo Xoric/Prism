@@ -11,6 +11,19 @@ public class PrismClientBootstrap
 	private static IScene scene;
 	private static PrismClient client;
 
+	//	static
+	//	{
+	//		try
+	//		{
+	//			System.load("C:/chilkatJava/chilkat.dll");
+	//		}
+	//		catch (UnsatisfiedLinkError e)
+	//		{
+	//			System.err.println("Native code library failed to load.\n" + e);
+	//			System.exit(1);
+	//		}
+	//	}
+
 	public static void main(String[] args)
 	{
 		// register as default module

@@ -1,0 +1,14 @@
+package xoric.prism.scene.lwjgl;
+
+import java.io.File;
+import java.io.InputStream;
+
+public class ShaderIO
+{
+	public void loadShaderBuffer(File vertexFile, File fragmentFile)
+	{
+		ClassLoader loader = PrismSceneLWJGL.class.getClassLoader();
+		InputStream is = loader.getResourceAsStream(file);
+		byte[] shadercode = null;
+	}
+}

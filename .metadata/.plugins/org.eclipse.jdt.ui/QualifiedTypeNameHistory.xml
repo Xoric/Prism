@@ -19,7 +19,6 @@
 <fullyQualifiedTypeName name="xoric.prism.scene.camera.Camera"/>
 <fullyQualifiedTypeName name="xoric.prism.scene.TexturedVertex"/>
 <fullyQualifiedTypeName name="de.matthiasmann.twl.utils.PNGDecoder.Format"/>
-<fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="org.lwjgl.BufferUtils"/>
 <fullyQualifiedTypeName name="xoric.prism.data.HeapPacker"/>
 <fullyQualifiedTypeName name="xoric.prism.meta.MetaLine"/>
@@ -33,4 +32,6 @@
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="xoric.prism.data.modules.ErrorID"/>
 <fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="java.io.DataInputStream"/>
 </qualifiedTypeNameHistroy>

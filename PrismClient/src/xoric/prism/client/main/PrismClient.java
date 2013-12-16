@@ -128,22 +128,12 @@ public class PrismClient implements ISceneListener
 		cam.transformWithCameraBounds(walkingMan, temp);
 		renderer.drawObject(temp, temp2, 0.0f);
 
-		//		renderer.setColor(0.2f, 0.2f, 0.2f);
-		//		for (int i = 0; i 4 ; ++i)
-		//			renderer.drawObject(testMan[i].getTopLeft(), size, dz);
-		//		float w = 0.03f;
-		//		float h = 0.1f;
-		//		renderer.drawQuadWorld(-0.5f, -0.5f, w, h, -1.5f, -1.5f);
-		//		renderer.drawQuadWorld(0.5f - w, -0.5f, w, h, -1.5f, -1.5f);
-		//		renderer.drawQuadWorld(-0.5f, 0.5f, w, h, nz, nz);
-		//		renderer.drawQuadWorld(0.5f - w, 0.5f, w, h, nz, nz);
-
 		return true;
 	}
 
 	@Override
 	public void onClosingScene()
 	{
-		System.out.println("Client is being notified that scene is closing");
+		System.out.println("client is being notified that scene is closing");
 	}
 }
