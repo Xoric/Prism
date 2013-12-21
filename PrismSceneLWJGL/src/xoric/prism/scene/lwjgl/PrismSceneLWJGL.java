@@ -1,6 +1,7 @@
 package xoric.prism.scene.lwjgl;
 
 import java.awt.Dimension;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -93,42 +94,6 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		}
 	}
 
-	/*
-	void testShader() throws FileNotFoundException
-	{
-		String file = "../debug/tex.glsl";
-		ClassLoader loader = PrismSceneLWJGL.class.getClassLoader();
-		InputStream is = loader.getResourceAsStream(file);
-		byte[] shadercode = null;
-		try
-		{
-			DataInputStream dis = new DataInputStream(is);
-			dis.readFully(shadercode = new byte[is.available()]);
-			dis.close();
-			is.close();
-
-			// copy code into a byte buffer for lwjgl
-			ByteBuffer shader = BufferUtils.createByteBuffer(shadercode.length);
-			shader.put(shadercode);
-			shader.flip();
-
-			// register shaders and request two ints to reference them
-			int vertexShaderID = ARBShaderObjects.glCreateShaderObjectARB(ARBVertexShader.GL_VERTEX_SHADER_ARB);
-			int pixelShaderID = ARBShaderObjects.glCreateShaderObjectARB(ARBFragmentShader.GL_FRAGMENT_SHADER_ARB);
-
-			// pass source code to openGL and compile it
-			ARBShaderObjects.glShaderSourceARB(vertexShaderID, vertexShader);
-			ARBShaderObjects.glCompileShaderARB(vertexShaderID);
-			ARBShaderObjects.glShaderSourceARB(pixelShaderID, pixelShader);
-			ARBShaderObjects.glCompileShaderARB(pixelShaderID);
-		}
-		catch (IOException e)
-		{
-			System.out.println(e.getMessage());
-		}
-	}
-	*/
-
 	@Override
 	public void startLoop(ISceneListener listener)
 	{
@@ -163,6 +128,17 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		// enable transparency for png
 		GL11.glEnable(GL11.GL_BLEND);
 		//		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+		try
+		{
+			Shader s = new Shader();
+			s.createFrom(new File("../debug/shader.vert"), new File("../debug/shader.frag"));
+			s.activate();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 
 		//		this.setupQuad();
 		try
