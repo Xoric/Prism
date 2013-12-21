@@ -17,6 +17,7 @@ import xoric.prism.scene.IRenderer;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
 import xoric.prism.scene.SceneStage;
+import xoric.prism.scene.shader.IShader2;
 
 public class PrismSceneLWJGL implements IScene, IRenderer
 {
@@ -131,8 +132,8 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 
 		try
 		{
-			Shader s = new Shader();
-			s.createFrom(new File("../debug/shader.vert"), new File("../debug/shader.frag"));
+			IShader2 s = ShaderIO2.getInstance()
+					.createShader(new File("../debug/defaultShader.vert"), new File("../debug/grayShader.frag"));
 			s.activate();
 		}
 		catch (Exception e)

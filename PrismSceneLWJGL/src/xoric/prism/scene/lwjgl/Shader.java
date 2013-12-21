@@ -20,6 +20,7 @@ import xoric.prism.scene.exceptions.PrismShaderException;
 import xoric.prism.scene.shader.IShader;
 import xoric.prism.scene.shader.ShaderType;
 
+@Deprecated
 public class Shader implements IShader, IActor
 {
 	private int program;
@@ -95,7 +96,7 @@ public class Shader implements IShader, IActor
 	}
 
 	@Override
-	public void createFrom(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismShaderException
+	public void createShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismShaderException
 	{
 		PrismShaderException exception = null;
 
@@ -162,7 +163,7 @@ public class Shader implements IShader, IActor
 		ByteBuffer vertexBuf = readFileAsByteBuffer(vertexFile);
 		ByteBuffer pixelBuf = readFileAsByteBuffer(pixelFile);
 
-		createFrom(vertexBuf, pixelBuf);
+		createShader(vertexBuf, pixelBuf);
 	}
 
 	public void activate()

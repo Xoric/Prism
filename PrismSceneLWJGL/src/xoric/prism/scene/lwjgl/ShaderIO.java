@@ -13,6 +13,7 @@ import org.lwjgl.opengl.ARBVertexShader;
 
 import xoric.prism.data.Point;
 
+@Deprecated
 public abstract class ShaderIO
 {
 	private static byte[] loadFileIntoArray(File file) throws IOException
