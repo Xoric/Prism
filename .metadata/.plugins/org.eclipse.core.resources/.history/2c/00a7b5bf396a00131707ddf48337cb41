@@ -1,0 +1,13 @@
+package xoric.prism.scene.lwjgl;
+
+public class CreateProgramParameter
+{
+	public int vertShader;
+	public int fragShader;
+
+	public CreateProgramParameter(int vertShader, int fragShader)
+	{
+		this.vertShader = vertShader;
+		this.fragShader = fragShader;
+	}
+}

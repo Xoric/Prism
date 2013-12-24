@@ -42,6 +42,11 @@ public class PrismException extends Exception
 		appendInfo(key + "=\"" + value + "\"");
 	}
 
+	public final void appendExpectedInfo(String error, int expected, int found)
+	{
+		appendInfo("error", error + " (" + expected + " expected, " + found + " found)");
+	}
+
 	@Override
 	public final String toString()
 	{

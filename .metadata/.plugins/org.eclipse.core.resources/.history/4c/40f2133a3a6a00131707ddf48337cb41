@@ -1,0 +1,15 @@
+package xoric.prism.scene.lwjgl;
+
+import org.lwjgl.opengl.ARBShaderObjects;
+
+import xoric.prism.scene.shader.IShader2;
+
+public class Shader2 implements IShader2
+{
+	@Override
+	public void activate()
+	{
+		ARBShaderObjects.glUseProgramObjectARB(program);
+	}
+
+}

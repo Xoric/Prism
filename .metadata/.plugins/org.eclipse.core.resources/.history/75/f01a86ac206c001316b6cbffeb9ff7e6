@@ -1,0 +1,30 @@
+package xoric.prism.develop.meta;
+
+import xoric.prism.meta.MetaKey;
+import xoric.prism.meta.MetaLine;
+
+public class MetaTextLine
+{
+	private final String key;
+	private final String[] params;
+
+	public MetaTextLine(String key, String[] params)
+	{
+		this.key = key.toUpperCase();
+		this.params = params;
+	}
+
+	public MetaLine toMetaLine()
+	{
+		MetaKey k = MetaKey.valueOf(key);
+
+		MetaLine l = new MetaLine(k);
+		
+		for (String s : params)
+		{
+			
+		}
+
+		return l;
+	}
+}

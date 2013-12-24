@@ -172,7 +172,7 @@ public class ShaderIO2 implements IActor
 	@Override
 	public ActorID getActorID()
 	{
-		return ActorID.SHADER_IO;
+		return ActorID.SHADERIO;
 	}
 
 	private ByteBuffer readFileAsByteBuffer(File file) throws PrismFileException

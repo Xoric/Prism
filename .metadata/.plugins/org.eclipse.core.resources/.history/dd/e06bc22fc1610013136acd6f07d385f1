@@ -1,6 +1,0 @@
-package xoric.prism.scene.camera;
-
-public class Camera implements ICameraTransform
-{
-
-}

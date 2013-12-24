@@ -1,0 +1,15 @@
+package xoric.prism.meta;
+
+public enum MetaKey
+{
+private final String name;
+
+private MetaKey(String name)
+{
+	this.name = name;
+}
+public String toString()
+{
+	return name;
+}
+}

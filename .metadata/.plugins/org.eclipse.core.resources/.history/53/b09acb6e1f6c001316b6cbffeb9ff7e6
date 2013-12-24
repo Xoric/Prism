@@ -1,0 +1,65 @@
+package xoric.prism.meta;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import xoric.prism.data.Heap;
+import xoric.prism.data.HeapPacker;
+import xoric.prism.data.IPackable;
+
+public class MetaLine implements IPackable
+{
+	private final byte[] key;
+	private final Heap heap;
+	private final HeapPacker heapPacker;
+
+	public MetaLine()
+	{
+		this.key = new byte[1];
+		this.key[0] = 0;
+		this.heap = new Heap();
+		this.heapPacker = new HeapPacker();
+		this.heapPacker.setHeap(heap);
+	}
+
+	public MetaLine(MetaKey key)
+	{
+		this.key = new byte[1];
+		this.key[0] = key.toByte();
+		this.heap = new Heap();
+		this.heapPacker = new HeapPacker();
+		this.heapPacker.setHeap(heap);
+	}
+
+	public char getToken()
+	{
+		return (char) key[0];
+	}
+
+	public Heap getHeap()
+	{
+		return heap;
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException
+	{
+		stream.write(key);
+		heapPacker.pack(stream);
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException
+	{
+		stream.read(key);
+		heapPacker.unpack(stream);
+	}
+
+	@Override
+	public int getPackedSize()
+	{
+		int size = 1 /*token*/+ heapPacker.getPackedSize();
+		return size;
+	}
+}

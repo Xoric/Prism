@@ -112,16 +112,6 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 
 		//		GL11.glEnable(GL11.GL_DEPTH_TEST); // Tiefentest (mit dem Z-Buffer) aktivieren
 
-		// Eine perspektivische Projektion setzen.
-		/* keep */
-		//		GL11.glFrustum(-1.6, 1.6, -1.2, 1.2, 1.5, 6.5); // Die Near-Clipping-Plane
-		// befindet sich in einer
-		// Entfernung von 1.5 Einheiten
-		// hat die Abmessungen 3.2 * 2.4
-		// Einheiten.
-		// Die Far-Clipping-Plane ist 6.5
-		// Einheiten entfernt.
-
 		// test
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -132,8 +122,8 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 
 		try
 		{
-			IShader2 s = ShaderIO2.getInstance()
-					.createShader(new File("../debug/defaultShader.vert"), new File("../debug/grayShader.frag"));
+			IShader2 s = ShaderIO2.getInstance().createShader(new File("../debug/defaultShader.vert"),
+					new File("../debug/defaultShader.frag"));
 			s.activate();
 		}
 		catch (Exception e)

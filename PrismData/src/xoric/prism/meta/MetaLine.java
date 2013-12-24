@@ -10,31 +10,34 @@ import xoric.prism.data.IPackable;
 
 public class MetaLine implements IPackable
 {
-	private final byte[] token;
+	private final byte[] keyBuf;
+	private final MetaKey key;
 	private final Heap heap;
 	private final HeapPacker heapPacker;
 
 	public MetaLine()
 	{
-		this.token = new byte[1];
-		this.token[0] = 0;
+		this.key = MetaKey.COMMON;
+		this.keyBuf = new byte[1];
+		this.keyBuf[0] = key.toByte();
 		this.heap = new Heap();
 		this.heapPacker = new HeapPacker();
 		this.heapPacker.setHeap(heap);
 	}
 
-	public MetaLine(char token)
+	public MetaLine(MetaKey key)
 	{
-		this.token = new byte[1];
-		this.token[0] = (byte) token;
+		this.key = key;
+		this.keyBuf = new byte[1];
+		this.keyBuf[0] = key.toByte();
 		this.heap = new Heap();
 		this.heapPacker = new HeapPacker();
 		this.heapPacker.setHeap(heap);
 	}
 
-	public char getToken()
+	public MetaKey getKey()
 	{
-		return (char) token[0];
+		return key;
 	}
 
 	public Heap getHeap()
@@ -45,14 +48,14 @@ public class MetaLine implements IPackable
 	@Override
 	public void pack(OutputStream stream) throws IOException
 	{
-		stream.write(token);
+		stream.write(keyBuf);
 		heapPacker.pack(stream);
 	}
 
 	@Override
 	public void unpack(InputStream stream) throws IOException
 	{
-		stream.read(token);
+		stream.read(keyBuf);
 		heapPacker.unpack(stream);
 	}
 

@@ -12,7 +12,6 @@ import xoric.prism.data.IntPacker;
 public class MetaList implements IPackable
 {
 	private final List<MetaBlock> blocks;
-	private int localFileVersion;
 	private final IntPacker intPacker;
 
 	public MetaList()
@@ -26,32 +25,28 @@ public class MetaList implements IPackable
 		blocks.add(b);
 	}
 
-	public MetaBlock getMetaBlock(MetaType t)
+	public MetaBlock findMetaBlock(MetaType t)
 	{
 		for (MetaBlock b : blocks)
-			if (b.getToken() == t)
+			if (b.getMetaType() == t)
 				return b;
 
 		return null;
 	}
 
-	public boolean hasMetaBlock(MetaType t)
+	public MetaBlock getMetaBlock(int index)
 	{
-		return getMetaBlock(t) != null;
+		return blocks.get(index);
 	}
 
-	public int getLocalFileVersion()
+	public boolean hasMetaBlock(MetaType t)
 	{
-		return localFileVersion;
+		return findMetaBlock(t) != null;
 	}
 
 	@Override
 	public void pack(OutputStream stream) throws IOException
 	{
-		// write localFileVersion
-		intPacker.setValue(localFileVersion);
-		intPacker.pack(stream);
-
 		// write block count
 		intPacker.setValue(blocks.size());
 		intPacker.pack(stream);
@@ -64,10 +59,6 @@ public class MetaList implements IPackable
 	@Override
 	public void unpack(InputStream stream) throws IOException
 	{
-		// read localFileVersion
-		intPacker.unpack(stream);
-		localFileVersion = intPacker.getValue();
-
 		// read block count
 		intPacker.unpack(stream);
 		int n = intPacker.getValue();
@@ -83,18 +74,19 @@ public class MetaList implements IPackable
 	@Override
 	public int getPackedSize()
 	{
-		// localFileVersion
-		intPacker.setValue(localFileVersion);
-		int size = intPacker.getPackedSize();
-
 		// block count
 		intPacker.setValue(blocks.size());
-		size += intPacker.getPackedSize();
+		int size = intPacker.getPackedSize();
 
 		// blocks
 		for (MetaBlock b : blocks)
 			size += b.getPackedSize();
 
 		return size;
+	}
+
+	public int getBlockCount()
+	{
+		return blocks.size();
 	}
 }

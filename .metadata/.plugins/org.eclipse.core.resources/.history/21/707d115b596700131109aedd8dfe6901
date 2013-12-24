@@ -1,0 +1,6 @@
+package xoric.prism.data.modules;
+
+public enum ErrorID
+{
+	GENERIC, INVALID_LOGIN, ATTACHMENT_NOT_FOUND, FILE_NOT_FOUND, WRITE_ERROR, INVALID_INDEX, READ_ERROR, SHADER
+}

@@ -1,0 +1,7 @@
+package xoric.prism.meta;
+
+public enum MetaKey
+{
+	// do not resort
+	ATTACH,TARGTE
+}

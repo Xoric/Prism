@@ -59,7 +59,7 @@ public class Text
 	{
 		char c;
 		boolean lastCharWasSpace = false; // text may begin with a SPACE
-		boolean thisCharIsSpace;
+		boolean isSpace;
 		clear();
 
 		if (s != null)
@@ -67,12 +67,12 @@ public class Text
 			for (int i = 0; i < s.length(); ++i)
 			{
 				c = s.charAt(i);
-				thisCharIsSpace = (c == KeyEvent.VK_SPACE);
+				isSpace = (c == KeyEvent.VK_SPACE);
 
-				if (!thisCharIsSpace || !lastCharWasSpace)
+				if (!isSpace || !lastCharWasSpace)
 					append(c);
 
-				lastCharWasSpace = thisCharIsSpace;
+				lastCharWasSpace = isSpace;
 			}
 		}
 	}
@@ -149,8 +149,8 @@ public class Text
 		int i = TextMap.indexOf(c, -1);
 		if (i >= 0)
 		{
-			ascii.append(c);
 			text.append((char) i);
+			ascii.append(TextMap.charOf(i));
 		}
 	}
 }

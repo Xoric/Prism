@@ -51,6 +51,11 @@ public class AttachmentLoader implements IActor, IPackable
 		return attachmentSizes.size();
 	}
 
+	public int getAttachmentSize(int index)
+	{
+		return attachmentSizes.get(index);
+	}
+
 	/**
 	 * @return File
 	 */
@@ -62,6 +67,14 @@ public class AttachmentLoader implements IActor, IPackable
 	public void setAttachmentStart(int attachmentStart)
 	{
 		this.attachmentStart = attachmentStart;
+	}
+
+	public void setAttachmentSizes(List<Integer> sizes)
+	{
+		attachmentSizes.clear();
+
+		for (Integer s : sizes)
+			attachmentSizes.add(s);
 	}
 
 	@Override

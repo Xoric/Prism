@@ -2,6 +2,6 @@ package xoric.prism.meta;
 
 public enum MetaType
 {
-	COMMON
+	COMMON, SHADER, DEVELOP
 	// max index: 255
 }

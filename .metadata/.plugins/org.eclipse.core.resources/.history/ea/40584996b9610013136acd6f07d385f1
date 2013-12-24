@@ -1,8 +1,0 @@
-package xoric.prism.data;
-
-public interface IFloatPoint_r extends IStackable_r
-{
-	public int getX();
-
-	public int getY();
-}

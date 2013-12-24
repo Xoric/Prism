@@ -6,12 +6,14 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import xoric.prism.data.Heap;
 import xoric.prism.data.IPackable;
 import xoric.prism.data.IntPacker;
 
 public class MetaBlock implements IPackable
 {
 	private MetaType metaType;
+	private int version;
 	private final List<MetaLine> list;
 	private final IntPacker intPacker;
 
@@ -22,21 +24,55 @@ public class MetaBlock implements IPackable
 		this.intPacker = new IntPacker();
 	}
 
-	public MetaBlock(MetaType metaType)
+	public MetaBlock(MetaType metaType, int version)
 	{
 		this.metaType = metaType;
+		this.version = version;
 		this.list = new ArrayList<MetaLine>();
 		this.intPacker = new IntPacker();
 	}
 
-	public MetaType getToken()
+	public int getLineCount()
+	{
+		return list.size();
+	}
+
+	public MetaType getMetaType()
 	{
 		return metaType;
 	}
 
+	public int getVersion()
+	{
+		return version;
+	}
+
 	public void addMetaLine(MetaLine metaLine)
 	{
-		list.add(metaLine);
+		this.list.add(metaLine);
+	}
+
+	public int findNextIndex(MetaKey key, int startIndex)
+	{
+		for (int i = startIndex; i < list.size(); ++i)
+			if (list.get(i).getKey() == key)
+				return i;
+
+		return -1;
+	}
+
+	public MetaLine getMetaLine(int index)
+	{
+		return list.get(index);
+	}
+
+	public Heap findKey(MetaKey key)
+	{
+		for (MetaLine l : list)
+			if (l.getKey() == key)
+				return l.getHeap();
+
+		return null;
 	}
 
 	@Override
