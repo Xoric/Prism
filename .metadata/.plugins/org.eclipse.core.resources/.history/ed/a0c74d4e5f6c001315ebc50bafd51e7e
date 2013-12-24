@@ -1,0 +1,16 @@
+package xoric.prism.develop.meta;
+
+class AttachmentWriter
+{
+	private final File file;
+	
+	public AttachmentWriter(File file)
+	{
+		this.file = file;
+	}
+	
+	public void load()
+	{
+		
+	}
+}

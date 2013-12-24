@@ -1,0 +1,13 @@
+import java.nio.ByteBuffer;
+
+public class Test
+{
+
+	public static void main(String[] args)
+	{
+		byte[] b = new byte[400];
+		ByteBuffer buf = new ByteBuffer(b);
+
+	}
+
+}

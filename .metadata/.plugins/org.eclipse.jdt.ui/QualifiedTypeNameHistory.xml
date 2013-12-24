@@ -45,4 +45,7 @@
 <fullyQualifiedTypeName name="xoric.prism.data.Text"/>
 <fullyQualifiedTypeName name="xoric.prism.common.Common"/>
 <fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
+<fullyQualifiedTypeName name="java.io.OutputStream"/>
+<fullyQualifiedTypeName name="xoric.prism.compression.BufferCompressor"/>
 </qualifiedTypeNameHistroy>

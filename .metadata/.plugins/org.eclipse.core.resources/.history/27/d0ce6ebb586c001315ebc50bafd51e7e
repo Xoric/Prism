@@ -1,0 +1,17 @@
+import java.nio.ByteBuffer;
+
+public class Test
+{
+
+	public static void main(String[] args)
+	{
+		ByteBuffer buf = ByteBuffer.allocate(400);
+
+		ByteBufferOutputStream bufferOutput = new ByteBufferOutputStream( buffer );
+		GZIPOutputStream output = new GZIPOutputStream( bufferOutput );
+		output.write("stackexchange".getBytes());
+		output.close();
+
+	}
+
+}

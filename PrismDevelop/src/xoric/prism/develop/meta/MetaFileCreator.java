@@ -2,8 +2,8 @@ package xoric.prism.develop.meta;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -229,8 +229,7 @@ public class MetaFileCreator implements IActor
 		}
 
 		// gather attachments
-		List<Integer> attachmentSizes = new ArrayList<Integer>();
-		List<File> attachmentFiles = new ArrayList<File>();
+		List<AttachmentWriter> attachments = new ArrayList<AttachmentWriter>();
 		int index = 0;
 		do
 		{
@@ -250,9 +249,10 @@ public class MetaFileCreator implements IActor
 					throw e;
 				}
 
-				int s = (int) file.length();
-				attachmentFiles.add(file);
-				attachmentSizes.add(s);
+				// add attachment
+				AttachmentWriter a = new AttachmentWriter(file);
+				a.load();
+				attachments.add(a);
 
 				++index;
 			}
@@ -278,6 +278,11 @@ public class MetaFileCreator implements IActor
 			}
 		}
 
+		// extract attachment sizes
+		List<Integer> attachmentSizes = new ArrayList<Integer>();
+		for (AttachmentWriter a : attachments)
+			attachmentSizes.add(a.getContent().length);
+
 		// create MetaFile
 		MetaFile metaFile = new MetaFile(f);
 		metaFile.setLocalFileVersion(nextVersion);
@@ -294,26 +299,17 @@ public class MetaFileCreator implements IActor
 			throw e;
 		}
 
-		// append attachments
-		if (attachmentFiles.size() > 0)
+		// append attachment contents to MetaFile
+		if (attachments.size() > 0)
 		{
 			try
 			{
-				FileWriter fw = new FileWriter(f, true); // append data
+				FileOutputStream out = new FileOutputStream(f, true);
 
-				for (int i = 0; i < attachmentFiles.size(); ++i)
-				{
-					// read file content
-					File file = attachmentFiles.get(i);
-					FileReader fr = new FileReader(file);
-					char[] content = new char[attachmentSizes.get(i)];
-					fr.read(content);
-					fr.close();
+				for (int i = 0; i < attachments.size(); ++i)
+					out.write(attachments.get(i).getContent());
 
-					// append file content to MetaFile
-					fw.write(content);
-				}
-				fw.close();
+				out.close();
 			}
 			catch (Exception e0)
 			{
@@ -380,9 +376,28 @@ public class MetaFileCreator implements IActor
 		}
 	}
 
+	private static void testCompression() throws Exception
+	{
+		File file = new File("E:/Projekte/Java/_Trisma/TriRes/res/model/dyec/colors.txt");
+
+		double d = calcCompressionRate(file);
+
+		System.out.println(d);
+	}
+
 	public static void main(String[] args)
 	{
-		readMetaFile();
+		//		readMetaFile();
+
+		try
+		{
+			testCompression();
+		}
+		catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
