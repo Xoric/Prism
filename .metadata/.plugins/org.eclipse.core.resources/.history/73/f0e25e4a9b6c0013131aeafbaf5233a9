@@ -1,0 +1,37 @@
+package xoric.prism.data;
+
+public class AttachmentHeader implements IPackable
+{
+	private final Text name;
+	private final int start;
+	private final int size;
+	private final boolean isCompressed;
+
+	public AttachmentHeader(Text name, int start, int size, boolean isCompressed)
+	{
+		this.name = name;
+		this.start = start;
+		this.size = size;
+		this.isCompressed = isCompressed;
+	}
+
+	public IText_r getName()
+	{
+		return name;
+	}
+
+	public int getStart()
+	{
+		return start;
+	}
+
+	public int getSize()
+	{
+		return size;
+	}
+
+	public boolean isCompressed()
+	{
+		return isCompressed;
+	}
+}

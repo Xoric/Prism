@@ -6,3 +6,6 @@
 1387836773883	Rename field 'token'
 1387838323257	Rename local variable 'thisCharIsSpace'
 1387838581476	Rename method 'getToken'
+1387889776528	Rename method 'indexAt'
+1387889789726	Rename field 'text'
+1387889848273	Rename local variable 'index'

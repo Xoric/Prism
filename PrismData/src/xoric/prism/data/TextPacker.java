@@ -54,18 +54,18 @@ public class TextPacker implements IPackable
 		int i = 0;
 		while (i < full)
 		{
-			byte c = text.indexAt(i + 3);
+			byte c = text.symbolAt(i + 3);
 
-			buf[0] = (byte) (text.indexAt(i + 0) | ((c & LOW) << 6));
-			buf[1] = (byte) (text.indexAt(i + 1) | ((c & MID) << 4));
-			buf[2] = (byte) (text.indexAt(i + 2) | ((c & HIGH) << 2));
+			buf[0] = (byte) (text.symbolAt(i + 0) | ((c & LOW) << 6));
+			buf[1] = (byte) (text.symbolAt(i + 1) | ((c & MID) << 4));
+			buf[2] = (byte) (text.symbolAt(i + 2) | ((c & HIGH) << 2));
 
 			stream.write(buf, 0, 3);
 
 			i += 4;
 		}
 		for (int j = 0; j < rest; ++j)
-			buf[j] = text.indexAt(i++);
+			buf[j] = text.symbolAt(i++);
 		stream.write(buf, 0, rest);
 	}
 

@@ -6,10 +6,10 @@ import java.awt.event.KeyEvent;
  * @author Felix Möhrle
  * @since 26.05.2011, 13:47:31
  */
-public class Text
+public class Text implements IText_r
 {
 	protected final StringBuffer ascii = new StringBuffer();
-	protected final StringBuffer text = new StringBuffer();
+	protected final StringBuffer symbols = new StringBuffer(); // TODO change to List<Byte>
 
 	/**
 	 * Text constructor.
@@ -41,9 +41,9 @@ public class Text
 	public boolean equals(Object obj)
 	{
 		boolean b;
-		if (obj instanceof Text)
+		if (obj instanceof IText_r)
 		{
-			Text other = (Text) obj;
+			IText_r other = (IText_r) obj;
 			b = other.toString().equals(this.toString());
 		}
 		else
@@ -83,42 +83,28 @@ public class Text
 	public void clear()
 	{
 		ascii.setLength(0);
-		text.setLength(0);
+		symbols.setLength(0);
 	}
 
-	/**
-	 * @param index
-	 * @return byte
-	 */
-	public byte indexAt(int index)
+	@Override
+	public byte symbolAt(int index)
 	{
-		return (byte) text.charAt(index);
+		return (byte) symbols.charAt(index);
 	}
 
-	/**
-	 * @param beginIndex
-	 * @param endIndex
-	 * @return Substring
-	 */
+	@Override
 	public String substring(int beginIndex, int endIndex)
 	{
 		return toString().substring(beginIndex, endIndex);
 	}
 
-	/**
-	 * @param beginIndex
-	 * @return Substring
-	 */
+	@Override
 	public String substring(int beginIndex)
 	{
 		return toString().substring(beginIndex);
 	}
 
-	/**
-	 * Returns the ascii character at the given position.
-	 * @param index
-	 * @return Character
-	 */
+	@Override
 	public char charAt(int index)
 	{
 		return ascii.charAt(index);
@@ -130,10 +116,7 @@ public class Text
 		return ascii.toString();
 	}
 
-	/**
-	 * Returns the length.
-	 * @return int
-	 */
+	@Override
 	public int length()
 	{
 		return ascii.length();
@@ -146,10 +129,10 @@ public class Text
 	 */
 	public void append(char c)
 	{
-		int i = TextMap.indexOf(c, -1);
+		int i = TextMap.symbolOf(c, -1);
 		if (i >= 0)
 		{
-			text.append((char) i);
+			symbols.append((char) i);
 			ascii.append(TextMap.charOf(i));
 		}
 	}

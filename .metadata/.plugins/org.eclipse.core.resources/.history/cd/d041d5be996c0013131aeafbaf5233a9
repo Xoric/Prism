@@ -1,0 +1,25 @@
+package xoric.prism.data;
+
+public class AttachmentHeader
+{
+	private final int start;
+	private final int size;
+	private final boolean isCompressed;
+
+	public AttachmentHeader(int start, int size, boolean isCompressed)
+	{
+		this.start = start;
+		this.size = size;
+		this.isCompressed = isCompressed;
+	}
+
+	public int getSize()
+	{
+		return size;
+	}
+
+	public boolean isCompressed()
+	{
+		return isCompressed;
+	}
+}

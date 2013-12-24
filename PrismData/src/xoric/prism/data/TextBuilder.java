@@ -4,7 +4,7 @@ class TextBuilder extends Text
 {
 	public void setLength(int length)
 	{
-		text.setLength(length);
+		symbols.setLength(length);
 		ascii.setLength(length);
 	}
 
@@ -15,7 +15,7 @@ class TextBuilder extends Text
 			char c = (char) symbols[n];
 			char a = TextMap.charOf(c);
 			ascii.setCharAt(index + n, a);
-			text.setCharAt(index + n, c);
+			symbols.setCharAt(index + n, c);
 		}
 	}
 }

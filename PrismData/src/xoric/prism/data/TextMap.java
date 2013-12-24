@@ -47,10 +47,10 @@ public abstract class TextMap
 	public static String convertChar(char c)
 	{
 		String result;
-		int index = indexOf(c, TextMap.INVALID);
+		int symbol = symbolOf(c, TextMap.INVALID);
 
-		if (index != TextMap.INVALID)
-			result = String.valueOf(charOf(index));
+		if (symbol != TextMap.INVALID)
+			result = String.valueOf(charOf(symbol));
 		else
 		{
 			c = Character.toUpperCase(c);
@@ -118,7 +118,7 @@ public abstract class TextMap
 	 *            Character
 	 * @return Returns the index for the given character.
 	 */
-	public static int indexOf(char c, int defaultIndex)
+	public static int symbolOf(char c, int defaultIndex)
 	{
 		int i = c;
 		int e = i - 32;
@@ -173,7 +173,7 @@ public abstract class TextMap
 
 	public static boolean isValid(char c)
 	{
-		int i = indexOf(c, -1);
+		int i = symbolOf(c, -1);
 		return (i >= 0);
 	}
 

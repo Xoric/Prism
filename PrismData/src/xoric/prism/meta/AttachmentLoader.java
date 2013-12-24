@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import xoric.prism.data.AttachmentHeader;
 import xoric.prism.data.IPackable;
 import xoric.prism.data.IntPacker;
 import xoric.prism.data.modules.ActorID;
@@ -28,9 +29,8 @@ public class AttachmentLoader implements IActor, IPackable
 	private static final int FILLER = 0x20000000;
 
 	private final File file;
-	private final List<Integer> attachmentSizes;
+	private List<AttachmentHeader> attachments;
 	private final IntPacker intPacker;
-	private int attachmentStart;
 
 	/**
 	 * AttachmentLoader constructor.
@@ -39,7 +39,7 @@ public class AttachmentLoader implements IActor, IPackable
 	public AttachmentLoader(File file)
 	{
 		this.file = file;
-		this.attachmentSizes = new ArrayList<Integer>();
+		this.attachments = new ArrayList<AttachmentHeader>();
 		this.intPacker = new IntPacker();
 	}
 
@@ -48,12 +48,12 @@ public class AttachmentLoader implements IActor, IPackable
 	 */
 	public int getAttachmentCount()
 	{
-		return attachmentSizes.size();
+		return attachments.size();
 	}
 
-	public int getAttachmentSize(int index)
+	public AttachmentHeader getAttachmentHeader(int index)
 	{
-		return attachmentSizes.get(index);
+		return attachments.get(index);
 	}
 
 	/**
@@ -64,32 +64,21 @@ public class AttachmentLoader implements IActor, IPackable
 		return file;
 	}
 
-	public void setAttachmentStart(int attachmentStart)
+	public void setAttachmentHeaders(List<AttachmentHeader> attachments)
 	{
-		this.attachmentStart = attachmentStart;
-	}
-
-	public void setAttachmentSizes(List<Integer> sizes)
-	{
-		attachmentSizes.clear();
-
-		for (Integer s : sizes)
-			attachmentSizes.add(s);
+		this.attachments = attachments;
 	}
 
 	@Override
 	public void pack(OutputStream stream) throws IOException
 	{
 		// write number of attachments
-		intPacker.setValue(attachmentSizes.size());
+		intPacker.setValue(attachments.size());
 		intPacker.pack(stream);
 
-		// write attachment sizes
-		for (int i = 0; i < attachmentSizes.size(); ++i)
-		{
-			intPacker.setValue(attachmentSizes.get(i));
-			intPacker.pack(stream);
-		}
+		// write attachment headers
+		for (int i = 0; i < attachments.size(); ++i)
+			attachments.get(i).pack(stream);
 
 		// write attachment start
 		intPacker.setValue(attachmentStart | FILLER); // ensure 4 bytes are being used 
@@ -104,35 +93,25 @@ public class AttachmentLoader implements IActor, IPackable
 		int n = intPacker.getValue();
 
 		// read attachment sizes
-		attachmentSizes.clear();
+		attachments.clear();
 		for (int i = 0; i < n; ++i)
 		{
-			intPacker.unpack(stream);
-			int size = intPacker.getValue();
-			attachmentSizes.add(size);
+			AttachmentHeader a = new AttachmentHeader();
+			a.unpack(stream);
+			attachments.add(a);
 		}
-
-		// read attachment start
-		intPacker.unpack(stream);
-		attachmentStart = intPacker.getValue() & ~FILLER;
 	}
 
 	@Override
 	public int getPackedSize()
 	{
 		// number of attachments
-		intPacker.setValue(attachmentSizes.size());
+		intPacker.setValue(attachments.size());
 		int size = intPacker.getPackedSize();
 
 		// attachment sizes
-		for (int i = 0; i < attachmentSizes.size(); ++i)
-		{
-			intPacker.setValue(attachmentSizes.get(i));
-			size += intPacker.getPackedSize();
-		}
-
-		// attachment start
-		size += 4;
+		for (int i = 0; i < attachments.size(); ++i)
+			size += attachments.get(i).getPackedSize();
 
 		return size;
 	}
