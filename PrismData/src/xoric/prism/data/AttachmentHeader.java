@@ -7,7 +7,6 @@ import java.io.OutputStream;
 public class AttachmentHeader implements IPackable
 {
 	private TextPacker textPacker;
-	private IntPacker intPacker;
 
 	private Text name;
 	private boolean isCompressed;
@@ -18,28 +17,12 @@ public class AttachmentHeader implements IPackable
 	{
 	}
 
-	public AttachmentHeader(Text name, int start, int size, boolean isCompressed)
+	public AttachmentHeader(Text name, boolean isCompressed, int start, int size)
 	{
 		this.name = name;
+		this.isCompressed = isCompressed;
 		this.start = start;
 		this.size = size;
-		this.isCompressed = isCompressed;
-	}
-
-	private IntPacker getIntPacker()
-	{
-		if (intPacker == null)
-			intPacker = new IntPacker();
-
-		return intPacker;
-	}
-
-	private TextPacker getTextPacker()
-	{
-		if (textPacker == null)
-			textPacker = new TextPacker();
-
-		return textPacker;
 	}
 
 	public IText_r getName()
@@ -71,7 +54,7 @@ public class AttachmentHeader implements IPackable
 
 		// pack compressed-flag
 		int compressed = isCompressed ? 1 : 0;
-		intPacker.setValue(compressed);
+		getIntPacker().setValue(compressed);
 		intPacker.pack(stream);
 
 		// pack start

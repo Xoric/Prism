@@ -6,6 +6,8 @@ import java.io.OutputStream;
 
 public class IntPacker implements IPackable
 {
+	private static final IntPacker instance = new IntPacker();
+
 	private static final byte buf[] = new byte[4];
 	private static final int capacities[] = { 64, 16384, 4194304, 1073741824 };
 
@@ -57,5 +59,23 @@ public class IntPacker implements IPackable
 				return i + 1;
 		}
 		return 4;
+	}
+
+	public synchronized void pack_s(OutputStream stream, int value) throws IOException
+	{
+		instance.setValue(value);
+		instance.pack(stream);
+	}
+
+	public synchronized int unpack_s(InputStream stream) throws IOException
+	{
+		instance.unpack(stream);
+		return instance.getValue();
+	}
+
+	public synchronized int getPackedSize_s(int value) throws IOException
+	{
+		instance.setValue(value);
+		return instance.getPackedSize();
 	}
 }

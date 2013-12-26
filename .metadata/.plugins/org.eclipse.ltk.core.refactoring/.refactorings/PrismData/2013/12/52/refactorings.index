@@ -13,3 +13,4 @@
 1387945604931	Rename type 'AttachmentTOC'
 1387946381033	Rename type 'AttachmentToc'
 1387947583354	Rename method 'calcStartOfAttachmentLoader'
+1388022715988	Rename enum constant 'ATTACHMENT_WRITER'

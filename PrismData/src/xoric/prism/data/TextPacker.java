@@ -5,11 +5,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * @author Felix Möhrle
+ * @author Felix Mï¿½hrle
  * @since 31.05.2011, 15:12:42
  */
 public class TextPacker implements IPackable
 {
+	private static final TextPacker instance = new TextPacker();
+
 	private static byte LOW = 0x3;
 	private static byte MID = 0xC;
 	private static byte HIGH = 0x30;
@@ -126,5 +128,23 @@ public class TextPacker implements IPackable
 	private boolean isExtended()
 	{
 		return text.length() >= 128;
+	}
+
+	public synchronized void pack_s(OutputStream stream, Text text) throws IOException
+	{
+		instance.setText(text);
+		instance.pack(stream);
+	}
+
+	public synchronized Text unpack_s(InputStream stream) throws IOException
+	{
+		instance.unpack(stream);
+		return instance.getText();
+	}
+
+	public synchronized int getPackedSize_s(int value) throws IOException
+	{
+		instance.setText(text);
+		return instance.getPackedSize();
 	}
 }
