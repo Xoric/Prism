@@ -10,13 +10,12 @@ public class AttachmentHeader implements IPackable
 	private IntPacker intPacker;
 
 	private Text name;
-	private final int start;
-	private int size;
 	private boolean isCompressed;
+	private int start;
+	private int size;
 
-	public AttachmentHeader(int start)
+	public AttachmentHeader()
 	{
-		this.start = start;
 	}
 
 	public AttachmentHeader(Text name, int start, int size, boolean isCompressed)
@@ -66,43 +65,67 @@ public class AttachmentHeader implements IPackable
 	@Override
 	public void pack(OutputStream stream) throws IOException
 	{
+		// pack name
 		getTextPacker().setText(name);
 		textPacker.pack(stream);
 
-		getIntPacker().setValue(this.size);
-		intPacker.pack(stream);
-
+		// pack compressed-flag
 		int compressed = isCompressed ? 1 : 0;
 		intPacker.setValue(compressed);
 		intPacker.pack(stream);
+
+		// pack start
+		stream.write(start);
+		stream.write(start >> 8);
+		stream.write(start >> 16);
+		stream.write(start >> 24);
+
+		// pack size
+		stream.write(size);
+		stream.write(size >> 8);
+		stream.write(size >> 16);
+		stream.write(size >> 24);
 	}
 
 	@Override
 	public void unpack(InputStream stream) throws IOException
 	{
+		// unpack name
 		getTextPacker().unpack(stream);
 		name = textPacker.getText();
 
-		getIntPacker().unpack(stream);
-		size = intPacker.getValue();
-
+		// unpack compressed-flag
 		intPacker.unpack(stream);
 		int compressed = intPacker.getValue();
 		isCompressed = compressed == 1;
+
+		// unpack start
+		start = stream.read();
+		start |= stream.read() << 8;
+		start |= stream.read() << 16;
+		start |= stream.read() << 24;
+
+		// unpack size
+		size = stream.read();
+		size |= stream.read() << 8;
+		size |= stream.read() << 16;
+		size |= stream.read() << 24;
 	}
 
 	@Override
 	public int getPackedSize()
 	{
+		// name
 		getTextPacker().setText(name);
 		int size = textPacker.getPackedSize();
 
-		getIntPacker().setValue(this.size);
-		size += intPacker.getPackedSize();
-
+		// compressed-flag
 		int compressed = isCompressed ? 1 : 0;
 		intPacker.setValue(compressed);
 		size += intPacker.getPackedSize();
+
+		// start and size
+		size += 4 + 4;
 
 		return size;
 	}

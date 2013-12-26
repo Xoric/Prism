@@ -14,8 +14,8 @@ class TextBuilder extends Text
 		{
 			char c = (char) symbols[n];
 			char a = TextMap.charOf(c);
-			ascii.setCharAt(index + n, a);
-			symbols.setCharAt(index + n, c);
+			this.ascii.setCharAt(index + n, a);
+			this.symbols.setCharAt(index + n, c);
 		}
 	}
 }

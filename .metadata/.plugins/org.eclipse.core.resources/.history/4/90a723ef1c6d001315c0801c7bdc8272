@@ -1,0 +1,13 @@
+package xoric.prism.meta;
+
+import xoric.prism.data.AttachmentHeader;
+
+public class AttachmentToc implements IPackable
+{
+	private final AttachmentHeader[] attachments;
+
+	public AttachmentToc(int count)
+	{
+		attachments = new AttachmentHeader[count];
+	}
+}

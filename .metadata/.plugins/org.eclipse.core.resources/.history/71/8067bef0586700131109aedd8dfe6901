@@ -1,8 +1,0 @@
-package xoric.prism.scene.exceptions;
-
-import PrismException;
-
-public class PrismShaderException extends PrismException
-{
-
-}

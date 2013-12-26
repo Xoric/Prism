@@ -1,8 +1,0 @@
-package xoric.prism.scene.shader;
-
-import java.nio.ByteBuffer;
-
-public interface IShader
-{
-	public void register(ByteBuffer vertexShader, ByteBuffer pixelShader);
-}

@@ -21,7 +21,6 @@
 <fullyQualifiedTypeName name="de.matthiasmann.twl.utils.PNGDecoder.Format"/>
 <fullyQualifiedTypeName name="org.lwjgl.BufferUtils"/>
 <fullyQualifiedTypeName name="xoric.prism.data.HeapPacker"/>
-<fullyQualifiedTypeName name="xoric.prism.data.IntPacker"/>
 <fullyQualifiedTypeName name="xoric.prism.data.modules.ActorID"/>
 <fullyQualifiedTypeName name="xoric.prism.swing.PrismFrame"/>
 <fullyQualifiedTypeName name="xoric.prism.data.modules.ModuleID"/>
@@ -48,4 +47,6 @@
 <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
 <fullyQualifiedTypeName name="java.io.OutputStream"/>
 <fullyQualifiedTypeName name="xoric.prism.compression.BufferCompressor"/>
+<fullyQualifiedTypeName name="xoric.prism.data.AttachmentHeader"/>
+<fullyQualifiedTypeName name="xoric.prism.data.IntPacker"/>
 </qualifiedTypeNameHistroy>

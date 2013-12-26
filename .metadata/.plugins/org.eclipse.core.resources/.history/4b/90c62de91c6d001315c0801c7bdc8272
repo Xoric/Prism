@@ -1,0 +1,11 @@
+package xoric.prism.meta;
+
+public class AttachmentToc
+{
+private final AttachmentHeader[] attachments;
+
+public AttachmentToc(int count)
+{
+	attachments = new AttachmentHeader[count];
+}
+}

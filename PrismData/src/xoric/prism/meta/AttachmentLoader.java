@@ -5,15 +5,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
-import xoric.prism.data.AttachmentHeader;
-import xoric.prism.data.IPackable;
-import xoric.prism.data.IntPacker;
 import xoric.prism.data.modules.ActorID;
 import xoric.prism.data.modules.ErrorCode;
 import xoric.prism.data.modules.ErrorID;
@@ -24,13 +17,9 @@ import xoric.prism.exceptions.PrismMetaFileException;
  * @author Felix Möhrle
  * @since 26.06.2011, 15:35:16
  */
-public class AttachmentLoader implements IActor, IPackable
+public class AttachmentLoader extends AttachmentTable implements IActor
 {
-	private static final int FILLER = 0x20000000;
-
 	private final File file;
-	private List<AttachmentHeader> attachments;
-	private final IntPacker intPacker;
 
 	/**
 	 * AttachmentLoader constructor.
@@ -39,21 +28,6 @@ public class AttachmentLoader implements IActor, IPackable
 	public AttachmentLoader(File file)
 	{
 		this.file = file;
-		this.attachments = new ArrayList<AttachmentHeader>();
-		this.intPacker = new IntPacker();
-	}
-
-	/**
-	 * @return Number of attachments in the file.
-	 */
-	public int getAttachmentCount()
-	{
-		return attachments.size();
-	}
-
-	public AttachmentHeader getAttachmentHeader(int index)
-	{
-		return attachments.get(index);
 	}
 
 	/**
@@ -62,58 +36,6 @@ public class AttachmentLoader implements IActor, IPackable
 	public File getFile()
 	{
 		return file;
-	}
-
-	public void setAttachmentHeaders(List<AttachmentHeader> attachments)
-	{
-		this.attachments = attachments;
-	}
-
-	@Override
-	public void pack(OutputStream stream) throws IOException
-	{
-		// write number of attachments
-		intPacker.setValue(attachments.size());
-		intPacker.pack(stream);
-
-		// write attachment headers
-		for (int i = 0; i < attachments.size(); ++i)
-			attachments.get(i).pack(stream);
-
-		// write attachment start
-		intPacker.setValue(attachmentStart | FILLER); // ensure 4 bytes are being used 
-		intPacker.pack(stream);
-	}
-
-	@Override
-	public void unpack(InputStream stream) throws IOException
-	{
-		// read number of attachments
-		intPacker.unpack(stream);
-		int n = intPacker.getValue();
-
-		// read attachment sizes
-		attachments.clear();
-		for (int i = 0; i < n; ++i)
-		{
-			AttachmentHeader a = new AttachmentHeader();
-			a.unpack(stream);
-			attachments.add(a);
-		}
-	}
-
-	@Override
-	public int getPackedSize()
-	{
-		// number of attachments
-		intPacker.setValue(attachments.size());
-		int size = intPacker.getPackedSize();
-
-		// attachment sizes
-		for (int i = 0; i < attachments.size(); ++i)
-			size += attachments.get(i).getPackedSize();
-
-		return size;
 	}
 
 	/**
@@ -197,33 +119,6 @@ public class AttachmentLoader implements IActor, IPackable
 
 		String[] result = new String[] { lines.toString() };
 		return result;
-	}
-
-	/**
-	 * Calculates and returns the start position of the requested attachment.
-	 * @param attachmentIndex
-	 * @return int
-	 * @throws PrismMetaFileException
-	 */
-	private int calcAttachmentStart(int attachmentIndex) throws PrismMetaFileException
-	{
-		int start = 0;
-
-		if (attachmentIndex >= 0 && attachmentIndex < attachmentSizes.size())
-		{
-			start = attachmentStart;
-
-			for (int i = 0; i < attachmentIndex; ++i)
-				start += attachmentSizes.get(i);
-		}
-		else
-		{
-			ErrorCode c = new ErrorCode(this, ErrorID.ATTACHMENT_NOT_FOUND);
-			PrismMetaFileException e = new PrismMetaFileException(c, file);
-			e.appendInfo("attachmentIndex", String.valueOf(attachmentIndex));
-			throw e;
-		}
-		return start;
 	}
 
 	@Override

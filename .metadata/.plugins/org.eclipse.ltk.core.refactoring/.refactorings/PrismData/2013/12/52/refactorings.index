@@ -9,3 +9,7 @@
 1387889776528	Rename method 'indexAt'
 1387889789726	Rename field 'text'
 1387889848273	Rename local variable 'index'
+1387944695346	Delete element
+1387945604931	Rename type 'AttachmentTOC'
+1387946381033	Rename type 'AttachmentToc'
+1387947583354	Rename method 'calcStartOfAttachmentLoader'

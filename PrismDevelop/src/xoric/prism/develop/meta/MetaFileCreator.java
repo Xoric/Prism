@@ -10,12 +10,14 @@ import java.util.List;
 import xoric.prism.common.Common;
 import xoric.prism.common.Path;
 import xoric.prism.data.Heap;
+import xoric.prism.data.IntPacker;
 import xoric.prism.data.modules.ActorID;
 import xoric.prism.data.modules.ErrorCode;
 import xoric.prism.data.modules.ErrorID;
 import xoric.prism.data.modules.IActor;
 import xoric.prism.exceptions.PrismDevException;
 import xoric.prism.exceptions.PrismMetaFileException;
+import xoric.prism.meta.AttachmentLoader;
 import xoric.prism.meta.MetaBlock;
 import xoric.prism.meta.MetaFile;
 import xoric.prism.meta.MetaKey;
@@ -229,7 +231,7 @@ public class MetaFileCreator implements IActor
 		}
 
 		// gather attachments
-		List<AttachmentWriter> attachments = new ArrayList<AttachmentWriter>();
+		List<AttachmentImport> attachments = new ArrayList<AttachmentImport>();
 		int index = 0;
 		do
 		{
@@ -250,8 +252,8 @@ public class MetaFileCreator implements IActor
 				}
 
 				// add attachment
-				AttachmentWriter a = new AttachmentWriter(file);
-				a.load();
+				AttachmentImport a = new AttachmentImport(file);
+				a.importAttachment();
 				attachments.add(a);
 
 				++index;
@@ -262,7 +264,7 @@ public class MetaFileCreator implements IActor
 		// read current file version
 		File f = new File(targetPath.toString() + targetFile);
 		int currentVersion = readVersion(f);
-		int nextVersion = currentVersion + 1;
+		int newVersion = currentVersion + 1;
 
 		// create directories
 		File makePath = f.getParentFile();
@@ -278,14 +280,41 @@ public class MetaFileCreator implements IActor
 			}
 		}
 
+		// open target file
+		FileOutputStream stream = new FileOutputStream(targetFile);
+
+		// write version
+		IntPacker intPacker = new IntPacker();
+		intPacker.setValue(newVersion);
+		int startOfAttachmentTable = intPacker.getPackedSize();
+		intPacker.pack(stream);
+
+		// write MetaList
+		startOfAttachmentTable += metaList.getPackedSize();
+		metaList.pack(stream);
+
+		// write number of attachments
+		intPacker.setValue(attachments.size());
+		startOfAttachmentTable += intPacker.getPackedSize();
+		intPacker.pack(stream);
+
+		// create AttachmentTable
+
+		// old _____________
+		// create an AttachmentLoader
+		AttachmentLoader attachmentLoader = new AttachmentLoader();
+
+		// create list of attachment headers
+		for (int i = 0; i < attachments.size(); ++i)
+		{
+
+		}
+
 		// extract attachment sizes
 		List<Integer> attachmentSizes = new ArrayList<Integer>();
-		for (AttachmentWriter a : attachments)
+		for (AttachmentImport a : attachments)
 			attachmentSizes.add(a.getContent().length);
 
-		// create MetaFile
-		MetaFile metaFile = new MetaFile(f);
-		metaFile.setLocalFileVersion(nextVersion);
 		metaFile.getAttachmentLoader().setAttachmentSizes(attachmentSizes);
 		try
 		{

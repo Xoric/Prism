@@ -1,0 +1,60 @@
+package xoric.prism.meta;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import xoric.prism.data.AttachmentHeader;
+import xoric.prism.data.IPackable;
+import xoric.prism.data.IntPacker;
+
+public class AttachmentToc implements IPackable
+{
+	private final IntPacker intPacker;
+	private AttachmentHeader[] attachments;
+
+	public AttachmentToc(int count)
+	{
+		attachments = new AttachmentHeader[count];
+		intPacker = new IntPacker();
+	}
+
+	public int getCount()
+	{
+		return attachments == null ? 0 : attachments.length;
+	}
+
+	public AttachmentHeader getAttachmentHeader(int index)
+	{
+		return attachments[index];
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException
+	{
+		// pack count
+		intPacker.setValue(attachments.length);
+		intPacker.pack(stream);
+
+		// pack attachment headers
+		for (int i = 0; i < attachments.length; ++i)
+			attachments[i].pack(stream);
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException
+	{
+		// unpack count
+		intPacker.unpack(stream);
+		int n = intPacker.getValue();
+		attachments = n > 0 ? new AttachmentHeader[n] : null;
+
+	}
+
+	@Override
+	public int getPackedSize()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+}

@@ -3,7 +3,6 @@ package xoric.prism.meta;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 
 import xoric.prism.data.IntPacker;
 import xoric.prism.data.modules.ActorID;
@@ -15,7 +14,7 @@ import xoric.prism.exceptions.PrismMetaFileException;
 public class MetaFile implements IActor
 {
 	private final File file;
-	private final MetaList metaList;
+	private MetaList metaList;
 	private final AttachmentLoader attachmentLoader;
 	private final IntPacker intPacker;
 	private int localFileVersion;
@@ -27,6 +26,11 @@ public class MetaFile implements IActor
 		this.metaList = new MetaList();
 		this.attachmentLoader = new AttachmentLoader(file);
 		this.intPacker = new IntPacker();
+	}
+
+	public void setMetaList(MetaList metaList)
+	{
+		this.metaList = metaList;
 	}
 
 	public void load() throws PrismMetaFileException
@@ -57,62 +61,6 @@ public class MetaFile implements IActor
 	public void setLocalFileVersion(int version)
 	{
 		this.localFileVersion = version;
-	}
-
-	public void write() throws PrismMetaFileException
-	{
-		try
-		{
-			// overwrite file
-			if (file.exists())
-			{
-				boolean wasDeleted = file.delete();
-				if (!wasDeleted)
-				{
-					ErrorCode c = new ErrorCode(this, ErrorID.WRITE_ERROR);
-					PrismMetaFileException e = new PrismMetaFileException(c, file);
-					e.appendInfo("cannot rewrite file");
-					throw e;
-				}
-			}
-
-			// create file
-			FileOutputStream stream = new FileOutputStream(file);
-
-			// write localFileVersion
-			intPacker.setValue(localFileVersion);
-			intPacker.pack(stream);
-
-			// write MetaList 
-			metaList.pack(stream);
-
-			// update start of attachments and write attachmentLoader
-			int attachmentStart = (int) file.length() + attachmentLoader.getPackedSize();
-			attachmentLoader.setAttachmentStart(attachmentStart);
-			attachmentLoader.pack(stream);
-
-			// close stream
-			stream.close();
-		}
-		catch (PrismMetaFileException e0)
-		{
-			throw e0;
-		}
-		catch (Exception e0)
-		{
-			ErrorCode c = new ErrorCode(this, ErrorID.WRITE_ERROR);
-			PrismMetaFileException e = new PrismMetaFileException(c, file);
-			e.appendOriginalException(e0);
-			throw e;
-		}
-
-		if (!file.exists())
-		{
-			ErrorCode c = new ErrorCode(this, ErrorID.WRITE_ERROR);
-			PrismMetaFileException e = new PrismMetaFileException(c, file);
-			e.appendInfo("written file is empty");
-			throw e;
-		}
 	}
 
 	public AttachmentLoader getAttachmentLoader()

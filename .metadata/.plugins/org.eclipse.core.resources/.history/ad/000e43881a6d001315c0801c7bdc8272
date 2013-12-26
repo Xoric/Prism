@@ -1,0 +1,20 @@
+package xoric.prism.meta;
+
+import java.util.List;
+
+import xoric.prism.data.AttachmentHeader;
+
+public class AttachmentToc
+{
+	private List<AttachmentHeader> attachments;
+	
+	public int getCount()
+	{
+		return attachments.size();
+	}
+	
+	public AttachmentHeader getAttachement(int index)
+	{
+		return attachments.get(index);
+	}
+}

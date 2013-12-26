@@ -20,3 +20,8 @@
 1387863169684	Rename local variable 'source'
 1387863755402	Rename local variable 'n'
 1387863762054	Rename local variable 'oridingalSize'
+1387944816324	Rename type 'AttachmentWriter'
+1387944923869	Rename type 'AttachmentCompressor'
+1387944933525	Rename type 'AttachmentPreparer'
+1387944960373	Rename method 'load'
+1387947696936	Rename local variable 'nextVersion'
