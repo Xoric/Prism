@@ -141,16 +141,14 @@ public class FloatPacker implements IPackable
 		instance.pack(stream);
 	}
 
-	public synchronized float unpack_s(InputStream stream, int decimalPlaces) throws IOException
+	public synchronized int unpack_s(InputStream stream) throws IOException
 	{
-		instance.setDecimalPlaces(decimalPlaces);
 		instance.unpack(stream);
 		return instance.getValue();
 	}
 
-	public synchronized int getPackedSize_s(int value, int decimalPlaces) throws IOException
+	public synchronized int getPackedSize_s(int value) throws IOException
 	{
-		instance.setDecimalPlaces(decimalPlaces);
 		instance.setValue(value);
 		return instance.getPackedSize();
 	}

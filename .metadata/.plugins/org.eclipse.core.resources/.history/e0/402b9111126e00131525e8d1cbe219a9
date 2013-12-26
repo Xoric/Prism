@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+
 public class FloatPacker implements IPackable
 {
-	private static final FloatPacker instance = new FloatPacker();
-
 	private static final byte buf[] = new byte[4];
+	//private static final int capacities[] = { 64, 16384, 4194304, 1073741824, 4, 1024, 262144, 67108864, 0, 128, 32768, 8388608 };
 	private static final int capacities[] = { 64 - 1, 16384 - 1, 4194304 - 1, 1073741824 - 1, 4 - 1, 1024 - 1, 262144 - 1, 67108864 - 1, 0,
 			128 - 1, 32768 - 1, 8388608 - 1 };
 	private static final int divisors[] = { 10, 100, 1000 };
@@ -132,26 +132,5 @@ public class FloatPacker implements IPackable
 				return i + 1;
 		}
 		return 4;
-	}
-
-	public synchronized void pack_s(OutputStream stream, float value, int decimalPlaces) throws IOException
-	{
-		instance.setDecimalPlaces(decimalPlaces);
-		instance.setValue(value);
-		instance.pack(stream);
-	}
-
-	public synchronized float unpack_s(InputStream stream, int decimalPlaces) throws IOException
-	{
-		instance.setDecimalPlaces(decimalPlaces);
-		instance.unpack(stream);
-		return instance.getValue();
-	}
-
-	public synchronized int getPackedSize_s(int value, int decimalPlaces) throws IOException
-	{
-		instance.setDecimalPlaces(decimalPlaces);
-		instance.setValue(value);
-		return instance.getPackedSize();
 	}
 }
