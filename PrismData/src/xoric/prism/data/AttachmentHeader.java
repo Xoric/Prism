@@ -6,8 +6,6 @@ import java.io.OutputStream;
 
 public class AttachmentHeader implements IPackable
 {
-	private TextPacker textPacker;
-
 	private Text name;
 	private boolean isCompressed;
 	private int start;
@@ -23,6 +21,11 @@ public class AttachmentHeader implements IPackable
 		this.isCompressed = isCompressed;
 		this.start = start;
 		this.size = size;
+	}
+
+	public void setStart(int start)
+	{
+		this.start = start;
 	}
 
 	public IText_r getName()
@@ -49,13 +52,11 @@ public class AttachmentHeader implements IPackable
 	public void pack(OutputStream stream) throws IOException
 	{
 		// pack name
-		getTextPacker().setText(name);
-		textPacker.pack(stream);
+		TextPacker.pack_s(stream, name);
 
 		// pack compressed-flag
 		int compressed = isCompressed ? 1 : 0;
-		getIntPacker().setValue(compressed);
-		intPacker.pack(stream);
+		IntPacker.pack_s(stream, compressed);
 
 		// pack start
 		stream.write(start);
@@ -74,12 +75,10 @@ public class AttachmentHeader implements IPackable
 	public void unpack(InputStream stream) throws IOException
 	{
 		// unpack name
-		getTextPacker().unpack(stream);
-		name = textPacker.getText();
+		name = TextPacker.unpack_s(stream);
 
 		// unpack compressed-flag
-		intPacker.unpack(stream);
-		int compressed = intPacker.getValue();
+		int compressed = IntPacker.unpack_s(stream);
 		isCompressed = compressed == 1;
 
 		// unpack start
@@ -99,13 +98,11 @@ public class AttachmentHeader implements IPackable
 	public int getPackedSize()
 	{
 		// name
-		getTextPacker().setText(name);
-		int size = textPacker.getPackedSize();
+		int size = TextPacker.getPackedSize_s(name);
 
 		// compressed-flag
 		int compressed = isCompressed ? 1 : 0;
-		intPacker.setValue(compressed);
-		size += intPacker.getPackedSize();
+		size += IntPacker.getPackedSize_s(compressed);
 
 		// start and size
 		size += 4 + 4;

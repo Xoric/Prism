@@ -61,19 +61,19 @@ public class IntPacker implements IPackable
 		return 4;
 	}
 
-	public synchronized void pack_s(OutputStream stream, int value) throws IOException
+	public static synchronized void pack_s(OutputStream stream, int value) throws IOException
 	{
 		instance.setValue(value);
 		instance.pack(stream);
 	}
 
-	public synchronized int unpack_s(InputStream stream) throws IOException
+	public static synchronized int unpack_s(InputStream stream) throws IOException
 	{
 		instance.unpack(stream);
 		return instance.getValue();
 	}
 
-	public synchronized int getPackedSize_s(int value) throws IOException
+	public static synchronized int getPackedSize_s(int value)
 	{
 		instance.setValue(value);
 		return instance.getPackedSize();

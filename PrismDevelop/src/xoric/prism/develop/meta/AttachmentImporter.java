@@ -91,6 +91,13 @@ class AttachmentImporter implements IActor
 		header = new AttachmentHeader(name, useCompression, 0, this.content.length);
 	}
 
+	public AttachmentHeader finishAttachmentHeader(int start)
+	{
+		header.setStart(start);
+
+		return header;
+	}
+
 	@Override
 	public ActorID getActorID()
 	{

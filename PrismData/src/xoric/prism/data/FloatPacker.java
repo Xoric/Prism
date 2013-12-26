@@ -134,21 +134,21 @@ public class FloatPacker implements IPackable
 		return 4;
 	}
 
-	public synchronized void pack_s(OutputStream stream, float value, int decimalPlaces) throws IOException
+	public static synchronized void pack_s(OutputStream stream, float value, int decimalPlaces) throws IOException
 	{
 		instance.setDecimalPlaces(decimalPlaces);
 		instance.setValue(value);
 		instance.pack(stream);
 	}
 
-	public synchronized float unpack_s(InputStream stream, int decimalPlaces) throws IOException
+	public static synchronized float unpack_s(InputStream stream, int decimalPlaces) throws IOException
 	{
 		instance.setDecimalPlaces(decimalPlaces);
 		instance.unpack(stream);
 		return instance.getValue();
 	}
 
-	public synchronized int getPackedSize_s(int value, int decimalPlaces) throws IOException
+	public static synchronized int getPackedSize_s(int value, int decimalPlaces)
 	{
 		instance.setDecimalPlaces(decimalPlaces);
 		instance.setValue(value);

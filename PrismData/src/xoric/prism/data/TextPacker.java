@@ -130,19 +130,19 @@ public class TextPacker implements IPackable
 		return text.length() >= 128;
 	}
 
-	public synchronized void pack_s(OutputStream stream, Text text) throws IOException
+	public static synchronized void pack_s(OutputStream stream, Text text) throws IOException
 	{
 		instance.setText(text);
 		instance.pack(stream);
 	}
 
-	public synchronized Text unpack_s(InputStream stream) throws IOException
+	public static synchronized Text unpack_s(InputStream stream) throws IOException
 	{
 		instance.unpack(stream);
 		return instance.getText();
 	}
 
-	public synchronized int getPackedSize_s(int value) throws IOException
+	public static synchronized int getPackedSize_s(Text text)
 	{
 		instance.setText(text);
 		return instance.getPackedSize();
