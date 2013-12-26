@@ -35,6 +35,12 @@ public class MetaLine implements IPackable
 		this.heapPacker.setHeap(heap);
 	}
 
+	@Override
+	public String toString()
+	{
+		return key.toString() + " " + heap.toString();
+	}
+
 	public MetaKey getKey()
 	{
 		return key;

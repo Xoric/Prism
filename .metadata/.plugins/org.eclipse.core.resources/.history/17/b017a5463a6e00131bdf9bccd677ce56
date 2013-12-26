@@ -1,0 +1,19 @@
+package xoric.prism.data.modules;
+
+public enum ErrorID
+{
+	COMMON,
+	invalidLogin,
+	attachmentNotFound,
+	fileNotFound,
+	writeError,
+	invalidIndex,
+	readError,
+	compileError,
+	pathNotFound,
+	unexpectedLine,
+	corruptLine,
+	metaBlockMissing,
+	metaLineMissing,
+	compressionError
+}

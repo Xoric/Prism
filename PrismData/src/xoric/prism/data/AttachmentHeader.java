@@ -33,12 +33,12 @@ public class AttachmentHeader implements IPackable
 		return name;
 	}
 
-	public int getStart()
+	public int getContentStart()
 	{
 		return start;
 	}
 
-	public int getSize()
+	public int getContentSize()
 	{
 		return size;
 	}

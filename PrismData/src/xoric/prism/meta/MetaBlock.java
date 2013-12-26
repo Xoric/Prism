@@ -75,6 +75,28 @@ public class MetaBlock implements IPackable
 		return null;
 	}
 
+	public List<MetaLine> findLines(MetaKey key)
+	{
+		List<MetaLine> list = new ArrayList<MetaLine>();
+
+		for (MetaLine l : this.list)
+			if (l.getKey() == key)
+				list.add(l);
+
+		return list;
+	}
+
+	public int countLines(MetaKey key)
+	{
+		int n = 0;
+
+		for (MetaLine l : list)
+			if (l.getKey() == key)
+				++n;
+
+		return n;
+	}
+
 	@Override
 	public void pack(OutputStream stream) throws IOException
 	{

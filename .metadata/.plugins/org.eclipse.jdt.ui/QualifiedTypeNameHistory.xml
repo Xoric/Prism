@@ -49,4 +49,5 @@
 <fullyQualifiedTypeName name="xoric.prism.data.AttachmentHeader"/>
 <fullyQualifiedTypeName name="xoric.prism.data.IntPacker"/>
 <fullyQualifiedTypeName name="xoric.prism.data.Text"/>
+<fullyQualifiedTypeName name="xoric.prism.meta.AttachmentLoader"/>
 </qualifiedTypeNameHistroy>

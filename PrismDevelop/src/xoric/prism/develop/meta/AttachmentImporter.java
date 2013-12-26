@@ -17,9 +17,8 @@ class AttachmentImporter implements IActor
 	private static final double COMPRESSION_THRESHOLD = 0.8;
 
 	private final File file;
+	private boolean isCompressed;
 	private byte[] content;
-
-	private AttachmentHeader header;
 
 	public AttachmentImporter(File file)
 	{
@@ -81,21 +80,25 @@ class AttachmentImporter implements IActor
 		}
 
 		// store file content
+		this.isCompressed = useCompression;
+
 		if (useCompression)
 			this.content = compressed;
 		else
 			this.content = content;
-
-		// create header
-		Text name = new Text(file.getName());
-		header = new AttachmentHeader(name, useCompression, 0, this.content.length);
 	}
 
-	public AttachmentHeader finishAttachmentHeader(int start)
+	public int getSize()
 	{
-		header.setStart(start);
+		return content.length;
+	}
 
-		return header;
+	public AttachmentHeader createtHeader()
+	{
+		Text name = new Text(file.getName());
+		AttachmentHeader h = new AttachmentHeader(name, isCompressed, 0, content.length);
+
+		return h;
 	}
 
 	@Override

@@ -61,10 +61,18 @@ public class IntPacker implements IPackable
 		return 4;
 	}
 
-	public static synchronized void pack_s(OutputStream stream, int value) throws IOException
+	/**
+	 * Packs a given integer into an OutputStream. Returns the number of bytes written.
+	 * @param stream
+	 * @param value
+	 * @return int
+	 * @throws IOException
+	 */
+	public static synchronized int pack_s(OutputStream stream, int value) throws IOException
 	{
 		instance.setValue(value);
 		instance.pack(stream);
+		return instance.getPackedSize();
 	}
 
 	public static synchronized int unpack_s(InputStream stream) throws IOException

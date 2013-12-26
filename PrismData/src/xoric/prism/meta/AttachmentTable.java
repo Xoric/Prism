@@ -16,14 +16,19 @@ public class AttachmentTable implements IPackable
 		attachments = new AttachmentHeader[count];
 	}
 
-	public int getCount()
+	public void set(int index, AttachmentHeader h)
+	{
+		attachments[index] = h;
+	}
+
+	public int getAttachmentCount()
 	{
 		return attachments == null ? 0 : attachments.length;
 	}
 
-	public AttachmentHeader getAttachmentHeader(int index)
+	public AttachmentHeader get(int index)
 	{
-		return attachments[index];
+		return index >= 0 && index < attachments.length ? attachments[index] : null;
 	}
 
 	@Override
