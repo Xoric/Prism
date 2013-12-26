@@ -1,0 +1,31 @@
+package xoric.prism.develop.ui.meta;
+
+import java.io.File;
+
+import xoric.prism.exceptions.PrismMetaFileException;
+import xoric.prism.meta.MetaFile;
+import xoric.prism.swing.PrismFrame;
+
+public class MetaFileViewer extends PrismFrame
+{
+	private static final long serialVersionUID = 1L;
+
+	public MetaFileViewer()
+	{
+		super("MetaFileViewer", 600, 400, true);
+	}
+
+	public void openMetaFile(File file) throws PrismMetaFileException
+	{
+		MetaFile f = new MetaFile(file);
+		f.load();
+
+	}
+
+	public static void main(String[] args)
+	{
+		MetaFileViewer v = new MetaFileViewer();
+		v.openMetaFile("E:/Prism/data/shader/default.sh");
+		v.setVisible(true);
+	}
+}

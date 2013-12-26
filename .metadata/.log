@@ -1706,3 +1706,110 @@ user global configuration and to define the default location to store repositori
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2013-12-26 15:46:42.262 -----------------------------------------------
+eclipse.buildId=4.3.0.I20130605-2000
+java.version=1.7.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+Framework arguments:  -product org.eclipse.epp.package.standard.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.standard.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-12-26 15:47:01.147
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-12-26 15:47:01.148
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\XoricLee'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.equinox.p2.operations 4 10053 2013-12-26 15:53:02.073
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 10053 2013-12-26 15:53:02.073
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.073
+!MESSAGE Software being installed: WindowBuilder XML Core (requires Eclipse WTP/WST) 1.6.1.r43x201309092330 (org.eclipse.wb.core.xml.feature.feature.group 1.6.1.r43x201309092330)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.073
+!MESSAGE Missing requirement: WindowBuilder Core for XML GUI's 1.6.1.r43x201309092330 (org.eclipse.wb.core.xml 1.6.1.r43x201309092330) requires 'bundle org.eclipse.wst.sse.core 0.0.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-12-26 15:53:02.073
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.073
+!MESSAGE From: WindowBuilder XML Core (requires Eclipse WTP/WST) 1.6.1.r43x201309092330 (org.eclipse.wb.core.xml.feature.feature.group 1.6.1.r43x201309092330)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.073
+!MESSAGE To: org.eclipse.wb.core.xml [1.6.1.r43x201309092330]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 10053 2013-12-26 15:53:02.079
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 10053 2013-12-26 15:53:02.079
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.079
+!MESSAGE Software being installed: WindowBuilder XML Core (requires Eclipse WTP/WST) 1.6.1.r43x201309092330 (org.eclipse.wb.core.xml.feature.feature.group 1.6.1.r43x201309092330)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.079
+!MESSAGE Missing requirement: WindowBuilder Core for XML GUI's 1.6.1.r43x201309092330 (org.eclipse.wb.core.xml 1.6.1.r43x201309092330) requires 'bundle org.eclipse.wst.sse.core 0.0.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-12-26 15:53:02.079
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.079
+!MESSAGE From: WindowBuilder XML Core (requires Eclipse WTP/WST) 1.6.1.r43x201309092330 (org.eclipse.wb.core.xml.feature.feature.group 1.6.1.r43x201309092330)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.079
+!MESSAGE To: org.eclipse.wb.core.xml [1.6.1.r43x201309092330]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 10053 2013-12-26 15:53:02.089
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 10053 2013-12-26 15:53:02.089
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.089
+!MESSAGE Software being installed: WindowBuilder XML Core (requires Eclipse WTP/WST) 1.6.1.r43x201309092330 (org.eclipse.wb.core.xml.feature.feature.group 1.6.1.r43x201309092330)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.089
+!MESSAGE Missing requirement: WindowBuilder Core for XML GUI's 1.6.1.r43x201309092330 (org.eclipse.wb.core.xml 1.6.1.r43x201309092330) requires 'bundle org.eclipse.wst.sse.core 0.0.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-12-26 15:53:02.090
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.090
+!MESSAGE From: WindowBuilder XML Core (requires Eclipse WTP/WST) 1.6.1.r43x201309092330 (org.eclipse.wb.core.xml.feature.feature.group 1.6.1.r43x201309092330)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.090
+!MESSAGE To: org.eclipse.wb.core.xml [1.6.1.r43x201309092330]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 10053 2013-12-26 15:53:02.090
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 10053 2013-12-26 15:53:02.090
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.090
+!MESSAGE Software being installed: WindowBuilder XML Core (requires Eclipse WTP/WST) 1.6.1.r43x201309092330 (org.eclipse.wb.core.xml.feature.feature.group 1.6.1.r43x201309092330)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.090
+!MESSAGE Missing requirement: WindowBuilder Core for XML GUI's 1.6.1.r43x201309092330 (org.eclipse.wb.core.xml 1.6.1.r43x201309092330) requires 'bundle org.eclipse.wst.sse.core 0.0.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2013-12-26 15:53:02.090
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.090
+!MESSAGE From: WindowBuilder XML Core (requires Eclipse WTP/WST) 1.6.1.r43x201309092330 (org.eclipse.wb.core.xml.feature.feature.group 1.6.1.r43x201309092330)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2013-12-26 15:53:02.090
+!MESSAGE To: org.eclipse.wb.core.xml [1.6.1.r43x201309092330]
+!SESSION 2013-12-26 16:03:23.663 -----------------------------------------------
+eclipse.buildId=4.3.0.I20130605-2000
+java.version=1.7.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+Framework arguments:  -product org.eclipse.epp.package.standard.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.standard.product
+
+!ENTRY org.eclipse.equinox.registry 2 0 2013-12-26 16:03:25.478
+!MESSAGE The extensions and extension-points from the bundle "org.aspectj.runtime" are ignored. The bundle is not marked as singleton. 
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-12-26 16:03:44.757
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-12-26 16:03:44.757
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\XoricLee'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.

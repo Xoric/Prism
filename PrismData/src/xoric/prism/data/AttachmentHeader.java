@@ -28,6 +28,11 @@ public class AttachmentHeader implements IPackable
 		this.start = start;
 	}
 
+	public boolean isCompressed()
+	{
+		return isCompressed;
+	}
+
 	public IText_r getName()
 	{
 		return name;
@@ -41,11 +46,6 @@ public class AttachmentHeader implements IPackable
 	public int getContentSize()
 	{
 		return size;
-	}
-
-	public boolean isCompressed()
-	{
-		return isCompressed;
 	}
 
 	@Override

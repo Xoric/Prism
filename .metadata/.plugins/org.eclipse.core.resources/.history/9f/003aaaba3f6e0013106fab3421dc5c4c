@@ -1,0 +1,64 @@
+package xoric.prism.develop.ui.meta;
+
+import java.awt.BorderLayout;
+import java.io.File;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.border.EmptyBorder;
+
+import xoric.prism.exceptions.PrismMetaFileException;
+import xoric.prism.meta.MetaFile;
+import xoric.prism.swing.PrismFrame;
+
+public class MetaFileViewer extends PrismFrame
+{
+	private static final long serialVersionUID = 1L;
+
+	private JPanel contentPane;
+	private JLabel nameLabel;
+	private JTable table;
+
+	public MetaFileViewer()
+	{
+		super("MetaFileViewer", 600, 400, true);
+
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+
+		JLabel lblNewLabel = new JLabel("New label");
+		contentPane.add(lblNewLabel, BorderLayout.NORTH);
+
+		table = new JTable();
+		contentPane.add(table, BorderLayout.CENTER);
+	}
+
+	public void openMetaFile(File file) throws PrismMetaFileException
+	{
+		MetaFile f = new MetaFile(file);
+		f.load();
+
+		
+		
+	}
+
+	public static void main(String[] args)
+	{
+		try
+		{
+			MetaFileViewer v = new MetaFileViewer();
+			v.openMetaFile(new File("E:/Prism/data/shader/default.sh"));
+			v.setVisible(true);
+		}
+		catch (Exception e0)
+		{
+			e0.printStackTrace();
+		}
+	}
+}

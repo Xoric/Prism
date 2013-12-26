@@ -3,6 +3,7 @@
 	<name>PrismDevelop</name>
 	<comment></comment>
 	<projects>
+		<project>PrismSwing</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

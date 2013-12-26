@@ -14,7 +14,7 @@ import xoric.prism.exceptions.PrismDevException;
 
 class AttachmentImporter implements IActor
 {
-	private static final double COMPRESSION_THRESHOLD = 0.8;
+	private static final double COMPRESSION_THRESHOLD = 0.85;
 
 	private final File file;
 	private boolean isCompressed;
