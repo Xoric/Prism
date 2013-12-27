@@ -27,3 +27,7 @@
 1387947696936	Rename local variable 'nextVersion'
 1388021864620	Rename type 'AttachmentImport'
 1388070520408	Delete element
+1388072259952	Rename package 'xoric.prism.develop.li.meta'
+1388072263458	Rename package 'xoric.prism.develop.ui.meta'
+1388072821425	Move compilation unit
+1388072846087	Delete element

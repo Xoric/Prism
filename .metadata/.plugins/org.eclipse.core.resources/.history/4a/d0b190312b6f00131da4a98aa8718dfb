@@ -1,0 +1,51 @@
+package xoric.prism.meta;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Calendar;
+
+import xoric.prism.data.IPackable;
+
+public class TimeStamp implements IPackable
+{
+	private final int yearsAfter2013;
+	private final int month;
+	private final int day;
+	private final int hour;
+
+	public TimeStamp()
+	{
+		Calendar c = Calendar.getInstance();
+		int y = c.get(Calendar.YEAR);
+
+		yearsAfter2013 = 0;
+		month = 0;
+		day = 0;
+		hour = 0;
+
+		System.out.println(y);
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int getPackedSize()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

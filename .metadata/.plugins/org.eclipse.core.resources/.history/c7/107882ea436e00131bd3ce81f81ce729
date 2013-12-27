@@ -1,0 +1,45 @@
+package xoric.prism.develop.li;
+
+import java.io.File;
+
+import javax.swing.DefaultListModel;
+
+import xoric.prism.common.Common;
+import xoric.prism.data.AttachmentHeader;
+import xoric.prism.exceptions.PrismMetaFileException;
+import xoric.prism.meta.AttachmentLoader;
+import xoric.prism.meta.MetaFile;
+
+public class MetaFilePrinter
+{
+	private static final String INDENT = "  ";
+
+	public void openMetaFile(File file) throws PrismMetaFileException
+	{
+		MetaFile f = new MetaFile(file);
+		f.load();
+
+		System.out.println(file.getName().toString());
+
+		AttachmentLoader a = f.getAttachmentLoader();
+		int n = a.getAttachmentCount();
+
+		DefaultListModel<String> model = new DefaultListModel<String>();
+		for (int i = 0; i < n; ++i)
+		{
+			AttachmentHeader h = a.get(i);
+
+			StringBuffer sb = new StringBuffer();
+
+			sb.append("[" + i + "] ");
+			sb.append(h.getName().toString());
+			sb.append(" - " + Common.getFileSize(h.getContentSize()));
+
+			if (h.isCompressed())
+				sb.append(" *compressed*");
+
+			model.addElement(sb.toString());
+		}
+		list.setModel(model);
+	}
+}
