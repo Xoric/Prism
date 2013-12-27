@@ -15,6 +15,7 @@ import xoric.prism.data.AttachmentHeader;
 import xoric.prism.exceptions.PrismMetaFileException;
 import xoric.prism.meta.AttachmentLoader;
 import xoric.prism.meta.MetaFile;
+import xoric.prism.meta.TimeStamp;
 import xoric.prism.swing.PrismFrame;
 
 public class MetaFileViewer extends PrismFrame
@@ -22,25 +23,30 @@ public class MetaFileViewer extends PrismFrame
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
-	private JLabel nameLabel;
+	private JLabel lLabel;
 	private JList<String> list;
 
 	public MetaFileViewer()
 	{
 		super("MetaFileViewer", 600, 400, true);
 
+		final int BORDER = 15;
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setBorder(new EmptyBorder(BORDER, BORDER, BORDER, BORDER));
 		setContentPane(contentPane);
 
-		nameLabel = new JLabel("New label");
-		contentPane.add(nameLabel, BorderLayout.NORTH);
+		BorderLayout b = new BorderLayout(0, 0);
+		b.setVgap(BORDER);
+		contentPane.setLayout(b);
+
+		lLabel = new JLabel("Text");
+		contentPane.add(BorderLayout.NORTH, lLabel);
 
 		list = new JList<String>();
-		contentPane.add(list, BorderLayout.CENTER);
+		contentPane.add(BorderLayout.CENTER, list);
 
 		//		JFileChooser j = new JFileChooser();
 		//		contentPane.add(j, BorderLayout.WEST);
@@ -53,7 +59,16 @@ public class MetaFileViewer extends PrismFrame
 	{
 		MetaFile f = new MetaFile(file);
 		f.load();
-		nameLabel.setText(file.getName());
+
+		int version = f.getLocalFileVersion();
+		TimeStamp t = f.getTimeStamp();
+
+		StringBuffer sb = new StringBuffer();
+		sb.append("<html><b>" + file.getName() + "</b><br>");
+		sb.append("version: " + version + "<br>");
+		sb.append("timeStamp: " + t + "<br>");
+		sb.append("</html>");
+		lLabel.setText(sb.toString());
 
 		AttachmentLoader a = f.getAttachmentLoader();
 		int n = a.getAttachmentCount();
@@ -63,8 +78,7 @@ public class MetaFileViewer extends PrismFrame
 		{
 			AttachmentHeader h = a.get(i);
 
-			StringBuffer sb = new StringBuffer();
-
+			sb.setLength(0);
 			sb.append("[" + i + "] ");
 			sb.append(h.getName().toString());
 			sb.append(" - " + Common.getFileSize(h.getContentSize()));

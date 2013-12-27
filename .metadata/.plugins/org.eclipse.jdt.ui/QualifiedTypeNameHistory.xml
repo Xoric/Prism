@@ -50,4 +50,6 @@
 <fullyQualifiedTypeName name="xoric.prism.data.Text"/>
 <fullyQualifiedTypeName name="xoric.prism.meta.AttachmentLoader"/>
 <fullyQualifiedTypeName name="xoric.prism.common.Common"/>
+<fullyQualifiedTypeName name="java.util.Calendar"/>
+<fullyQualifiedTypeName name="xoric.prism.meta.TimeStamp"/>
 </qualifiedTypeNameHistroy>

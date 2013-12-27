@@ -23,6 +23,10 @@ public class MetaFilePrinter
 		{
 			f.load();
 
+			// print version and TimeStamp
+			System.out.println(INDENT + "version: " + f.getLocalFileVersion());
+			System.out.println(INDENT + "timeStamp: " + f.getTimeStamp().toString());
+
 			AttachmentLoader a = f.getAttachmentLoader();
 			int n = a.getAttachmentCount();
 
