@@ -70,11 +70,6 @@ public class MetaFile implements IActor
 		this.localFileVersion = version;
 	}
 
-	public TimeStamp getTimeStamp()
-	{
-		return timeStamp;
-	}
-
 	public AttachmentLoader getAttachmentLoader()
 	{
 		return attachmentLoader;

@@ -14,16 +14,14 @@ import xoric.prism.exceptions.PrismMetaFileException;
 public class MetaFile implements IActor
 {
 	private final File file;
-	private int localFileVersion;
-	private TimeStamp timeStamp;
 	private MetaList metaList;
 	private AttachmentLoader attachmentLoader;
+	private int localFileVersion;
 
 	public MetaFile(File file)
 	{
 		this.file = file;
 		this.localFileVersion = 0;
-		this.timeStamp = new TimeStamp();
 		this.metaList = new MetaList();
 	}
 
@@ -39,14 +37,10 @@ public class MetaFile implements IActor
 			// open file as stream
 			FileInputStream stream = new FileInputStream(file);
 
-			// unpack version and TimeStamp
+			// unpack version, MetaList and number of attachments
 			localFileVersion = IntPacker.unpack_s(stream); // 1)
-			timeStamp = new TimeStamp();
-			timeStamp.unpack(stream); // 2)
-
-			// MetaList and number of attachments
-			metaList.unpack(stream); // 3)
-			int attachmentCount = IntPacker.unpack_s(stream); // 4)
+			metaList.unpack(stream); // 2)
+			int attachmentCount = IntPacker.unpack_s(stream); // 3)
 
 			// create and unpack AttachmentLoader
 			attachmentLoader = new AttachmentLoader(file, attachmentCount);
@@ -68,11 +62,6 @@ public class MetaFile implements IActor
 	public void setLocalFileVersion(int version)
 	{
 		this.localFileVersion = version;
-	}
-
-	public TimeStamp getTimeStamp()
-	{
-		return timeStamp;
 	}
 
 	public AttachmentLoader getAttachmentLoader()

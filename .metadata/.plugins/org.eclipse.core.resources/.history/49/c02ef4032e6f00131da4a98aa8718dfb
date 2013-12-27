@@ -69,7 +69,7 @@ public class MetaFile implements IActor
 	{
 		this.localFileVersion = version;
 	}
-
+	
 	public TimeStamp getTimeStamp()
 	{
 		return timeStamp;

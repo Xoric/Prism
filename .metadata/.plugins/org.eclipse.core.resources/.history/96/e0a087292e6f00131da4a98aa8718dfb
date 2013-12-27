@@ -25,7 +25,6 @@ import xoric.prism.meta.MetaKey;
 import xoric.prism.meta.MetaLine;
 import xoric.prism.meta.MetaList;
 import xoric.prism.meta.MetaType;
-import xoric.prism.meta.TimeStamp;
 
 public class MetaFileCreator implements IActor
 {
@@ -286,7 +285,6 @@ public class MetaFileCreator implements IActor
 			}
 		}
 
-		TimeStamp timeStamp = new TimeStamp();
 		try
 		{
 			// open target file
@@ -295,15 +293,11 @@ public class MetaFileCreator implements IActor
 			// 1) write version
 			int startOfAttachmentTable = IntPacker.pack_s(stream, newVersion);
 
-			// 2) write TimeStamp
-			startOfAttachmentTable += timeStamp.getPackedSize();
-			timeStamp.pack(stream);
-
-			// 3) write MetaList
+			// 2) write MetaList
 			startOfAttachmentTable += metaList.getPackedSize();
 			metaList.pack(stream);
 
-			// 4) write number of attachments
+			// 3) write number of attachments
 			startOfAttachmentTable += IntPacker.pack_s(stream, attachmentCount);
 
 			// update start of attachments
@@ -318,7 +312,7 @@ public class MetaFileCreator implements IActor
 				currentAttachmentStart += h.getContentSize();
 			}
 
-			// 5) write attachment contents to MetaFile
+			// 4) write attachment contents to MetaFile
 			if (table != null)
 				table.pack(stream);
 
@@ -336,8 +330,8 @@ public class MetaFileCreator implements IActor
 
 		// print to console
 		StringBuffer sb = new StringBuffer();
-		sb.append("MetaFile written: " + f.getPath() + " | size: " + Common.getFileSize(f.length()) + " | version: " + newVersion + " | "
-				+ timeStamp.toString() + " | blocks: ");
+		sb.append("MetaFile written: " + f.getPath() + " | size: " + Common.getFileSize(f.length()) + " | version: " + newVersion
+				+ " | blocks: ");
 		for (int i = 0; i < metaList.getBlockCount(); ++i)
 		{
 			MetaBlock block = metaList.getMetaBlock(i);

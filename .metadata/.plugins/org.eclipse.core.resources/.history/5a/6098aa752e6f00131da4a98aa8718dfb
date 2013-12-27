@@ -296,8 +296,8 @@ public class MetaFileCreator implements IActor
 			int startOfAttachmentTable = IntPacker.pack_s(stream, newVersion);
 
 			// 2) write TimeStamp
-			startOfAttachmentTable += timeStamp.getPackedSize();
-			timeStamp.pack(stream);
+			startOfAttachmentTable += t.getPackedSize();
+			t.pack(stream);
 
 			// 3) write MetaList
 			startOfAttachmentTable += metaList.getPackedSize();

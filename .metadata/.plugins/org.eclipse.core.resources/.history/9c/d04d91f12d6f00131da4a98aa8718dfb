@@ -42,8 +42,8 @@ public class MetaFile implements IActor
 			// unpack version and TimeStamp
 			localFileVersion = IntPacker.unpack_s(stream); // 1)
 			timeStamp = new TimeStamp();
-			timeStamp.unpack(stream); // 2)
-
+			timeStamp.unpack(stream);
+			
 			// MetaList and number of attachments
 			metaList.unpack(stream); // 3)
 			int attachmentCount = IntPacker.unpack_s(stream); // 4)
@@ -68,11 +68,6 @@ public class MetaFile implements IActor
 	public void setLocalFileVersion(int version)
 	{
 		this.localFileVersion = version;
-	}
-
-	public TimeStamp getTimeStamp()
-	{
-		return timeStamp;
 	}
 
 	public AttachmentLoader getAttachmentLoader()
