@@ -1,2 +1,4 @@
 1388191723871	Rename package 'xoric.prism.map'
 1388193300772	Rename package 'move'
+1388232293818	Rename method 'resize'
+1388233000460	Rename local variable 'min'
