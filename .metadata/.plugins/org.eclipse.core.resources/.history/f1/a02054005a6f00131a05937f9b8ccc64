@@ -1,0 +1,13 @@
+package xoric.prism.world.map;
+
+import xoric.prism.data.Point;
+
+public class Map
+{
+	private Point tileCount;
+
+	public Map()
+	{
+
+	}
+}

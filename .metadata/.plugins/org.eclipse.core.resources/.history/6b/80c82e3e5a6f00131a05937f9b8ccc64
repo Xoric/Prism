@@ -1,0 +1,20 @@
+package xoric.prism.world.map;
+
+import xoric.prism.data.Point;
+
+public class Map
+{
+	private Point tileCount;
+
+	public Map()
+	{
+		tileCount = new Point();
+		resize(20, 20);
+	}
+
+	public void resize(int tilesX, int tilesY)
+	{
+		tileCount.x = tilesX;
+		tileCount.y = tilesY;
+	}
+}

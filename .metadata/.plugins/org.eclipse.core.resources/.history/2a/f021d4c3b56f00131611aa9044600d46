@@ -1,0 +1,6 @@
+package map.route;
+
+public enum UpdateState
+{
+	NOT_FOUND, FOUND_AND_UPDATED, FOUND_AND_DISCARDED
+}

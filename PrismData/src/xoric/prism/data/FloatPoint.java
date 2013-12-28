@@ -35,6 +35,18 @@ public class FloatPoint implements IStackable, IFloatPoint_r
 		y += p.getY();
 	}
 
+	public void multiply(float dx, float dy)
+	{
+		x *= dx;
+		y *= dy;
+	}
+
+	public void multiply(IFloatPoint_r f)
+	{
+		x *= f.getX();
+		y *= f.getY();
+	}
+
 	@Override
 	public void appendTo(Heap h)
 	{

@@ -28,7 +28,6 @@
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="java.io.DataInputStream"/>
-<fullyQualifiedTypeName name="xoric.prism.data.Point"/>
 <fullyQualifiedTypeName name="xoric.prism.exceptions.PrismException"/>
 <fullyQualifiedTypeName name="xoric.prism.scene.shader.ShaderType"/>
 <fullyQualifiedTypeName name="xoric.prism.scene.exceptions.PrismShaderException"/>
@@ -52,4 +51,6 @@
 <fullyQualifiedTypeName name="xoric.prism.common.Common"/>
 <fullyQualifiedTypeName name="java.util.Calendar"/>
 <fullyQualifiedTypeName name="xoric.prism.meta.TimeStamp"/>
+<fullyQualifiedTypeName name="xoric.prism.data.Point"/>
+<fullyQualifiedTypeName name="xoric.prism.data.Booleans"/>
 </qualifiedTypeNameHistroy>

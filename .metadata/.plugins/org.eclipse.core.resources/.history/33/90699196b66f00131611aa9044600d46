@@ -1,0 +1,231 @@
+package xoric.prism.world.map.routing;
+
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+
+import xoric.prism.data.IPoint_r;
+import xoric.prism.world.movement.View8;
+
+/**
+ * @author XoricLee
+ * @since 02.01.2012, 13:29:52
+ */
+public class Route
+{
+	private static final FloatRectR[] onsets;
+	static
+	{
+		FloatPointR full = Map.groundSizeF;
+		FloatPointW small = new FloatPointW(full);
+		small.multiply(0.3f, 0.5f);
+
+		float z = 0.0f;
+		float x2 = full.getX() - small.getX();
+		float y2 = full.getY() - small.getY();
+
+		onsets = new FloatRectR[9];
+		onsets[View8.RIGHT.ordinal()] = new FloatRectR(x2, z, small.getX(), full.getY());
+		onsets[View8.TOP_RIGHT.ordinal()] = new FloatRectR(x2, z, small.getX(), small.getY());
+		onsets[View8.TOP.ordinal()] = new FloatRectR(z, z, full.getX(), small.getY());
+		onsets[View8.TOP_LEFT.ordinal()] = new FloatRectR(z, z, small.getX(), small.getY());
+		onsets[View8.LEFT.ordinal()] = new FloatRectR(z, z, small.getX(), full.getY());
+		onsets[View8.BOTTOM_LEFT.ordinal()] = new FloatRectR(z, y2, small.getX(), small.getY());
+		onsets[View8.BOTTOM.ordinal()] = new FloatRectR(z, y2, full.getX(), small.getY());
+		onsets[View8.BOTTOM_RIGHT.ordinal()] = new FloatRectR(x2, y2, small.getX(), small.getY());
+		onsets[8] = new FloatRectR(z, z, full.getX(), full.getY());
+	}
+
+	private List<IPoint_r> nodes;
+	private FloatPointR finalPos;
+	private int lastIndex;
+
+	private int currentIndex;
+	private FloatRectR nextMark;
+
+	public Route()
+	{
+		nodes = new ArrayList<IPoint_r>();
+		lastIndex = 0;
+	}
+
+	/**
+	 * Adds a node to the route.
+	 * @param coords
+	 */
+	public void addNode(IPoint_r coords)
+	{
+		nodes.add(coords);
+	}
+
+	private static FloatRectR getOnset(View8 angle)
+	{
+		int index = angle != null ? angle.ordinal() : 8;
+		return onsets[index];
+	}
+
+	/**
+	 * Optionally specifies a final destination <b>within the last tile</b> that will be triggered once a participant has reached the node
+	 * before the last one.
+	 * @param finalPos
+	 */
+	public void setFinalPos(FloatPointR finalPos)
+	{
+		if (finalPos != null)
+		{
+			this.finalPos = new FloatPointR(finalPos);
+			this.lastIndex = 1;
+		}
+		else
+		{
+			this.finalPos = null;
+			this.lastIndex = 0;
+		}
+	}
+
+	/**
+	 * Starts executing this path for the given participants.
+	 * @param creatures
+	 */
+	public void start(Creature... creatures)
+	{
+		currentIndex = nodes.size();
+		calcNextMark();
+
+		int count = creatures.length;
+		participants = new ArrayList<Creature>(count);
+		checks = new boolean[count];
+
+		for (Creature c : creatures)
+		{
+			participants.add(c);
+			c.setRoute(this);
+		}
+		issueCommands();
+	}
+
+	/**
+	 * Invoked by participants of this route once the have reached a node.
+	 * @param creature
+	 */
+	public void check(Creature creature)
+	{
+		int index = participants.indexOf(creature);
+
+		if (index >= 0)
+		{
+			checks[index] = true;
+
+			if (currentIndex == lastIndex)
+			{
+				// drop participants here since they have reached the last node of the route
+				creature.finishRoute(finalPos);
+				participants.set(index, null);
+			}
+			else
+			{
+				// issue movement commands for the next node in the route
+				if (checkAllParticipantsReady())
+				{
+					calcNextMark();
+					issueCommands();
+				}
+			}
+		}
+		// TODO else: exception if index == -1 ?
+	}
+
+	/**
+	 * Checks if all participants are done with the current segment of this route.
+	 * @return boolean
+	 */
+	private boolean checkAllParticipantsReady()
+	{
+		for (boolean b : checks)
+			if (!b)
+				return false;
+
+		return true;
+	}
+
+	/**
+	 * Prepares the next node in the route.
+	 */
+	private void calcNextMark()
+	{
+		--currentIndex;
+
+		if (currentIndex >= 0)
+		{
+			Point node = nodes.get(currentIndex);
+
+			View8 angle;
+			if (currentIndex > 0)
+			{
+				Point nextNode = nodes.get(currentIndex - 1);
+				angle = calcAngle(node, nextNode);
+			}
+			else
+				angle = null;
+
+			FloatRectR onset = getOnset(angle);
+
+			IntPoint tileTopLeft = new IntPoint(node);
+			tileTopLeft.multiply(Map.groundSize);
+
+			nextMark = new FloatRectW(tileTopLeft.x + onset.getX(), tileTopLeft.y + onset.getY(), onset.getWidth(), onset.getHeight());
+		}
+	}
+
+	private static View8 calcAngle(Point source, Point target)
+	{
+		View8 angle;
+
+		if (target.x > source.x)
+		{
+			if (target.y > source.y)
+				angle = View8.BOTTOM_RIGHT;
+			else if (target.y < source.y)
+				angle = View8.TOP_RIGHT;
+			else
+				angle = View8.RIGHT;
+		}
+		else if (target.x < source.x)
+		{
+			if (target.y > source.y)
+				angle = View8.BOTTOM_LEFT;
+			else if (target.y < source.y)
+				angle = View8.TOP_LEFT;
+			else
+				angle = View8.LEFT;
+		}
+		else
+		{
+			if (target.y > source.y)
+				angle = View8.BOTTOM;
+			else if (target.y < source.y)
+				angle = View8.TOP;
+			else
+				angle = null;
+		}
+		return angle;
+	}
+
+	/**
+	 * Issues movement commands for all participants.
+	 */
+	private void issueCommands()
+	{
+		int i = 0;
+
+		for (Creature c : participants)
+		{
+			if (c != null)
+			{
+				checks[i] = false;
+				c.notifyRoute(nextMark);
+			}
+			++i;
+		}
+	}
+}
