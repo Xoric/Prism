@@ -79,15 +79,16 @@ public class MetaFileViewer extends PrismFrame
 			AttachmentHeader h = a.get(i);
 
 			sb.setLength(0);
-			sb.append("[" + i);
-
+			sb.append("[" + i );
+			
 			if (h.isCompressed())
 				sb.append("*");
-
-			sb.append("] ");
-
+			
+			sb.append( "] ");
+			
 			sb.append(h.getName().toString());
 			sb.append(" - " + Common.getFileSize(h.getContentSize()));
+
 
 			model.addElement(sb.toString());
 		}
