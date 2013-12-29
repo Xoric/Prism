@@ -1,0 +1,16 @@
+package xoric.prism.creator;
+
+public class PrismCreator
+{
+	private final IScene scene;
+	
+	public PrismCreator(IScene scene)
+	{
+		this.scene = scene;
+	}
+	
+	public void start()
+	{
+		
+	}
+}

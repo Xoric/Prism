@@ -1,0 +1,6 @@
+package xoric.prism.creator;
+
+public class PrismDrawer
+{
+	private Bitmap bitmap;
+}

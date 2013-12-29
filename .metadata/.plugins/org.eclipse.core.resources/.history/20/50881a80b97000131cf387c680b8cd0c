@@ -1,0 +1,17 @@
+package xoric.prism.creator;
+
+import java.awt.Image;
+
+import xoric.prism.swing.PrismFrame;
+
+public class PrismDrawer extends PrismFrame
+{
+	private static final long serialVersionUID = 1L;
+	
+	private Image image;
+	
+	public PrismDrawer(String title, int width, int height, boolean exitOnClose)
+	{
+		super("Prism Drawer", 640, 480, true);
+	}
+}

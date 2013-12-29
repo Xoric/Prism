@@ -1,0 +1,10 @@
+package xoric.prism.creator;
+
+import java.awt.Image;
+
+import xoric.prism.swing.PrismFrame;
+
+public class PrismDrawer extends PrismFrame
+{
+	private Image image;
+}
