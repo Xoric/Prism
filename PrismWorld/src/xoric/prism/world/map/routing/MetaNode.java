@@ -1,6 +1,6 @@
 package xoric.prism.world.map.routing;
 
-import xoric.prism.world.movement.View8;
+import xoric.prism.data.physics.View8;
 
 /**
  * Encapsulates a node in the network with additional meta information needed for the A* search.

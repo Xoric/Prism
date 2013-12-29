@@ -1,0 +1,16 @@
+package xoric.prism.world.entities;
+
+import xoric.prism.data.Point;
+import xoric.prism.data.Text;
+
+public class Entity
+{
+	private Point position;
+	private Text name;
+
+	public Entity()
+	{
+		position = new Point();
+		name = new Text();
+	}
+}

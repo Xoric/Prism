@@ -1,0 +1,6 @@
+package xoric.prism.data.view;
+
+public enum View4
+{
+	RIGHT, TOP, LEFT, BOTTOM
+}

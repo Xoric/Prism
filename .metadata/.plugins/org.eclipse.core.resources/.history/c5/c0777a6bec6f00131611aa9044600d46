@@ -1,0 +1,6 @@
+package xoric.prism.world.entities;
+
+public interface IContinuous
+{
+
+}

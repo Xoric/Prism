@@ -1,0 +1,33 @@
+package xoric.prism.world.entities;
+
+import xoric.prism.data.IPoint_r;
+import xoric.prism.data.IText_r;
+import xoric.prism.data.Point;
+import xoric.prism.data.Text;
+
+public class Entity
+{
+	private Point position;
+	private Text name;
+
+	public Entity()
+	{
+		position = new Point();
+		name = new Text();
+	}
+	
+	public void move(float dX, float dY)
+	{
+		
+	}
+
+	public IPoint_r getPosition()
+	{
+		return position;
+	}
+
+	public IText_r getName()
+	{
+		return name;
+	}
+}

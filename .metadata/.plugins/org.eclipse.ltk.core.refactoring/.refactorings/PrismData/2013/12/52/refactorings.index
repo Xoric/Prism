@@ -69,3 +69,5 @@
 1388068294213	Rename enum constant 'metaLineMissing'
 1388068298634	Rename enum constant 'compressionError'
 1388068342136	Rename method 'getCount'
+1388338611464	Delete elements
+1388338720217	Rename package 'xoric.prism.data.view'

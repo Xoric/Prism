@@ -1,7 +1,7 @@
 package xoric.prism.world.map.routing;
 
+import xoric.prism.data.physics.View8;
 import xoric.prism.world.movement.MoveCaps;
-import xoric.prism.world.movement.View8;
 
 /**
  * Represents the transition from one node to another considering the transition-costs.

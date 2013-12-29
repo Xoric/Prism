@@ -7,6 +7,7 @@ import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
 import xoric.prism.scene.SceneStage;
 import xoric.prism.scene.camera.Camera;
+import xoric.prism.world.entities.Movable;
 
 public class PrismClient implements ISceneListener
 {
@@ -20,6 +21,7 @@ public class PrismClient implements ISceneListener
 	private FloatRect testPlane;
 	private FloatPoint testMan[];
 	private FloatPoint walkingMan;
+	private Movable movable;
 	private float walkingX;
 	private float walkingY;
 	private static final FloatPoint manSize = new FloatPoint(20.0f, 40.0f);
@@ -43,6 +45,10 @@ public class PrismClient implements ISceneListener
 		walkingMan = new FloatPoint(400.0f, 300.0f);
 		walkingX = 4.0f;
 		walkingY = 1.0f;
+
+		movable = new Movable();
+		movable.setAngle(290);
+		movable.setSpeed(40.0f);
 
 		temp = new FloatPoint();
 		temp2 = new FloatPoint();
@@ -83,6 +89,9 @@ public class PrismClient implements ISceneListener
 			}
 		}
 		scene.setSlope(slope);
+
+		float seconds = 0.001f * passedMs;
+		movable.timeUpdate(passedMs, seconds);
 
 		//		nz = -3.0f;
 		renderer.setColor(0.8f, 0.2f, 0.2f);
@@ -126,6 +135,11 @@ public class PrismClient implements ISceneListener
 		// draw walking man
 		renderer.setColor(0.3f, 0.2f, 0.8f);
 		cam.transformWithCameraBounds(walkingMan, temp);
+		renderer.drawObject(temp, temp2, 0.0f);
+
+		// draw movable
+		renderer.setColor(0.3f, 0.2f, 0.5f);
+		cam.transformWithCameraBounds(movable.getPosition(), temp);
 		renderer.drawObject(temp, temp2, 0.0f);
 
 		return true;

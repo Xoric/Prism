@@ -23,6 +23,12 @@ public class FloatPoint implements IStackable, IFloatPoint_r
 		this.y = y;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "x=" + x + ", y=" + y;
+	}
+
 	public void copyFrom(IFloatPoint_r p)
 	{
 		x = p.getX();
@@ -33,6 +39,12 @@ public class FloatPoint implements IStackable, IFloatPoint_r
 	{
 		x += p.getX();
 		y += p.getY();
+	}
+
+	public void subtract(IFloatPoint_r p)
+	{
+		x -= p.getX();
+		y -= p.getY();
 	}
 
 	public void multiply(float dx, float dy)

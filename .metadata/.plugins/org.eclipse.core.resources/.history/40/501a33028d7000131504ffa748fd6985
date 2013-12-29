@@ -1,0 +1,7 @@
+package xoric.prism.world.map;
+
+public class GroundLayer
+{
+	// ground tiles
+	private Tile[][] tiles;
+}

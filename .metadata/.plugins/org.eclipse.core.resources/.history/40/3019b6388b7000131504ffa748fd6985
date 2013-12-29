@@ -1,0 +1,6 @@
+package xoric.prism.world.map;
+
+ interface INodeNetwork
+{
+public void invalidateNetwork();
+}

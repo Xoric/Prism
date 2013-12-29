@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import xoric.prism.data.IPoint_r;
+import xoric.prism.data.physics.View8;
 import xoric.prism.world.movement.MoveCaps;
-import xoric.prism.world.movement.View8;
 
 /**
  * Executes an A* Search for a given network with a given start-node and target-node. All nodes implement the {@link INode} interface.

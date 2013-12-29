@@ -1,0 +1,13 @@
+package xoric.prism.world.map;
+
+public class Ground
+{
+	public static final Ground GROUND0 = new Ground(0);
+
+	private final int index;
+
+	public Ground(int index)
+	{
+		this.index = index;
+	}
+}

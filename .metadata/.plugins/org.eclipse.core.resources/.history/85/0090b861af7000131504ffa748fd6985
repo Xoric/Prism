@@ -1,0 +1,28 @@
+package xoric.prism.world.entities;
+
+import xoric.prism.data.FloatPoint;
+
+public class Movable extends Entity implements IContinuous
+{
+	private FloatPoint speed;
+
+	public Movable()
+	{
+		speed = new FloatPoint();
+	}
+
+	@Override
+	public void timeUpdate(int passedMs, float seconds)
+	{
+		float moveX = seconds * speed.getX();
+		float moveY = seconds * speed.getY();
+
+		this.move(moveX, moveY);
+	}
+
+	public void setSpeed(float x, float y)
+	{
+		speed.x = x;
+		speed.y = y;
+	}
+}

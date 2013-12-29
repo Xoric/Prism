@@ -1,0 +1,14 @@
+package xoric.prism.world.map;
+
+import xoric.prism.data.Point;
+
+public class GroundLayer implements IMapLayer
+{
+	// ground tiles
+	private Tile[][] tiles;
+
+	public GroundLayer()
+	{
+	
+	}
+}

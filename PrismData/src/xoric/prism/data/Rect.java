@@ -106,4 +106,10 @@ public class Rect implements IRect_r, IStackable
 	{
 		return size;
 	}
+
+	@Override
+	public float calcDistance(IPoint_r target)
+	{
+		return position.calcDistance(target);
+	}
 }

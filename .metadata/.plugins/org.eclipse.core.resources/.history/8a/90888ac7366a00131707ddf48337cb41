@@ -1,8 +1,0 @@
-package xoric.prism.scene.lwjgl;
-
-import xoric.prism.scene.shader.IShader2;
-
-public class Shader2 implements IShader2
-{
-
-}

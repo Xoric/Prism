@@ -40,17 +40,21 @@
 <fullyQualifiedTypeName name="java.lang.String"/>
 <fullyQualifiedTypeName name="xoric.prism.meta.MetaLine"/>
 <fullyQualifiedTypeName name="xoric.prism.meta.MetaKey"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
 <fullyQualifiedTypeName name="java.io.OutputStream"/>
 <fullyQualifiedTypeName name="xoric.prism.compression.BufferCompressor"/>
 <fullyQualifiedTypeName name="xoric.prism.data.AttachmentHeader"/>
-<fullyQualifiedTypeName name="xoric.prism.data.IntPacker"/>
-<fullyQualifiedTypeName name="xoric.prism.data.Text"/>
 <fullyQualifiedTypeName name="xoric.prism.meta.AttachmentLoader"/>
 <fullyQualifiedTypeName name="xoric.prism.common.Common"/>
 <fullyQualifiedTypeName name="java.util.Calendar"/>
 <fullyQualifiedTypeName name="xoric.prism.meta.TimeStamp"/>
-<fullyQualifiedTypeName name="xoric.prism.data.Point"/>
 <fullyQualifiedTypeName name="xoric.prism.data.Booleans"/>
+<fullyQualifiedTypeName name="xoric.prism.world.movement.View8"/>
+<fullyQualifiedTypeName name="xoric.prism.world.map.Tile"/>
+<fullyQualifiedTypeName name="xoric.prism.data.Text"/>
+<fullyQualifiedTypeName name="xoric.prism.world.entities.Movable"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="xoric.prism.data.Point"/>
+<fullyQualifiedTypeName name="xoric.prism.data.IntPacker"/>
 </qualifiedTypeNameHistroy>

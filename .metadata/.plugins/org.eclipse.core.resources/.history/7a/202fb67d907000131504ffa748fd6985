@@ -1,0 +1,45 @@
+package xoric.prism.world.map;
+
+import java.util.List;
+
+import xoric.prism.data.IPoint_r;
+import xoric.prism.world.map.routing.Edge;
+import xoric.prism.world.map.routing.INode;
+import xoric.prism.world.movement.MoveCaps;
+
+public class Node implements INode
+{
+	protected List<Edge> edges; // may be null
+	protected Point coords;
+
+	public Node(Tile tile)
+	{
+		this.tile = tile;
+	}
+
+	public Tile getTile()
+	{
+		return tile;
+	}
+
+	@Override
+	public List<Edge> getEdges(MoveCaps caps)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public float estimateCost(INode targetNode)
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public IPoint_r getCoords()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

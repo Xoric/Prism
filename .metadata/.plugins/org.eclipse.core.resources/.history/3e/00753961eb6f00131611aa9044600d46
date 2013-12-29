@@ -1,0 +1,8 @@
+package xoric.prism.world.entities;
+
+import xoric.prism.data.Point;
+
+public class Entity
+{
+	private Point position;
+}

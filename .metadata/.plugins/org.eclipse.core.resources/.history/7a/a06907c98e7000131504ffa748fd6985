@@ -1,0 +1,16 @@
+package xoric.prism.world.map;
+
+public class Node  implements INode
+{
+	private Tile tile;
+
+	public Node(Tile tile)
+	{
+		this.tile = tile;
+	}
+
+	public Tile getTile()
+	{
+		return tile;
+	}
+}

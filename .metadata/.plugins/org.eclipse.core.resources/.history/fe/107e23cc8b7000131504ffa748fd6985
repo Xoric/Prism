@@ -1,0 +1,16 @@
+package xoric.prism.world.map;
+
+public class TileNode
+{
+	private Tile tile;
+
+	public TileNode(Tile tile)
+	{
+		this.tile = tile;
+	}
+	
+	public Tile getTile()
+	{
+		return tile;
+	}
+}

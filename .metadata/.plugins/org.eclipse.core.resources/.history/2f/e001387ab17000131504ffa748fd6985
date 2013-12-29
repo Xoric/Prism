@@ -1,0 +1,31 @@
+package xoric.prism.world.entities;
+
+import xoric.prism.data.IFloatPoint_r;
+import xoric.prism.data.physics.Angle;
+
+public class Movable extends Entity implements IContinuous
+{
+	private Angle angle;
+	private float speed;
+
+	public Movable()
+	{
+		angle = new Angle();
+	}
+
+	@Override
+	public void timeUpdate(int passedMs, float seconds)
+	{
+		IFloatPoint_r components = angle.getComponents();
+
+		float moveX = seconds * components.getX();
+		float moveY = seconds * components.getY();
+
+		this.move(moveX, moveY);
+	}
+
+	public void setSpeed(float speed)
+	{
+this.speed = speed;
+	}
+}

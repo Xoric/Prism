@@ -1,52 +1,48 @@
 package xoric.prism.world.map;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import xoric.prism.data.IPackable;
 import xoric.prism.data.IPoint_r;
 import xoric.prism.data.Point;
 
-public class Map
+public class Map implements IPackable
 {
 	// size information (tiles and pixels)
 	private Point tileCount;
 	private Point size;
 
-	// ground tiles
-	private Tile[][] tiles;
+	// layers
+	private TileLayer tileLayer;
+	private RoutingLayer routingLayer;
 
 	public Map()
 	{
+		// size information
 		tileCount = new Point(0, 0);
 		size = new Point(0, 0);
+
+		// layers
+		tileLayer = new TileLayer();
+		routingLayer = null;
 	}
 
-	/**
-	 * Resizes the Map to the given number of tiles in x- and y-direction. Copies any existing tiles.
-	 * @param tilesX
-	 * @param tilesY
-	 */
 	public void setSize(int tilesX, int tilesY)
 	{
-		// copy existing tiles
-		Tile[][] newTiles = null;
-		if (tilesX > 0 && tilesY > 0)
-		{
-			newTiles = new Tile[tilesY][tilesX];
-			if (tiles != null)
-			{
-				for (int iy = 0; iy < tilesY; ++iy)
-				{
-					newTiles[iy] = new Tile[tilesX];
-					for (int ix = 0; ix < tilesX; ++ix)
-						newTiles[iy][ix] = (iy < tiles.length && ix < tiles[iy].length) ? tiles[iy][ix] : new Tile();
-				}
-			}
-		}
-		tiles = newTiles;
-
 		// update size information
 		tileCount.x = tilesX;
 		tileCount.y = tilesY;
 		size.x = tilesX * Tile.WIDTH;
 		size.y = tilesY * Tile.HEIGHT;
+
+		// update TileLayer
+		tileLayer.setSize(tilesX, tilesY);
+
+		// create RoutingLayer
+		routingLayer = new RoutingLayer();
+		routingLayer.init(tileLayer.getTiles());
 	}
 
 	/**
@@ -64,6 +60,43 @@ public class Map
 	 */
 	public IPoint_r getSize()
 	{
+		return size;
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException
+	{
+		// pack tile count
+		tileCount.pack(stream);
+
+		// pack TileLayer
+		tileLayer.pack(stream);
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException
+	{
+		// unpack tile count and calculate size
+		tileCount.unpack(stream);
+		setSize(tileCount.x, tileCount.y);
+
+		// unpack TileLayer
+		tileLayer.unpack(stream);
+
+		// create RoutingLayer
+		routingLayer = new RoutingLayer();
+		routingLayer.init(tileLayer.getTiles());
+	}
+
+	@Override
+	public int getPackedSize()
+	{
+		// tile count
+		int size = tileCount.getPackedSize();
+
+		// TileLayer
+		size += tileLayer.getPackedSize();
+
 		return size;
 	}
 }

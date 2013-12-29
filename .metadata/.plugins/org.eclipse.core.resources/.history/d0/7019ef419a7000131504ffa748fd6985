@@ -1,0 +1,113 @@
+package xoric.prism.world.map;
+
+import xoric.prism.data.Point;
+import xoric.prism.world.map.routing.Edge;
+import xoric.prism.world.movement.MoveCaps;
+import xoric.prism.world.movement.View8;
+
+public class RoutingLayer implements IMapLayer
+{
+	private Node[][] nodes;
+
+	public RoutingLayer()
+	{
+
+	}
+
+	@Override
+	public void setSize(int tilesX, int tilesY)
+	{
+		if (nodes == null || nodes.length != tilesY || nodes[0].length != tilesX)
+			nodes = new Node[tilesY][tilesX];
+	}
+
+	public void initialize(Tile[][] tiles)
+	{
+		setSize(tiles[0].length, tiles.length);
+
+		// create nodes
+		for (int iy = 0; iy < nodes.length; ++iy)
+		{
+			for (int ix = 0; ix < nodes[iy].length; ++ix)
+			{
+				Node n = new Node(new Point(ix, iy), tiles[iy][ix].getGround().getMoveCaps());
+				nodes[iy][ix] = n;
+			}
+		}
+
+		// link nodes
+		boolean left, top, right, bottom;
+		int tilesX = nodes[0].length;
+		int tilesY = nodes.length;
+		int lastX = tilesX - 1;
+		int lastY = tilesY - 1;
+
+		for (int iy = 0; iy < tilesY; ++iy)
+		{
+			for (int ix = 0; ix < tilesX; ++ix)
+			{
+				GroundNode thisNode = groundNodes[iy][ix];
+				thisNode.clearEdges();
+
+				// left, top, right, bottom
+				left = ix > 0 ? addEdge(thisNode, groundNodes[iy][ix - 1], COST_DIRECT, View8.LEFT) : false;
+				top = iy > 0 ? addEdge(thisNode, groundNodes[iy - 1][ix], COST_DIRECT, View8.TOP) : false;
+				right = ix < lastX ? addEdge(thisNode, groundNodes[iy][ix + 1], COST_DIRECT, View8.RIGHT) : false;
+				bottom = iy < lastY ? addEdge(thisNode, groundNodes[iy + 1][ix], COST_DIRECT, View8.BOTTOM) : false;
+
+				if (top) // diagonal top
+				{
+					if (left) // top-left
+						addEdge(thisNode, groundNodes[iy - 1][ix - 1], COST_DIAGONAL, View8.TOP_LEFT,
+								groundNodes[iy - 1][ix]/*crossing top*/, groundNodes[iy][ix - 1]/*crossing left*/);
+					if (right) // top-right
+						addEdge(thisNode, groundNodes[iy - 1][ix + 1], COST_DIAGONAL, View8.TOP_RIGHT,
+								groundNodes[iy - 1][ix]/*crossing top*/, groundNodes[iy][ix + 1]/*crossing right*/);
+				}
+
+				if (bottom) // diagonal bottom
+				{
+					if (left) // bottom-left
+						addEdge(thisNode, groundNodes[iy + 1][ix - 1], COST_DIAGONAL, View8.BOTTOM_LEFT,
+								groundNodes[iy + 1][ix]/*crossing bottom*/, groundNodes[iy][ix - 1]/*crossing left*/);
+					if (right) // bottom-right
+						addEdge(thisNode, groundNodes[iy + 1][ix + 1], COST_DIAGONAL, View8.BOTTOM_RIGHT,
+								groundNodes[iy + 1][ix]/*crossing bottom*/, groundNodes[iy][ix + 1]/*crossing right*/);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Checks if the given edge is accessible for at least one MoveType and adds the edge to the source-node if so. Returns true if the edge
+	 * was added.
+	 * @param sourceNode
+	 * @param targetNode
+	 * @param cost
+	 * @param crossedNodes
+	 *            Nodes that are being crossed (when walking diagonally), may be none
+	 * @return boolean
+	 */
+	private static boolean addEdge(Node sourceNode, Node targetNode, float cost, View8 transitionAngle, Node... crossedNodes)
+	{
+		// calculate the effective MoveCaps for this edge
+		// consider crossed nodes' MoveCaps as well
+		MoveCaps caps = targetNode.getMoveCaps();
+		if (crossedNodes.length > 0)
+		{
+			caps = new MoveCaps(caps.toInt()); // copy MoveCaps object
+			for (Node n : crossedNodes)
+				caps.bitwiseAnd(n.getMoveCaps());
+		}
+
+		// check if any MoveType is available on this edge
+		boolean isValid = caps.anyIsTrue();
+
+		if (isValid) // add this edge if it is accessible for at least one MoveType
+		{
+			Edge edge = new Edge(targetNode, caps, cost, transitionAngle);
+			isValid = sourceNode.addEdge(edge);
+		}
+		return isValid;
+	}
+}

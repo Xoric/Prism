@@ -1,0 +1,6 @@
+package xoric.prism.data.physics;
+
+public interface IAngle_r
+{
+
+}

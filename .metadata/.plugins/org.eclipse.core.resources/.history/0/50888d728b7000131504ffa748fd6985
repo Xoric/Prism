@@ -1,0 +1,12 @@
+package xoric.prism.world.map;
+
+public class NetworkMap extends Map
+{
+
+	@Override
+	public void setSize(int tilesX, int tilesY)
+	{
+		super.setSize(tilesX, tilesY);
+		
+	}
+}
