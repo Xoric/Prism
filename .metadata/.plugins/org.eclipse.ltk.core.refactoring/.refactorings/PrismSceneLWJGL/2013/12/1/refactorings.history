@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;TextureIO.java&apos; to &apos;xoric.prism.scene.lwjgl.TextureIO.java&apos;&#x0D;&#x0A;- Original project: &apos;PrismSceneLWJGL&apos;&#x0D;&#x0A;- Destination element: &apos;xoric.prism.scene.lwjgl.TextureIO.java&apos;&#x0D;&#x0A;- Original element: &apos;xoric.prism.scene.lwjgl.TextureIO.java&apos;" description="Copy compilation unit" destination="/src&lt;xoric.prism.scene.lwjgl{TextureIO.java" element1="/src&lt;xoric.prism.scene.lwjgl{TextureIO.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1388376536426" units="1" version="1.0"/>
+</session>

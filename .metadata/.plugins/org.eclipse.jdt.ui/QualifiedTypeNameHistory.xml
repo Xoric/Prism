@@ -55,6 +55,6 @@
 <fullyQualifiedTypeName name="xoric.prism.world.entities.Movable"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="xoric.prism.data.Point"/>
 <fullyQualifiedTypeName name="xoric.prism.data.IntPacker"/>
+<fullyQualifiedTypeName name="xoric.prism.data.Point"/>
 </qualifiedTypeNameHistroy>

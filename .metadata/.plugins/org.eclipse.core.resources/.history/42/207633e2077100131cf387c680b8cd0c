@@ -1,0 +1,14 @@
+package xoric.prism.scene.lwjgl;
+
+public class Texture
+{
+	private final int programID;
+	private final Point size;
+
+	public Texture(int programID, int width, int height)
+	{
+		this.programID = programID;
+		this.size = new IntPoint(width, height);
+	}
+
+}
