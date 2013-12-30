@@ -21,9 +21,7 @@ public class TextureIO2
 	public static Texture createFromFile(File file) throws IOException
 	{
 		FileInputStream f = new FileInputStream(file);
-		BufferedInputStream inputStream = new BufferedInputStream(f);
-
-		return createFromStream(inputStream);
+		BufferedInputStream in = new BufferedInputStream(f);
 	}
 
 	public static Texture createFromStream(InputStream inputStream) throws IOException
