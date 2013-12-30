@@ -1,0 +1,18 @@
+package xoric.prism.creator.drawer;
+
+import xoric.prism.swing.PrismFrame;
+
+public class PrismDrawer extends PrismFrame
+{
+	private static final long serialVersionUID = 1L;
+
+	public PrismDrawer()
+	{
+		super("Prism Drawer", 640, 480, true);
+	}
+
+	public void start()
+	{
+		setVisible(true);
+	}
+}

@@ -4,4 +4,8 @@
 		id="org.eclipse.wb.swing.layouts java.awt.GridBagLayout"
 		category="org.eclipse.wb.swing.layouts"
 		nextEntry="org.eclipse.wb.swing.layouts java.awt.GridLayout"/>
+	<moveEntry
+		id="org.eclipse.wb.swing.components.menu javax.swing.JMenuItem"
+		category="org.eclipse.wb.swing.components.menu"
+		nextEntry="org.eclipse.wb.swing.components.menu javax.swing.JMenu"/>
 </commands>

@@ -1,6 +1,6 @@
 package xoric.prism.client.bootstrap;
 
-import xoric.prism.creator.PrismCreator;
+import xoric.prism.creator.drawer.PrismDrawer;
 import xoric.prism.data.modules.ErrorCode;
 import xoric.prism.data.modules.ModuleID;
 import xoric.prism.scene.IScene;
@@ -9,7 +9,7 @@ import xoric.prism.scene.lwjgl.PrismSceneLWJGL;
 public class PrismClientBootstrap
 {
 	private static IScene scene;
-	private static PrismCreator creator;
+	private static PrismDrawer drawer;
 
 	public static void main(String[] args)
 	{
@@ -18,9 +18,9 @@ public class PrismClientBootstrap
 
 		// create scene and client
 		scene = new PrismSceneLWJGL();
-		creator = new PrismCreator(scene);
+		drawer = new PrismDrawer(scene);
 
 		// start creator
-		creator.start();
+		drawer.start();
 	}
 }

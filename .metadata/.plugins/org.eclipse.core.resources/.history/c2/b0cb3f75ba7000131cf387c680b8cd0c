@@ -1,0 +1,8 @@
+package xoric.prism.creator.drawer;
+
+import java.awt.Image;
+
+public class DrawerModel
+{
+	private Image image;
+}

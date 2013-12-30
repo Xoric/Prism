@@ -1,0 +1,37 @@
+package xoric.prism.creator.drawer;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+
+import xoric.prism.scene.IScene;
+import xoric.prism.swing.PrismFrame;
+
+public class PrismDrawer extends PrismFrame
+{
+	private static final long serialVersionUID = 1L;
+
+	private IScene scene;
+	private DrawerModel model;
+
+	public PrismDrawer(IScene scene)
+	{
+		super("Prism Drawer", 640, 480, true);
+
+		this.scene = scene;
+		this.model = new DrawerModel();
+
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		JMenu mnModel = new JMenu("Model");
+		menuBar.add(mnModel);
+
+		JMenu mnAnimation = new JMenu("Animation");
+		menuBar.add(mnAnimation);
+	}
+
+	public void start()
+	{
+		setVisible(true);
+	}
+}
