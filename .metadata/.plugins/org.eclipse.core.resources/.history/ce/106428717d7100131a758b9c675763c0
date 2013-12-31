@@ -1,0 +1,97 @@
+package xoric.prism.creator.drawer;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
+import xoric.prism.scene.IScene;
+import xoric.prism.swing.PrismFrame;
+
+public class PrismDrawer extends PrismFrame implements ActionListener
+{
+	private static final long serialVersionUID = 1L;
+
+	private IScene scene;
+	private DrawerModel model;
+
+	private JMenu mnModel;
+	private JMenuItem mntmNewModel;
+	private JMenuItem mntmOpenModel;
+	private JMenuItem mntmSaveModel;
+	private JMenuItem mntmExit;
+
+	private JMenu mnAnimation;
+	private JMenu mnNewAnimation;
+	private JMenu mnSelectAnimation;
+	private JMenu mnRemoveAnimation;
+
+	public PrismDrawer(IScene scene)
+	{
+		super("Prism Drawer", 640, 480, true);
+
+		this.scene = scene;
+		this.model = new DrawerModel();
+
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		// model menu
+		mnModel = new JMenu("Model");
+		menuBar.add(mnModel);
+
+		mntmNewModel = createMenuItem(mnModel, "New");
+		mnModel.addSeparator();
+
+		mntmOpenModel = createMenuItem(mnModel, "Open");
+		mntmSaveModel = createMenuItem(mnModel, "Save as");
+		mnModel.addSeparator();
+
+		mntmExit = createMenuItem(mnModel, "Exit");
+
+		// animation menu
+		JMenu mnAnimation = new JMenu("Animation");
+		menuBar.add(mnAnimation);
+
+		mnNewAnimation = new JMenu("New");
+		mnSelectAnimation = new JMenu("Select");
+		mnAnimation.add(mnSelectAnimation);
+
+		JMenu mnRemoveAnimation = new JMenu("Remove");
+		mnAnimation.add(mnRemoveAnimation);
+	}
+
+	private JMenuItem createMenuItem(JMenu parentMenu, String text)
+	{
+		JMenuItem m = new JMenuItem(text);
+		if (parentMenu != null)
+			parentMenu.add(m);
+		m.addActionListener(this);
+
+		return m;
+	}
+
+	private JMenu createMenu(JMenu parentMenu, String text)
+	{
+		JMenu m = new JMenu(text);
+		if (parentMenu != null)
+			parentMenu.add(m);
+		m.addActionListener(this);
+
+		return m;
+	}
+
+	public void start()
+	{
+		setVisible(true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0)
+	{
+		// TODO Auto-generated method stub
+
+	}
+}

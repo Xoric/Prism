@@ -1,0 +1,29 @@
+package xoric.prism.creator.drawer;
+
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+
+import xoric.prism.data.Point;
+import xoric.prism.data.Text;
+import xoric.prism.swing.input.PointInput;
+import xoric.prism.swing.input.TextInput;
+
+class ModelTable extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+
+	private TextInput nameInput;
+	private PointInput tileSizeInput;
+
+	public ModelTable()
+	{
+		BoxLayout b = new BoxLayout(this, BoxLayout.Y_AXIS);
+		setLayout(b);
+
+		nameInput = new TextInput("Name", "Please enter a new name for this model.", new Text("New Model"));
+		tileSizeInput = new PointInput("Tile size", "Width", "Height", "Please enter a new tile size", new Point(20, 14));
+
+		add(nameInput);
+		add(tileSizeInput);
+	}
+}

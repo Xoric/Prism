@@ -1,0 +1,47 @@
+package xoric.prism.swing.input;
+
+import java.awt.Point;
+
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+public class SizeInput extends ValueInput
+{
+	private static final long serialVersionUID = 1L;
+
+	private Point size;
+
+	public SizeInput(String name, Point size)
+	{
+		super(name);
+
+		this.size = size;
+
+		updateValueDisplay();
+	}
+
+	@Override
+	protected void requestEdit()
+	{
+		JTextField widthField = new JTextField();
+		JTextField heightField = new JTextField();
+		Object[] message = { "Width", widthField, "Height", heightField };
+
+		JOptionPane pane = new JOptionPane(message, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+		pane.createDialog(null, name).setVisible(true);
+
+		int w = widthField.getText()
+		
+		if (t.length() > 0)
+		{
+			value = t;
+			updateValueDisplay();
+		}
+	}
+
+	@Override
+	protected String getValueText()
+	{
+		return size.x + " x " + size.y;
+	}
+}

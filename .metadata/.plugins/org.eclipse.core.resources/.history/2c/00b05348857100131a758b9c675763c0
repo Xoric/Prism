@@ -1,0 +1,22 @@
+package xoric.prism.creator.drawer;
+
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
+import xoric.prism.swing.input.ValueInput;
+
+class ModelTable extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+
+	private ValueInput nameInput;
+	private JTextArea editPanel;
+
+	public ModelTable()
+	{
+		//		nameInput = new StringInput();
+		editPanel = new JTextArea();
+
+		add(editPanel);
+	}
+}

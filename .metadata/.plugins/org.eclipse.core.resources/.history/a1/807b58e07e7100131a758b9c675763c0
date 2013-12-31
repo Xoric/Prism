@@ -1,0 +1,8 @@
+package xoric.prism.creator.drawer;
+
+import javax.swing.JPanel;
+
+class ModelPanel extends JPanel
+{
+
+}

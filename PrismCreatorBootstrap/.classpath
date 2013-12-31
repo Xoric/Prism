@@ -5,6 +5,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismSceneLWJGL"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismSceneBase"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismData"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/PrismDrawer"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PrismCreator"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

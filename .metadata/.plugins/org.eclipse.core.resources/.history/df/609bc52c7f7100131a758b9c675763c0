@@ -1,0 +1,9 @@
+package xoric.prism.creator.drawer;
+
+import javax.swing.JPanel;
+
+class ModelPanel extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+
+}

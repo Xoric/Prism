@@ -1,9 +1,0 @@
-package xoric.prism.develop.meta;
-
-import java.util.List;
-
-public class MetaTextLine
-{
-	private final String key;
-	private final List<String> values;
-}

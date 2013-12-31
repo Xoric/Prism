@@ -1,0 +1,16 @@
+package xoric.prism.creator.drawer;
+
+import javax.swing.JPanel;
+import javax.swing.JTable;
+
+class ModelPanel extends JPanel
+{
+	public ModelPanel() {
+		
+		table = new JTable();
+		add(table);
+	}
+	private static final long serialVersionUID = 1L;
+	private JTable table;
+
+}

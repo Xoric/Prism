@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="xoric.prism.server.actors.ServerActorID"/>
-<fullyQualifiedTypeName name="xoric.prism.data.IIntRect_r"/>
-<fullyQualifiedTypeName name="java.awt.Dimension"/>
-<fullyQualifiedTypeName name="com.jogamp.opengl.swt.GLCanvas"/>
-<fullyQualifiedTypeName name="javax.swing.JFrame"/>
-<fullyQualifiedTypeName name="org.lwjgl.opengl.DisplayMode"/>
-<fullyQualifiedTypeName name="org.lwjgl.input.Keyboard"/>
-<fullyQualifiedTypeName name="java.awt.List"/>
-<fullyQualifiedTypeName name="java.util.Timer"/>
 <fullyQualifiedTypeName name="java.util.TimerTask"/>
 <fullyQualifiedTypeName name="xoric.prism.client.main.PrismClient"/>
 <fullyQualifiedTypeName name="xoric.prism.scene.ISceneListener"/>
@@ -51,10 +42,22 @@
 <fullyQualifiedTypeName name="xoric.prism.data.Booleans"/>
 <fullyQualifiedTypeName name="xoric.prism.world.movement.View8"/>
 <fullyQualifiedTypeName name="xoric.prism.world.map.Tile"/>
-<fullyQualifiedTypeName name="xoric.prism.data.Text"/>
 <fullyQualifiedTypeName name="xoric.prism.world.entities.Movable"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="xoric.prism.data.IntPacker"/>
+<fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
+<fullyQualifiedTypeName name="javax.swing.table.DefaultTableModel"/>
+<fullyQualifiedTypeName name="javax.swing.JLabel"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="org.w3c.dom.Text"/>
+<fullyQualifiedTypeName name="xoric.prism.data.Text"/>
+<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
+<fullyQualifiedTypeName name="javax.swing.BorderFactory"/>
+<fullyQualifiedTypeName name="javax.swing.border.Border"/>
+<fullyQualifiedTypeName name="javax.swing.SwingConstants"/>
+<fullyQualifiedTypeName name="javax.swing.border.BevelBorder"/>
+<fullyQualifiedTypeName name="java.awt.Paint"/>
+<fullyQualifiedTypeName name="java.awt.Point"/>
 <fullyQualifiedTypeName name="xoric.prism.data.Point"/>
 </qualifiedTypeNameHistroy>

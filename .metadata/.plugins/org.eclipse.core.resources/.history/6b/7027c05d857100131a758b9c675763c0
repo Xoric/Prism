@@ -1,0 +1,19 @@
+package xoric.prism.creator.drawer;
+
+import javax.swing.JPanel;
+
+import xoric.prism.swing.input.TextInput;
+
+class ModelTable extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+
+	private TextInput nameInput;
+
+	public ModelTable()
+	{
+		nameInput = new TextInput("Name");
+
+		add(nameInput);
+	}
+}
