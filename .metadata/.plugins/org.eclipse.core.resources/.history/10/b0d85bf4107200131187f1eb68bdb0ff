@@ -36,7 +36,6 @@ public abstract class ValueInput extends JPanel implements ActionListener
 	{
 		this.name = name;
 		this.prompt = "Enter " + name.toLowerCase();
-		this.unitSuffix = "";
 
 		Dimension nameSize = new Dimension(60, 24);
 		Dimension valueSize = new Dimension(140, 24);
@@ -92,7 +91,7 @@ public abstract class ValueInput extends JPanel implements ActionListener
 
 	public void setUnit(String unit)
 	{
-		unitSuffix = unit.length() == 0 ? "" : " " + unit;
+		this.unitSuffix = unit.length() == 0 ? "" :  " " + unit;
 	}
 
 	private static String splitTooltip(String text, int maxCharsPerLine)
@@ -134,7 +133,7 @@ public abstract class ValueInput extends JPanel implements ActionListener
 
 	protected void updateValueDisplay()
 	{
-		valuePane.setText(getValueText() + unitSuffix);
+		valuePane.setText(getValueText());
 	}
 
 	@Override

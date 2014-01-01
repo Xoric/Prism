@@ -134,7 +134,7 @@ public abstract class ValueInput extends JPanel implements ActionListener
 
 	protected void updateValueDisplay()
 	{
-		valuePane.setText(getValueText() + unitSuffix);
+		valuePane.setText( getValueText() + unitSuffix );
 	}
 
 	@Override

@@ -92,7 +92,7 @@ public abstract class ValueInput extends JPanel implements ActionListener
 
 	public void setUnit(String unit)
 	{
-		unitSuffix = unit.length() == 0 ? "" : " " + unit;
+		this.unitSuffix = unit.length() == 0 ? "" : " " + unit;
 	}
 
 	private static String splitTooltip(String text, int maxCharsPerLine)
