@@ -30,7 +30,7 @@ class ModelTable extends JPanel
 		tileSizeInput.setValue(new Point(20, 14));
 		tileSizeInput.setLabels("Width", "Height");
 		tileSizeInput.setPrompt("Please enter a new tile size.");
-		tileSizeInput.setToolTipText("Size of one animation tile. This is the width and height of one sprite in the image.");
+		tileSizeInput.setToolTipText("Size of one animation tile. This is the width and height per sprite in the model's images.");
 
 		add(nameInput);
 		add(tileSizeInput);
