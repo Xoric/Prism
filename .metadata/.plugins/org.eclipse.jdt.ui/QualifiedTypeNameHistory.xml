@@ -51,7 +51,6 @@
 <fullyQualifiedTypeName name="javax.swing.JLabel"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 <fullyQualifiedTypeName name="org.w3c.dom.Text"/>
-<fullyQualifiedTypeName name="xoric.prism.data.Text"/>
 <fullyQualifiedTypeName name="java.awt.BorderLayout"/>
 <fullyQualifiedTypeName name="javax.swing.BorderFactory"/>
 <fullyQualifiedTypeName name="javax.swing.border.Border"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="java.awt.Paint"/>
 <fullyQualifiedTypeName name="java.awt.Point"/>
 <fullyQualifiedTypeName name="xoric.prism.data.Point"/>
+<fullyQualifiedTypeName name="xoric.prism.data.Text"/>
 </qualifiedTypeNameHistroy>

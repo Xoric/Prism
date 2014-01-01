@@ -1,0 +1,29 @@
+package xoric.prism.swing.input;
+
+
+public class CustomInput extends ValueInput
+{
+	private static final long serialVersionUID = 1L;
+
+	public CustomInput(String name)
+	{
+		super(name);
+	}
+
+	@Override
+	protected void requestEdit()
+	{
+		//		String s = JOptionPane.showInputDialog(null, prompt, value.toString());
+
+		//		if (false)
+		//		{
+		//			updateValueDisplay();
+		//		}
+	}
+
+	@Override
+	protected String getValueText()
+	{
+		return "";
+	}
+}

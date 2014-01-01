@@ -14,9 +14,9 @@ public class PointInput extends ValueInput
 	private String xLabel;
 	private String yLabel;
 
-	public PointInput(String name)
+	public PointInput(String name, IValueInputListener listener)
 	{
-		super(name);
+		super(name, listener);
 
 		this.xLabel = "X";
 		this.yLabel = "Y";
@@ -33,7 +33,7 @@ public class PointInput extends ValueInput
 	public void setValue(Point value)
 	{
 		this.value = value;
-		updateValueDisplay();
+		valueChanged(false);
 	}
 
 	private static int castInt(String s)
@@ -68,7 +68,7 @@ public class PointInput extends ValueInput
 		{
 			value.x = w;
 			value.y = h;
-			updateValueDisplay();
+			valueChanged(true);
 		}
 	}
 

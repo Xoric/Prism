@@ -10,15 +10,15 @@ public class IntInput extends ValueInput
 
 	private int value;
 
-	public IntInput(String name)
+	public IntInput(String name, IValueInputListener listener)
 	{
-		super(name);
+		super(name, listener);
 	}
 
 	public void setValue(int value)
 	{
 		this.value = value;
-		updateValueDisplay();
+		valueChanged(false);
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class IntInput extends ValueInput
 		if (v >= 0)
 		{
 			value = v;
-			updateValueDisplay();
+			valueChanged(true);
 		}
 	}
 

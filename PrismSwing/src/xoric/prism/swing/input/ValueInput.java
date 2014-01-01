@@ -31,12 +31,14 @@ public abstract class ValueInput extends JPanel implements ActionListener
 	protected final String name;
 	protected String prompt;
 	protected String unitSuffix;
+	private IValueInputListener listener;
 
-	public ValueInput(String name)
+	public ValueInput(String name, IValueInputListener listener)
 	{
 		this.name = name;
 		this.prompt = "Enter " + name.toLowerCase();
 		this.unitSuffix = "";
+		this.listener = listener;
 
 		Dimension nameSize = new Dimension(60, 24);
 		Dimension valueSize = new Dimension(140, 24);
@@ -83,6 +85,16 @@ public abstract class ValueInput extends JPanel implements ActionListener
 		Dimension totalSize = new Dimension(nameSize.width + valueSize.width + 120, nameSize.height + 13);
 		setPreferredSize(totalSize);
 		setMaximumSize(totalSize);
+	}
+
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+		super.setEnabled(enabled);
+
+		nameLabel.setEnabled(enabled);
+		valuePane.setEnabled(enabled);
+		editButton.setEnabled(enabled);
 	}
 
 	public void setPrompt(String prompt)
@@ -132,9 +144,12 @@ public abstract class ValueInput extends JPanel implements ActionListener
 
 	protected abstract String getValueText();
 
-	protected void updateValueDisplay()
+	protected void valueChanged(boolean notifyListener)
 	{
 		valuePane.setText(getValueText() + unitSuffix);
+
+		if (listener != null)
+			listener.notifyValueChanged();
 	}
 
 	@Override

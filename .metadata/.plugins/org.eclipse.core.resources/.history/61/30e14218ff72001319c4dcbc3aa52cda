@@ -1,0 +1,30 @@
+package xoric.prism.creator.drawer;
+
+import xoric.prism.swing.input.ValueInput;
+
+public class AnimationInput extends ValueInput
+{
+	private static final long serialVersionUID = 1L;
+
+	public AnimationInput(String name)
+	{
+		super(name);
+	}
+
+	@Override
+	protected void requestEdit()
+	{
+		//		String s = JOptionPane.showInputDialog(null, prompt, value.toString());
+
+		//		if (false)
+		//		{
+		//			updateValueDisplay();
+		//		}
+	}
+
+	@Override
+	protected String getValueText()
+	{
+		return "N/A";
+	}
+}
