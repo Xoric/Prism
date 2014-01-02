@@ -1,0 +1,7 @@
+package xoric.prism.data.global;
+
+public abstract class Global
+{
+	public static IPrismGlobal instance ;
+
+}

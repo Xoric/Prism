@@ -1,24 +1,23 @@
 package xoric.prism.develop.li;
 
-import java.io.File;
-
-import xoric.prism.common.Common;
-import xoric.prism.data.AttachmentHeader;
-import xoric.prism.exceptions.PrismMetaFileException;
-import xoric.prism.meta.AttachmentLoader;
-import xoric.prism.meta.MetaFile;
+import xoric.prism.data.exceptions.PrismMetaFileException;
+import xoric.prism.data.meta.AttachmentHeader;
+import xoric.prism.data.meta.AttachmentLoader;
+import xoric.prism.data.meta.MetaFile;
+import xoric.prism.data.tools.Common;
+import xoric.prism.data.types.Path;
 
 public class MetaFilePrinter
 {
 	private static final String INDENT = "\t";
 
-	private static void printFile(File file)
+	private static void printFile(Path path, String filename)
 	{
 		// print name
-		System.out.println(file.getName().toString());
+		System.out.println(filename);
 
 		// open MetaFile
-		MetaFile f = new MetaFile(file);
+		MetaFile f = new MetaFile(path, filename);
 		try
 		{
 			f.load();
@@ -54,10 +53,10 @@ public class MetaFilePrinter
 
 	public static void main(String[] args)
 	{
-		if (args.length > 0)
+		if (args.length == 2)
 		{
-			File f = new File(args[0]);
-			printFile(f);
+			Path path = new Path(args[0]);
+			printFile(path, args[1]);
 		}
 	}
 }

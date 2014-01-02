@@ -1,0 +1,15 @@
+package xoric.prism.common;
+
+import java.io.File;
+
+public interface IPath_r
+{
+	public File getFile(String filename);
+
+	public boolean exists();
+
+	@Override
+	public String toString();
+
+	public boolean createDirectories();
+}

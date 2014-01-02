@@ -1,0 +1,12 @@
+package xoric.prism.data.global;
+
+import xoric.prism.data.types.IPath_r;
+
+public interface IPrismGlobal
+{
+	public static IPrismGlobal instance = null;
+
+	public IPath_r getDataPath();
+
+	public IFileTable_r getFileTable();
+}

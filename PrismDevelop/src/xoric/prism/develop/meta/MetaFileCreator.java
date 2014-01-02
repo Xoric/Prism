@@ -7,25 +7,26 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import xoric.prism.common.Common;
-import xoric.prism.common.Path;
-import xoric.prism.data.AttachmentHeader;
-import xoric.prism.data.Heap;
-import xoric.prism.data.IntPacker;
+import xoric.prism.data.exceptions.PrismDevException;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.meta.AttachmentHeader;
+import xoric.prism.data.meta.AttachmentTable;
+import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.meta.MetaFile;
+import xoric.prism.data.meta.MetaKey;
+import xoric.prism.data.meta.MetaLine;
+import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaType;
+import xoric.prism.data.meta.TimeStamp;
 import xoric.prism.data.modules.ActorID;
 import xoric.prism.data.modules.ErrorCode;
 import xoric.prism.data.modules.ErrorID;
 import xoric.prism.data.modules.IActor;
-import xoric.prism.exceptions.PrismDevException;
-import xoric.prism.exceptions.PrismMetaFileException;
-import xoric.prism.meta.AttachmentTable;
-import xoric.prism.meta.MetaBlock;
-import xoric.prism.meta.MetaFile;
-import xoric.prism.meta.MetaKey;
-import xoric.prism.meta.MetaLine;
-import xoric.prism.meta.MetaList;
-import xoric.prism.meta.MetaType;
-import xoric.prism.meta.TimeStamp;
+import xoric.prism.data.tools.Common;
+import xoric.prism.data.types.Heap;
+import xoric.prism.data.types.IPath_r;
+import xoric.prism.data.types.IntPacker;
+import xoric.prism.data.types.Path;
 
 public class MetaFileCreator implements IActor
 {
@@ -35,8 +36,8 @@ public class MetaFileCreator implements IActor
 	private static final String CHAR_KEY_SPLIT = ":";
 	private static final String CHAR_PARAM_SPLIT = ";";
 
-	private final Path sourcePath;
-	private final Path targetPath;
+	private final IPath_r sourcePath;
+	private final IPath_r targetPath;
 
 	public MetaFileCreator(Path sourcePath, Path targetPath)
 	{
@@ -92,15 +93,16 @@ public class MetaFileCreator implements IActor
 		return t;
 	}
 
-	private int readVersion(File file) throws PrismDevException
+	private int readVersion(IPath_r path, String filename) throws PrismDevException
 	{
 		int version = 0;
+		File file = path.getFile(filename);
 
 		if (file.exists())
 		{
 			try
 			{
-				MetaFile metaFile = new MetaFile(file);
+				MetaFile metaFile = new MetaFile(targetPath, filename);
 				metaFile.load();
 				version = metaFile.getLocalFileVersion();
 			}
@@ -116,7 +118,7 @@ public class MetaFileCreator implements IActor
 		return version;
 	}
 
-	public void create() throws PrismDevException
+	public void create() throws PrismException
 	{
 		// check if path exists
 		if (!sourcePath.exists())
@@ -128,7 +130,7 @@ public class MetaFileCreator implements IActor
 		}
 
 		// check if text file exists
-		File textFile = new File(sourcePath.toString() + "meta.txt");
+		File textFile = sourcePath.getFile("meta.txt");
 		if (!textFile.exists())
 		{
 			ErrorCode c = new ErrorCode(this, ErrorID.FILE_NOT_FOUND);
@@ -219,11 +221,11 @@ public class MetaFileCreator implements IActor
 		// check if a target file is specified
 		MetaBlock developBlock = metaList.findMetaBlock(MetaType.DEVELOP);
 		Heap targetHeap = developBlock.findKey(MetaKey.TARGET);
-		String targetFile = null;
+		String targetFilename = null;
 		if (targetHeap != null && targetHeap.texts.size() == 1)
-			targetFile = targetHeap.texts.get(0).toString().toLowerCase();
+			targetFilename = targetHeap.texts.get(0).toString().toLowerCase();
 
-		if (targetFile == null)
+		if (targetFilename == null)
 		{
 			ErrorCode c = new ErrorCode(this, ErrorID.META_LINE_MISSING);
 			PrismDevException e = new PrismDevException(c);
@@ -231,9 +233,6 @@ public class MetaFileCreator implements IActor
 			e.appendInfo("missing line", MetaKey.TARGET.toString());
 			throw e;
 		}
-
-		// append target path to target file
-		targetFile = targetPath + targetFile;
 
 		// gather attachments
 		List<MetaLine> attachmentLines = developBlock.findLines(MetaKey.ATTACH);
@@ -247,9 +246,11 @@ public class MetaFileCreator implements IActor
 			for (int i = 0; i < attachmentCount; ++i)
 			{
 				MetaLine l = attachmentLines.get(i);
-				File file = null;
+				String filename = null;
 				if (l.getHeap().texts.size() > 0)
-					file = new File(sourcePath.toString() + l.getHeap().texts.get(0).toString().toLowerCase());
+					filename = l.getHeap().texts.get(0).toString().toLowerCase();
+
+				File file = filename == null ? null : sourcePath.getFile(filename);
 
 				if (file == null || !file.exists())
 				{
@@ -260,7 +261,7 @@ public class MetaFileCreator implements IActor
 				}
 
 				// insert attachment to table
-				AttachmentImporter a = new AttachmentImporter(file);
+				AttachmentImporter a = new AttachmentImporter(sourcePath, filename);
 				a.importAttachment();
 				AttachmentHeader h = a.createtHeader();
 				table.set(i, h);
@@ -268,12 +269,12 @@ public class MetaFileCreator implements IActor
 		}
 
 		// read current file version
-		File f = new File(targetFile);
-		int currentVersion = readVersion(f);
+		int currentVersion = readVersion(targetPath, targetFilename);
 		int newVersion = currentVersion + 1;
 
 		// create directories
-		File makePath = f.getParentFile();
+		File targetFile = targetPath.getFile(targetFilename);
+		File makePath = targetFile.getParentFile();
 		if (!makePath.isDirectory())
 		{
 			boolean wasPathCreated = makePath.mkdirs();
@@ -330,14 +331,14 @@ public class MetaFileCreator implements IActor
 			ErrorCode c = new ErrorCode(this, ErrorID.WRITE_ERROR);
 			PrismDevException e = new PrismDevException(c);
 			e.appendOriginalException(e0);
-			e.appendInfo("file", targetFile);
+			e.appendInfo("file", targetFilename);
 			throw e;
 		}
 
 		// print to console
 		StringBuffer sb = new StringBuffer();
-		sb.append("MetaFile written: " + f.getPath() + " | size: " + Common.getFileSize(f.length()) + " | version: " + newVersion + " | "
-				+ timeStamp.toString() + " | blocks: ");
+		sb.append("MetaFile written: " + targetFile.getPath() + " | size: " + Common.getFileSize(targetFile.length()) + " | version: "
+				+ newVersion + " | " + timeStamp.toString() + " | blocks: ");
 		for (int i = 0; i < metaList.getBlockCount(); ++i)
 		{
 			MetaBlock block = metaList.getMetaBlock(i);
@@ -350,9 +351,9 @@ public class MetaFileCreator implements IActor
 		System.out.println(sb.toString());
 	}
 
-	private static void createMetaFile()
+	private static void createMetaFile(String sourceDir)
 	{
-		Path sourcePath = new Path("E:/Prism/resource/shader/default");
+		Path sourcePath = new Path(sourceDir);
 		Path targetPath = new Path("E:/Prism/data");
 
 		MetaFileCreator f = new MetaFileCreator(sourcePath, targetPath);
@@ -367,34 +368,12 @@ public class MetaFileCreator implements IActor
 		}
 	}
 
-	private static void readMetaFile()
-	{
-		File file = new File("E:/Prism/data/shader/default.sh");
-		MetaFile f = new MetaFile(file);
-		try
-		{
-			f.load();
-
-			System.out.println("loaded MetaFile");
-			System.out.println("  version: " + f.getLocalFileVersion());
-			int n = f.getAttachmentLoader().getAttachmentCount();
-
-			for (int i = 0; i < n; ++i)
-				System.out.println("  attachment[" + i + "]: " + Common.getFileSize(f.getAttachmentLoader().get(i).getContentSize()));
-		}
-		catch (PrismMetaFileException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	public static void main(String[] args)
 	{
 		//		readMetaFile();
 		try
 		{
-			createMetaFile();
+			createMetaFile("E:/Prism/resource/common/anim-descriptions");
 		}
 		catch (Exception e)
 		{

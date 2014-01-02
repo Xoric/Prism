@@ -1,0 +1,74 @@
+package xoric.prism.exceptions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import xoric.prism.data.modules.ErrorCode;
+
+public class PrismException extends Exception
+{
+	private static final long serialVersionUID = 1L;
+
+	private ErrorCode errorCode;
+
+	private final List<InfoPair> infoPairs;
+	private final List<String> infoLines;
+
+	public PrismException(ErrorCode errorCode)
+	{
+		this.errorCode = errorCode;
+
+		this.infoPairs = new ArrayList<InfoPair>();
+		this.infoLines = new ArrayList<String>();
+
+		appendInfo("module", errorCode.getModuleID().toString());
+		appendInfo("actor", errorCode.getActorID().toString());
+		appendInfo("error", errorCode.getErrorID().toString());
+	}
+
+	public ErrorCode getErrorCode()
+	{
+		return errorCode;
+	}
+
+	public final void appendOriginalException(Exception e)
+	{
+		appendInfo(e.toString());
+	}
+
+	public final void appendInfo(String value)
+	{
+		infoLines.add(value);
+	}
+
+	public final void appendInfo(String key, String value)
+	{
+		InfoPair p = new InfoPair(key, value);
+		infoPairs.add(p);
+	}
+
+	public final void appendExpectedInfo(String error, int expected, int found)
+	{
+		String l = error + " (" + expected + " expected, " + found + " found)";
+		infoLines.add(l);
+	}
+
+	public void showErrorMessage()
+	{
+		StringBuffer sb = new StringBuffer("<html>");
+
+		sb.append(errorCode.toHexString() + "<br>");
+		sb.append("<b>Module:</b> " + errorCode.getModuleID() + "<br>");
+		sb.append("<b>Actor:</b> " + errorCode.getActorID() + "<br>");
+		sb.append("<b>Error:</b> " + errorCode.getErrorID() + "<br>");
+		sb.append( "<br>");
+
+		sb.append("</html>");
+	}
+
+	@Override
+	public final String toString()
+	{
+		return super.toString() + " (0X" + errorCode.toHexString() + ")";
+	}
+}

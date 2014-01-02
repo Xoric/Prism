@@ -6,5 +6,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismSceneBase"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismData"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismCreator"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PrismGlobal"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PrismWorld"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

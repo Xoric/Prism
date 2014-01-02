@@ -1,7 +1,7 @@
 package xoric.prism.world.map;
 
-import xoric.prism.data.Point;
 import xoric.prism.data.physics.View8;
+import xoric.prism.data.types.Point;
 import xoric.prism.world.map.routing.Edge;
 import xoric.prism.world.movement.MoveCaps;
 

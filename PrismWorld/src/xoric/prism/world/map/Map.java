@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import xoric.prism.data.IPackable;
-import xoric.prism.data.IPoint_r;
-import xoric.prism.data.Point;
+import xoric.prism.data.types.IPackable;
+import xoric.prism.data.types.IPoint_r;
+import xoric.prism.data.types.Point;
 
 public class Map implements IPackable
 {

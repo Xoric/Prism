@@ -33,7 +33,7 @@ public abstract class ValueInput extends JPanel implements ActionListener
 	protected String unitSuffix;
 	private IValueInputListener listener;
 
-	public ValueInput(String name, IValueInputListener listener)
+	public ValueInput(String name, int width, IValueInputListener listener)
 	{
 		this.name = name;
 		this.prompt = "Enter " + name.toLowerCase();
@@ -79,10 +79,16 @@ public abstract class ValueInput extends JPanel implements ActionListener
 		p.add(editButton);
 		p.setBorder(BorderFactory.createEtchedBorder());
 
+		//		this.setLayout(new FlowLayout(FlowLayout.TRAILING, 2, 2));
+		//		add(nameLabel);
+		//		add(valuePane);
+		//		add(editButton);
+		//		setBorder(BorderFactory.createEtchedBorder());
+
 		add(BorderLayout.CENTER, p);
 		//		add(BorderLayout.EAST, editButton);
 
-		Dimension totalSize = new Dimension(nameSize.width + valueSize.width + 120, nameSize.height + 13);
+		Dimension totalSize = new Dimension(width, nameSize.height + 13);
 		setPreferredSize(totalSize);
 		setMaximumSize(totalSize);
 	}

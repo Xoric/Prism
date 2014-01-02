@@ -11,7 +11,7 @@ import org.lwjgl.opengl.ARBFragmentShader;
 import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.ARBVertexShader;
 
-import xoric.prism.data.Point;
+import xoric.prism.data.types.Point;
 
 @Deprecated
 public abstract class ShaderIO

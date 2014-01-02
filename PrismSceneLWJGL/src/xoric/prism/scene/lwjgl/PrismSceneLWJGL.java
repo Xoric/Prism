@@ -12,7 +12,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
-import xoric.prism.data.IFloatPoint_r;
+import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.scene.IRenderer;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;

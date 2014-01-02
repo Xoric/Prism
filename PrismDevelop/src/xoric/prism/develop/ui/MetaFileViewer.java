@@ -1,7 +1,6 @@
 package xoric.prism.develop.ui;
 
 import java.awt.BorderLayout;
-import java.io.File;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -10,12 +9,13 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import xoric.prism.common.Common;
-import xoric.prism.data.AttachmentHeader;
-import xoric.prism.exceptions.PrismMetaFileException;
-import xoric.prism.meta.AttachmentLoader;
-import xoric.prism.meta.MetaFile;
-import xoric.prism.meta.TimeStamp;
+import xoric.prism.data.exceptions.PrismMetaFileException;
+import xoric.prism.data.meta.AttachmentHeader;
+import xoric.prism.data.meta.AttachmentLoader;
+import xoric.prism.data.meta.MetaFile;
+import xoric.prism.data.meta.TimeStamp;
+import xoric.prism.data.tools.Common;
+import xoric.prism.data.types.Path;
 import xoric.prism.swing.PrismFrame;
 
 public class MetaFileViewer extends PrismFrame
@@ -55,16 +55,16 @@ public class MetaFileViewer extends PrismFrame
 		d.setVisible(true);
 	}
 
-	public void openMetaFile(File file) throws PrismMetaFileException
+	public void openMetaFile(Path path, String filename) throws PrismMetaFileException
 	{
-		MetaFile f = new MetaFile(file);
+		MetaFile f = new MetaFile(path, filename);
 		f.load();
 
 		int version = f.getLocalFileVersion();
 		TimeStamp t = f.getTimeStamp();
 
 		StringBuffer sb = new StringBuffer();
-		sb.append("<html><b>" + file.getName() + "</b><br>");
+		sb.append("<html><b>" + filename + "</b><br>");
 		sb.append("version: " + version + "<br>");
 		sb.append("timeStamp: " + t + "<br>");
 		sb.append("</html>");
@@ -99,7 +99,9 @@ public class MetaFileViewer extends PrismFrame
 		try
 		{
 			MetaFileViewer v = new MetaFileViewer();
-			v.openMetaFile(new File("E:/Prism/data/shader/default.sh"));
+
+			Path path = new Path("E:/Prism/data");
+			v.openMetaFile(path, "shader/default.sh");
 			v.setVisible(true);
 		}
 		catch (Exception e0)

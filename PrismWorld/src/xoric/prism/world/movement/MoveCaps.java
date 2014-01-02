@@ -3,7 +3,7 @@ package xoric.prism.world.movement;
 import java.util.ArrayList;
 import java.util.List;
 
-import xoric.prism.data.Booleans;
+import xoric.prism.data.types.Booleans;
 
 /**
  * @author XoricLee

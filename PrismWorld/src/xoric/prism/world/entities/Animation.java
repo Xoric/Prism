@@ -1,5 +1,9 @@
 package xoric.prism.world.entities;
 
+import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.meta.MetaLine;
+import xoric.prism.data.types.Heap;
+
 /**
  * First eight values are equivalent to {@link move.MoveType}.
  * @author XoricLee
@@ -18,16 +22,18 @@ public enum Animation
 	SNEAK(true),
 
 	// variable animations
-	IDLE(true, 1.5f),
-	JUMP_UP(false, 0.3f),
-	JUMP_DOWN(false, 0.3f),
-	DROP_DOWN(false, 0.3f),
+	IDLE(true),
+	IDLE_SWIM(true),
+	IDLE_FLY(true),
+	JUMP_UP(false),
+	JUMP_DOWN(false),
+	DROP_DOWN(false),
 	DROP_LOOP(true),
-	STAND_UP(false, 0.6f),
+	STAND_UP(false),
 	STUN(true),
 	SIT_DOWN(false),
 	SIT_LOOP(true),
-	ALERT(false, 0.7f),
+	ALERT(false),
 	CAST_TARGET(false),
 	CAST_OMNI(false),
 	DIE_DOWN(false),
@@ -39,9 +45,7 @@ public enum Animation
 	SNEAK_DOWN(false),
 	SNEAK_IDLE(true);
 
-	// static code
-	public static final Animation[] VALUES = values();
-	public static final int COUNT = VALUES.length;
+	public static final int COUNT = values().length;
 
 	static
 	{
@@ -62,33 +66,19 @@ public enum Animation
 	}
 
 	// Animation class
-	private Animation substitute;
 	private final boolean loop;
-	private final float defaultDuration;
-	private final int defaultDurationMs;
-
-	private Animation(boolean loop, float defaultDuration)
-	{
-		this.loop = loop;
-		this.defaultDuration = defaultDuration;
-		this.defaultDurationMs = (int) (1000.0f * defaultDuration);
-	}
+	private Animation substitute;
+	private String description;
 
 	private Animation(boolean loop)
 	{
 		this.loop = loop;
-		this.defaultDuration = 1.0f;
-		this.defaultDurationMs = (int) (1000.0f * defaultDuration);
+		this.description = "";
 	}
 
-	public float getDefaultDuration()
+	public String getDescription()
 	{
-		return defaultDuration;
-	}
-
-	public int getDefaultDurationMs()
-	{
-		return defaultDurationMs;
+		return description;
 	}
 
 	public boolean isLoop()
@@ -104,5 +94,35 @@ public enum Animation
 	private void setSubstitute(Animation substitute)
 	{
 		this.substitute = substitute;
+	}
+
+	private static boolean loadDescription(Heap h)
+	{
+		boolean isOK;
+		try
+		{
+			String s = h.texts.get(0).toString();
+			Animation a = valueOf(s);
+			a.description = h.texts.get(1).toString();
+			isOK = true;
+		}
+		catch (Exception e)
+		{
+			isOK = false;
+		}
+		return isOK;
+	}
+
+	public static boolean loadDescriptions(MetaBlock metaBlock)
+	{
+		boolean isOK = true;
+
+		for (MetaLine metaLine : metaBlock.getMetaLines())
+		{
+			Heap h = metaLine.getHeap();
+			if (h.texts.size() == 2)
+				isOK &= loadDescription(h);
+		}
+		return isOK;
 	}
 }

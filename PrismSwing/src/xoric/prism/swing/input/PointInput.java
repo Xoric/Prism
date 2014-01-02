@@ -3,7 +3,7 @@ package xoric.prism.swing.input;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import xoric.prism.data.Point;
+import xoric.prism.data.types.Point;
 
 public class PointInput extends ValueInput
 {
@@ -14,9 +14,9 @@ public class PointInput extends ValueInput
 	private String xLabel;
 	private String yLabel;
 
-	public PointInput(String name, IValueInputListener listener)
+	public PointInput(String name, int width, IValueInputListener listener)
 	{
-		super(name, listener);
+		super(name, width, listener);
 
 		this.xLabel = "X";
 		this.yLabel = "Y";

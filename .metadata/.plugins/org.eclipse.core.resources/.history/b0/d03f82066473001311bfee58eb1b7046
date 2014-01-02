@@ -1,0 +1,82 @@
+package xoric.prism.global;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions.PrismMetaFileException;
+import xoric.prism.data.global.IFileTableEntry_r;
+import xoric.prism.data.global.IFileTable_r;
+import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.meta.MetaFile;
+import xoric.prism.data.meta.MetaKey;
+import xoric.prism.data.meta.MetaLine;
+import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaType;
+import xoric.prism.data.modules.ActorID;
+import xoric.prism.data.modules.ErrorCode;
+import xoric.prism.data.modules.ErrorID;
+import xoric.prism.data.modules.ModuleID;
+import xoric.prism.data.types.Path;
+
+public class FileTable implements IFileTable_r
+{
+	public static final int TOC = 0;
+	public static final int ANIM_DESCRIPTIONS = 1;
+
+	private final Path dataPath;
+	private final List<FileTableEntry> list;
+
+	public FileTable(Path dataPath)
+	{
+		this.dataPath = dataPath;
+		this.list = new ArrayList<FileTableEntry>();
+	}
+
+	public void load(File file) throws PrismException
+	{
+		String filename = "common/toc.meta";
+		MetaFile f = new MetaFile(filename);
+		f.load();
+		MetaList metaList = f.getMetaList();
+		MetaBlock metaBlock = metaList.findMetaBlock(MetaType.TOC);
+
+		FileTable fileTable = new FileTable();
+
+		for (MetaLine l : metaBlock.getMetaLines())
+		{
+			if (l.getKey() == MetaKey.ITEM && l.getHeap().texts.size() == 1)
+			{
+				FileTableEntry e = new FileTableEntry(dataPath, l.getHeap().texts.get(0).toString().toLowerCase());
+				list.add(e);
+			}
+			else
+			{
+				ErrorCode c = new ErrorCode(ModuleID.GLOBAL, ActorID.GENERIC, ErrorID.CORRUPT_LINE);
+				PrismMetaFileException e = new PrismMetaFileException(c, filename);
+				e.appendInfo("line", l.toString());
+				throw e;
+			}
+		}
+	}
+
+	@Override
+	public int getCount()
+	{
+		return list.size();
+	}
+
+	@Override
+	public IFileTableEntry_r getEntry(int index) throws PrismException
+	{
+		if (index < 0 || index >= list.size())
+		{
+			ErrorCode c = new ErrorCode(ModuleID.GLOBAL, ActorID.GENERIC, ErrorID.INVALID_INDEX);
+			PrismException e = new PrismException(c);
+			e.appendInfo("index", String.valueOf(index));
+			e.appendInfo("max", String.valueOf(list.size()));
+		}
+		return list.get(index);
+	}
+}

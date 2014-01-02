@@ -5,7 +5,7 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import xoric.prism.data.IRect_r;
+import xoric.prism.data.types.IRect_r;
 
 public class PrismFrame extends JFrame
 {

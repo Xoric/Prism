@@ -1,0 +1,28 @@
+package xoric.prism.common.loader;
+
+import java.io.File;
+
+import xoric.prism.common.Path;
+import xoric.prism.data.modules.ActorID;
+import xoric.prism.data.modules.IActor;
+
+public class PrismLoader implements IActor
+{
+	private final Path dataPath;
+
+	protected PrismLoader(Path dataPath)
+	{
+		this.dataPath = dataPath;
+	}
+
+	protected File getFile(String filename)
+	{
+		return dataPath.getFile(filename);
+	}
+
+	@Override
+	public ActorID getActorID()
+	{
+		return ActorID.LOADER;
+	}
+}

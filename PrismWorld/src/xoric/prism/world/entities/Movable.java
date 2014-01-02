@@ -1,7 +1,7 @@
 package xoric.prism.world.entities;
 
-import xoric.prism.data.IFloatPoint_r;
 import xoric.prism.data.physics.Angle;
+import xoric.prism.data.types.IFloatPoint_r;
 
 public class Movable extends Entity implements IContinuous
 {

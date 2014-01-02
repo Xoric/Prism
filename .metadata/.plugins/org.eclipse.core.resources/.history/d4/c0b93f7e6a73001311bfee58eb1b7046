@@ -1,0 +1,42 @@
+package xoric.prism.world.loader;
+
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions.PrismMetaFileException;
+import xoric.prism.data.global.FileIndex;
+import xoric.prism.data.global.Prism;
+import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.meta.MetaFile;
+import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaType;
+import xoric.prism.data.modules.ActorID;
+import xoric.prism.data.modules.ErrorCode;
+import xoric.prism.data.modules.ErrorID;
+import xoric.prism.world.entities.Animation;
+
+public abstract class PrismWorldLoader
+{
+	public static void loadAll() throws PrismException
+	{
+		loadAnimationDescriptions();
+	}
+
+	private static void loadAnimationDescriptions() throws PrismException
+	{
+		String filename = "common/anim.meta";
+		//		IPath_r data = Prism.global.getDataPath();
+		//		File file = Prism.global.getDataPath().getFile(filename);
+		MetaFile f = Prism.global.getFileTable().loadMetaFile(FileIndex.ANIM);
+		f.load();
+		MetaList metaList = f.getMetaList();
+		MetaBlock metaBlock = metaList.findMetaBlock(MetaType.ANIM_D);
+
+		boolean isOK = Animation.loadDescriptions(metaBlock);
+		if (!isOK)
+		{
+			ErrorCode c = new ErrorCode(ActorID.LOADER, ErrorID.CORRUPT_META_BLOCK);
+			PrismMetaFileException e = new PrismMetaFileException(c, filename);
+			e.appendInfo("block", MetaType.ANIM_D.toString());
+			throw e;
+		}
+	}
+}

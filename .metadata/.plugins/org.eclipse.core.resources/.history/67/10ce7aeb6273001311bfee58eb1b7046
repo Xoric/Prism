@@ -1,0 +1,38 @@
+package xoric.prism.global;
+
+import java.io.File;
+
+import xoric.prism.data.global.IFileTableEntry;
+import xoric.prism.data.meta.MetaFile;
+import xoric.prism.data.types.Path;
+
+public class FileTableEntry implements IFileTableEntry
+{
+	private final File file;
+	private final String filename;
+
+	public FileTableEntry(Path dataPath, String filename)
+	{
+		this.file = dataPath.getFile(filename);
+		this.filename = filename;
+	}
+
+	@Override
+	public File getFile()
+	{
+		return file;
+	}
+
+	@Override
+	public String getFilename()
+	{
+		return filename;
+	}
+
+	@Override
+	public MetaFile loadMetaFile()
+	{
+		MetaFile metaFile = new MetaFile(filename);
+		return null;
+	}
+}

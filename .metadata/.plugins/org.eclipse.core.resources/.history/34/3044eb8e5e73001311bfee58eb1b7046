@@ -1,0 +1,25 @@
+package xoric.prism.common.loader;
+
+import xoric.prism.exceptions.PrismException;
+import xoric.prism.exceptions.PrismMetaFileException;
+import xoric.prism.meta.MetaBlock;
+import xoric.prism.meta.MetaFile;
+import xoric.prism.meta.MetaList;
+import xoric.prism.meta.MetaType;
+
+public class PrismDataLoader
+{
+	public static void loadAll() throws PrismMetaFileException
+	{
+		loadTOC();
+	}
+
+	private static void loadTOC() throws PrismException
+	{
+		String filename = "common/toc.meta";
+		MetaFile f = new MetaFile(filename);
+		f.load();
+		MetaList metaList = f.getMetaList();
+		MetaBlock metaBlock = metaList.findMetaBlock(MetaType.TOC);
+	}
+}

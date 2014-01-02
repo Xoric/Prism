@@ -3,8 +3,8 @@ package xoric.prism.creator.drawer;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-import xoric.prism.data.Point;
-import xoric.prism.data.Text;
+import xoric.prism.data.types.Point;
+import xoric.prism.data.types.Text;
 
 public class DrawerModel
 {

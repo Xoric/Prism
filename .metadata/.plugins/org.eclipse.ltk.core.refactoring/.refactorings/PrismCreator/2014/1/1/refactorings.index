@@ -4,3 +4,5 @@
 1388592632107	Delete element
 1388618110809	Rename method 'updateDisplay'
 1388618914920	Rename method 'askForChanges'
+1388624657833	Rename field 'nameButton'
+1388628062918	Rename field 'width'

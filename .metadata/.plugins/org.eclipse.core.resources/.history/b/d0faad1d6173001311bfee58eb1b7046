@@ -1,0 +1,6 @@
+package xoric.prism.global.modules;
+
+public enum ModuleID
+{
+	GENERIC, SERVER, CLIENT, CREATOR
+}

@@ -3,14 +3,15 @@ package xoric.prism.develop.meta;
 import java.io.File;
 import java.io.FileInputStream;
 
-import xoric.prism.compression.BufferCompressor;
-import xoric.prism.data.AttachmentHeader;
-import xoric.prism.data.Text;
+import xoric.prism.data.compression.BufferCompressor;
+import xoric.prism.data.exceptions.PrismDevException;
+import xoric.prism.data.meta.AttachmentHeader;
 import xoric.prism.data.modules.ActorID;
 import xoric.prism.data.modules.ErrorCode;
 import xoric.prism.data.modules.ErrorID;
 import xoric.prism.data.modules.IActor;
-import xoric.prism.exceptions.PrismDevException;
+import xoric.prism.data.types.IPath_r;
+import xoric.prism.data.types.Text;
 
 class AttachmentImporter implements IActor
 {
@@ -20,9 +21,9 @@ class AttachmentImporter implements IActor
 	private boolean isCompressed;
 	private byte[] content;
 
-	public AttachmentImporter(File file)
+	public AttachmentImporter(IPath_r path, String filename)
 	{
-		this.file = file;
+		this.file = path.getFile(filename);
 	}
 
 	public byte[] getContent()

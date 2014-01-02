@@ -1,0 +1,9 @@
+package xoric.prism.creator.drawer;
+
+public class AnimationList extends JPanel
+{
+public AnimationList()
+{
+	
+}
+}

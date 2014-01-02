@@ -1,6 +1,6 @@
 package xoric.prism.data.physics;
 
-import xoric.prism.data.IFloatPoint_r;
+import xoric.prism.data.types.IFloatPoint_r;
 
 public interface IAngle_r
 {

@@ -1,0 +1,46 @@
+package xoric.prism.creator.drawer;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class AnimationLine extends JPanel implements ActionListener
+{
+	private static final long serialVersionUID = 1L;
+
+	private final JLabel nameLabel;
+	private final JLabel directionsLabel;
+	private final JButton directionsButton;
+	private final JLabel descriptionLabel;
+	private final JButton addButton;
+	private final JButton switchButton;
+	private final JButton deleteButton;
+
+	public AnimationLine(String name)
+	{
+		nameLabel = new JLabel(name);
+		directionsLabel = new JLabel();
+		directionsButton = new JButton();
+		descriptionLabel = new JLabel();
+		addButton = new JButton();
+		switchButton = new JButton();
+		deleteButton = new JButton();
+
+		directionsButton.addActionListener(this);
+		addButton.addActionListener(this);
+		switchButton.addActionListener(this);
+		deleteButton.addActionListener(this);
+	}
+	
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		Object o = e.getSource();
+
+		System.out.println("action triggered by " + o.toString());
+	}
+}

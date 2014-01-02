@@ -1,7 +1,7 @@
 package xoric.prism.scene;
 
-import xoric.prism.data.FloatPoint;
-import xoric.prism.data.IFloatPoint_r;
+import xoric.prism.data.types.FloatPoint;
+import xoric.prism.data.types.IFloatPoint_r;
 
 public interface ICameraTransform
 {

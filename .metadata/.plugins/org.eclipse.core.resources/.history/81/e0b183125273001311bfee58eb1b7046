@@ -1,0 +1,24 @@
+package xoric.prism.creator.drawer;
+
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+
+public class AnimationList extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+
+	public AnimationList(int width)
+	{
+		BoxLayout b = new BoxLayout(this, BoxLayout.Y_AXIS);
+		setLayout(b);
+
+		AnimationLine l = new AnimationLine("Test", width);
+		l.setDescription("Hallo!");
+
+		AnimationLine l2 = new AnimationLine("Zweites", width);
+		l2.setDescription("Beschreibung steht hier");
+
+		add(l);
+		add(l2);
+	}
+}

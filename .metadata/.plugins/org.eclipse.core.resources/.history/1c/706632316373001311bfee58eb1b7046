@@ -1,0 +1,9 @@
+package xoric.prism.data.global;
+
+public interface IFileTable
+{
+	public int getCount();
+
+	public IFileTableEntry getEntry(int index) throws PrismException;
+
+}

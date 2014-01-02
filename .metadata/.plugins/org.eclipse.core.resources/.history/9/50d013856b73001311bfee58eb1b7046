@@ -1,0 +1,15 @@
+package xoric.prism.data.global;
+
+import java.io.File;
+
+import xoric.prism.data.exceptions.PrismMetaFileException;
+import xoric.prism.data.meta.MetaFile;
+
+public interface IFileTableEntry_r
+{
+	public File getFile();
+
+	public String getFilename();
+
+	public MetaFile loadMetaFile() throws PrismMetaFileException;
+}

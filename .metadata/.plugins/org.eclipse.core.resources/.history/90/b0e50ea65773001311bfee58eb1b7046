@@ -1,0 +1,11 @@
+package xoric.prism.common.loader;
+
+import xoric.prism.common.Path;
+
+public class PrismDataLoader extends PrismLoader
+{
+	protected PrismDataLoader(Path dataPath)
+	{
+		super(dataPath);
+	}
+}

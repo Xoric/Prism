@@ -1,0 +1,6 @@
+package xoric.prism.creator.drawer;
+
+public interface IAnimationLine
+{
+	public void setDescription(String d);
+}

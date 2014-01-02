@@ -1,8 +1,8 @@
 package xoric.prism.scene.camera;
 
-import xoric.prism.data.FloatPoint;
-import xoric.prism.data.FloatRect;
-import xoric.prism.data.IFloatPoint_r;
+import xoric.prism.data.types.FloatPoint;
+import xoric.prism.data.types.FloatRect;
+import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.scene.ICameraTransform;
 
 public class Camera extends FloatRect implements ICameraTransform

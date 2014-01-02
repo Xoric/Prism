@@ -3,8 +3,8 @@ package xoric.prism.world.map.routing;
 import java.util.ArrayList;
 import java.util.List;
 
-import xoric.prism.data.IFloatPoint_r;
-import xoric.prism.data.IPoint_r;
+import xoric.prism.data.types.IFloatPoint_r;
+import xoric.prism.data.types.IPoint_r;
 
 /**
  * @author XoricLee

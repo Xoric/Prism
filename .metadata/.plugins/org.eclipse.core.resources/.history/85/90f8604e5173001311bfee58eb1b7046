@@ -1,0 +1,60 @@
+package xoric.prism.creator.drawer;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class AnimationLine extends JPanel implements ActionListener, IAnimationLine
+{
+	private static final long serialVersionUID = 1L;
+	private static final int HEIGHT = 50;
+
+	private final JLabel nameLabel;
+	private final JLabel directionsLabel;
+	private final JButton directionsButton;
+	private final JLabel descriptionLabel;
+	private final JButton addButton;
+	private final JButton switchButton;
+	private final JButton deleteButton;
+
+	public AnimationLine(String name, int width)
+	{
+		Dimension d = new Dimension(width, HEIGHT);
+		setMaximumSize(d);
+
+		nameLabel = new JLabel("<html><b>" + name + "</b></html>");
+		directionsLabel = new JLabel();
+		directionsButton = new JButton();
+		descriptionLabel = new JLabel();
+		addButton = new JButton();
+		switchButton = new JButton();
+		deleteButton = new JButton();
+
+		directionsButton.addActionListener(this);
+		addButton.addActionListener(this);
+		switchButton.addActionListener(this);
+		deleteButton.addActionListener(this);
+
+		this.add(BorderLayout.CENTER, nameLabel);
+		this.add( BorderLayout.SOUTH,descriptionLabe);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		Object o = e.getSource();
+
+		System.out.println("action triggered by " + o.toString());
+	}
+
+	@Override
+	public void setDescription(String d)
+	{
+		descriptionLabel.setText(d);
+	}
+}

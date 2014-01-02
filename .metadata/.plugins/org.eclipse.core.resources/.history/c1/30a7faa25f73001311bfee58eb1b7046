@@ -1,0 +1,7 @@
+package xoric.prism.meta;
+
+public enum MetaType
+{
+	COMMON, TOC, SHADER, DEVELOP, ANIM_D
+	// max index: 255
+}

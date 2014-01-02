@@ -1,65 +1,49 @@
 package xoric.prism.client.bootstrap;
 
 import xoric.prism.client.main.PrismClient;
-import xoric.prism.data.modules.ErrorCode;
+import xoric.prism.data.PrismDataLoader;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.global.Prism;
 import xoric.prism.data.modules.ModuleID;
+import xoric.prism.global.PrismGlobal;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.lwjgl.PrismSceneLWJGL;
+import xoric.prism.world.loader.PrismWorldLoader;
 
 public class PrismClientBootstrap
 {
 	private static IScene scene;
 	private static PrismClient client;
 
-	//	static
-	//	{
-	//		try
-	//		{
-	//			System.load("C:/chilkatJava/chilkat.dll");
-	//		}
-	//		catch (UnsatisfiedLinkError e)
-	//		{
-	//			System.err.println("Native code library failed to load.\n" + e);
-	//			System.exit(1);
-	//		}
-	//	}
-
 	public static void main(String[] args)
 	{
-		// register as default module
-		ErrorCode.defaultModuleID = ModuleID.CLIENT;
-
-		// create scene and client
-		scene = new PrismSceneLWJGL();
-		client = new PrismClient(scene);
-
-		/*
-		MetaFile f = new MetaFile(new File("E:/Temp/Prism/test.tmp"));
-		MetaBlock b = new MetaBlock();
-		MetaLine l = new MetaLine();
-		l.getHeap().ints.add(13);
-		b.addMetaLine(l);
-		f.getMetaList().addMetaBlock(b);
 		try
 		{
-			f.write();
+			// global initialization
+			PrismGlobal.setLookAndFeel();
+			PrismGlobal global = new PrismGlobal(ModuleID.CLIENT);
+			global.load();
+			Prism.global = global;
+
+			// initialize
+			PrismDataLoader.loadAll();
+			PrismWorldLoader.loadAll(false);
+
+			// create scene and client
+			scene = new PrismSceneLWJGL();
+			client = new PrismClient(scene);
+
+			// start client
+			client.start();
 		}
-		catch (PrismMetaFileException e)
+		catch (PrismException e)
+		{
+			e.printStackTrace();
+			e.showErrorMessage();
+		}
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		*/
-		//		MetaFile f = new MetaFile(new File("../debug/test.tmp"));
-		//		try
-		//		{
-		//			f.load();
-		//		}
-		//		catch (PrismMetaFileException e)
-		//		{
-		//			e.printStackTrace();
-		//		}
-
-		// start client
-		client.start();
 	}
 }

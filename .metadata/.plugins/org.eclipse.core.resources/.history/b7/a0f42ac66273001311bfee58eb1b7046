@@ -1,0 +1,27 @@
+package xoric.prism.global;
+
+import java.io.File;
+
+import xoric.prism.data.types.Path;
+
+public class FileTableEntry
+{
+	private final File file;
+	private final String filename;
+
+	public FileTableEntry(Path dataPath, String filename)
+	{
+		this.file = dataPath.getFile(filename);
+		this.filename = filename;
+	}
+
+	public File getFile()
+	{
+		return file;
+	}
+
+	public String getFilename()
+	{
+		return filename;
+	}
+}

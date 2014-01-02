@@ -2,8 +2,8 @@ package xoric.prism.world.map.routing;
 
 import java.util.List;
 
-import xoric.prism.data.IPoint_r;
-import xoric.prism.data.Point;
+import xoric.prism.data.types.IPoint_r;
+import xoric.prism.data.types.Point;
 import xoric.prism.world.movement.MoveCaps;
 
 /**

@@ -20,6 +20,7 @@ public class PrismDrawer extends PrismFrame implements ActionListener
 	private DrawerModel model;
 
 	private IModelTable modelTable;
+	private AnimationList animationList;
 
 	private JMenu menuModel;
 	private JMenuItem menuItemNewModel;
@@ -61,9 +62,14 @@ public class PrismDrawer extends PrismFrame implements ActionListener
 		menuRemoveAnimation = createMenu(menuAnimation, "Remove");
 		// --
 
-		ModelTable m = new ModelTable();
+		final int width = 280;
+
+		ModelTable m = new ModelTable(width);
 		modelTable = m;
-		add(BorderLayout.CENTER, m);
+		add(BorderLayout.NORTH, m);
+
+		animationList = new AnimationList(width);
+		add(BorderLayout.CENTER, animationList);
 	}
 
 	private JMenuItem createMenuItem(JMenu parentMenu, String text)

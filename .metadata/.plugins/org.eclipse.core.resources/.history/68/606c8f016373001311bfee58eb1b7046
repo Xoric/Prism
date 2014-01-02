@@ -1,0 +1,14 @@
+package xoric.prism.data.global;
+
+import java.io.File;
+
+import xoric.prism.data.meta.MetaFile;
+
+public interface IFileTableEntry
+{
+	public File getFile();
+
+	public MetaFile loadMetaFile();
+
+	public String getFilename();
+}

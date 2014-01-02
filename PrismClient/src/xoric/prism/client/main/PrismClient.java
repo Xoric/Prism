@@ -1,7 +1,7 @@
 package xoric.prism.client.main;
 
-import xoric.prism.data.FloatPoint;
-import xoric.prism.data.FloatRect;
+import xoric.prism.data.types.FloatPoint;
+import xoric.prism.data.types.FloatRect;
 import xoric.prism.scene.IRenderer;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;

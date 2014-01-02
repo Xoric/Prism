@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import xoric.prism.data.IPoint_r;
 import xoric.prism.data.physics.View8;
+import xoric.prism.data.types.IPoint_r;
 import xoric.prism.world.movement.MoveCaps;
 
 /**

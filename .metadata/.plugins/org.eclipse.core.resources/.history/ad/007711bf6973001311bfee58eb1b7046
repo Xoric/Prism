@@ -1,0 +1,11 @@
+package xoric.prism.data.global;
+
+import xoric.prism.data.exceptions.PrismMetaFileException;
+import xoric.prism.data.meta.MetaFile;
+
+public interface IFileTable
+{
+	public int getCount();
+
+	public MetaFile loadMetaFile(FileIndex fi)throws PrismMetaFileException;
+}

@@ -1,0 +1,19 @@
+package xoric.prism.exceptions;
+
+import javax.swing.JOptionPane;
+
+import xoric.prism.data.modules.ErrorCode;
+
+public class PrismExceptionViewer
+{
+	public static void showPrismException(PrismException e)
+	{
+		ErrorCode c = e.getErrorCode();
+		StringBuffer sb = new StringBuffer();
+
+		sb.append("<b>Module:</b> " + c.getModuleID()() + "<br>");
+		sb.append("<b>Actor:</b> " + c.getActorID() + "<br>");
+
+		JOptionPane.showMessageDialog(null, e.toString(), "Exception", JOptionPane.WARNING_MESSAGE);
+	}
+}

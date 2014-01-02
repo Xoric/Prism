@@ -1,9 +1,9 @@
 package xoric.prism.world.entities;
 
-import xoric.prism.data.FloatPoint;
-import xoric.prism.data.IFloatPoint_r;
-import xoric.prism.data.IText_r;
-import xoric.prism.data.Text;
+import xoric.prism.data.types.FloatPoint;
+import xoric.prism.data.types.IFloatPoint_r;
+import xoric.prism.data.types.IText_r;
+import xoric.prism.data.types.Text;
 
 public class Entity
 {

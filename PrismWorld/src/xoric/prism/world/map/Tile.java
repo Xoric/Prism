@@ -6,9 +6,9 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import xoric.prism.data.IPackable;
-import xoric.prism.data.IPoint_r;
-import xoric.prism.data.IntPacker;
+import xoric.prism.data.types.IPackable;
+import xoric.prism.data.types.IPoint_r;
+import xoric.prism.data.types.IntPacker;
 import xoric.prism.world.map.routing.Edge;
 import xoric.prism.world.map.routing.INode;
 import xoric.prism.world.movement.MoveCaps;

@@ -1,10 +1,12 @@
 package xoric.prism.creator.drawer;
 
+import java.awt.Dimension;
+
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import xoric.prism.data.Point;
-import xoric.prism.data.Text;
+import xoric.prism.data.types.Point;
+import xoric.prism.data.types.Text;
 import xoric.prism.swing.input.IValueInputListener;
 import xoric.prism.swing.input.PointInput;
 import xoric.prism.swing.input.TextInput;
@@ -18,17 +20,20 @@ class ModelTable extends JPanel implements IModelTable, IValueInputListener
 
 	private DrawerModel model;
 
-	public ModelTable()
+	public ModelTable(int width)
 	{
 		BoxLayout b = new BoxLayout(this, BoxLayout.Y_AXIS);
-		setLayout(b);
+		Dimension d = new Dimension(width, 100);
+		this.setLayout(b);
+		this.setMaximumSize(d);
+		this.setPreferredSize(d);
 
-		nameInput = new TextInput("Name", this);
+		nameInput = new TextInput("Name", width, this);
 		nameInput.setValue(new Text("NONE"));
 		nameInput.setPrompt("Please enter a new name for this model.");
 		nameInput.setToolTipText("Provide a name for this model.");
 
-		tileSizeInput = new PointInput("Tile size", this);
+		tileSizeInput = new PointInput("Tile size", width, this);
 		tileSizeInput.setUnit("px");
 		tileSizeInput.setValue(new Point(0, 0));
 		tileSizeInput.setLabels("Width", "Height");

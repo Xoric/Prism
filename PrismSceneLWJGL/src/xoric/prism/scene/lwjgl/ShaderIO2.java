@@ -9,11 +9,11 @@ import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.ARBVertexShader;
 import org.lwjgl.opengl.GL11;
 
+import xoric.prism.data.exceptions.PrismFileException;
 import xoric.prism.data.modules.ActorID;
 import xoric.prism.data.modules.ErrorCode;
 import xoric.prism.data.modules.ErrorID;
 import xoric.prism.data.modules.IActor;
-import xoric.prism.exceptions.PrismFileException;
 import xoric.prism.scene.exceptions.PrismShaderException;
 import xoric.prism.scene.shader.IShader2;
 import xoric.prism.scene.shader.ShaderType;

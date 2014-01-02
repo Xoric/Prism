@@ -1,9 +1,9 @@
 package xoric.prism.data.modules;
 
+import xoric.prism.data.global.Prism;
+
 public class ErrorCode
 {
-	public static ModuleID defaultModuleID = ModuleID.GENERIC;
-
 	private final int code;
 
 	public ErrorCode(ModuleID moduleID, ActorID actorID, ErrorID errorID)
@@ -13,12 +13,14 @@ public class ErrorCode
 
 	public ErrorCode(ActorID actorID, ErrorID errorID)
 	{
-		this.code = calc(defaultModuleID, actorID, errorID);
+		ModuleID m = Prism.global != null ? Prism.global.getModuleID() : ModuleID.GENERIC;
+		this.code = calc(m, actorID, errorID);
 	}
 
 	public ErrorCode(IActor actor, ErrorID errorID)
 	{
-		this.code = calc(defaultModuleID, actor.getActorID(), errorID);
+		ModuleID m = Prism.global != null ? Prism.global.getModuleID() : ModuleID.GENERIC;
+		this.code = calc(m, actor.getActorID(), errorID);
 	}
 
 	public ErrorCode(int code)
@@ -28,7 +30,7 @@ public class ErrorCode
 
 	public String toHexString()
 	{
-		return Integer.toHexString(code);
+		return "0X" + Integer.toHexString(code).toUpperCase();
 	}
 
 	public int toInt()

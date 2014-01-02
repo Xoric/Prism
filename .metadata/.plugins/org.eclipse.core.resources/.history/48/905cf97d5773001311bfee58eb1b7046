@@ -1,0 +1,21 @@
+package xoric.prism.common.loader;
+
+import java.io.File;
+
+import xoric.prism.common.Path;
+import xoric.prism.data.modules.ActorID;
+import xoric.prism.data.modules.ErrorCode;
+import xoric.prism.data.modules.ErrorID;
+import xoric.prism.exceptions.PrismMetaFileException;
+import xoric.prism.meta.MetaBlock;
+import xoric.prism.meta.MetaFile;
+import xoric.prism.meta.MetaList;
+import xoric.prism.meta.MetaType;
+
+public class PrismDataLoader extends PrismLoader
+{
+	protected PrismDataLoader(Path dataPath)
+	{
+		super(dataPath);
+	}
+}

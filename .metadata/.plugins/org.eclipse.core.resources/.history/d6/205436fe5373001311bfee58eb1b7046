@@ -1,0 +1,14 @@
+package xoric.prism.meta;
+
+public enum MetaKey
+{
+	// do not resort
+	ITEM,
+	ATTACH,
+	TARGET;
+
+	public byte toByte()
+	{
+		return (byte) ordinal();
+	}
+}

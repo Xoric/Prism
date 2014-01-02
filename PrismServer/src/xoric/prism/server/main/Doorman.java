@@ -1,10 +1,10 @@
 package xoric.prism.server.main;
 
+import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.modules.ActorID;
 import xoric.prism.data.modules.ErrorCode;
 import xoric.prism.data.modules.ErrorID;
 import xoric.prism.data.modules.IActor;
-import xoric.prism.exceptions.PrismException;
 
 public class Doorman implements IActor
 {

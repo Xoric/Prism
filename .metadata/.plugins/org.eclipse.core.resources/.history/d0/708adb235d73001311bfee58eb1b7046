@@ -1,0 +1,38 @@
+package xoric.prism.common.loader;
+
+import java.io.File;
+
+import xoric.prism.data.modules.ActorID;
+import xoric.prism.data.modules.ErrorCode;
+import xoric.prism.data.modules.ErrorID;
+import xoric.prism.exceptions.PrismMetaFileException;
+import xoric.prism.meta.MetaBlock;
+import xoric.prism.meta.MetaFile;
+import xoric.prism.meta.MetaList;
+import xoric.prism.meta.MetaType;
+
+public class PrismDataLoader extends PrismLoader
+{
+	public static void loadAll() throws PrismMetaFileException
+	{
+		loadTOC();
+	}
+
+	private static void loadTOC() throws PrismMetaFileException
+	{
+		String filename = "common/toc.meta";
+		File file = dataPath.getFile(filename);
+		MetaFile f = new MetaFile(file);
+		f.load();
+		MetaList metaList = f.getMetaList();
+		MetaBlock metaBlock = metaList.findMetaBlock(MetaType.TOC);
+
+		if (metaBlock == null)
+		{
+			ErrorCode c = new ErrorCode(ActorID.LOADER, ErrorID.META_BLOCK_MISSING);
+			PrismMetaFileException e = new PrismMetaFileException(c, filename);
+			e.appendInfo("block", MetaType.TOC.toString());
+			throw e;
+		}
+	}
+}

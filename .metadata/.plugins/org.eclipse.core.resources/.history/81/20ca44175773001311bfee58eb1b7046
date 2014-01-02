@@ -1,0 +1,8 @@
+package xoric.prism.common.loader;
+
+import xoric.prism.data.modules.IActor;
+
+public class PrismLoader implements IActor
+{
+	private final Path dataPath;
+}

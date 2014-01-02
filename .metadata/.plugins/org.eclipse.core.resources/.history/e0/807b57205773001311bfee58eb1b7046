@@ -1,0 +1,16 @@
+package xoric.prism.common.loader;
+
+import xoric.prism.common.Path;
+import xoric.prism.data.modules.ActorID;
+import xoric.prism.data.modules.IActor;
+
+public class PrismLoader implements IActor
+{
+	private final Path dataPath;
+
+	@Override
+	public ActorID getActorID()
+	{
+		return ActorID.LOADER;
+	}
+}

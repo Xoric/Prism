@@ -2,7 +2,7 @@ package xoric.prism.swing.input;
 
 import javax.swing.JOptionPane;
 
-import xoric.prism.data.Text;
+import xoric.prism.data.types.Text;
 
 public class TextInput extends ValueInput
 {
@@ -10,9 +10,9 @@ public class TextInput extends ValueInput
 
 	private Text value;
 
-	public TextInput(String name, IValueInputListener listener)
+	public TextInput(String name, int width, IValueInputListener listener)
 	{
-		super(name, listener);
+		super(name, width, listener);
 
 		setValue(new Text());
 	}

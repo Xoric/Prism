@@ -1,7 +1,7 @@
 package xoric.prism.scene.lwjgl;
 
-import xoric.prism.data.IPoint_r;
-import xoric.prism.data.Point;
+import xoric.prism.data.types.IPoint_r;
+import xoric.prism.data.types.Point;
 
 public class Texture
 {
