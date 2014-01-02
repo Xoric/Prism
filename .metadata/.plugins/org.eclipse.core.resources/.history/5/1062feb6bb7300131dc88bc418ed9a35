@@ -1,0 +1,41 @@
+package xoric.prism.creator.drawer;
+
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+
+import xoric.prism.world.entities.Animation;
+
+public class AnimationList extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+
+	public AnimationList(int width)
+	{
+		GridBagLayout layout = new GridBagLayout();
+		JPanel pane = new JPanel(layout);
+
+		int y = 0;
+
+		for (Animation a : Animation.values())
+		{
+			AnimationLine l = new AnimationLine(a, width);
+			GridBagConstraints c = new GridBagConstraints();
+			c.gridx = 0;
+			c.gridy = y++;
+			c.weightx = 1.0;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			pane.add(l, c);
+		}
+
+		JScrollPane scroll = new JScrollPane(pane, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+		this.setLayout(new BorderLayout());
+		this.add(BorderLayout.CENTER, scroll);
+	}
+}

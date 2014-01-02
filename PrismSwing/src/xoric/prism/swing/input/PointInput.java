@@ -14,9 +14,9 @@ public class PointInput extends ValueInput
 	private String xLabel;
 	private String yLabel;
 
-	public PointInput(String name, int width, IValueInputListener listener)
+	public PointInput(String name,/*int width,*/IValueInputListener listener)
 	{
-		super(name, width, listener);
+		super(name, /* width,*/listener);
 
 		this.xLabel = "X";
 		this.yLabel = "Y";

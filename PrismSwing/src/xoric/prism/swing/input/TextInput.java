@@ -10,9 +10,9 @@ public class TextInput extends ValueInput
 
 	private Text value;
 
-	public TextInput(String name, int width, IValueInputListener listener)
+	public TextInput(String name, IValueInputListener listener)
 	{
-		super(name, width, listener);
+		super(name, listener);
 
 		setValue(new Text());
 	}

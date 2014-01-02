@@ -1,0 +1,8 @@
+package xoric.prism.swing.gridpanel;
+
+import javax.swing.JPanel;
+
+public class GridPanel extends JPanel
+{
+
+}

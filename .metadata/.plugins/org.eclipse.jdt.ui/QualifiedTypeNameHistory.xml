@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="xoric.prism.exceptions.PrismFileException"/>
-<fullyQualifiedTypeName name="xoric.prism.data.modules.ErrorCode"/>
-<fullyQualifiedTypeName name="xoric.prism.exceptions.PrismDevException"/>
-<fullyQualifiedTypeName name="java.lang.String"/>
-<fullyQualifiedTypeName name="xoric.prism.meta.MetaLine"/>
-<fullyQualifiedTypeName name="xoric.prism.meta.MetaKey"/>
-<fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
 <fullyQualifiedTypeName name="java.io.OutputStream"/>
 <fullyQualifiedTypeName name="xoric.prism.compression.BufferCompressor"/>
 <fullyQualifiedTypeName name="xoric.prism.data.AttachmentHeader"/>
@@ -24,15 +17,12 @@
 <fullyQualifiedTypeName name="javax.swing.table.DefaultTableModel"/>
 <fullyQualifiedTypeName name="javax.swing.JLabel"/>
 <fullyQualifiedTypeName name="org.w3c.dom.Text"/>
-<fullyQualifiedTypeName name="javax.swing.BorderFactory"/>
 <fullyQualifiedTypeName name="javax.swing.border.Border"/>
 <fullyQualifiedTypeName name="javax.swing.SwingConstants"/>
-<fullyQualifiedTypeName name="javax.swing.border.BevelBorder"/>
 <fullyQualifiedTypeName name="java.awt.Paint"/>
 <fullyQualifiedTypeName name="java.awt.Point"/>
 <fullyQualifiedTypeName name="xoric.prism.data.Point"/>
 <fullyQualifiedTypeName name="xoric.prism.data.Text"/>
-<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
 <fullyQualifiedTypeName name="xoric.prism.data.Heap"/>
 <fullyQualifiedTypeName name="xoric.prism.common.loader.PrismLoader"/>
 <fullyQualifiedTypeName name="xoric.prism.world.entities.Animation"/>
@@ -60,4 +50,14 @@
 <fullyQualifiedTypeName name="java.io.PrintWriter"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.IPath_r"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.Path"/>
+<fullyQualifiedTypeName name="java.awt.Image"/>
+<fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
+<fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
+<fullyQualifiedTypeName name="javax.swing.border.BevelBorder"/>
+<fullyQualifiedTypeName name="java.awt.GridBagConstraints"/>
+<fullyQualifiedTypeName name="java.awt.Insets"/>
+<fullyQualifiedTypeName name="java.awt.GridBagLayout"/>
+<fullyQualifiedTypeName name="javax.swing.BorderFactory"/>
 </qualifiedTypeNameHistroy>

@@ -1,6 +1,8 @@
 package xoric.prism.creator.drawer;
 
-import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -37,6 +39,9 @@ public class PrismDrawer extends PrismFrame implements ActionListener
 	{
 		super("Prism Drawer", 640, 480, true);
 
+		GridBagLayout layout = new GridBagLayout();
+		this.setLayout(layout);
+
 		this.scene = scene;
 		this.model = new DrawerModel();
 
@@ -62,14 +67,18 @@ public class PrismDrawer extends PrismFrame implements ActionListener
 		menuRemoveAnimation = createMenu(menuAnimation, "Remove");
 		// --
 
-		final int width = 280;
-
-		ModelTable m = new ModelTable(width);
+		ModelTable m = new ModelTable();
 		modelTable = m;
-		add(BorderLayout.NORTH, m);
+		animationList = new AnimationList();
 
-		animationList = new AnimationList(width);
-		add(BorderLayout.CENTER, animationList);
+		Insets insets = new Insets(15, 15, 15, 15);
+
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 0.15, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+				insets, 0, 0);
+		add(m, c);
+
+		c = new GridBagConstraints(1, 0, 1, 1, 0.85, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets, 0, 0);
+		add(animationList, c);
 	}
 
 	private JMenuItem createMenuItem(JMenu parentMenu, String text)

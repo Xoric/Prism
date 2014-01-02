@@ -1,9 +1,12 @@
 package xoric.prism.creator.drawer;
 
-import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
-import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
@@ -20,28 +23,34 @@ class ModelTable extends JPanel implements IModelTable, IValueInputListener
 
 	private DrawerModel model;
 
-	public ModelTable(int width)
+	public ModelTable()
 	{
-		BoxLayout b = new BoxLayout(this, BoxLayout.Y_AXIS);
-		Dimension d = new Dimension(width, 100);
-		this.setLayout(b);
-		this.setMaximumSize(d);
-		this.setPreferredSize(d);
+		this.setLayout(new GridBagLayout());
+		setBorder(BorderFactory.createEtchedBorder());
 
-		nameInput = new TextInput("Name", width, this);
+		nameInput = new TextInput("Name", this);
 		nameInput.setValue(new Text("NONE"));
 		nameInput.setPrompt("Please enter a new name for this model.");
 		nameInput.setToolTipText("Provide a name for this model.");
 
-		tileSizeInput = new PointInput("Tile size", width, this);
+		tileSizeInput = new PointInput("Tile size", this);
 		tileSizeInput.setUnit("px");
 		tileSizeInput.setValue(new Point(0, 0));
 		tileSizeInput.setLabels("Width", "Height");
 		tileSizeInput.setPrompt("Please enter a new tile size.");
 		tileSizeInput.setToolTipText("Size of one animation tile. This is the width and height per sprite in the model's images.");
 
-		add(nameInput);
-		add(tileSizeInput);
+		Insets insets = new Insets(0, 0, 0, 0);
+
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0,
+				0);
+		add(nameInput, c);
+
+		c = new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
+		add(new JSeparator(), c);
+
+		c = new GridBagConstraints(0, 2, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
+		add(tileSizeInput, c);
 
 		enableControls(false);
 	}

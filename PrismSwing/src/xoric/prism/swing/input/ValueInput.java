@@ -1,15 +1,15 @@
 package xoric.prism.swing.input;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -33,22 +33,19 @@ public abstract class ValueInput extends JPanel implements ActionListener
 	protected String unitSuffix;
 	private IValueInputListener listener;
 
-	public ValueInput(String name, int width, IValueInputListener listener)
+	public ValueInput(String name, IValueInputListener listener)
 	{
+		this.setLayout(new GridBagLayout());
+
 		this.name = name;
 		this.prompt = "Enter " + name.toLowerCase();
 		this.unitSuffix = "";
 		this.listener = listener;
 
-		Dimension nameSize = new Dimension(60, 24);
-		Dimension valueSize = new Dimension(140, 24);
-
 		nameLabel = new JLabel("<html><b>" + name + "</b></html>");
 		nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		nameLabel.setPreferredSize(nameSize);
 
 		valuePane = new JTextPane();
-		valuePane.setPreferredSize(valueSize);
 		valuePane.setEditable(false);
 
 		StyledDocument doc = valuePane.getStyledDocument();
@@ -65,7 +62,7 @@ public abstract class ValueInput extends JPanel implements ActionListener
 			ImageIcon icn = new ImageIcon(img);
 			editButton.setIcon(icn);
 			editButton.setText("");
-			editButton.setPreferredSize(new Dimension(icn.getIconWidth() + 4, icn.getIconHeight() + 4));
+			editButton.setPreferredSize(new Dimension(icn.getIconWidth() + 8, icn.getIconHeight() + 4));
 			editButton.setToolTipText("Click to edit");
 		}
 		catch (IOException e)
@@ -73,24 +70,15 @@ public abstract class ValueInput extends JPanel implements ActionListener
 			editButton.setText("Edit");
 		}
 
-		JPanel p = new JPanel(new FlowLayout(FlowLayout.TRAILING, 2, 2));
-		p.add(nameLabel);
-		p.add(valuePane);
-		p.add(editButton);
-		p.setBorder(BorderFactory.createEtchedBorder());
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 0.5, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(
+				3, 5, 2, 5), 0, 0);
+		add(nameLabel, c);
 
-		//		this.setLayout(new FlowLayout(FlowLayout.TRAILING, 2, 2));
-		//		add(nameLabel);
-		//		add(valuePane);
-		//		add(editButton);
-		//		setBorder(BorderFactory.createEtchedBorder());
+		c = new GridBagConstraints(0, 1, 1, 1, 0.5, 0.5, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 5, 3, 0), 0, 0);
+		add(valuePane, c);
 
-		add(BorderLayout.CENTER, p);
-		//		add(BorderLayout.EAST, editButton);
-
-		Dimension totalSize = new Dimension(width, nameSize.height + 13);
-		setPreferredSize(totalSize);
-		setMaximumSize(totalSize);
+		c = new GridBagConstraints(1, 1, 1, 1, 0.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 3, 3, 5), 0, 0);
+		add(editButton, c);
 	}
 
 	@Override

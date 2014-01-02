@@ -1,0 +1,18 @@
+package xoric.prism.swing.gridpanel;
+
+import java.awt.GridBagLayout;
+
+import javax.swing.JPanel;
+
+public class GridPanel extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+
+	private GridBagLayout layout;
+
+	public GridPanel()
+	{
+		layout = new GridBagLayout()
+		setLayout(layout);
+	}
+}

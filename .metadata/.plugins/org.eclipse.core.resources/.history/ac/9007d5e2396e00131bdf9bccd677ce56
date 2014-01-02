@@ -1,6 +1,0 @@
-package xoric.prism.data.modules;
-
-public enum ActorID
-{
-	GENERIC, DOORMAN, RECEPTIONIST, AttachmentLoader, META_FILE, Shader, ShaderIO, MetaFileCreator, AttachmentImporter
-}
