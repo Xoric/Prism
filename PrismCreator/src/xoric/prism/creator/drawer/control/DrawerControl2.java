@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 import xoric.prism.creator.drawer.model.DrawerModel;
-import xoric.prism.creator.drawer.view2.IDrawerView2;
+import xoric.prism.creator.drawer.view.IDrawerView2;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Path;
@@ -19,26 +19,34 @@ public class DrawerControl2 implements IDrawerControl2
 	public DrawerControl2(IDrawerView2 view)
 	{
 		this.view = view;
+		this.model = new DrawerModel();
 	}
 
-	public void requestNewModel(Path path)
+	/* *********** IDrawerControl2 ****************** */
+
+	@Override
+	public void requestNewModel()
 	{
+		boolean isOK = askSaveChanges();
+		if (!isOK)
+			return;
+
 		boolean tryAgain = false;
-		DrawerModel model = null;
+		DrawerModel newModel = null;
 		do
 		{
 			Path path = PathInput.showDialog("Choose a working directory");
 
 			if (path != null)
 			{
-				model = new DrawerModel();
+				newModel = new DrawerModel();
 				try
 				{
-					model.initPath(path);
+					newModel.initPath(path);
 				}
 				catch (IOException e)
 				{
-					model = null;
+					newModel = null;
 					String[] options = new String[] { "Choose another", "Cancel" };
 					int res = JOptionPane.showOptionDialog(null, "An error occured while trying to write to the specified directory:\n\n",
 							"New model", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
@@ -48,18 +56,58 @@ public class DrawerControl2 implements IDrawerControl2
 		}
 		while (tryAgain);
 
-		if (model != null)
+		if (newModel != null)
 		{
-			// pass new DrawerModel to DrawerView
-			view.setModel(model);
+			model = newModel;
+			view.displayAll(newModel);
 		}
+	}
+
+	@Override
+	public void requestOpenModel()
+	{
+		DrawerModel openedModel = null;
+		Path path = PathInput.showDialog("Open model");
+
+		if (path != null)
+		{
+			openedModel = new DrawerModel();
+			try
+			{
+				openedModel.load(path);
+			}
+			catch (IOException e)
+			{
+				openedModel = null;
+				JOptionPane.showMessageDialog(null, "An error occured while trying to load a model from the specified directory:\n\n"
+						+ e.getMessage(), "Open model", JOptionPane.WARNING_MESSAGE);
+			}
+		}
+
+		if (openedModel != null)
+		{
+			model = openedModel;
+			view.displayAll(openedModel);
+		}
+	}
+
+	@Override
+	public void requestSaveModel()
+	{
+		if (model.hasChanges())
+			saveChanges();
 	}
 
 	@Override
 	public void requestSetName(IText_r name)
 	{
-		model.setName(name);
-		view.displayName(name);
+		if (!model.getName().equals(name))
+		{
+			model.setName(name);
+			view.displayName(name);
+
+			updateSaveState();
+		}
 	}
 
 	@Override
@@ -67,5 +115,52 @@ public class DrawerControl2 implements IDrawerControl2
 	{
 		model.setTileSize(tileSize);
 		view.displayTileSize(tileSize);
+	}
+
+	/* ***************** internal ****************** */
+
+	private void updateSaveState()
+	{
+		boolean canSave = model != null && model.hasChanges();
+		view.displaySaveState(canSave);
+	}
+
+	private boolean askSaveChanges()
+	{
+		boolean isOK = !model.hasChanges();
+
+		if (!isOK)
+		{
+			int result = JOptionPane.showConfirmDialog(null,
+					"The current model contains unsaved changes. Would you like to save before closing?", "Save changes",
+					JOptionPane.YES_NO_CANCEL_OPTION);
+
+			if (result == 0) // 0: Yes, save changes
+			{
+				isOK = saveChanges();
+			}
+			else
+			{
+				isOK = result == 1; // 1: No, discard | 2: Cancel
+			}
+		}
+		return isOK;
+	}
+
+	private boolean saveChanges()
+	{
+		boolean isOK;
+		try
+		{
+			model.save();
+			isOK = true;
+		}
+		catch (IOException e)
+		{
+			JOptionPane.showMessageDialog(null, "An error occured while saving." + e.getMessage(), "Save model",
+					JOptionPane.WARNING_MESSAGE);
+			isOK = false;
+		}
+		return isOK;
 	}
 }

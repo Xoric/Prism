@@ -10,17 +10,15 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import xoric.prism.creator.drawer.control.DrawerControl;
 import xoric.prism.creator.drawer.control.IDrawerControl2;
 import xoric.prism.creator.drawer.model.DrawerModel;
-import xoric.prism.creator.drawer.view2.IDrawerView2;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.scene.IScene;
 import xoric.prism.swing.PrismFrame;
 
-public class DrawerView2 extends PrismFrame implements ActionListener, IDrawerView2
+public class DrawerView2 extends PrismFrame implements IDrawerView2, ActionListener
 {
 	private static final long serialVersionUID = 1L;
 	private static final String title = "Prism Drawer";
@@ -86,10 +84,47 @@ public class DrawerView2 extends PrismFrame implements ActionListener, IDrawerVi
 
 		c = new GridBagConstraints(1, 0, 1, 1, 0.85, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(animationList, c);
-
-		enableAnimationList();
-		enableSaveButton();
 	}
+
+	/* *********** IDrawerView ********************** */
+
+	@Override
+	public void displayAll(DrawerModel model)
+	{
+		displayName(model.getName());
+		displayTileSize(model.getTileSize());
+		displayPath(model.getPath());
+		displaySaveState(model.hasChanges());
+	}
+
+	@Override
+	public void displayName(IText_r name)
+	{
+		modelTable.displayName(name);
+	}
+
+	@Override
+	public void displayTileSize(IPoint_r tileSize)
+	{
+		modelTable.displayTileSize(tileSize);
+	}
+
+	@Override
+	public void displayPath(IPath_r path)
+	{
+		if (path != null)
+			this.setTitle(title + " - " + path.toString());
+		else
+			this.setTitle(title);
+	}
+
+	@Override
+	public void displaySaveState(boolean canSave)
+	{
+		menuItemSaveModel.setEnabled(canSave);
+	}
+
+	/* ********** internal *********************** */
 
 	public void setControl(IDrawerControl2 control)
 	{
@@ -98,19 +133,6 @@ public class DrawerView2 extends PrismFrame implements ActionListener, IDrawerVi
 		// pass control to sub classes
 		this.modelTable.setControl(control);
 		this.animationList.setControl(control);
-	}
-
-	private void enableAnimationList()
-	{
-		if (animationList != null)
-			animationList.setEnabled(model != null && model.getTileSize().getX() > 0 && model.getTileSize().getY() > 0
-					&& model.getPath().exists());
-	}
-
-	private void enableSaveButton()
-	{
-		boolean canSave = model != null && model.hasChanges();
-		menuItemSaveModel.setEnabled(canSave);
 	}
 
 	private JMenuItem createMenuItem(JMenu parentMenu, String text)
@@ -150,13 +172,6 @@ public class DrawerView2 extends PrismFrame implements ActionListener, IDrawerVi
 		setVisible(true);
 	}
 
-	@Override
-	public void notifyModelTableValueChanged()
-	{
-		enableAnimationList();
-		enableSaveButton();
-	}
-
 	/* *********** menu ********************** */
 
 	@Override
@@ -165,69 +180,10 @@ public class DrawerView2 extends PrismFrame implements ActionListener, IDrawerVi
 		Object o = e.getSource();
 
 		if (o == menuItemNewModel)
-			onNewModel();
+			control.requestNewModel();
 		else if (o == menuItemOpenModel)
-			onOpenModel();
+			control.requestOpenModel();
 		else if (o == menuItemSaveModel)
-			onSaveModel();
-	}
-
-	private void onNewModel()
-	{
-		if (DrawerControl.askSaveChanges(model))
-		{
-			DrawerModel newModel = DrawerControl.showNewModelDialog();
-
-			if (newModel != null)
-			{
-				setModel(newModel);
-				enableAnimationList();
-				enableSaveButton();
-			}
-		}
-	}
-
-	private void onOpenModel()
-	{
-		if (DrawerControl.askSaveChanges(model))
-		{
-			DrawerModel newModel = DrawerControl.showOpenModelDialog();
-
-			if (newModel != null)
-			{
-				setModel(newModel);
-				enableAnimationList();
-				enableSaveButton();
-			}
-		}
-	}
-
-	private void onSaveModel()
-	{
-		DrawerControl.saveChanges(model);
-		enableSaveButton();
-	}
-
-	/* *********** IDrawerView ********************** */
-
-	@Override
-	public void displayName(IText_r name)
-	{
-		modelTable.displayName(name);
-	}
-
-	@Override
-	public void displayTileSize(IPoint_r tileSize)
-	{
-		modelTable.displayTileSize(tileSize);
-	}
-
-	@Override
-	public void displayPath(IPath_r path)
-	{
-		if (path != null)
-			this.setTitle(title + " - " + path.toString());
-		else
-			this.setTitle(title);
+			control.requestSaveModel();
 	}
 }

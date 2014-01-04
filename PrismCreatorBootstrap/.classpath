@@ -5,8 +5,9 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismSceneLWJGL"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismSceneBase"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismData"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/PrismCreator"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismGlobal"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismWorld"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PrismCreator"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PrismSwing"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

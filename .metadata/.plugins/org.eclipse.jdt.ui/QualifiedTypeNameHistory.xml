@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="xoric.prism.meta.TimeStamp"/>
-<fullyQualifiedTypeName name="xoric.prism.data.Booleans"/>
-<fullyQualifiedTypeName name="xoric.prism.world.movement.View8"/>
-<fullyQualifiedTypeName name="xoric.prism.world.map.Tile"/>
-<fullyQualifiedTypeName name="xoric.prism.world.entities.Movable"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="xoric.prism.data.IntPacker"/>
 <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
 <fullyQualifiedTypeName name="javax.swing.table.DefaultTableModel"/>
@@ -31,11 +25,8 @@
 <fullyQualifiedTypeName name="xoric.prism.data.modules.ErrorID"/>
 <fullyQualifiedTypeName name="xoric.prism.data.global.IFileTable_r"/>
 <fullyQualifiedTypeName name="xoric.prism.data.global.IPrismGlobal"/>
-<fullyQualifiedTypeName name="xoric.prism.global.PrismGlobal"/>
-<fullyQualifiedTypeName name="xoric.prism.data.modules.ModuleID"/>
 <fullyQualifiedTypeName name="xoric.prism.server.main.PrismServer"/>
 <fullyQualifiedTypeName name="xoric.prism.data.modules.ActorID"/>
-<fullyQualifiedTypeName name="xoric.prism.data.global.Prism"/>
 <fullyQualifiedTypeName name="xoric.prism.data.global.FileIndex"/>
 <fullyQualifiedTypeName name="xoric.prism.data.meta.MetaFile"/>
 <fullyQualifiedTypeName name="java.io.StringWriter"/>
@@ -60,4 +51,13 @@
 <fullyQualifiedTypeName name="xoric.prism.data.types.IntPacker"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.Text"/>
+<fullyQualifiedTypeName name="xoric.prism.scene.IScene"/>
+<fullyQualifiedTypeName name="xoric.prism.creator.drawer.view.DrawerView2"/>
+<fullyQualifiedTypeName name="xoric.prism.creator.drawer.control.DrawerControl2"/>
+<fullyQualifiedTypeName name="xoric.prism.global.PrismGlobal"/>
+<fullyQualifiedTypeName name="xoric.prism.data.modules.ModuleID"/>
+<fullyQualifiedTypeName name="xoric.prism.data.global.Prism"/>
+<fullyQualifiedTypeName name="xoric.prism.data.PrismDataLoader"/>
+<fullyQualifiedTypeName name="xoric.prism.world.loader.PrismWorldLoader"/>
+<fullyQualifiedTypeName name="xoric.prism.scene.lwjgl.PrismSceneLWJGL"/>
 </qualifiedTypeNameHistroy>
