@@ -41,31 +41,29 @@ public class DrawerControl2 implements IDrawerControl2
 			if (path != null)
 			{
 				File check = path.getFile(DrawerModel.MAIN_FILENAME);
-
+				
 				if (check.exists())
 				{
 					String[] options = new String[] { "Choose another", "Cancel" };
-					int res = JOptionPane.showOptionDialog(null, "The selected directory already contains a model.", "New model",
-							JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+					int res = JOptionPane.showOptionDialog(null, "The selected directory already contains a model.",
+							"New model", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
 					tryAgain = res == 0;
 				}
 				else
 				{
-					newModel = new DrawerModel();
-					try
-					{
-						newModel.createInPath(path);
-					}
-					catch (IOException e)
-					{
-						newModel = null;
-						String[] options = new String[] { "Choose another", "Cancel" };
-						int res = JOptionPane.showOptionDialog(null,
-								"An error occured while trying to write to the specified directory:\n\n" + e.getMessage(), "New model",
-								JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-						tryAgain = res == 0;
-					}
+				newModel = new DrawerModel();
+				try
+				{
+					newModel.createInPath(path);
 				}
+				catch (IOException e)
+				{
+					newModel = null;
+					String[] options = new String[] { "Choose another", "Cancel" };
+					int res = JOptionPane.showOptionDialog(null, "An error occured while trying to write to the specified directory:\n\n" + e.getMessage(),
+							"New model", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+					tryAgain = res == 0;
+				}}
 			}
 		}
 		while (tryAgain);

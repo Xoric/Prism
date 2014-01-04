@@ -19,6 +19,7 @@ import xoric.prism.data.types.TextPacker;
 public class DrawerModel implements IPackable
 {
 	private static final int CURRENT_VERSION = 1;
+	public static final String MAIN_FILENAME = "m.meta";
 
 	private Text name;
 	private Point tileSize;
@@ -65,7 +66,7 @@ public class DrawerModel implements IPackable
 		return tileSize;
 	}
 
-	public void initPath(Path path) throws IOException
+	public void createInPath(Path path) throws IOException
 	{
 		this.path = path;
 		save();
@@ -85,7 +86,7 @@ public class DrawerModel implements IPackable
 
 	public void save() throws IOException
 	{
-		File file = path.getFile("m.meta");
+		File file = path.getFile(MAIN_FILENAME);
 		FileOutputStream out = new FileOutputStream(file);
 		pack(out);
 		out.close();

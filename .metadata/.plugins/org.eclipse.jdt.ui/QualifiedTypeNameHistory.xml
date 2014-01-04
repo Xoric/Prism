@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="xoric.prism.data.IntPacker"/>
 <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
 <fullyQualifiedTypeName name="javax.swing.table.DefaultTableModel"/>
 <fullyQualifiedTypeName name="org.w3c.dom.Text"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="xoric.prism.data.PrismDataLoader"/>
 <fullyQualifiedTypeName name="xoric.prism.world.loader.PrismWorldLoader"/>
 <fullyQualifiedTypeName name="xoric.prism.scene.lwjgl.PrismSceneLWJGL"/>
+<fullyQualifiedTypeName name="java.io.File"/>
 </qualifiedTypeNameHistroy>
