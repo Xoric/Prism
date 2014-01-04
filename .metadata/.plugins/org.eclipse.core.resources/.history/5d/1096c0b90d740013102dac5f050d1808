@@ -1,0 +1,44 @@
+package xoric.prism.swing.input;
+
+import javax.swing.JOptionPane;
+
+import xoric.prism.data.types.Text;
+
+public class StringInput extends ValueInput
+{
+	private static final long serialVersionUID = 1L;
+
+	private String value;
+
+	public StringInput(String name, IValueInputListener listener)
+	{
+		super(name, listener);
+	}
+
+	public void setValue(String value)
+	{
+		this.value = value;
+		valueChanged(false);
+	}
+
+	@Override
+	protected void requestEdit()
+	{
+		String s = JOptionPane.showInputDialog(null, prompt, value);
+		Text t = new Text();
+		if (s != null)
+			t.set(s);
+
+		if (v >= 0)
+		{
+			value = v;
+			valueChanged(true);
+		}
+	}
+
+	@Override
+	protected String getValueText()
+	{
+		return String.valueOf(value);
+	}
+}

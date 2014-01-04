@@ -52,3 +52,4 @@
 1388641543991	Rename type 'HeapPacker2'
 1388641642708	Rename method 'unpack'
 1388641652269	Rename method 'getPackedSize'
+1388759189860	Rename local variable 'file'

@@ -6,7 +6,7 @@ public interface IRenderer
 {
 	public void setColor(float r, float g, float b);
 
-	public void bindTexture(int programID);
+	public void bindTexture(int programID, boolean enableFilter);
 
 	public void unbindTexture();
 

@@ -1,0 +1,15 @@
+package xoric.prism.swing;
+
+import javax.swing.JPanel;
+
+public class PrismPanel extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+	
+	private final String title;
+
+	public PrismPanel(String title)
+	{
+		this.title = title;
+	}
+}

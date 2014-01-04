@@ -20,6 +20,11 @@ public class Text implements IText_r
 		set(s);
 	}
 
+	public Text(IText_r t)
+	{
+		set(t.toString()); // TODO copy ascii and symbols directly
+	}
+
 	public Text()
 	{
 		set("");
@@ -75,6 +80,11 @@ public class Text implements IText_r
 				lastCharWasSpace = isSpace;
 			}
 		}
+	}
+
+	public void set(IText_r name)
+	{
+		set(name.toString()); // TODO copy ascii and symbols directly
 	}
 
 	/**

@@ -36,8 +36,13 @@ public class Path implements IPath_r
 	@Override
 	public boolean exists()
 	{
-		File f = new File(path);
-		return f.isDirectory();
+		boolean b = path.length() > 1;
+		if (b)
+		{
+			File f = new File(path);
+			b = f.isDirectory();
+		}
+		return b;
 	}
 
 	/**

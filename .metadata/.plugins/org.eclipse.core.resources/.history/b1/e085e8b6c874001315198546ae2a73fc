@@ -1,0 +1,8 @@
+package xoric.prism.creator.drawer.control;
+
+import xoric.prism.creator.drawer.model.DrawerModel;
+
+public class DrawerControl2
+{
+	private DrawerModel model;
+}

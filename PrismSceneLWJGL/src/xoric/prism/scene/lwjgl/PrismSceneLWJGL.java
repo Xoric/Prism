@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.lwjgl.LWJGLException;
@@ -135,12 +136,14 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		//		this.setupQuad();
 		try
 		{
-			textures = new TextureIO[2];
+			textures = new TextureIO[3];
 			textures[0] = new TextureIO(new FileInputStream("../debug/g1.png"));
 			textures[1] = new TextureIO(new FileInputStream("../debug/g2.png"));
+			textures[2] = new TextureIO(new FileInputStream("../debug/john.png"));
 			GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_REPLACE);
 			textures[0].init();
 			textures[1].init();
+			textures[2].init();
 		}
 		catch (IOException e1)
 		{
@@ -149,6 +152,8 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 
 		int frameCounter = 0;
 		int frameTimerMs = 0;
+
+		//		setInterpolationNearest();
 
 		do
 		{
@@ -243,13 +248,14 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		float z = -1.5f - y * slope;
 		if (z > -1.499f)
 			z = -1.499f;
+
 		return z;
 	}
 
 	@Override
 	public void drawPlane(IFloatPoint_r position, IFloatPoint_r size)
 	{
-		bindTexture(textures[0].getProgramID());
+		bindTexture(textures[0].getProgramID(), false);
 
 		GL11.glBegin(GL11.GL_QUADS);
 
@@ -278,7 +284,7 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 	@Override
 	public void drawObject(IFloatPoint_r position, IFloatPoint_r size, float zOnset)
 	{
-		bindTexture(textures[1].getProgramID());
+		bindTexture(textures[0].getProgramID(), false);
 
 		GL11.glBegin(GL11.GL_QUADS);
 
@@ -303,17 +309,37 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		unbindTexture();
 	}
 
+	public void setInterpolationNearest()
+	{
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST_MIPMAP_NEAREST);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+	}
+
 	@Override
 	public void drawSprite(float x, float y, float w, float h)
 	{
+		bindTexture(textures[2].getProgramID(), true);
+
+		//		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST_MIPMAP_NEAREST);
+		//		 GL_TEXTURE_MIN_FILTER: used whenever a surface is rendered with smaller dimensions than its corresponding texture bitmap
+
+		//		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+		// GL_TEXTURE_MAG_FILTER: used when a surface is bigger than the texture being applied
+
 		GL11.glBegin(GL11.GL_QUADS);
 
+		GL11.glTexCoord2f(0.0f, 0.0f);
 		GL11.glVertex2f(x, y);
+		GL11.glTexCoord2f(1.0f, 0.0f);
 		GL11.glVertex2f(x + w, y);
+		GL11.glTexCoord2f(1.0f, 1.0f);
 		GL11.glVertex2f(x + w, y + h);
+		GL11.glTexCoord2f(0.0f, 1.0f);
 		GL11.glVertex2f(x, y + h);
 
 		GL11.glEnd();
+
+		unbindTexture();
 	}
 
 	@Override
@@ -323,9 +349,23 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 	}
 
 	@Override
-	public void bindTexture(int programID)
+	public void bindTexture(int programID, boolean enableFilter)
 	{
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, programID);
+
+		//		int s = Calendar.getInstance().get(Calendar.SECOND);
+		//		if (s % 10 < 5)
+		//			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST_MIPMAP_NEAREST);
+		//		else
+		//			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+		// GL_TEXTURE_MAG_FILTER: used when a surface is bigger than the texture being applied
+
+		int s = Calendar.getInstance().get(Calendar.SECOND);
+		if (s % 10 < 5)
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+		else
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+		// GL_TEXTURE_MAG_FILTER: used when a surface is bigger than the texture being applied
 	}
 
 	@Override

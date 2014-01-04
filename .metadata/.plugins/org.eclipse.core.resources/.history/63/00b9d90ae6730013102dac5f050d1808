@@ -1,0 +1,22 @@
+package xoric.prism.swing;
+
+import java.awt.BorderLayout;
+import java.awt.Font;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class PrismPanel extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+
+	public PrismPanel(String title)
+	{
+		super(new BorderLayout());
+
+		JLabel titlePanel = new JLabel(title);
+		titlePanel.setFont(titlePanel.getFont().deriveFont(Font.BOLD));
+
+		this.title = title;
+	}
+}

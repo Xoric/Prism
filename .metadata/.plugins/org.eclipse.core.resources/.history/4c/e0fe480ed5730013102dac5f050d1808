@@ -1,0 +1,20 @@
+package xoric.prism.creator.drawer;
+
+import xoric.prism.scene.IScene;
+import xoric.prism.scene.ISceneListener;
+
+class ModelPaint implements ISceneListener
+{
+	private final IScene scene;
+
+	public ModelPaint(IScene scene)
+	{
+		this.scene = scene;
+	}
+
+	public void start()
+	{
+		scene.createWindow(640, 480, false);
+		scene.startLoop(listener);
+	}
+}

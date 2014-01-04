@@ -1,0 +1,7 @@
+package xoric.prism.swing.input;
+
+public class DirectoryChooser
+{
+	private static final JFileChooser = new JFileChooser();
+	
+}

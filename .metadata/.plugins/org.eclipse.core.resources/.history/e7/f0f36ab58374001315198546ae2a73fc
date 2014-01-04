@@ -1,0 +1,16 @@
+package xoric.prism.swing.input;
+
+import javax.swing.JFileChooser;
+
+public class DirectoryChooser
+{
+	private static final JFileChooser fileChooser = new JFileChooser();
+	static{
+		f.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	}
+
+	public static Path showInput()
+	{
+
+	}
+}

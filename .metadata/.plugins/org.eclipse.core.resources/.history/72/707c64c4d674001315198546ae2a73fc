@@ -1,0 +1,8 @@
+package xoric.prism.creator.drawer.view2;
+
+import xoric.prism.data.types.IPoint_r;
+import xoric.prism.data.types.IText_r;
+
+public interface IDrawerView2 extends IModelTable
+{
+}

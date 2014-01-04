@@ -1,0 +1,11 @@
+package xoric.prism.creator.drawer;
+
+class ModelPaint
+{
+private final IScene scene;
+
+public ModelPaint(IScene scene)
+{
+	
+}
+}

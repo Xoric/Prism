@@ -1,0 +1,13 @@
+package xoric.prism.creator.drawer;
+
+import xoric.prism.scene.IScene;
+
+class ModelPaint
+{
+	private final IScene scene;
+
+	public ModelPaint(IScene scene)
+	{
+			this.scene = scene;
+	}
+}

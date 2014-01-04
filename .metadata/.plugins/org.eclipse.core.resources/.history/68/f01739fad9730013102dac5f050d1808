@@ -1,0 +1,21 @@
+package xoric.prism.creator.drawer;
+
+import xoric.prism.scene.IRenderer;
+import xoric.prism.scene.IScene;
+import xoric.prism.scene.ISceneListener;
+
+class ModelPaint 
+{
+	private final PaintThread paintThread;
+
+	public ModelPaint(IScene scene)
+	{
+		paintThread = new PaintThread(scene);
+	}
+
+	public void start()
+	{
+		Thread t = new Thread(paintThread);
+		t.start();
+	}
+}

@@ -1,0 +1,46 @@
+package xoric.prism.swing.input;
+
+import javax.swing.JFileChooser;
+
+import xoric.prism.data.types.Path;
+
+public class PathInput extends ValueInput
+{
+	private static final long serialVersionUID = 1L;
+
+	private Path value;
+
+	public PathInput(String name, IValueInputListener listener)
+	{
+		super(name, listener);
+
+		setValue(new Path(""));
+	}
+
+	public void setValue(Path value)
+	{
+		this.value = value;
+		valueChanged(false);
+	}
+
+	@Override
+	protected void requestEdit()
+	{
+		JFileChooser f = new JFileChooser();
+		f.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int i = f.showOpenDialog(null);
+		
+		if (i == JFileChooser.APPROVE_OPTION)
+		{
+			File d = f.getSelectedFile();
+			value = new Path(t.toString());
+			valueChanged(true);
+		}
+	}
+
+	@Override
+	protected String getValueText()
+	{
+		return value.toString();
+	}
+}

@@ -1,0 +1,33 @@
+package xoric.prism.creator.drawer;
+
+import xoric.prism.scene.IRenderer;
+import xoric.prism.scene.IScene;
+import xoric.prism.scene.ISceneListener;
+
+class ModelPaint implements ISceneListener
+{
+	private final PaintThread paintThread;
+
+	public ModelPaint(IScene scene)
+	{
+		paintThread = new PaintThread(scene);
+	}
+
+	public void start()
+	{
+		scene.createWindow(640, 480, false);
+		scene.startLoop(this);
+	}
+
+	@Override
+	public boolean requestUpdateScene(int passedMs, IRenderer renderer)
+	{
+		return true;
+	}
+
+	@Override
+	public void onClosingScene()
+	{
+		System.out.println("ModelPaint's scene is closing");
+	}
+}

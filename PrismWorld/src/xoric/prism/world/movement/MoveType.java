@@ -1,7 +1,7 @@
 package xoric.prism.world.movement;
 
 /**
- * Equivalent to {@link entity.anim.Animation}.
+ * Equivalent to {@link AnimationIndex.anim.Animation}.
  * @author XoricLee
  * @since 30.10.2011, 13:52:36
  */

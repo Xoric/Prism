@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.io.OutputStream"/>
-<fullyQualifiedTypeName name="xoric.prism.compression.BufferCompressor"/>
-<fullyQualifiedTypeName name="xoric.prism.data.AttachmentHeader"/>
-<fullyQualifiedTypeName name="xoric.prism.meta.AttachmentLoader"/>
-<fullyQualifiedTypeName name="xoric.prism.common.Common"/>
-<fullyQualifiedTypeName name="java.util.Calendar"/>
 <fullyQualifiedTypeName name="xoric.prism.meta.TimeStamp"/>
 <fullyQualifiedTypeName name="xoric.prism.data.Booleans"/>
 <fullyQualifiedTypeName name="xoric.prism.world.movement.View8"/>
@@ -15,7 +9,6 @@
 <fullyQualifiedTypeName name="xoric.prism.data.IntPacker"/>
 <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
 <fullyQualifiedTypeName name="javax.swing.table.DefaultTableModel"/>
-<fullyQualifiedTypeName name="javax.swing.JLabel"/>
 <fullyQualifiedTypeName name="org.w3c.dom.Text"/>
 <fullyQualifiedTypeName name="javax.swing.border.Border"/>
 <fullyQualifiedTypeName name="javax.swing.SwingConstants"/>
@@ -28,7 +21,6 @@
 <fullyQualifiedTypeName name="xoric.prism.world.entities.Animation"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 <fullyQualifiedTypeName name="xoric.prism.common.Path"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="xoric.prism.meta.MetaBlock"/>
 <fullyQualifiedTypeName name="xoric.prism.data.modules.IActor"/>
 <fullyQualifiedTypeName name="xoric.prism.PrismGlobal"/>
@@ -49,15 +41,23 @@
 <fullyQualifiedTypeName name="java.io.StringWriter"/>
 <fullyQualifiedTypeName name="java.io.PrintWriter"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.IPath_r"/>
-<fullyQualifiedTypeName name="xoric.prism.data.types.Path"/>
 <fullyQualifiedTypeName name="java.awt.Image"/>
 <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
-<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
 <fullyQualifiedTypeName name="javax.swing.border.BevelBorder"/>
 <fullyQualifiedTypeName name="java.awt.GridBagConstraints"/>
 <fullyQualifiedTypeName name="java.awt.Insets"/>
 <fullyQualifiedTypeName name="java.awt.GridBagLayout"/>
 <fullyQualifiedTypeName name="javax.swing.BorderFactory"/>
+<fullyQualifiedTypeName name="xoric.prism.scene.SceneStage"/>
+<fullyQualifiedTypeName name="javax.swing.JLabel"/>
+<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
+<fullyQualifiedTypeName name="java.util.Calendar"/>
+<fullyQualifiedTypeName name="xoric.prism.swing.input.PathInput"/>
+<fullyQualifiedTypeName name="xoric.prism.data.types.TextPacker"/>
+<fullyQualifiedTypeName name="xoric.prism.data.types.Path"/>
+<fullyQualifiedTypeName name="xoric.prism.data.types.IntPacker"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="xoric.prism.data.types.Text"/>
 </qualifiedTypeNameHistroy>

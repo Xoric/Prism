@@ -1,0 +1,11 @@
+package xoric.prism.swing;
+
+public class PrismPanel extends JPanel
+{
+	private final String title;
+
+	public PrismPanel(String title)
+	{
+		this.title = title;
+	}
+}

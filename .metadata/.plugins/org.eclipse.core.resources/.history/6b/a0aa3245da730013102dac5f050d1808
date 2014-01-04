@@ -1,0 +1,38 @@
+package xoric.prism.creator.drawer;
+
+import xoric.prism.scene.IRenderer;
+import xoric.prism.scene.IScene;
+import xoric.prism.scene.ISceneListener;
+import xoric.prism.scene.SceneStage;
+
+public class PaintThread implements Runnable, ISceneListener
+{
+	private final IScene scene;
+
+	public PaintThread(IScene scene)
+	{
+		this.scene = scene;
+	}
+
+	@Override
+	public void run()
+	{
+		scene.createWindow(640, 480, false);
+		scene.startLoop(this);
+		scene.setStage(SceneStage.INTERFACE);
+	}
+
+	@Override
+	public boolean requestUpdateScene(int passedMs, IRenderer renderer)
+	{
+		renderer.setColor(0.3f, 0.5f, 0.2f);
+		renderer.drawSprite(0.1f, 0.1f, 90.2f, 80.4f);
+		return true;
+	}
+
+	@Override
+	public void onClosingScene()
+	{
+		System.out.println("closing scene");
+	}
+}

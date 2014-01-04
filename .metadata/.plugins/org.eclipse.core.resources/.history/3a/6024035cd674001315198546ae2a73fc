@@ -1,0 +1,11 @@
+package xoric.prism.creator.drawer.view2;
+
+import xoric.prism.creator.drawer.model.DrawerModel;
+import xoric.prism.data.types.IText_r;
+
+public interface IDrawerView2
+{
+	public void setModel(DrawerModel model);
+
+	public void displayName(IText_r name);
+}

@@ -31,16 +31,17 @@ public abstract class ValueInput extends JPanel implements ActionListener
 	protected final String name;
 	protected String prompt;
 	protected String unitSuffix;
-	private IValueInputListener listener;
+	private final IValueInputListener listener;
 
 	public ValueInput(String name, IValueInputListener listener)
 	{
 		this.setLayout(new GridBagLayout());
 
+		this.listener = listener;
+
 		this.name = name;
 		this.prompt = "Enter " + name.toLowerCase();
 		this.unitSuffix = "";
-		this.listener = listener;
 
 		nameLabel = new JLabel("<html><b>" + name + "</b></html>");
 		nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -142,8 +143,8 @@ public abstract class ValueInput extends JPanel implements ActionListener
 	{
 		valuePane.setText(getValueText() + unitSuffix);
 
-		if (listener != null)
-			listener.notifyValueChanged();
+		if (notifyListener && listener != null)
+			listener.notifyValueChanged(this);
 	}
 
 	@Override

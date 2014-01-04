@@ -2,5 +2,5 @@ package xoric.prism.swing.input;
 
 public interface IValueInputListener
 {
-	public void notifyValueChanged();
+	public void notifyValueChanged(ValueInput input);
 }

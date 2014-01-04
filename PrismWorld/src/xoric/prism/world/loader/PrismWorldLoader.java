@@ -11,7 +11,7 @@ import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.modules.ActorID;
 import xoric.prism.data.modules.ErrorCode;
 import xoric.prism.data.modules.ErrorID;
-import xoric.prism.world.entities.Animation;
+import xoric.prism.world.entities.AnimationIndex;
 
 public abstract class PrismWorldLoader
 {
@@ -27,7 +27,7 @@ public abstract class PrismWorldLoader
 		MetaList metaList = f.getMetaList();
 		MetaBlock metaBlock = metaList.findMetaBlock(MetaType.ANIM_D);
 
-		boolean isOK = Animation.loadDescriptions(metaBlock);
+		boolean isOK = AnimationIndex.loadDescriptions(metaBlock);
 		if (!isOK)
 		{
 			ErrorCode c = new ErrorCode(ActorID.LOADER, ErrorID.CORRUPT_META_BLOCK);

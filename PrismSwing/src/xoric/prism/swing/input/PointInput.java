@@ -3,6 +3,7 @@ package xoric.prism.swing.input;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.Point;
 
 public class PointInput extends ValueInput
@@ -14,14 +15,15 @@ public class PointInput extends ValueInput
 	private String xLabel;
 	private String yLabel;
 
-	public PointInput(String name,/*int width,*/IValueInputListener listener)
+	public PointInput(String name, IValueInputListener listener)
 	{
-		super(name, /* width,*/listener);
+		super(name, listener);
 
 		this.xLabel = "X";
 		this.yLabel = "Y";
 
-		setValue(new Point());
+		this.value = new Point();
+		setValue(this.value);
 	}
 
 	public void setLabels(String xLabel, String yLabel)
@@ -30,10 +32,15 @@ public class PointInput extends ValueInput
 		this.yLabel = yLabel;
 	}
 
-	public void setValue(Point value)
+	public void setValue(IPoint_r value)
 	{
-		this.value = value;
+		this.value.copyFrom(value);
 		valueChanged(false);
+	}
+
+	public IPoint_r getValue()
+	{
+		return value;
 	}
 
 	private static int castInt(String s)
@@ -64,12 +71,14 @@ public class PointInput extends ValueInput
 		int w = castInt(widthField.getText());
 		int h = castInt(heightField.getText());
 
-		if (w > 0 && h > 0)
-		{
-			value.x = w;
-			value.y = h;
-			valueChanged(true);
-		}
+		if (w < 0)
+			w = 0;
+		if (h < 0)
+			h = 0;
+
+		value.x = w;
+		value.y = h;
+		valueChanged(true);
 	}
 
 	@Override

@@ -1,0 +1,5 @@
+package xoric.prism.drawer.view;
+
+public interface IAnimationLine
+{
+}

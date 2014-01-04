@@ -10,9 +10,9 @@ public class IntInput extends ValueInput
 
 	private int value;
 
-	public IntInput(String name, /*int width,*/IValueInputListener listener)
+	public IntInput(String name, IValueInputListener listener)
 	{
-		super(name, /* width,*/listener);
+		super(name, listener);
 	}
 
 	public void setValue(int value)
