@@ -26,6 +26,8 @@ public class AnimationLine extends JPanel implements ActionListener, IAnimationL
 {
 	private static final long serialVersionUID = 1L;
 
+	private final AnimationIndex animation;
+
 	private final JLabel nameLabel;
 	private final JLabel infoLabel;
 	private final JButton directionsButton;
@@ -39,6 +41,8 @@ public class AnimationLine extends JPanel implements ActionListener, IAnimationL
 	{
 		GridBagLayout layout = new GridBagLayout();
 		this.setLayout(layout);
+
+		this.animation = animation;
 
 		nameLabel = createLabel(animation.toString());
 		nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD));
@@ -144,6 +148,8 @@ public class AnimationLine extends JPanel implements ActionListener, IAnimationL
 
 		System.out.println("action triggered by " + o.toString());
 
-		showAddButton(false);
+		control.requestAddAnimation(animation);
+
+		//		showAddButton(false);
 	}
 }

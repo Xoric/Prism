@@ -15,11 +15,14 @@ import xoric.prism.creator.drawer.control.IDrawerControl2;
 import xoric.prism.swing.PrismPanel;
 import xoric.prism.world.entities.AnimationIndex;
 
-public class AnimationList extends PrismPanel
+public class AnimationList extends PrismPanel implements IAnimationList
 {
 	private static final long serialVersionUID = 1L;
 
 	private List<AnimationLine> list;
+	private IDrawerControl2 control;
+
+	private boolean isBlocking;
 
 	public AnimationList()
 	{
@@ -62,8 +65,12 @@ public class AnimationList extends PrismPanel
 
 	public void setControl(IDrawerControl2 control)
 	{
-		for (AnimationLine l : list)
-			l.setControl(control);
+		this.control = control;
+	}
+
+	public void setBlocking(boolean isBlocking)
+	{
+		this.isBlocking = isBlocking;
 	}
 
 	@Override
@@ -73,5 +80,17 @@ public class AnimationList extends PrismPanel
 
 		for (AnimationLine l : list)
 			l.setEnabled(enabled);
+	}
+
+	@Override
+	public void requestAddAnimation(AnimationIndex a)
+	{
+		if (isBlocking)
+		{
+
+		}
+		else
+		{
+		}
 	}
 }

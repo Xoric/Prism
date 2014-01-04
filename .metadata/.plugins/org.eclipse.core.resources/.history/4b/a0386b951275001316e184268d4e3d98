@@ -1,8 +1,9 @@
-package xoric.prism.creator.drawer;
+package xoric.prism.creator.drawer.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -18,30 +19,38 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import xoric.prism.world.entities.Animation;
+import xoric.prism.creator.drawer.control.IDrawerControl2;
+import xoric.prism.world.entities.AnimationIndex;
 
 public class AnimationLine extends JPanel implements ActionListener, IAnimationLine
 {
 	private static final long serialVersionUID = 1L;
 
+	private final AnimationIndex animation;
+
 	private final JLabel nameLabel;
-	private final JLabel directionsLabel;
+	private final JLabel infoLabel;
 	private final JButton directionsButton;
 	private final JLabel descriptionLabel;
 	private final JButton addButton;
 	private final JButton deleteButton;
 
-	public AnimationLine(Animation animation)
-	{
-		this.setBorder(BorderFactory.createEtchedBorder());
+	private IDrawerControl2 control;
 
+	public AnimationLine(IDrawerControl2 control, AnimationIndex animation)
+	{
 		GridBagLayout layout = new GridBagLayout();
 		this.setLayout(layout);
 
-		nameLabel = new JLabel("<html><b>" + animation.toString() + "</b></html>");
-		directionsLabel = new JLabel();
+		this.control = control;
+		this.animation = animation;
+
+		nameLabel = createLabel(animation.toString());
+		nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD));
+
+		infoLabel = new JLabel();
 		directionsButton = new JButton();
-		descriptionLabel = new JLabel(animation.getDescription().toLowerCase());
+		descriptionLabel = createLabel(animation.getDescription().toLowerCase());
 		addButton = createButton("Add", "icons/add.png", "Click to add this animation");
 		deleteButton = createButton("Delete", "icons/del.png", "Click to delete this animation");
 
@@ -62,6 +71,25 @@ public class AnimationLine extends JPanel implements ActionListener, IAnimationL
 
 		c = new GridBagConstraints(1, 0, 1, 2, 0.0, 1.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
 		add(buttonPanel, c);
+
+		this.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+	}
+
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+		super.setEnabled(enabled);
+		nameLabel.setEnabled(enabled);
+		descriptionLabel.setEnabled(enabled);
+		addButton.setEnabled(enabled);
+		deleteButton.setEnabled(enabled);
+	}
+
+	private static JLabel createLabel(String text)
+	{
+		JLabel l = new JLabel(text);
+		l.setOpaque(true);
+		return l;
 	}
 
 	private JButton createButton(String name, String icon, String tooltip)
@@ -94,8 +122,15 @@ public class AnimationLine extends JPanel implements ActionListener, IAnimationL
 
 	private void showAddButton(boolean b)
 	{
-		Color c = new Color(150, 150, 255, (b ? 0 : 50));
-		this.setBackground(c);
+		Color cb = new Color(150, 75, 200, (b ? 0 : 75));
+		Color cf = new Color(0, 0, 0, (b ? 150 : 255));
+
+		nameLabel.setBackground(cb);
+		descriptionLabel.setBackground(cb);
+
+		nameLabel.setForeground(cf);
+		descriptionLabel.setForeground(cf);
+
 		nameLabel.setEnabled(!b);
 		descriptionLabel.setEnabled(!b);
 		addButton.setVisible(b);
@@ -109,6 +144,8 @@ public class AnimationLine extends JPanel implements ActionListener, IAnimationL
 
 		System.out.println("action triggered by " + o.toString());
 
-		showAddButton(false);
+		control.requestAddAnimation(animation);
+
+		//		showAddButton(false);
 	}
 }

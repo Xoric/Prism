@@ -182,6 +182,7 @@ public class DrawerControl2 implements IDrawerControl2
 	@Override
 	public void requestAddAnimation(AnimationIndex animation)
 	{
-		System.out.println("requestAddAnimation(" + animation + ")");
+		JOptionPane.showConfirmDialog(null, "requestAddAnimation(" + animation + ")");
+
 	}
 }

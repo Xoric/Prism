@@ -11,7 +11,6 @@ import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Path;
 import xoric.prism.swing.input.PathInput;
-import xoric.prism.world.entities.AnimationIndex;
 
 public class DrawerControl2 implements IDrawerControl2
 {
@@ -177,11 +176,5 @@ public class DrawerControl2 implements IDrawerControl2
 			isOK = false;
 		}
 		return isOK;
-	}
-
-	@Override
-	public void requestAddAnimation(AnimationIndex animation)
-	{
-		System.out.println("requestAddAnimation(" + animation + ")");
 	}
 }

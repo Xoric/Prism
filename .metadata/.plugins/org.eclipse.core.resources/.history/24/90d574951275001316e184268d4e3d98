@@ -10,21 +10,22 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import xoric.prism.creator.drawer.control.DrawerControl;
+import xoric.prism.creator.drawer.control.IDrawerControl2;
 import xoric.prism.creator.drawer.model.DrawerModel;
-import xoric.prism.creator.drawer.view2.IDrawerView2;
+import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.scene.IScene;
 import xoric.prism.swing.PrismFrame;
 
-public class DrawerView2 extends PrismFrame implements ActionListener, IDrawerView2
+public class DrawerView2 extends PrismFrame implements IDrawerView2, ActionListener
 {
 	private static final long serialVersionUID = 1L;
 	private static final String title = "Prism Drawer";
 
 	private IScene scene;
 	private DrawerModel model;
+	private IDrawerControl2 control;
 
 	private ModelTable modelTable;
 	private AnimationList animationList;
@@ -71,9 +72,9 @@ public class DrawerView2 extends PrismFrame implements ActionListener, IDrawerVi
 		menuRemoveAnimation = createMenu(menuAnimation, "Remove");
 		// --
 
-		ModelTable m = new ModelTable(this);
+		ModelTable m = new ModelTable();
 		modelTable = m;
-		animationList = new AnimationList();
+		animationList = new AnimationList(control);
 
 		Insets insets = new Insets(15, 15, 15, 15);
 
@@ -83,37 +84,55 @@ public class DrawerView2 extends PrismFrame implements ActionListener, IDrawerVi
 
 		c = new GridBagConstraints(1, 0, 1, 1, 0.85, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(animationList, c);
+	}
 
-		setModel(null);
-		enableAnimationList();
-		enableSaveButton();
+	/* *********** IDrawerView ********************** */
+
+	@Override
+	public void displayAll(DrawerModel model)
+	{
+		displayName(model.getName());
+		displayTileSize(model.getTileSize());
+		displayPath(model.getPath());
+		displaySaveState(model.hasChanges());
 	}
 
 	@Override
-	public void setModel(DrawerModel model)
+	public void displayName(IText_r name)
 	{
-		this.model = model;
+		modelTable.displayName(name);
+	}
 
-		if (model != null)
-			this.setTitle(title + " - " + model.getPath().toString());
+	@Override
+	public void displayTileSize(IPoint_r tileSize)
+	{
+		modelTable.displayTileSize(tileSize);
+	}
+
+	@Override
+	public void displayPath(IPath_r path)
+	{
+		if (path != null)
+			this.setTitle(title + " - " + path.toString());
 		else
 			this.setTitle(title);
-
-		// pass model to sub classes
-		this.modelTable.setModel(model);
 	}
 
-	private void enableAnimationList()
+	@Override
+	public void displaySaveState(boolean canSave)
 	{
-		if (animationList != null)
-			animationList.setEnabled(model != null && model.getTileSize().getX() > 0 && model.getTileSize().getY() > 0
-					&& model.getPath().exists());
-	}
-
-	private void enableSaveButton()
-	{
-		boolean canSave = model != null && model.hasChanges();
 		menuItemSaveModel.setEnabled(canSave);
+	}
+
+	/* ********** internal *********************** */
+
+	public void setControl(IDrawerControl2 control)
+	{
+		this.control = control;
+
+		// pass control to sub classes
+		this.modelTable.setControl(control);
+		this.animationList.setControl(control);
 	}
 
 	private JMenuItem createMenuItem(JMenu parentMenu, String text)
@@ -153,41 +172,7 @@ public class DrawerView2 extends PrismFrame implements ActionListener, IDrawerVi
 		setVisible(true);
 	}
 
-	private void onNewModel()
-	{
-		if (DrawerControl.askSaveChanges(model))
-		{
-			DrawerModel newModel = DrawerControl.showNewModelDialog();
-
-			if (newModel != null)
-			{
-				setModel(newModel);
-				enableAnimationList();
-				enableSaveButton();
-			}
-		}
-	}
-
-	private void onOpenModel()
-	{
-		if (DrawerControl.askSaveChanges(model))
-		{
-			DrawerModel newModel = DrawerControl.showOpenModelDialog();
-
-			if (newModel != null)
-			{
-				setModel(newModel);
-				enableAnimationList();
-				enableSaveButton();
-			}
-		}
-	}
-
-	private void onSaveModel()
-	{
-		DrawerControl.saveChanges(model);
-		enableSaveButton();
-	}
+	/* *********** menu ********************** */
 
 	@Override
 	public void actionPerformed(ActionEvent e)
@@ -195,31 +180,10 @@ public class DrawerView2 extends PrismFrame implements ActionListener, IDrawerVi
 		Object o = e.getSource();
 
 		if (o == menuItemNewModel)
-			onNewModel();
+			control.requestNewModel();
 		else if (o == menuItemOpenModel)
-			onOpenModel();
+			control.requestOpenModel();
 		else if (o == menuItemSaveModel)
-			onSaveModel();
-	}
-
-	@Override
-	public void notifyModelTableValueChanged()
-	{
-		enableAnimationList();
-		enableSaveButton();
-	}
-
-	/* new: */
-
-	@Override
-	public void displayName(IText_r name)
-	{
-		modelTable.displayName(name);
-	}
-
-	@Override
-	public void displayTileSize(IPoint_r tileSize)
-	{
-		modelTable.displayTilesize(tileSize);
+			control.requestSaveModel();
 	}
 }
