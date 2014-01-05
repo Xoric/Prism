@@ -180,10 +180,17 @@ public class DrawerView2 extends PrismFrame implements IDrawerView2, ActionListe
 		Object o = e.getSource();
 
 		if (o == menuItemNewModel)
-			control.requestNewModel();
+			//			control.requestNewModel();
+			onNewModel();
 		else if (o == menuItemOpenModel)
 			control.requestOpenModel();
 		else if (o == menuItemSaveModel)
 			control.requestSaveModel();
+	}
+
+	private void onNewModel()
+	{
+		NewModelDialog d = new NewModelDialog();
+		d.show();
 	}
 }

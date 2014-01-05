@@ -39,7 +39,7 @@ public class MetaFileCreator implements IActor
 	private final IPath_r sourcePath;
 	private final IPath_r targetPath;
 
-	public MetaFileCreator(Path sourcePath, Path targetPath)
+	public MetaFileCreator(IPath_r sourcePath, IPath_r targetPath)
 	{
 		this.sourcePath = sourcePath;
 		this.targetPath = targetPath;
@@ -351,29 +351,16 @@ public class MetaFileCreator implements IActor
 		System.out.println(sb.toString());
 	}
 
-	private static void createMetaFile(String sourceDir)
+	public static void main(String[] args)
 	{
-		Path sourcePath = new Path(sourceDir);
-		Path targetPath = new Path("E:/Prism/data");
+		IPath_r sourcePath = new Path("/home/xoric/workspace/resource/common/toc");
+		//		IPath_r sourcePath = new Path("/home/xoric/workspace/resource/common/anim-descriptions");
+		IPath_r targetPath = new Path("/home/xoric/workspace/data");
 
 		MetaFileCreator f = new MetaFileCreator(sourcePath, targetPath);
 		try
 		{
 			f.create();
-		}
-		catch (Exception e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public static void main(String[] args)
-	{
-		//		readMetaFile();
-		try
-		{
-			createMetaFile("E:/Prism/resource/common/anim-descriptions");
 		}
 		catch (Exception e)
 		{

@@ -1,0 +1,13 @@
+package xoric.prism.swing.input;
+
+import javax.swing.JTextField;
+
+public class PrismTextField extends JTextField
+{
+	private static final long serialVersionUID = 1L;
+
+	public PrismTextField(String s)
+	{
+		super(s);
+	}
+}

@@ -1,0 +1,17 @@
+package xoric.prism.swing.input.fields;
+
+import javax.swing.text.AbstractDocument;
+
+public class PrismIntField extends PrismField
+{
+	private static final long serialVersionUID = 1L;
+
+
+	public PrismIntField(int i)
+	{
+		super(String.valueOf(i));
+
+		filter = new PrismIntFilter(this);
+		((AbstractDocument) (this.getDocument())).setDocumentFilter(filter);
+	}
+}

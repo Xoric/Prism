@@ -4,7 +4,7 @@
 package xoric.prism.data.types;
 
 /**
- * @author Felix Möhrle
+ * @author Felix Mï¿½hrle
  * @since 26.05.2011, 13:50:56
  */
 public abstract class TextMap
@@ -55,19 +55,29 @@ public abstract class TextMap
 		{
 			c = Character.toUpperCase(c);
 
-			if ((c == 'ä') || (c == 'Ä'))
+			if ((c == 'ï¿½') || (c == 'ï¿½'))
 				result = "AE";
-			else if ((c == 'ö') || (c == 'Ö'))
+			else if ((c == 'ï¿½') || (c == 'ï¿½'))
 				result = "OE";
-			else if ((c == 'ü') || (c == 'Ü'))
+			else if ((c == 'ï¿½') || (c == 'ï¿½'))
 				result = "UE";
-			else if ((c == 'ß'))
+			else if ((c == 'ï¿½'))
 				result = "SS";
 			else
 				result = "";
 		}
 
 		return result;
+	}
+
+	public static String convertString(String s)
+	{
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < s.length(); ++i)
+			sb.append(convertChar(s.charAt(i)));
+
+		return sb.toString();
 	}
 
 	/**

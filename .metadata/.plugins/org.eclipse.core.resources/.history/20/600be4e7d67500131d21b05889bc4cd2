@@ -1,0 +1,6 @@
+package xoric.prism.swing.input.fields;
+
+interface IFilterListener
+{
+public void notifyInput();
+}

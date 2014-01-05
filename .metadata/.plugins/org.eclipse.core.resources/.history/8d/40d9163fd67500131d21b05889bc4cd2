@@ -1,0 +1,6 @@
+package xoric.prism.swing.input.fields;
+
+public interface PrismChangeListener
+{
+public void changedInput(Object source);
+}

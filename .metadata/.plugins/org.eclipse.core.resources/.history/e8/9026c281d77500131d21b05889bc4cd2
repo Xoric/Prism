@@ -1,0 +1,23 @@
+package xoric.prism.swing.input.fields;
+
+import javax.swing.JTextField;
+import javax.swing.text.AbstractDocument;
+
+import org.w3c.dom.Text;
+
+public class PrismTextField extends JTextField
+{
+	private static final long serialVersionUID = 1L;
+
+	public PrismTextField(String s)
+	{
+		super(s);
+
+		((AbstractDocument) (this.getDocument())).setDocumentFilter(new PrismTextFilter());
+	}
+
+	public PrismTextField(Text t)
+	{
+		super(t.toString());
+	}
+}

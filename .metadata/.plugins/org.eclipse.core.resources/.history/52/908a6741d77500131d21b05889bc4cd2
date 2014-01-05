@@ -1,0 +1,17 @@
+package xoric.prism.swing.input.fields;
+
+class PrismFilter
+{
+	private IFilterListener listener;
+
+	public void setListener(IFilterListener listener)
+	{
+		this.listener = listener;
+	}
+
+	protected void notifyListener()
+	{
+		if (listener != null)
+			listener.notifyInput();
+	}
+}

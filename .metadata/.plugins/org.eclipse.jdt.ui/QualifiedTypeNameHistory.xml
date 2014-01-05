@@ -55,9 +55,9 @@
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.control.DrawerControl2"/>
 <fullyQualifiedTypeName name="xoric.prism.global.PrismGlobal"/>
 <fullyQualifiedTypeName name="xoric.prism.data.modules.ModuleID"/>
-<fullyQualifiedTypeName name="xoric.prism.data.global.Prism"/>
 <fullyQualifiedTypeName name="xoric.prism.data.PrismDataLoader"/>
 <fullyQualifiedTypeName name="xoric.prism.world.loader.PrismWorldLoader"/>
 <fullyQualifiedTypeName name="xoric.prism.scene.lwjgl.PrismSceneLWJGL"/>
 <fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="xoric.prism.data.global.Prism"/>
 </qualifiedTypeNameHistroy>

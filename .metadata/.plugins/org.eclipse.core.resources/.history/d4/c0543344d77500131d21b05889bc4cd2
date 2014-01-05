@@ -1,0 +1,19 @@
+package xoric.prism.swing.input.fields;
+
+import javax.swing.text.DocumentFilter;
+
+abstract class PrismFilter extends DocumentFilter
+{
+	private IFilterListener listener;
+
+	public void setListener(IFilterListener listener)
+	{
+		this.listener = listener;
+	}
+
+	protected void notifyListener()
+	{
+		if (listener != null)
+			listener.notifyInput();
+	}
+}

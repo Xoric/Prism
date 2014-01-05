@@ -1,0 +1,22 @@
+package xoric.prism.swing.input.fields;
+
+abstract class PrismField
+{
+	private IPrismInputListener listener;
+
+	public PrismField(String s)
+	{
+		super(s);
+	}
+	
+	public void setInputListener(IPrismInputListener listener)
+	{
+		this.listener = listener;
+	}
+
+	protected void notifyListener()
+	{
+		if (listener != null)
+			listener.changedInput(this);
+	}
+}
