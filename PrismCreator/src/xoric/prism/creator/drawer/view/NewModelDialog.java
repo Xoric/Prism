@@ -49,11 +49,11 @@ public class NewModelDialog implements ActionListener, IInputListener
 	public NewModelDialog()
 	{
 		// maximum tile size
-		final int tileSizeMaxX = 384;
-		final int tileSizeMaxY = 256;
+		final int previewSizeMaxX = 384;
+		final int previewSizeMaxY = 256;
 
-		final int tileSizeMaxX0 = 256;
-		final int tileSizeMaxY0 = 200;
+		final int tileSizeMaxX = 256;
+		final int tileSizeMaxY = 200;
 
 		// model name
 		nameLabel = new JLabel("Name");
@@ -80,9 +80,9 @@ public class NewModelDialog implements ActionListener, IInputListener
 		sizeLabel = new JLabel("Tile size");
 		widthField = new PrismIntField(tileSizeX);
 		heightField = new PrismIntField(tileSizeY);
-		widthField.setMaxValue(tileSizeMaxX0);
+		widthField.setMaxValue(tileSizeMaxX);
 		widthField.setMinValue(0);
-		heightField.setMaxValue(tileSizeMaxY0);
+		heightField.setMaxValue(tileSizeMaxY);
 		widthField.setMinValue(0);
 		widthField.setInputListener(this);
 		heightField.setInputListener(this);
@@ -101,6 +101,12 @@ public class NewModelDialog implements ActionListener, IInputListener
 		l = new JLabel("pixels");
 		l.setHorizontalAlignment(SwingConstants.CENTER);
 		sizePanel.add(l, c);
+		JLabel sizeLabel2 = new JLabel(" ? ");
+		sizeLabel2.setBorder(BorderFactory.createEtchedBorder());
+		sizeLabel2.setToolTipText("Size of one sprite within the images.");
+		c = new GridBagConstraints(4, 0, 1, 1, 0.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
+		l.setHorizontalAlignment(SwingConstants.CENTER);
+		sizePanel.add(sizeLabel2, c);
 
 		// preview label
 		previewLabel = new JLabel();
@@ -116,10 +122,11 @@ public class NewModelDialog implements ActionListener, IInputListener
 		innerPreviewPanel.add(BorderLayout.EAST, previewHeightLabel);
 		innerPreviewPanel.add(BorderLayout.SOUTH, previewWidthLabel);
 
-		previewPanel = new JPanel();
-		previewPanel.add(innerPreviewPanel);
+		previewPanel = new JPanel(new GridBagLayout());
+		c = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
+		previewPanel.add(innerPreviewPanel, c);
 		previewPanel.setBorder(BorderFactory.createTitledBorder("Preview"));
-		previewPanel.setPreferredSize(new Dimension(tileSizeMaxX, tileSizeMaxY));
+		previewPanel.setPreferredSize(new Dimension(previewSizeMaxX, previewSizeMaxY));
 
 		Object[] message = { null, null, nameLabel, nameField, pathPanel0, pathPanel, sizeLabel, sizePanel, previewPanel };
 		pane = new JOptionPane(message, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);

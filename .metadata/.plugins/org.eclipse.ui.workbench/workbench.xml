@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="17" version="2.0">
+<workbench progressCount="19" version="2.0">
 <workbenchAdvisor/>
 <window height="600" maximized="true" width="962" x="0" y="0">
 <fastViewData fastViewLocation="1024"/>
@@ -33,34 +33,28 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
 <part id="1"/>
-<part id="2"/>
-<part id="3"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismClientBootstrap.java" partName="PrismClientBootstrap.java" path="/home/xoric/workspace/Prism/PrismClientBootstrap/src/xoric/prism/client/bootstrap/PrismClientBootstrap.java" title="PrismClientBootstrap.java" tooltip="PrismClientBootstrap/src/xoric/prism/client/bootstrap/PrismClientBootstrap.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/PrismClientBootstrap/src/xoric/prism/client/bootstrap/PrismClientBootstrap.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="134" selectionTopPixel="0"/>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="NewModelDialog.java" partName="NewModelDialog.java" path="/home/xoric/workspace/Prism/PrismCreator/src/xoric/prism/creator/drawer/view/NewModelDialog.java" title="NewModelDialog.java" tooltip="PrismCreator/src/xoric/prism/creator/drawer/view/NewModelDialog.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/PrismCreator/src/xoric/prism/creator/drawer/view/NewModelDialog.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4814" selectionTopPixel="1411"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MetaFileCreator.java" partName="MetaFileCreator.java" path="/home/xoric/workspace/Prism/PrismDevelop/src/xoric/prism/develop/meta/MetaFileCreator.java" title="MetaFileCreator.java" tooltip="PrismDevelop/src/xoric/prism/develop/meta/MetaFileCreator.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/PrismDevelop/src/xoric/prism/develop/meta/MetaFileCreator.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="28" selectionOffset="9995" selectionTopPixel="5542"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismCreatorBootstrap.java" partName="PrismCreatorBootstrap.java" path="/home/xoric/workspace/Prism/PrismCreatorBootstrap/src/xoric/prism/creator/bootstrap/PrismCreatorBootstrap.java" title="PrismCreatorBootstrap.java" tooltip="PrismCreatorBootstrap/src/xoric/prism/creator/bootstrap/PrismCreatorBootstrap.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/PrismCreatorBootstrap/src/xoric/prism/creator/bootstrap/PrismCreatorBootstrap.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="163" selectionOffset="701" selectionTopPixel="166"/>
-</editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismGlobal.java" partName="PrismGlobal.java" path="/home/xoric/workspace/Prism/PrismGlobal/src/xoric/prism/global/PrismGlobal.java" title="PrismGlobal.java" tooltip="PrismGlobal/src/xoric/prism/global/PrismGlobal.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/PrismGlobal/src/xoric/prism/global/PrismGlobal.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="920" selectionTopPixel="132"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ModelTable.java" partName="ModelTable.java" path="/home/xoric/workspace/Prism/PrismCreator/src/xoric/prism/creator/drawer/view/ModelTable.java" title="ModelTable.java" tooltip="PrismCreator/src/xoric/prism/creator/drawer/view/ModelTable.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/PrismCreator/src/xoric/prism/creator/drawer/view/ModelTable.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1307" selectionTopPixel="408"/>
 </editor>
 </editors>
 <views>
+<view id="org.eclipse.debug.ui.DebugView" partName="Debug">
+<viewState/>
+</view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
 <category IMemento.internal.id="Warnings (32 items)"/>
+<category IMemento.internal.id="Warnings"/>
 <category IMemento.internal.id="Errors"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
@@ -106,6 +100,7 @@
 </customFilters>
 </viewState>
 </view>
+<view id="org.eclipse.ui.views.TaskList" partName="Tasks"/>
 <view id="org.eclipse.jdt.ui.SourceView" partName="Declaration"/>
 <view id="org.eclipse.jdt.ui.JavadocView" partName="Javadoc"/>
 </views>
@@ -166,7 +161,7 @@
 <view id="org.eclipse.ui.views.ProblemView" ratio="0.3"/>
 <view id="org.eclipse.jdt.ui.JavadocView" ratio="0.3"/>
 <view id="org.eclipse.jdt.ui.SourceView" ratio="0.3"/>
-<view id="org.eclipse.ui.console.ConsoleView" ratio="0.29764453"/>
+<view id="org.eclipse.ui.console.ConsoleView" ratio="0.2783726"/>
 </fastViews>
 </fastViewBar>
 </fastViewBars>
@@ -191,7 +186,7 @@
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
-<info part="org.eclipse.ui.editorss" ratio="0.26763487" ratioLeft="258" ratioRight="706" relationship="2" relative="left"/>
+<info part="org.eclipse.ui.editorss" ratio="0.2593361" ratioLeft="250" ratioRight="714" relationship="2" relative="left"/>
 <info folder="true" part="bottom" ratio="0.7494781" ratioLeft="359" ratioRight="120" relationship="4" relative="org.eclipse.ui.editorss">
 <folder appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="LabelNotFound"/>
@@ -215,177 +210,259 @@
 </mainWindow>
 </layout>
 </perspective>
+<perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
+<descriptor class="org.eclipse.debug.internal.ui.DebugPerspectiveFactory" id="org.eclipse.debug.ui.DebugPerspective" label="Debug"/>
+<alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
+<alwaysOnActionSet id="org.eclipse.search.searchActionSet"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.annotationNavigation"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.navigation"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.convertLineDelimitersTo"/>
+<alwaysOnActionSet id="org.eclipse.ui.externaltools.ExternalToolsSet"/>
+<alwaysOnActionSet id="org.eclipse.ui.actionSet.keyBindings"/>
+<alwaysOnActionSet id="org.eclipse.ui.actionSet.openFiles"/>
+<alwaysOnActionSet id="org.eclipse.debug.ui.launchActionSet"/>
+<alwaysOnActionSet id="org.eclipse.ui.NavigateActionSet"/>
+<alwaysOnActionSet id="org.eclipse.debug.ui.breakpointActionSet"/>
+<alwaysOnActionSet id="org.eclipse.jdt.debug.ui.JDTDebugActionSet"/>
+<alwaysOnActionSet id="org.eclipse.jdt.ui.JavaActionSet"/>
+<alwaysOnActionSet id="org.eclipse.debug.ui.debugActionSet"/>
+<show_view_action id="org.eclipse.debug.ui.DebugView"/>
+<show_view_action id="org.eclipse.debug.ui.VariableView"/>
+<show_view_action id="org.eclipse.debug.ui.BreakpointView"/>
+<show_view_action id="org.eclipse.debug.ui.ExpressionView"/>
+<show_view_action id="org.eclipse.ui.views.ContentOutline"/>
+<show_view_action id="org.eclipse.ui.console.ConsoleView"/>
+<show_view_action id="org.eclipse.ui.views.TaskList"/>
+<show_view_action id="org.eclipse.ant.ui.views.AntView"/>
+<show_view_action id="org.eclipse.pde.runtime.LogView"/>
+<show_view_action id="org.eclipse.jdt.debug.ui.DisplayView"/>
+<perspective_action id="org.eclipse.jdt.ui.JavaPerspective"/>
+<perspective_action id="org.eclipse.jdt.ui.JavaBrowsingPerspective"/>
+<hide_toolbar_item_id id="org.eclipse.debug.ui.commands.RunToLine"/>
+<hide_toolbar_item_id id="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
+<hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
+<view id="org.eclipse.ui.console.ConsoleView"/>
+<view id="org.eclipse.ui.views.TaskList"/>
+<fastViewBars>
+<fastViewBar fastViewLocation="16384" id="org.eclipse.debug.internal.ui.NavigatorFolderView" orientation="256" selectedTabId="org.eclipse.debug.ui.DebugView" style="0">
+<fastViews>
+<view id="org.eclipse.debug.ui.DebugView" ratio="0.3"/>
+</fastViews>
+</fastViewBar>
+</fastViewBars>
+<layout>
+<mainWindow>
+<info folder="true" part="org.eclipse.debug.internal.ui.NavigatorFolderView">
+<folder appearance="2" expanded="0">
+<page content="org.eclipse.debug.ui.DebugView" label="LabelNotFound"/>
+<page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
+<page content="org.eclipse.jdt.ui.PackageExplorer" label="LabelNotFound"/>
+<page content="org.eclipse.jdt.ui.TypeHierarchy" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+</folder>
+</info>
+<info folder="true" part="stickyFolderRight" ratio="0.7497415" ratioLeft="725" ratioRight="242" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
+<page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
+</folder>
+</info>
+<info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.7494647" ratioLeft="350" ratioRight="117" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
+<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
+<page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
+<page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
+<page content="org.eclipse.ui.views.PropertySheet" label="LabelNotFound"/>
+<page content="org.eclipse.jdt.debug.ui.DisplayView" label="LabelNotFound"/>
+<page content="org.eclipse.search.SearchResultView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+</presentation>
+</folder>
+</info>
+<info part="org.eclipse.ui.editorss" ratio="0.17816092" ratioLeft="62" ratioRight="286" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.OutlineFolderView" ratio="0.7497415" ratioLeft="725" ratioRight="242" relationship="2" relative="org.eclipse.ui.editorss">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.ui.views.ContentOutline" label="LabelNotFound"/>
+<page content="org.eclipse.ant.ui.views.AntView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+</folder>
+</info>
+<info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.49948293" ratioLeft="483" ratioRight="484" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.debug.ui.VariableView" label="LabelNotFound"/>
+<page content="org.eclipse.debug.ui.BreakpointView" label="LabelNotFound"/>
+<page content="org.eclipse.debug.ui.ExpressionView" label="LabelNotFound"/>
+<page content="org.eclipse.debug.ui.RegisterView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+</folder>
+</info>
+</mainWindow>
+</layout>
+</perspective>
 </perspectives>
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismDevelop/src/xoric/prism/develop/meta/AttachmentImporter.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismData/src/xoric/prism/data/FloatPacker.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismData/src/xoric/prism/data/IntPacker.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismData/src/xoric/prism/data/AttachmentHeader.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismData/src/xoric/prism/data/TextPacker.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismDevelop/src/xoric/prism/develop/meta/MetaFileCreator.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismDevelop/src/xoric/prism/develop/meta/MetaFileCreator.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismCreatorBootstrap/src/xoric/prism/client/bootstrap/PrismClientBootstrap.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismClientBootstrap/src/xoric/prism/client/bootstrap/PrismClientBootstrap.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismSceneLWJGL/src/xoric/prism/scene/lwjgl/PrismSceneLWJGL.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismClientBootstrap/src/xoric/prism/client/bootstrap/PrismClientBootstrap.java"/>
-<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" org.eclipse.jdt.ui.ClassFileIdentifier="=MetaFilePrinter/\/usr\/lib\/jvm\/java-7-openjdk-i386\/jre\/lib\/rt.jar&lt;java.lang(System.class"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismCreatorBootstrap/src/xoric/prism/client/bootstrap/PrismClientBootstrap.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismGlobal/src/xoric/prism/global/PrismGlobal.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismDevelop/src/xoric/prism/develop/meta/MetaFileCreator.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismData/src/xoric/prism/data/global/IPrismGlobal.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismCreatorBootstrap/src/xoric/prism/creator/bootstrap/PrismCreatorBootstrap.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismCreator/src/xoric/prism/creator/drawer/view/NewModelDialog.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismCreator/src/xoric/prism/creator/drawer/view/DrawerView2.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismIntField.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismIntFilter.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismDocumentFilter.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismSwing/src/xoric/prism/swing/input/fields/IValueController.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismCreator/src/xoric/prism/creator/drawer/view/ModelTable.java"/>
 </editors>
-<item historyLabel="AttachmentHeader.java" index="3">
-<position info="not_deleted" x="1830" y="0"/>
-</item>
-<item historyLabel="AttachmentHeader.java" index="3">
-<position info="not_deleted" x="1830" y="0"/>
-</item>
-<item historyLabel="MetaFileCreator.java" index="5">
-<position info="not_deleted" x="8249" y="0"/>
-</item>
-<item historyLabel="AttachmentHeader.java" index="3">
-<position info="not_deleted" x="1831" y="0"/>
-</item>
-<item historyLabel="AttachmentHeader.java" index="3">
-<position info="not_deleted" x="1848" y="0"/>
-</item>
-<item historyLabel="TextPacker.java" index="4">
-<position info="not_deleted" x="2835" y="0"/>
-</item>
-<item historyLabel="AttachmentHeader.java" index="3">
-<position info="not_deleted" x="1943" y="0"/>
-</item>
-<item historyLabel="TextPacker.java" index="4">
-<position info="not_deleted" x="2771" y="0"/>
-</item>
-<item historyLabel="IntPacker.java" index="2">
-<position info="not_deleted" x="1536" y="0"/>
-</item>
-<item historyLabel="TextPacker.java" index="4">
-<position info="not_deleted" x="2771" y="0"/>
-</item>
-<item historyLabel="FloatPacker.java" index="1">
-<position info="not_deleted" x="3426" y="0"/>
-</item>
-<item historyLabel="TextPacker.java" index="4">
-<position info="not_deleted" x="2771" y="0"/>
-</item>
-<item historyLabel="AttachmentHeader.java" index="3">
-<position info="not_deleted" x="166" y="0"/>
-</item>
-<item historyLabel="MetaFileCreator.java" index="5">
-<position info="not_deleted" x="8249" y="0"/>
-</item>
-<item historyLabel="AttachmentImporter.java" index="0">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="AttachmentImporter.java" index="0">
-<position info="not_deleted" x="309" y="0"/>
-</item>
-<item historyLabel="MetaFileCreator.java" index="6">
-<position info="not_deleted" x="8249" y="0"/>
-</item>
-<item historyLabel="PrismClientBootstrap.java" index="7">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="PrismClientBootstrap.java" index="8">
-<position info="not_deleted" x="385" y="0"/>
-</item>
-<item historyLabel="PrismSceneLWJGL.java" index="9">
-<position info="not_deleted" x="3244" y="0"/>
-</item>
-<item historyLabel="PrismClientBootstrap.java" index="10">
-<position info="not_deleted" x="1200" y="0"/>
-</item>
-<item historyLabel="System.class" index="11">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="PrismClientBootstrap.java" index="10">
-<position info="not_deleted" x="1200" y="0"/>
-</item>
-<item historyLabel="PrismClientBootstrap.java" index="12">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="PrismClientBootstrap.java" index="10">
-<position info="not_deleted" x="1200" y="0"/>
-</item>
-<item historyLabel="PrismClientBootstrap.java" index="10">
-<position info="not_deleted" x="714" y="0"/>
-</item>
-<item historyLabel="PrismSceneLWJGL.java" index="9">
-<position info="not_deleted" x="2189" y="0"/>
-</item>
-<item historyLabel="PrismClientBootstrap.java" index="10">
-<position info="not_deleted" x="714" y="0"/>
-</item>
-<item historyLabel="PrismClientBootstrap.java" index="10">
-<position info="not_deleted" x="134" y="0"/>
-</item>
-<item historyLabel="PrismGlobal.java" index="13">
-<position info="not_deleted" x="577" y="0"/>
-</item>
-<item historyLabel="MetaFileCreator.java" index="14">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="MetaFileCreator.java" index="14">
-<position info="not_deleted" x="9906" y="0"/>
-</item>
-<item historyLabel="IPrismGlobal.java" index="15">
-<position info="not_deleted" x="340" y="6"/>
-</item>
-<item historyLabel="IPrismGlobal.java" index="15">
-<position info="not_deleted" x="252" y="0"/>
-</item>
-<item historyLabel="MetaFileCreator.java" index="14">
+<item historyLabel="NewModelDialog.java" index="0">
 <position/>
 </item>
-<item historyLabel="PrismGlobal.java" index="13">
-<position info="not_deleted" x="577" y="0"/>
-</item>
-<item historyLabel="PrismGlobal.java" index="13">
-<position info="not_deleted" x="1319" y="0"/>
-</item>
-<item historyLabel="MetaFileCreator.java" index="14">
+<item historyLabel="NewModelDialog.java" index="0">
 <position/>
 </item>
-<item historyLabel="MetaFileCreator.java" index="14">
+<item historyLabel="NewModelDialog.java" index="0">
 <position/>
 </item>
-<item historyLabel="MetaFileCreator.java" index="14">
-<position info="not_deleted" x="1040" y="15"/>
-</item>
-<item historyLabel="MetaFileCreator.java" index="14">
+<item historyLabel="NewModelDialog.java" index="0">
 <position/>
 </item>
-<item historyLabel="MetaFileCreator.java" index="14">
-<position info="not_deleted" x="1453" y="0"/>
-</item>
-<item historyLabel="PrismCreatorBootstrap.java" index="16">
-<position info="not_deleted" x="832" y="0"/>
-</item>
-<item historyLabel="PrismGlobal.java" index="13">
-<position info="not_deleted" x="727" y="0"/>
-</item>
-<item historyLabel="MetaFileCreator.java" index="14">
-<position info="not_deleted" x="1453" y="0"/>
-</item>
-<item historyLabel="PrismCreatorBootstrap.java" index="16">
-<position info="not_deleted" x="701" y="163"/>
-</item>
-<item historyLabel="MetaFileCreator.java" index="14">
-<position info="not_deleted" x="1453" y="0"/>
-</item>
-<item historyLabel="MetaFileCreator.java" index="14">
+<item historyLabel="NewModelDialog.java" index="0">
 <position/>
 </item>
-<item historyLabel="MetaFileCreator.java" index="14">
-<position info="not_deleted" x="9995" y="28"/>
+<item historyLabel="NewModelDialog.java" index="0">
+<position/>
 </item>
-<item active="true" historyLabel="PrismGlobal.java" index="13">
-<position info="not_deleted" x="727" y="0"/>
+<item historyLabel="DrawerView2.java" index="1">
+<position info="not_deleted" x="4539" y="0"/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position info="not_deleted" x="5513" y="4"/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position info="not_deleted" x="5495" y="0"/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position info="not_deleted" x="5495" y="0"/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position/>
+</item>
+<item historyLabel="PrismIntField.java" index="2">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="PrismIntFilter.java" index="3">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="PrismIntField.java" index="2">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="PrismIntField.java" index="2">
+<position info="not_deleted" x="540" y="0"/>
+</item>
+<item historyLabel="PrismIntField.java" index="2">
+<position info="not_deleted" x="329" y="0"/>
+</item>
+<item historyLabel="PrismIntFilter.java" index="3">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="PrismIntFilter.java" index="3">
+<position/>
+</item>
+<item historyLabel="PrismIntFilter.java" index="3">
+<position/>
+</item>
+<item historyLabel="PrismIntFilter.java" index="3">
+<position/>
+</item>
+<item historyLabel="PrismIntField.java" index="2">
+<position/>
+</item>
+<item historyLabel="PrismDocumentFilter.java" index="4">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="PrismIntFilter.java" index="3">
+<position/>
+</item>
+<item historyLabel="IValueController.java" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="IValueController.java" index="5">
+<position info="not_deleted" x="58" y="16"/>
+</item>
+<item historyLabel="PrismIntFilter.java" index="3">
+<position/>
+</item>
+<item historyLabel="PrismIntField.java" index="2">
+<position info="not_deleted" x="835" y="0"/>
+</item>
+<item historyLabel="PrismIntField.java" index="2">
+<position info="not_deleted" x="939" y="0"/>
+</item>
+<item historyLabel="PrismIntField.java" index="2">
+<position info="not_deleted" x="968" y="0"/>
+</item>
+<item historyLabel="PrismIntField.java" index="2">
+<position info="not_deleted" x="141" y="16"/>
+</item>
+<item historyLabel="PrismIntFilter.java" index="3">
+<position info="not_deleted" x="1511" y="0"/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position info="not_deleted" x="2207" y="0"/>
+</item>
+<item historyLabel="ModelTable.java" index="6">
+<position info="not_deleted" x="1668" y="0"/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position info="not_deleted" x="2207" y="0"/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position info="not_deleted" x="1515" y="0"/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position info="not_deleted" x="1556" y="0"/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position info="not_deleted" x="1588" y="0"/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position info="not_deleted" x="5064" y="0"/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position info="not_deleted" x="1027" y="9"/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position info="not_deleted" x="1647" y="0"/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position info="not_deleted" x="5051" y="1"/>
+</item>
+<item historyLabel="NewModelDialog.java" index="0">
+<position info="not_deleted" x="4794" y="0"/>
+</item>
+<item historyLabel="ModelTable.java" index="6">
+<position info="not_deleted" x="1307" y="0"/>
+</item>
+<item active="true" historyLabel="NewModelDialog.java" index="0">
+<position info="not_deleted" x="4794" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -393,6 +470,10 @@
 <workbenchWindowAdvisor/>
 <actionBarAdvisor/>
 <trimLayout>
+<trimArea IMemento.internal.id="16384">
+<trimItem IMemento.internal.id="left"/>
+<trimItem IMemento.internal.id="org.eclipse.debug.internal.ui.NavigatorFolderView"/>
+</trimArea>
 <trimArea IMemento.internal.id="128">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
 </trimArea>
@@ -405,50 +486,50 @@
 </trimLayout>
 </window>
 <mruList>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismGlobal.java" tooltip="PrismGlobal/src/xoric/prism/global/PrismGlobal.java">
-<persistable path="/PrismGlobal/src/xoric/prism/global/PrismGlobal.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ModelTable.java" tooltip="PrismCreator/src/xoric/prism/creator/drawer/view/ModelTable.java">
+<persistable path="/PrismCreator/src/xoric/prism/creator/drawer/view/ModelTable.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismCreatorBootstrap.java" tooltip="PrismCreatorBootstrap/src/xoric/prism/creator/bootstrap/PrismCreatorBootstrap.java">
-<persistable path="/PrismCreatorBootstrap/src/xoric/prism/creator/bootstrap/PrismCreatorBootstrap.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="IValueController.java" tooltip="PrismSwing/src/xoric/prism/swing/input/fields/IValueController.java">
+<persistable path="/PrismSwing/src/xoric/prism/swing/input/fields/IValueController.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="IPrismGlobal.java" tooltip="PrismData/src/xoric/prism/data/global/IPrismGlobal.java">
-<persistable path="/PrismData/src/xoric/prism/data/global/IPrismGlobal.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismDocumentFilter.java" tooltip="PrismSwing/src/xoric/prism/swing/input/fields/PrismDocumentFilter.java">
+<persistable path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismDocumentFilter.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MetaFileCreator.java" tooltip="PrismDevelop/src/xoric/prism/develop/meta/MetaFileCreator.java">
-<persistable path="/PrismDevelop/src/xoric/prism/develop/meta/MetaFileCreator.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismIntFilter.java" tooltip="PrismSwing/src/xoric/prism/swing/input/fields/PrismIntFilter.java">
+<persistable path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismIntFilter.java"/>
 </file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="System.class" tooltip="java.lang.System">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=MetaFilePrinter/\/usr\/lib\/jvm\/java-7-openjdk-i386\/jre\/lib\/rt.jar&lt;java.lang(System.class"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismIntField.java" tooltip="PrismSwing/src/xoric/prism/swing/input/fields/PrismIntField.java">
+<persistable path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismIntField.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismSceneLWJGL.java" tooltip="PrismSceneLWJGL/src/xoric/prism/scene/lwjgl/PrismSceneLWJGL.java">
-<persistable path="/PrismSceneLWJGL/src/xoric/prism/scene/lwjgl/PrismSceneLWJGL.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="DrawerView2.java" tooltip="PrismCreator/src/xoric/prism/creator/drawer/view/DrawerView2.java">
+<persistable path="/PrismCreator/src/xoric/prism/creator/drawer/view/DrawerView2.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismClientBootstrap.java" tooltip="PrismClientBootstrap/src/xoric/prism/client/bootstrap/PrismClientBootstrap.java">
-<persistable path="/PrismClientBootstrap/src/xoric/prism/client/bootstrap/PrismClientBootstrap.java"/>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="NumberFormatException.class" tooltip="java.lang.NumberFormatException">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=MetaFilePrinter/\/usr\/lib\/jvm\/java-7-openjdk-i386\/jre\/lib\/rt.jar&lt;java.lang(NumberFormatException.class"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismClientBootstrap.java" tooltip="PrismCreatorBootstrap/src/xoric/prism/client/bootstrap/PrismClientBootstrap.java">
-<persistable path="/PrismCreatorBootstrap/src/xoric/prism/client/bootstrap/PrismClientBootstrap.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismField.java" tooltip="PrismSwing/src/xoric/prism/swing/input/fields/PrismField.java">
+<persistable path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismField.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FloatPacker.java" tooltip="PrismData/src/xoric/prism/data/FloatPacker.java">
-<persistable path="/PrismData/src/xoric/prism/data/FloatPacker.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismTextFilter.java" tooltip="PrismSwing/src/xoric/prism/swing/input/fields/PrismTextFilter.java">
+<persistable path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismTextFilter.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="IntPacker.java" tooltip="PrismData/src/xoric/prism/data/IntPacker.java">
-<persistable path="/PrismData/src/xoric/prism/data/IntPacker.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismFilter.java" tooltip="PrismSwing/src/xoric/prism/swing/input/fields/PrismFilter.java">
+<persistable path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismFilter.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TextPacker.java" tooltip="PrismData/src/xoric/prism/data/TextPacker.java">
-<persistable path="/PrismData/src/xoric/prism/data/TextPacker.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="IFilterListener.java" tooltip="PrismSwing/src/xoric/prism/swing/input/fields/IFilterListener.java">
+<persistable path="/PrismSwing/src/xoric/prism/swing/input/fields/IFilterListener.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AttachmentImporter.java" tooltip="PrismDevelop/src/xoric/prism/develop/meta/AttachmentImporter.java">
-<persistable path="/PrismDevelop/src/xoric/prism/develop/meta/AttachmentImporter.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismChangeListener.java" tooltip="PrismSwing/src/xoric/prism/swing/input/fields/PrismChangeListener.java">
+<persistable path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismChangeListener.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AttachmentHeader.java" tooltip="PrismData/src/xoric/prism/data/AttachmentHeader.java">
-<persistable path="/PrismData/src/xoric/prism/data/AttachmentHeader.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="IntInput.java" tooltip="PrismSwing/src/xoric/prism/swing/input/IntInput.java">
+<persistable path="/PrismSwing/src/xoric/prism/swing/input/IntInput.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AttachmentLoader.java" tooltip="PrismData/src/xoric/prism/meta/AttachmentLoader.java">
-<persistable path="/PrismData/src/xoric/prism/meta/AttachmentLoader.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="NewModelDialog.java" tooltip="PrismCreator/src/xoric/prism/creator/drawer/view/NewModelDialog.java">
+<persistable path="/PrismCreator/src/xoric/prism/creator/drawer/view/NewModelDialog.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Test.java" tooltip="Test/src/Test.java">
-<persistable path="/Test/src/Test.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismTextField.java" tooltip="PrismSwing/src/xoric/prism/swing/input/fields/PrismTextField.java">
+<persistable path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismTextField.java"/>
 </file>
 </mruList>
 </workbench>

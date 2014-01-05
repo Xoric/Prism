@@ -1,3 +1,7 @@
 1388901414881	Rename local variable 'pSize'
 1388901422333	Rename local variable 'p'
 1388907618243	Rename field 'panel'
+1388916260777	Rename local variable 'tileSizeMaxX'
+1388916270578	Rename local variable 'tileSizeMaxY'
+1388916276747	Rename local variable 'tileSizeMaxX0'
+1388916280863	Rename local variable 'tileSizeMaxY0'
