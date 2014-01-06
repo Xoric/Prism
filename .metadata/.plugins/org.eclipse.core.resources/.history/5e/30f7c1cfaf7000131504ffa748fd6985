@@ -1,6 +1,0 @@
-package xoric.prism.world.movement;
-
-public enum View4
-{
-	RIGHT, TOP, LEFT, BOTTOM
-}

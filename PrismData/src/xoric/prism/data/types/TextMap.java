@@ -55,13 +55,13 @@ public abstract class TextMap
 		{
 			c = Character.toUpperCase(c);
 
-			if ((c == 'ï¿½') || (c == 'ï¿½'))
+			if ((c == 'Ä') || (c == 'ä'))
 				result = "AE";
-			else if ((c == 'ï¿½') || (c == 'ï¿½'))
+			else if ((c == 'Ö') || (c == 'ö'))
 				result = "OE";
-			else if ((c == 'ï¿½') || (c == 'ï¿½'))
+			else if ((c == 'Ü') || (c == 'ü'))
 				result = "UE";
-			else if ((c == 'ï¿½'))
+			else if ((c == 'ß'))
 				result = "SS";
 			else
 				result = "";
