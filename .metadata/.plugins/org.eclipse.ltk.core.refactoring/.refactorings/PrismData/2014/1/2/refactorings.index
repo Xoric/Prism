@@ -1,0 +1,10 @@
+1389083716870	Move compilation unit
+1389083878939	Rename local variable 's'
+1389086223145	Copy compilation unit
+1389086534525	Delete element
+1389088279341	Move compilation unit
+1389088337773	Rename compilation unit 'InfoPair.java'
+1389088598529	Rename type 'IActorID_'
+1389089549226	Rename type 'UserErrorDescription'
+1389094825430	Rename enum constant 'CANNOT_CREATE_DIRECTORY'
+1389094828944	Rename enum constant 'COULD_CREATE_DIRECTORY'

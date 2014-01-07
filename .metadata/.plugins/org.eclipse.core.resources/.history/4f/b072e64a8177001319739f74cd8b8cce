@@ -1,0 +1,36 @@
+package xoric.prism.data.exceptions2;
+
+
+public class PrismException2 extends Throwable implements IInfoContainer
+{
+	private static final long serialVersionUID = 1L;
+
+	public final UserLevel user;
+	public final CodeLevel code;
+
+	public PrismException2(ErrorToken e)
+	{
+		user = new UserLevel();
+		code = new CodeLevel(this,e);
+	}
+
+	public PrismException2(ErrorToken e, Exception originalException)
+	{
+		user = new UserLevel();
+		code = new CodeLevel(this,e, originalException);
+	}
+
+	@Override
+	public void addInfo(String line)
+	{
+		user.addInfo(line);
+		code.addInfo(line);
+	}
+
+	@Override
+	public void addInfo(String key, String value)
+	{
+		user.addInfo(key, value);
+		code.addInfo(key, value);
+	}
+}

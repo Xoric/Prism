@@ -1,0 +1,19 @@
+package xoric.prism.data.exceptions2;
+
+public class PrismException2
+{
+	public final UserLevel user;
+	public final CodeLevel code;
+
+	public PrismException2(ErrorToken e)
+	{
+		user = new UserLevel();
+		code = new CodeLevel(e);
+	}
+
+	public PrismException2(ErrorToken e, Exception originalException)
+	{
+		user = new UserLevel();
+		code = new CodeLevel(e, originalException);
+	}
+}

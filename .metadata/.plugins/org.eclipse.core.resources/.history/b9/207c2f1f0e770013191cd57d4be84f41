@@ -1,0 +1,6 @@
+package xoric.prism.data.exceptions;
+
+public class PrismException2
+{
+
+}

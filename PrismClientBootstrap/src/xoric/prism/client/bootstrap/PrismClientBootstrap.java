@@ -2,9 +2,8 @@ package xoric.prism.client.bootstrap;
 
 import xoric.prism.client.main.PrismClient;
 import xoric.prism.data.PrismDataLoader;
-import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions2.PrismException2;
 import xoric.prism.data.global.Prism;
-import xoric.prism.data.modules.ModuleID;
 import xoric.prism.global.PrismGlobal;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.lwjgl.PrismSceneLWJGL;
@@ -21,7 +20,7 @@ public class PrismClientBootstrap
 		{
 			// global initialization
 			PrismGlobal.setLookAndFeel();
-			PrismGlobal global = new PrismGlobal(ModuleID.CLIENT);
+			PrismGlobal global = new PrismGlobal();
 			global.load();
 			Prism.global = global;
 
@@ -36,10 +35,10 @@ public class PrismClientBootstrap
 			// start client
 			client.start();
 		}
-		catch (PrismException e)
+		catch (PrismException2 e)
 		{
-			e.printStackTrace();
-			e.showErrorMessage();
+			e.user.showMessage();
+			e.code.print();
 		}
 		catch (Exception e)
 		{

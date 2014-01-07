@@ -1,0 +1,13 @@
+package xoric.prism.data.exceptions;
+
+import xoric.prism.data.modules.ErrorCode;
+
+public class PrismDevException_ extends PrismException
+{
+	private static final long serialVersionUID = 1L;
+
+	public PrismDevException_(ErrorCode errorCode)
+	{
+		super(errorCode);
+	}
+}

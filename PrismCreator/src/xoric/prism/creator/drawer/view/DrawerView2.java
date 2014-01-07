@@ -190,7 +190,14 @@ public class DrawerView2 extends PrismFrame implements IDrawerView2, ActionListe
 
 	private void onNewModel()
 	{
-		NewModelDialog d = new NewModelDialog();
-		d.show();
+		boolean isOK = control.askSaveChanges();
+		if (isOK)
+		{
+			NewModelDialog d = new NewModelDialog();
+			isOK = d.show();
+
+			if (isOK)
+				control.requestNewModel(d.getResult());
+		}
 	}
 }

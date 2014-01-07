@@ -1,0 +1,30 @@
+package xoric.prism.data.exceptions2;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CodeLevel
+{
+	private final List<InfoPair> infoPairs = new ArrayList<InfoPair>();
+	private final List<String> infoLines = new ArrayList<String>();
+	private final Exception originalException;
+
+	public CodeLevel()
+	{originalException=null;
+	}
+
+	public CodeLevel(Exception originalException)
+	{
+		this.originalException = originalException;
+	}
+
+	public void addInfo(String line)
+	{
+		infoLines.add(line);
+	}
+
+	public void addInfo(String key, String value)
+	{
+		infoPairs.add(new InfoPair(key, value));
+	}
+}

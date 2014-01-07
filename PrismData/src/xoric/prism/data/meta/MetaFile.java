@@ -2,17 +2,13 @@ package xoric.prism.data.meta;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
-import xoric.prism.data.exceptions.PrismMetaFileException;
-import xoric.prism.data.modules.ActorID;
-import xoric.prism.data.modules.ErrorCode;
-import xoric.prism.data.modules.ErrorID;
-import xoric.prism.data.modules.IActor;
+import xoric.prism.data.exceptions2.PrismException2;
+import xoric.prism.data.exceptions2.UserErrorText;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IntPacker;
 
-public class MetaFile implements IActor, IMetaListOwner
+public class MetaFile implements IMetaListOwner
 {
 	private final File file;
 	private final IPath_r path;
@@ -21,17 +17,6 @@ public class MetaFile implements IActor, IMetaListOwner
 	private TimeStamp timeStamp;
 	private MetaList metaList;
 	private AttachmentLoader attachmentLoader;
-
-	//	public MetaFile(String filename)
-	//	{
-	//		this.filename = filename;
-	//		this.path = Prism.global.getDataPath();
-	//		this.file = this.path.getFile(filename);
-	//		this.localFileVersion = 0;
-	//		this.timeStamp = new TimeStamp();
-	//		this.metaList = new MetaList();
-	//		this.metaList.setOwner(this);
-	//	}
 
 	public MetaFile(IPath_r path, String filename)
 	{
@@ -50,7 +35,7 @@ public class MetaFile implements IActor, IMetaListOwner
 		this.metaList.setOwner(this);
 	}
 
-	public void load() throws PrismMetaFileException
+	public void load() throws PrismException2
 	{
 		try
 		{
@@ -75,12 +60,14 @@ public class MetaFile implements IActor, IMetaListOwner
 		}
 		catch (Exception e0)
 		{
-			e0.printStackTrace();
-
-			ErrorID id = e0 instanceof FileNotFoundException ? ErrorID.READ_ERROR : ErrorID.COMMON;
-			ErrorCode c = new ErrorCode(this, id);
-			PrismMetaFileException e = new PrismMetaFileException(c, filename);
-			e.appendOriginalException(e0);
+			PrismException2 e = new PrismException2(e0);
+			// ----
+			e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
+			// ----
+			e.code.setText("an error occured while loading a MetaFile");
+			// ----
+			e.addInfo("file", filename);
+			// ----
 			throw e;
 		}
 	}
@@ -109,12 +96,6 @@ public class MetaFile implements IActor, IMetaListOwner
 	public MetaList getMetaList()
 	{
 		return metaList;
-	}
-
-	@Override
-	public ActorID getActorID()
-	{
-		return ActorID.META_FILE;
 	}
 
 	public int getLocalFileVersion()

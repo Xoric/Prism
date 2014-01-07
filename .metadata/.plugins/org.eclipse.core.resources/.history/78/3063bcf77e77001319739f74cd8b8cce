@@ -1,0 +1,38 @@
+package xoric.prism.data.exceptions2;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class InfoContainer
+{
+	private final List<InfoPair> infoPairs = new ArrayList<InfoPair>();
+	private final List<String> infoLines = new ArrayList<String>();
+
+	public void addInfo(String line)
+	{
+		this.infoLines.add(line);
+	}
+
+	public void addInfo(String key, String value)
+	{
+		this.infoPairs.add(new InfoPair(key, value));
+	}
+
+	public void extractInfoAsText(StringBuilder sb)
+	{
+		for (InfoPair p : infoPairs)
+			sb.append('\n' + p.key + ": " + p.value );
+
+		for (String s : infoLines)
+			sb.append('\n' + s);
+	}
+
+	public void extractInfoAsHtml(StringBuilder sb)
+	{
+		for (InfoPair p : infoPairs)
+			sb.append("<br>" + p.key + ": <code>" + p.value + "</code>");
+
+		for (String s : infoLines)
+			sb.append("<br>" + s);
+	}
+}

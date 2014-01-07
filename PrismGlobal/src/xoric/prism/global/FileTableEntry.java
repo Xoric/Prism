@@ -1,6 +1,6 @@
 package xoric.prism.global;
 
-import xoric.prism.data.exceptions.PrismMetaFileException;
+import xoric.prism.data.exceptions2.PrismException2;
 import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.types.IPath_r;
 
@@ -16,7 +16,7 @@ class FileTableEntry
 		this.filename = filename;
 	}
 
-	public MetaFile loadMetaFile() throws PrismMetaFileException
+	public MetaFile loadMetaFile() throws PrismException2
 	{
 		if (metaFile == null)
 		{

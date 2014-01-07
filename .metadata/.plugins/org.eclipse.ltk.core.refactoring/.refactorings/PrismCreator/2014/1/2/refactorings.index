@@ -5,3 +5,5 @@
 1388916270578	Rename local variable 'tileSizeMaxY'
 1388916276747	Rename local variable 'tileSizeMaxX0'
 1388916280863	Rename local variable 'tileSizeMaxY0'
+1389037144095	Rename local variable 'file'
+1389037506825	Rename type 'NewModelInput'

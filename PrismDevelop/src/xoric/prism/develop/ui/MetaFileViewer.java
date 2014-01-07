@@ -9,7 +9,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import xoric.prism.data.exceptions.PrismMetaFileException;
+import xoric.prism.data.exceptions2.PrismException2;
 import xoric.prism.data.meta.AttachmentHeader;
 import xoric.prism.data.meta.AttachmentLoader;
 import xoric.prism.data.meta.MetaFile;
@@ -55,7 +55,7 @@ public class MetaFileViewer extends PrismFrame
 		d.setVisible(true);
 	}
 
-	public void openMetaFile(Path path, String filename) throws PrismMetaFileException
+	public void openMetaFile(Path path, String filename) throws PrismException2
 	{
 		MetaFile f = new MetaFile(path, filename);
 		f.load();
@@ -104,9 +104,10 @@ public class MetaFileViewer extends PrismFrame
 			v.openMetaFile(path, "shader/default.sh");
 			v.setVisible(true);
 		}
-		catch (Exception e0)
+		catch (PrismException2 e)
 		{
-			e0.printStackTrace();
+			e.code.print();
+			e.user.showMessage();
 		}
 	}
 }

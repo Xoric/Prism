@@ -1,0 +1,15 @@
+package xoric.prism.data.global;
+
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.meta.MetaFile;
+import xoric.prism.data.modules.ModuleID;
+import xoric.prism.data.types.IPath_r;
+
+public interface IPrismGlobal
+{
+	public ModuleID getModuleID();
+
+	public MetaFile loadMetaFile(FileIndex fi) throws PrismException2;
+
+	public IPath_r getDataPath();
+}

@@ -1,0 +1,49 @@
+package xoric.prism.data.exceptions2;
+
+public class CodeLevel extends InfoContainer
+{
+	private final ErrorToken errorID;
+	private final Exception originalException;
+
+	public CodeLevel(ErrorToken e)
+	{
+		this.errorID = e;
+		this.originalException = null;
+	}
+
+	public CodeLevel(ErrorToken e, Exception originalException)
+	{
+		this.errorID = e;
+		this.originalException = originalException;
+	}
+
+	public String toHtml()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("<html>");
+
+		// add error message
+		sb.append("<span style=\"background-color:#DCDCDC; color:#0;\"><strong>");
+		sb.append(errorID.toString());
+		sb.append("</span><br>");
+
+		// add additional information
+		this.extractInfoAsHtml(sb);
+
+		return sb.toString();
+	}
+
+	@Override
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+
+		// add error message
+		sb.append(errorID.toString());
+
+		// add additional information
+		this.extractInfoAsText(sb);
+
+		return sb.toString();
+	}
+}

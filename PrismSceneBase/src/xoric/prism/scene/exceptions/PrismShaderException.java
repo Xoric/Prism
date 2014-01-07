@@ -1,14 +1,11 @@
 package xoric.prism.scene.exceptions;
 
-import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.modules.ErrorCode;
-
-public class PrismShaderException extends PrismException
+@Deprecated
+public class PrismShaderException extends Exception
 {
 	private static final long serialVersionUID = 1L;
 
-	public PrismShaderException(ErrorCode errorCode)
+	public PrismShaderException()
 	{
-		super(errorCode);
 	}
 }

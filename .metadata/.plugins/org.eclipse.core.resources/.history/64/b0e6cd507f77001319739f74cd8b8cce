@@ -1,0 +1,35 @@
+package xoric.prism.data.exceptions2;
+
+import xoric.prism.data.exceptions.IInfoContainer;
+
+public class PrismException2 extends Exception implements IInfoContainer
+{
+	public final UserLevel user;
+	public final CodeLevel code;
+
+	public PrismException2(ErrorToken e)
+	{
+		user = new UserLevel();
+		code = new CodeLevel(e);
+	}
+
+	public PrismException2(ErrorToken e, Exception originalException)
+	{
+		user = new UserLevel();
+		code = new CodeLevel(e, originalException);
+	}
+
+	@Override
+	public void addInfo(String line)
+	{
+		user.addInfo(line);
+		code.addInfo(line);
+	}
+
+	@Override
+	public void addInfo(String key, String value)
+	{
+		user.addInfo(key, value);
+		code.addInfo(key, value);
+	}
+}

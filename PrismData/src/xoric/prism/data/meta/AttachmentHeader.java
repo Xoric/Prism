@@ -29,6 +29,12 @@ public class AttachmentHeader implements IPackable
 		this.size = size;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "name=" + name.toString() + ", isCompressed=" + isCompressed + ", start=" + start + ", size=" + size;
+	}
+
 	public void setStart(int start)
 	{
 		this.start = start;

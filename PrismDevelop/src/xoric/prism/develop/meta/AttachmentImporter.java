@@ -4,16 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import xoric.prism.data.compression.BufferCompressor;
-import xoric.prism.data.exceptions.PrismDevException;
+import xoric.prism.data.exceptions2.PrismException2;
 import xoric.prism.data.meta.AttachmentHeader;
-import xoric.prism.data.modules.ActorID;
-import xoric.prism.data.modules.ErrorCode;
-import xoric.prism.data.modules.ErrorID;
-import xoric.prism.data.modules.IActor;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Text;
 
-class AttachmentImporter implements IActor
+class AttachmentImporter
 {
 	private static final double COMPRESSION_THRESHOLD = 0.85;
 
@@ -31,15 +27,19 @@ class AttachmentImporter implements IActor
 		return content;
 	}
 
-	public void importAttachment() throws PrismDevException
+	public void importAttachment() throws PrismException2
 	{
 		// check file size
 		int originalSize = (int) file.length();
 		if (originalSize <= 0)
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.FILE_NOT_FOUND);
-			PrismDevException e = new PrismDevException(c);
-			e.appendInfo("file", file.toString());
+			PrismException2 e = new PrismException2();
+			// ----
+			// ----
+			// ----
+			e.setText("An attachment file is empty or does not exist.");
+			e.addInfo("file", file.toString());
+			// ----
 			throw e;
 		}
 
@@ -54,10 +54,13 @@ class AttachmentImporter implements IActor
 		}
 		catch (Exception e0)
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.READ_ERROR);
-			PrismDevException e = new PrismDevException(c);
-			e.appendOriginalException(e0);
-			e.appendInfo("file", file.toString());
+			PrismException2 e = new PrismException2(e0);
+			// ----
+			// ----
+			// ----
+			e.setText("An error occured while trying to import an attachment.");
+			e.addInfo("file", file.toString());
+			// ----
 			throw e;
 		}
 
@@ -73,10 +76,13 @@ class AttachmentImporter implements IActor
 		}
 		catch (Exception e0)
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.COMPRESSION_ERROR);
-			PrismDevException e = new PrismDevException(c);
-			e.appendOriginalException(e0);
-			e.appendInfo("file", file.toString());
+			PrismException2 e = new PrismException2(e0);
+			// ----
+			// ----
+			// ----
+			e.setText("An error occured while compressing an attachment.");
+			e.addInfo("file", file.toString());
+			// ----
 			throw e;
 		}
 
@@ -94,17 +100,11 @@ class AttachmentImporter implements IActor
 		return content.length;
 	}
 
-	public AttachmentHeader createtHeader()
+	public AttachmentHeader createHeader()
 	{
 		Text name = new Text(file.getName());
 		AttachmentHeader h = new AttachmentHeader(name, isCompressed, 0, content.length);
 
 		return h;
-	}
-
-	@Override
-	public ActorID getActorID()
-	{
-		return ActorID.ATTACHMENT_IMPORTER;
 	}
 }

@@ -1,0 +1,77 @@
+package xoric.prism.data.exceptions2;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+public class CodeLevel extends InfoContainer
+{
+	private final Throwable throwable;
+	private final Exception originalException;
+
+	public CodeLevel(Throwable t)
+	{
+		this.throwable = t;
+		this.originalException = null;
+	}
+
+	public CodeLevel(Throwable t, Exception originalException)
+	{
+		this.throwable = t;
+		this.originalException = originalException;
+	}
+
+	public String toHtml()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("<html>");
+
+		// add error message
+		sb.append("<span style=\"background-color:#DCDCDC; color:#0;\"><strong>");
+		sb.append("<span style=\"background-color:#DCDCDC; color:#0;\"><strong>");
+		if (text != null)
+			sb.append(text);
+		else
+			sb.append("An error occured.");
+		sb.append("</span><br>");
+
+		// add original exception
+		if (originalException != null)
+			sb.append("original exception: <code>" + originalException.toString() + "</code><br>");
+
+		// add stack trace
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		throwable.printStackTrace(pw);
+		sb.append(sw.toString());
+
+		// add additional information
+		this.extractInfoAsHtml(sb);
+
+		sb.append("</html>");
+		return sb.toString();
+	}
+
+	@Override
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+
+		// add error message
+		sb.append(errorID.toString() + '\n');
+
+		// add original exception
+		if (originalException != null)
+			sb.append("* " + originalException.toString());
+
+		// add stack trace
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		throwable.printStackTrace(pw);
+		sb.append(sw.toString());
+
+		// add additional information
+		this.extractInfoAsText(sb);
+
+		return sb.toString();
+	}
+}

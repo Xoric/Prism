@@ -7,8 +7,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import xoric.prism.data.exceptions.PrismDevException;
-import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions2.PrismException2;
+import xoric.prism.data.exceptions2.UserErrorText;
 import xoric.prism.data.meta.AttachmentHeader;
 import xoric.prism.data.meta.AttachmentTable;
 import xoric.prism.data.meta.MetaBlock;
@@ -18,17 +18,13 @@ import xoric.prism.data.meta.MetaLine;
 import xoric.prism.data.meta.MetaList;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.meta.TimeStamp;
-import xoric.prism.data.modules.ActorID;
-import xoric.prism.data.modules.ErrorCode;
-import xoric.prism.data.modules.ErrorID;
-import xoric.prism.data.modules.IActor;
 import xoric.prism.data.tools.Common;
 import xoric.prism.data.types.Heap;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IntPacker;
 import xoric.prism.data.types.Path;
 
-public class MetaFileCreator implements IActor
+public class MetaFileCreator
 {
 	private static final char CHAR_COMMENT = '%';
 	private static final char CHAR_METABLOCK = '#';
@@ -45,7 +41,7 @@ public class MetaFileCreator implements IActor
 		this.targetPath = targetPath;
 	}
 
-	private MetaBlock createMetaBlock(String line) throws PrismDevException
+	private MetaBlock createMetaBlock(String line) throws PrismException2
 	{
 		// split line
 		line = line.substring(1);
@@ -54,10 +50,14 @@ public class MetaFileCreator implements IActor
 		// check parameter count
 		if (s.length != 2)
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.CORRUPT_LINE);
-			PrismDevException e = new PrismDevException(c);
-			e.appendExpectedInfo("wrong parameter count", 2, s.length);
-			e.appendInfo("line", line);
+			PrismException2 e = new PrismException2();
+			// ----
+			e.user.setText(UserErrorText.INTERNAL_PROBLEM);
+			// ----
+			e.code.setText("could not create MetaBlock from the given line (" + s.length + " parameter(s) found instead of 2)");
+			e.code.addInfo("line", line);
+			// ----
+			// ----
 			throw e;
 		}
 
@@ -69,17 +69,21 @@ public class MetaFileCreator implements IActor
 		return block;
 	}
 
-	private MetaTextLine createMetaTextLine(String line) throws PrismDevException
+	private MetaTextLine createMetaTextLine(String line) throws PrismException2
 	{
 		// split line
 		String[] s = line.split(CHAR_KEY_SPLIT);
 
 		if (s.length != 2)
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.CORRUPT_LINE);
-			PrismDevException e = new PrismDevException(c);
-			e.appendExpectedInfo("wrong parameter count", 2, s.length);
-			e.appendInfo("line", line);
+			PrismException2 e = new PrismException2();
+			// ----
+			e.user.setText(UserErrorText.INTERNAL_PROBLEM);
+			// ----
+			e.code.setText("could not create MetaTextLine from the given line (" + s.length + " parameter(s) found instead of 2)");
+			e.code.addInfo("line", line);
+			// ----
+			// ----
 			throw e;
 		}
 
@@ -93,7 +97,7 @@ public class MetaFileCreator implements IActor
 		return t;
 	}
 
-	private int readVersion(IPath_r path, String filename) throws PrismDevException
+	private int readVersion(IPath_r path, String filename) throws PrismException2
 	{
 		int version = 0;
 		File file = path.getFile(filename);
@@ -108,24 +112,31 @@ public class MetaFileCreator implements IActor
 			}
 			catch (Exception e0)
 			{
-				ErrorCode c = new ErrorCode(this, ErrorID.READ_ERROR);
-				PrismDevException e = new PrismDevException(c);
-				e.appendOriginalException(e0);
-				e.appendInfo("file", file.toString());
+				PrismException2 e = new PrismException2();
+				// ----
+				// ----
+				// ----
+				e.setText("Could not read file version.");
+				e.addInfo("file", file.toString());
+				// ----
 				throw e;
 			}
 		}
 		return version;
 	}
 
-	public void create() throws PrismException
+	public void create() throws PrismException2
 	{
 		// check if path exists
 		if (!sourcePath.exists())
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.PATH_NOT_FOUND);
-			PrismDevException e = new PrismDevException(c);
-			e.appendInfo("path", sourcePath.toString());
+			PrismException2 e = new PrismException2();
+			// ----
+			// ----
+			// ----
+			e.setText("Source directory does not exist.");
+			e.addInfo("path", sourcePath.toString());
+			// ----
 			throw e;
 		}
 
@@ -133,9 +144,13 @@ public class MetaFileCreator implements IActor
 		File textFile = sourcePath.getFile("meta.txt");
 		if (!textFile.exists())
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.FILE_NOT_FOUND);
-			PrismDevException e = new PrismDevException(c);
-			e.appendInfo("file", textFile.toString());
+			PrismException2 e = new PrismException2();
+			// ----
+			// ----
+			// ----
+			e.setText(UserErrorText.FILE_NOT_FOUND);
+			e.addInfo("file", textFile.toString());
+			// ----
 			throw e;
 		}
 
@@ -152,9 +167,13 @@ public class MetaFileCreator implements IActor
 		}
 		catch (Exception e0)
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.COMMON);
-			PrismDevException e = new PrismDevException(c);
-			e.appendOriginalException(e0);
+			PrismException2 e = new PrismException2(e0);
+			// ----
+			// ----
+			// ----
+			e.setText(UserErrorText.READ_ERROR);
+			e.addInfo("file", textFile.toString());
+			// ----
 			throw e;
 		}
 
@@ -171,10 +190,15 @@ public class MetaFileCreator implements IActor
 
 				if (b == null && !isMetaBlock)
 				{
-					ErrorCode c = new ErrorCode(this, ErrorID.UNEXPECTED_LINE);
-					PrismDevException e = new PrismDevException(c);
-					e.appendInfo("a MetaBlock has to be specified before adding lines");
-					e.appendInfo("line", line);
+					PrismException2 e = new PrismException2();
+					// ----
+					e.user.setText(UserErrorText.DEVELOP_FILE_CAUSED_PROBLEM);
+					// ----
+					e.code.setText("a MetaBlock has to be specified before adding lines");
+					e.code.addInfo("line", line);
+					// ----
+					e.addInfo("file", textFile.toString());
+					// ----
 					throw e;
 				}
 
@@ -183,18 +207,7 @@ public class MetaFileCreator implements IActor
 					if (b != null)
 						metaList.addMetaBlock(b);
 
-					try
-					{
-						b = createMetaBlock(line);
-					}
-					catch (Exception e0)
-					{
-						ErrorCode c = new ErrorCode(this, ErrorID.CORRUPT_LINE);
-						PrismDevException e = new PrismDevException(c);
-						e.appendOriginalException(e0);
-						e.appendInfo("line", line);
-						throw e;
-					}
+					b = createMetaBlock(line);
 				}
 				else
 				{
@@ -212,9 +225,14 @@ public class MetaFileCreator implements IActor
 		// check if MetaBlock of type DEVELOP exists
 		if (!metaList.hasMetaBlock(MetaType.DEVELOP))
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.META_BLOCK_MISSING);
-			PrismDevException e = new PrismDevException(c);
-			e.appendInfo("block", MetaType.DEVELOP.toString());
+			PrismException2 e = new PrismException2();
+			// ----
+			e.user.setText(UserErrorText.DEVELOP_FILE_CAUSED_PROBLEM);
+			// ----
+			e.code.setText("MetaBlock " + MetaType.DEVELOP.toString() + " is missing");
+			// ----
+			e.addInfo("file", textFile.toString());
+			// ----
 			throw e;
 		}
 
@@ -227,10 +245,14 @@ public class MetaFileCreator implements IActor
 
 		if (targetFilename == null)
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.META_LINE_MISSING);
-			PrismDevException e = new PrismDevException(c);
-			e.appendInfo("block", MetaType.DEVELOP.toString());
-			e.appendInfo("missing line", MetaKey.TARGET.toString());
+			PrismException2 e = new PrismException2();
+			// ----
+			e.user.setText(UserErrorText.DEVELOP_FILE_CAUSED_PROBLEM);
+			// ----
+			e.code.setText("target file is missing");
+			// ----
+			e.addInfo("file", textFile.toString());
+			// ----
 			throw e;
 		}
 
@@ -254,16 +276,22 @@ public class MetaFileCreator implements IActor
 
 				if (file == null || !file.exists())
 				{
-					ErrorCode c = new ErrorCode(this, ErrorID.ATTACHMENT_NOT_FOUND);
-					PrismDevException e = new PrismDevException(c);
-					e.appendInfo("line", l.toString());
+					PrismException2 e = new PrismException2();
+					// ----
+					e.user.setText(UserErrorText.DEVELOP_FILE_CAUSED_PROBLEM);
+					// ----
+					e.code.setText("attachment not found");
+					e.code.addInfo("line", l.toString());
+					// ----
+					e.addInfo("file", textFile.toString());
+					// ----
 					throw e;
 				}
 
 				// insert attachment to table
 				AttachmentImporter a = new AttachmentImporter(sourcePath, filename);
 				a.importAttachment();
-				AttachmentHeader h = a.createtHeader();
+				AttachmentHeader h = a.createHeader();
 				table.set(i, h);
 			}
 		}
@@ -280,9 +308,14 @@ public class MetaFileCreator implements IActor
 			boolean wasPathCreated = makePath.mkdirs();
 			if (!wasPathCreated)
 			{
-				ErrorCode c = new ErrorCode(this, ErrorID.PATH_NOT_FOUND);
-				PrismDevException e = new PrismDevException(c);
-				e.appendInfo("path", makePath.toString());
+				PrismException2 e = new PrismException2();
+				// ----
+				e.user.setText(UserErrorText.COULD_NOT_CREATE_DIRECTORY);
+				// ----
+				e.code.setText("could not create target directory");
+				// ----
+				e.addInfo("path", makePath.toString());
+				// ----
 				throw e;
 			}
 		}
@@ -328,10 +361,14 @@ public class MetaFileCreator implements IActor
 		}
 		catch (Exception e0)
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.WRITE_ERROR);
-			PrismDevException e = new PrismDevException(c);
-			e.appendOriginalException(e0);
-			e.appendInfo("file", targetFilename);
+			PrismException2 e = new PrismException2(e0);
+			// ----
+			e.user.setText(UserErrorText.WRITE_ERROR);
+			// ----
+			e.code.setText("error while writing MetaFile");
+			// ----
+			e.addInfo("file", targetFilename);
+			// ----
 			throw e;
 		}
 
@@ -362,16 +399,10 @@ public class MetaFileCreator implements IActor
 		{
 			f.create();
 		}
-		catch (Exception e)
+		catch (PrismException2 e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.code.print();
+			e.user.showMessage();
 		}
-	}
-
-	@Override
-	public ActorID getActorID()
-	{
-		return ActorID.META_FILE_CREATOR;
 	}
 }

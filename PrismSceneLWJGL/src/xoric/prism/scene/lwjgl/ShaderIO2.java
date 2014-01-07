@@ -9,16 +9,11 @@ import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.ARBVertexShader;
 import org.lwjgl.opengl.GL11;
 
-import xoric.prism.data.exceptions.PrismFileException;
-import xoric.prism.data.modules.ActorID;
-import xoric.prism.data.modules.ErrorCode;
-import xoric.prism.data.modules.ErrorID;
-import xoric.prism.data.modules.IActor;
-import xoric.prism.scene.exceptions.PrismShaderException;
+import xoric.prism.data.exceptions2.PrismException2;
+import xoric.prism.data.exceptions2.UserErrorText;
 import xoric.prism.scene.shader.IShader2;
-import xoric.prism.scene.shader.ShaderType;
 
-public class ShaderIO2 implements IActor
+public class ShaderIO2
 {
 	private static ShaderIO2 instance;
 
@@ -42,107 +37,78 @@ public class ShaderIO2 implements IActor
 	 * @return int
 	 * @throws Exception
 	 */
-	private int createShader(ByteBuffer shaderBuffer, int glShaderType) throws PrismShaderException
+	private int createShader(ByteBuffer shaderBuffer, int glShaderType) throws PrismException2
 	{
-		PrismShaderException exception = null;
 		int shaderID = 0;
-		try
+
+		// create shader
+		shaderID = ARBShaderObjects.glCreateShaderObjectARB(glShaderType);
+		if (shaderID == 0)
+			return 0;
+
+		// compile shader
+		ARBShaderObjects.glShaderSourceARB(shaderID, shaderBuffer);
+		ARBShaderObjects.glCompileShaderARB(shaderID);
+
+		// check for errors
+		if (ARBShaderObjects.glGetObjectParameteriARB(shaderID, ARBShaderObjects.GL_OBJECT_COMPILE_STATUS_ARB) == GL11.GL_FALSE)
 		{
-			// create shader
-			shaderID = ARBShaderObjects.glCreateShaderObjectARB(glShaderType);
-			if (shaderID == 0)
-				return 0;
-
-			// compile shader
-			ARBShaderObjects.glShaderSourceARB(shaderID, shaderBuffer);
-			ARBShaderObjects.glCompileShaderARB(shaderID);
-
-			// check for errors
-			if (ARBShaderObjects.glGetObjectParameteriARB(shaderID, ARBShaderObjects.GL_OBJECT_COMPILE_STATUS_ARB) == GL11.GL_FALSE)
-			{
-				ErrorCode c = new ErrorCode(this, ErrorID.COMPILE_ERROR);
-				exception = new PrismShaderException(c);
-				exception.appendInfo("info", getLogInfo(shaderID));
-			}
-		}
-		catch (Exception e0)
-		{
-			// catch any exception
-			ARBShaderObjects.glDeleteObjectARB(shaderID);
-
-			ErrorCode c = new ErrorCode(this, ErrorID.COMPILE_ERROR);
-			exception = new PrismShaderException(c);
-			exception.appendOriginalException(e0);
-		}
-
-		if (exception != null)
-		{
-			// throw exception if any
-			ShaderType shaderType;
-			if (glShaderType == ARBVertexShader.GL_VERTEX_SHADER_ARB)
-				shaderType = ShaderType.VERTEX_SHADER;
-			if (glShaderType == ARBFragmentShader.GL_FRAGMENT_SHADER_ARB)
-				shaderType = ShaderType.PIXEL_SHADER;
-			else
-				shaderType = ShaderType.UNKNOWN;
-
-			exception.appendInfo("type", shaderType.toString());
-
-			throw exception;
+			PrismException2 e = new PrismException2();
+			// ----
+			// ----
+			// ----
+			e.setText(UserErrorText.SHADER_PROBLEM);
+			e.addInfo("log", getLogInfo(shaderID));
+			// ----
+			throw e;
 		}
 		return shaderID;
 	}
 
-	private int createProgram(int vertShader, int fragShader) throws PrismShaderException
+	private int createProgram(int vertShader, int fragShader) throws PrismException2
 	{
 		int program = 0;
-		String error = "";
-		Exception originalException = null;
-		try
+		String errorLog = "";
+
+		int p = ARBShaderObjects.glCreateProgramObjectARB();
+		if (p != 0)
 		{
-			int p = ARBShaderObjects.glCreateProgramObjectARB();
-			if (p != 0)
+			// if the vertex and fragment shaders setup sucessfully,
+			// attach them to the shader program, link the sahder program and validate
+
+			ARBShaderObjects.glAttachObjectARB(p, vertShader);
+			ARBShaderObjects.glAttachObjectARB(p, fragShader);
+
+			ARBShaderObjects.glLinkProgramARB(p);
+			if (ARBShaderObjects.glGetObjectParameteriARB(p, ARBShaderObjects.GL_OBJECT_LINK_STATUS_ARB) == GL11.GL_FALSE)
+				errorLog = getLogInfo(p);
+
+			if (errorLog.length() == 0)
 			{
-				// if the vertex and fragment shaders setup sucessfully,
-				// attach them to the shader program, link the sahder program and validate
-
-				ARBShaderObjects.glAttachObjectARB(p, vertShader);
-				ARBShaderObjects.glAttachObjectARB(p, fragShader);
-
-				ARBShaderObjects.glLinkProgramARB(p);
-				if (ARBShaderObjects.glGetObjectParameteriARB(p, ARBShaderObjects.GL_OBJECT_LINK_STATUS_ARB) == GL11.GL_FALSE)
-					error = getLogInfo(p);
-
-				if (error.length() == 0)
-				{
-					ARBShaderObjects.glValidateProgramARB(p);
-					if (ARBShaderObjects.glGetObjectParameteriARB(p, ARBShaderObjects.GL_OBJECT_VALIDATE_STATUS_ARB) == GL11.GL_FALSE)
-						error = getLogInfo(p);
-				}
-				if (error.length() == 0)
-					program = p;
+				ARBShaderObjects.glValidateProgramARB(p);
+				if (ARBShaderObjects.glGetObjectParameteriARB(p, ARBShaderObjects.GL_OBJECT_VALIDATE_STATUS_ARB) == GL11.GL_FALSE)
+					errorLog = getLogInfo(p);
 			}
-		}
-		catch (Exception e0)
-		{
-			originalException = e0;
+			if (errorLog.length() == 0)
+				program = p;
 		}
 
-		if (originalException != null || error.length() > 0 || program == 0)
+		if (errorLog.length() > 0 || program == 0)
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.COMPILE_ERROR);
-			PrismShaderException e = new PrismShaderException(c);
-			if (originalException != null)
-				e.appendOriginalException(originalException);
-			if (error.length() > 0)
-				e.appendInfo(error);
-
+			PrismException2 e = new PrismException2();
+			// ----
+			// ----
+			// ----
+			e.setText(UserErrorText.SHADER_PROBLEM);
+			if (errorLog.length() > 0)
+				e.addInfo("log", errorLog);
+			// ----
 			throw e;
 		}
 		return program;
 	}
 
-	public IShader2 createShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismShaderException
+	public IShader2 createShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException2
 	{
 		IShader2 shader = null;
 
@@ -159,7 +125,7 @@ public class ShaderIO2 implements IActor
 		return shader;
 	}
 
-	public IShader2 createShader(File vertexFile, File pixelFile) throws PrismFileException, PrismShaderException
+	public IShader2 createShader(File vertexFile, File pixelFile) throws PrismException2
 	{
 		ByteBuffer vertexBuf = readFileAsByteBuffer(vertexFile);
 		ByteBuffer pixelBuf = readFileAsByteBuffer(pixelFile);
@@ -169,13 +135,7 @@ public class ShaderIO2 implements IActor
 		return shader;
 	}
 
-	@Override
-	public ActorID getActorID()
-	{
-		return ActorID.SHADER_IO;
-	}
-
-	private ByteBuffer readFileAsByteBuffer(File file) throws PrismFileException
+	private ByteBuffer readFileAsByteBuffer(File file) throws PrismException2
 	{
 		ByteBuffer buf = null;
 		try
@@ -187,9 +147,14 @@ public class ShaderIO2 implements IActor
 		}
 		catch (Exception e0)
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.READ_ERROR);
-			PrismFileException e = new PrismFileException(c, file);
-			e.appendOriginalException(e0);
+			PrismException2 e = new PrismException2(e0);
+			// ----
+			e.user.setText(UserErrorText.READ_ERROR);
+			// ----
+			e.code.setText("error while reading a shader file - this is not a compile error");
+			// ----
+			e.addInfo("file", file.toString());
+			// ----
 			throw e;
 		}
 		return buf;

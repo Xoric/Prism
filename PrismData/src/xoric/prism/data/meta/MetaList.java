@@ -6,16 +6,12 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.exceptions.PrismMetaFileException;
-import xoric.prism.data.modules.ActorID;
-import xoric.prism.data.modules.ErrorCode;
-import xoric.prism.data.modules.ErrorID;
-import xoric.prism.data.modules.IActor;
+import xoric.prism.data.exceptions2.PrismException2;
+import xoric.prism.data.exceptions2.UserErrorText;
 import xoric.prism.data.types.IPackable;
 import xoric.prism.data.types.IntPacker;
 
-public class MetaList implements IPackable, IActor
+public class MetaList implements IPackable
 {
 	private final List<MetaBlock> blocks;
 	private final IntPacker intPacker;
@@ -55,25 +51,23 @@ public class MetaList implements IPackable, IActor
 		blocks.add(b);
 	}
 
-	public MetaBlock findMetaBlock(MetaType t) throws PrismException
+	public MetaBlock findMetaBlock(MetaType t) throws PrismException2
 	{
 		for (MetaBlock b : blocks)
 			if (b.getMetaType() == t)
 				return b;
 
-		ErrorCode c = new ErrorCode(this, ErrorID.META_BLOCK_MISSING);
+		PrismException2 e = new PrismException2();
+		// ----
+		e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
+		// ----
+		e.code.setText("non-existing MetaBlock requested");
+		e.code.addInfo("metaType", t.toString());
+		// ----
 		if (owner != null)
-		{
-			PrismMetaFileException e = new PrismMetaFileException(c, owner.getMetaFilename());
-			e.appendInfo("block", t.toString());
-			throw e;
-		}
-		else
-		{
-			PrismException e = new PrismException(c);
-			e.appendInfo("block", t.toString());
-			throw e;
-		}
+			e.addInfo("file", owner.getMetaFilename());
+		// ----
+		throw e;
 	}
 
 	public MetaBlock getMetaBlock(int index)
@@ -135,11 +129,5 @@ public class MetaList implements IPackable, IActor
 	public int getBlockCount()
 	{
 		return blocks.size();
-	}
-
-	@Override
-	public ActorID getActorID()
-	{
-		return ActorID.META_LIST;
 	}
 }

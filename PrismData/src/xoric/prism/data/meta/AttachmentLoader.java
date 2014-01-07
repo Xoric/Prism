@@ -7,18 +7,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import xoric.prism.data.exceptions.PrismMetaFileException;
-import xoric.prism.data.modules.ActorID;
-import xoric.prism.data.modules.ErrorCode;
-import xoric.prism.data.modules.ErrorID;
-import xoric.prism.data.modules.IActor;
+import xoric.prism.data.exceptions2.PrismException2;
+import xoric.prism.data.exceptions2.UserErrorText;
 import xoric.prism.data.types.IPath_r;
 
 /**
  * @author Felix Möhrle
  * @since 26.06.2011, 15:35:16
  */
-public class AttachmentLoader extends AttachmentTable implements IActor
+public class AttachmentLoader extends AttachmentTable
 {
 	private final File file;
 	private final String filename;
@@ -36,9 +33,9 @@ public class AttachmentLoader extends AttachmentTable implements IActor
 	 * @param attachmentIndex
 	 * @return ByteArrayInputStream
 	 * @throws IOException
-	 * @throws PrismMetaFileException
+	 * @throws PrismException2
 	 */
-	public byte[] loadAttachment(int attachmentIndex) throws PrismMetaFileException
+	public byte[] loadAttachment(int attachmentIndex) throws PrismException2
 	{
 		// get AttachmentHeader
 		AttachmentHeader h = get(attachmentIndex);
@@ -46,9 +43,16 @@ public class AttachmentLoader extends AttachmentTable implements IActor
 
 		if (!isIndexValid)
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.ATTACHMENT_NOT_FOUND);
-			PrismMetaFileException e = new PrismMetaFileException(c, filename);
-			e.appendInfo("index", String.valueOf(attachmentIndex));
+			PrismException2 e = new PrismException2();
+			// ----
+			e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
+			// ----
+			e.code.setText("non-existing attachment requested");
+			e.code.addInfo("attachmentIndex", attachmentIndex);
+			e.code.addInfo("attachmentCount", getAttachmentCount());
+			// ----
+			e.addInfo("file", filename);
+			// ----
 			throw e;
 		}
 
@@ -64,10 +68,16 @@ public class AttachmentLoader extends AttachmentTable implements IActor
 		}
 		catch (Exception e0)
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.READ_ERROR);
-			PrismMetaFileException e = new PrismMetaFileException(c, filename);
-			e.appendOriginalException(e0);
-			e.appendInfo("index", String.valueOf(attachmentIndex));
+			PrismException2 e = new PrismException2(e0);
+			// ----
+			e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
+			// ----
+			e.code.setText("error while reading attachment buffer");
+			e.code.addInfo("attachmentIndex", attachmentIndex);
+			e.code.addInfo("attachmentHeader", h.toString());
+			// ----
+			e.addInfo("file", filename);
+			// ----			
 			throw e;
 		}
 		return buf;
@@ -79,7 +89,7 @@ public class AttachmentLoader extends AttachmentTable implements IActor
 	 * @return String[]
 	 * @throws PrismMetaFileException
 	 */
-	public String[] loadAttachmentAsStringArray(int attachmentIndex) throws PrismMetaFileException
+	public String[] loadAttachmentAsStringArray(int attachmentIndex) throws PrismException2
 	{
 		byte[] buf = loadAttachment(attachmentIndex);
 		ByteArrayInputStream stream = new ByteArrayInputStream(buf);
@@ -95,19 +105,20 @@ public class AttachmentLoader extends AttachmentTable implements IActor
 		}
 		catch (Exception e0)
 		{
-			ErrorCode c = new ErrorCode(this, ErrorID.READ_ERROR);
-			PrismMetaFileException e = new PrismMetaFileException(c, filename);
-			e.appendInfo("attachmentIndex", String.valueOf(attachmentIndex));
+			PrismException2 e = new PrismException2(e0);
+			// ----
+			e.user.setText(UserErrorText.INTERNAL_PROBLEM);
+			// ----
+			e.code.setText("error while converting attachment buffer to string array");
+			e.code.addInfo("attachmentIndex", attachmentIndex);
+			e.code.addInfo("bufferLength", buf.length);
+			// ----
+			e.addInfo("file", filename);
+			// ----			
 			throw e;
 		}
 
 		String[] result = new String[] { lines.toString() };
 		return result;
-	}
-
-	@Override
-	public ActorID getActorID()
-	{
-		return ActorID.ATTACHMENT_LOADER;
 	}
 }

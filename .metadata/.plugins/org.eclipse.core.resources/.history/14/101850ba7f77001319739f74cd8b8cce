@@ -1,0 +1,6 @@
+package xoric.prism.data.exceptions2;
+
+public enum ErrorToken
+{
+	META_BLOCK_MISSING, CANNOT_CREATE_DIRECTORY, FILE_ALREADY_EXISTS
+}

@@ -13,6 +13,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
+import xoric.prism.data.exceptions2.PrismException2;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.scene.IRenderer;
 import xoric.prism.scene.IScene;
@@ -128,9 +129,9 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 					new File("../debug/defaultShader.frag"));
 			s.activate();
 		}
-		catch (Exception e)
+		catch (PrismException2 e)
 		{
-			e.printStackTrace();
+			e.code.print();
 		}
 
 		//		this.setupQuad();

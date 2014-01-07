@@ -3,8 +3,8 @@ package xoric.prism.global;
 import java.util.ArrayList;
 import java.util.List;
 
-import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.exceptions.PrismMetaFileException;
+import xoric.prism.data.exceptions2.PrismException2;
+import xoric.prism.data.exceptions2.UserErrorText;
 import xoric.prism.data.global.FileIndex;
 import xoric.prism.data.meta.MetaBlock;
 import xoric.prism.data.meta.MetaFile;
@@ -12,9 +12,6 @@ import xoric.prism.data.meta.MetaKey;
 import xoric.prism.data.meta.MetaLine;
 import xoric.prism.data.meta.MetaList;
 import xoric.prism.data.meta.MetaType;
-import xoric.prism.data.modules.ActorID;
-import xoric.prism.data.modules.ErrorCode;
-import xoric.prism.data.modules.ErrorID;
 import xoric.prism.data.types.Path;
 
 public class FileTable
@@ -31,7 +28,7 @@ public class FileTable
 		this.list = new ArrayList<FileTableEntry>();
 	}
 
-	public void load(String filename) throws PrismException
+	public void load(String filename) throws PrismException2
 	{
 		MetaFile f = new MetaFile(dataPath, filename);
 		f.load();
@@ -47,24 +44,35 @@ public class FileTable
 			}
 			else
 			{
-				ErrorCode c = new ErrorCode(ActorID.GENERIC, ErrorID.CORRUPT_LINE);
-				PrismMetaFileException e = new PrismMetaFileException(c, filename);
-				e.appendInfo("line", l.toString());
+				PrismException2 e = new PrismException2();
+				// ----
+				e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
+				// ----
+				e.code.setText("an invalid MetaLine was found while loading file table");
+				e.code.addInfo("metaBlock", MetaType.TOC.toString());
+				// ----
+				e.addInfo("file", filename);
+				// ----
 				throw e;
 			}
 		}
 	}
 
-	public MetaFile loadMetaFile(FileIndex fi) throws PrismException
+	public MetaFile loadMetaFile(FileIndex fi) throws PrismException2
 	{
 		int index = fi.ordinal();
 
 		if (index >= list.size())
 		{
-			ErrorCode c = new ErrorCode(ActorID.GENERIC, ErrorID.INVALID_INDEX);
-			PrismException e = new PrismException(c);
-			e.appendInfo("index", String.valueOf(index) + " (" + fi.toString() + ")");
-			e.appendInfo("max", String.valueOf(list.size()));
+			PrismException2 e = new PrismException2();
+			// ----
+			e.user.setText(UserErrorText.INTERNAL_PROBLEM);
+			// ----
+			e.code.setText("a non-existing file was requested from FileTable");
+			e.code.addInfo("fileIndex", fi.toString() + " (" + fi.ordinal() + ")");
+			e.code.addInfo("fileCount", list.size());
+			// ----
+			// ----
 			throw e;
 		}
 

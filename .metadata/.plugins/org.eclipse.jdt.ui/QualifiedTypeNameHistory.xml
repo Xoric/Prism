@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="xoric.prism.data.Heap"/>
-<fullyQualifiedTypeName name="xoric.prism.common.loader.PrismLoader"/>
-<fullyQualifiedTypeName name="xoric.prism.world.entities.Animation"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 <fullyQualifiedTypeName name="xoric.prism.common.Path"/>
 <fullyQualifiedTypeName name="xoric.prism.meta.MetaBlock"/>
@@ -12,7 +9,6 @@
 <fullyQualifiedTypeName name="xoric.prism.data.meta.MetaBlock"/>
 <fullyQualifiedTypeName name="xoric.prism.data.meta.MetaKey"/>
 <fullyQualifiedTypeName name="xoric.prism.data.exceptions.PrismMetaFileException"/>
-<fullyQualifiedTypeName name="xoric.prism.data.modules.ErrorID"/>
 <fullyQualifiedTypeName name="xoric.prism.data.global.IFileTable_r"/>
 <fullyQualifiedTypeName name="xoric.prism.data.global.IPrismGlobal"/>
 <fullyQualifiedTypeName name="xoric.prism.server.main.PrismServer"/>
@@ -37,7 +33,6 @@
 <fullyQualifiedTypeName name="xoric.prism.data.types.TextPacker"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.IntPacker"/>
 <fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="xoric.prism.data.types.Text"/>
 <fullyQualifiedTypeName name="xoric.prism.scene.IScene"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.view.DrawerView2"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.control.DrawerControl2"/>
@@ -52,12 +47,17 @@
 <fullyQualifiedTypeName name="xoric.prism.swing.input.PrismIntField"/>
 <fullyQualifiedTypeName name="org.w3c.dom.Text"/>
 <fullyQualifiedTypeName name="xoric.prism.swing.input.PathInput"/>
-<fullyQualifiedTypeName name="xoric.prism.data.types.Path"/>
 <fullyQualifiedTypeName name="javax.print.attribute.AttributeSet"/>
 <fullyQualifiedTypeName name="javax.swing.text.AttributeSet"/>
 <fullyQualifiedTypeName name="javax.swing.text.Document"/>
 <fullyQualifiedTypeName name="javax.swing.BorderFactory"/>
 <fullyQualifiedTypeName name="java.awt.Paint"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
+<fullyQualifiedTypeName name="xoric.prism.data.types.Path"/>
+<fullyQualifiedTypeName name="xoric.prism.data.modules.ErrorID"/>
+<fullyQualifiedTypeName name="xoric.prism.data.exceptions2.UserErrorText"/>
+<fullyQualifiedTypeName name="xoric.prism.data.exceptions2.PrismException2"/>
+<fullyQualifiedTypeName name="xoric.prism.data.types.Text"/>
+<fullyQualifiedTypeName name="xoric.prism.data.types.Point"/>
 <fullyQualifiedTypeName name="javax.swing.JDialog"/>
 </qualifiedTypeNameHistroy>

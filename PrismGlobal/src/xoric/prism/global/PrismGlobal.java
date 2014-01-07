@@ -4,28 +4,23 @@ import java.util.Properties;
 
 import javax.swing.UIManager;
 
-import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions2.PrismException2;
 import xoric.prism.data.global.FileIndex;
 import xoric.prism.data.global.IPrismGlobal;
 import xoric.prism.data.meta.MetaFile;
-import xoric.prism.data.modules.ActorID;
-import xoric.prism.data.modules.IActor;
-import xoric.prism.data.modules.ModuleID;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Path;
 
-public class PrismGlobal implements IPrismGlobal, IActor
+public class PrismGlobal implements IPrismGlobal
 {
-	private ModuleID moduleID;
 	private Path dataPath;
 	private FileTable fileTable;
 
-	public PrismGlobal(ModuleID moduleID)
+	public PrismGlobal()
 	{
-		this.moduleID = moduleID;
 	}
 
-	public void load() throws PrismException
+	public void load() throws PrismException2
 	{
 		Properties prop = System.getProperties();
 		String os = prop.getProperty("os.name");
@@ -56,21 +51,9 @@ public class PrismGlobal implements IPrismGlobal, IActor
 	}
 
 	@Override
-	public ModuleID getModuleID()
-	{
-		return moduleID;
-	}
-
-	@Override
-	public MetaFile loadMetaFile(FileIndex fi) throws PrismException
+	public MetaFile loadMetaFile(FileIndex fi) throws PrismException2
 	{
 		return fileTable.loadMetaFile(fi);
-	}
-
-	@Override
-	public ActorID getActorID()
-	{
-		return ActorID.GLOBAL;
 	}
 
 	@Override

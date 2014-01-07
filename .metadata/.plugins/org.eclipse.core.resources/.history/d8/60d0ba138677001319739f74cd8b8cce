@@ -1,0 +1,19 @@
+package xoric.prism.data.exceptions2;
+
+public enum UserErrorText
+{
+	LOCAL_GAME_FILE_CAUSED_PROBLEM("A local game file has caused a problem.");
+
+	private final String text;
+
+	private UserErrorText(String text)
+	{
+		this.text = text;
+	}
+
+	@Override
+	public String toString()
+	{
+		return text;
+	}
+}

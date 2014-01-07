@@ -18,6 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import xoric.prism.data.types.Path;
+import xoric.prism.data.types.Point;
+import xoric.prism.data.types.Text;
 import xoric.prism.swing.input.PathInput;
 import xoric.prism.swing.input.fields.IInputListener;
 import xoric.prism.swing.input.fields.PrismIntField;
@@ -44,7 +46,8 @@ public class NewModelDialog implements ActionListener, IInputListener
 	private final JPanel innerPreviewPanel;
 	private final JPanel previewPanel;
 
-	private final JOptionPane pane;
+	//	private final JOptionPane pane;
+	private final Object[] message;
 
 	public NewModelDialog()
 	{
@@ -128,10 +131,22 @@ public class NewModelDialog implements ActionListener, IInputListener
 		previewPanel.setBorder(BorderFactory.createTitledBorder("Preview"));
 		previewPanel.setPreferredSize(new Dimension(previewSizeMaxX, previewSizeMaxY));
 
-		Object[] message = { null, null, nameLabel, nameField, pathPanel0, pathPanel, sizeLabel, sizePanel, previewPanel };
-		pane = new JOptionPane(message, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+		message = new Object[] { null, null, nameLabel, nameField, pathPanel0, pathPanel, sizeLabel, sizePanel, previewPanel };
 
 		setPreview(tileSizeX, tileSizeY);
+	}
+
+	public NewModelData getResult()
+	{
+		Text name = new Text(nameField.getText());
+		Path path = new Path(pathField.getText());
+		int x = widthField.getInt();
+		int y = heightField.getInt();
+		Point tileSize = new Point(x, y);
+
+		NewModelData d = new NewModelData(name, path, tileSize);
+
+		return d;
 	}
 
 	private void setPreview(int x, int y)
@@ -144,9 +159,10 @@ public class NewModelDialog implements ActionListener, IInputListener
 		previewLabel.setPreferredSize(d);
 	}
 
-	public void show()
+	public boolean show()
 	{
-		pane.createDialog(null, "New Model").setVisible(true);
+		int n = JOptionPane.showConfirmDialog(null, message, "New Model", JOptionPane.OK_CANCEL_OPTION);
+		return n == JOptionPane.OK_OPTION;
 	}
 
 	@Override

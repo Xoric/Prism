@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import xoric.prism.creator.drawer.view.NewModelData;
+import xoric.prism.data.exceptions2.PrismException2;
+import xoric.prism.data.exceptions2.UserErrorText;
 import xoric.prism.data.types.IPackable;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
@@ -19,18 +22,26 @@ import xoric.prism.data.types.TextPacker;
 public class DrawerModel implements IPackable
 {
 	private static final int CURRENT_VERSION = 1;
-	public static final String MAIN_FILENAME = "m.meta";
+	private static final String MAIN_FILENAME = "m.meta";
 
 	private Text name;
-	private Point tileSize;
 	private Path path;
+	private Point tileSize;
 	private boolean hasChanges;
 
 	public DrawerModel()
 	{
-		name = new Text("NEW MODEL");
-		tileSize = new Point(0, 0);
+		name = new Text("");
 		path = new Path("");
+		tileSize = new Point();
+		hasChanges = false;
+	}
+
+	public DrawerModel(NewModelData data)
+	{
+		name = data.getName();
+		path = data.getPath();
+		tileSize = data.getTileSize();
 		hasChanges = false;
 	}
 
@@ -66,12 +77,6 @@ public class DrawerModel implements IPackable
 		return tileSize;
 	}
 
-	public void createInPath(Path path) throws IOException
-	{
-		this.path = path;
-		save();
-	}
-
 	public void load(Path path) throws IOException
 	{
 		this.path = path;
@@ -84,14 +89,29 @@ public class DrawerModel implements IPackable
 		this.hasChanges = false;
 	}
 
-	public void save() throws IOException
+	public void save() throws PrismException2
 	{
 		File file = path.getFile(MAIN_FILENAME);
-		FileOutputStream out = new FileOutputStream(file);
-		pack(out);
-		out.close();
+		try
+		{
+			FileOutputStream out = new FileOutputStream(file);
+			pack(out);
+			out.close();
 
-		this.hasChanges = false;
+			this.hasChanges = false;
+		}
+		catch (Exception e0)
+		{
+			PrismException2 e = new PrismException2(e0);
+			// ----
+			e.user.setText(UserErrorText.WRITE_ERROR);
+			// ----
+			e.code.setText("error while saving a DrawerModel");
+			// ----
+			e.addInfo("file", file.toString());
+			// ----
+			throw e;
+		}
 	}
 
 	@Override
@@ -118,8 +138,69 @@ public class DrawerModel implements IPackable
 		return size;
 	}
 
-	//	public void createImage(int width, int height)
-	//	{
-	//		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-	//	}
+	public void preparePath() throws PrismException2
+	{
+		// try to create path if it does not exist yet
+		if (!path.exists())
+		{
+			boolean wasCreated = path.createDirectories();
+
+			if (!wasCreated)
+			{
+				PrismException2 e = new PrismException2();
+				// ----
+				// ----
+				// ----
+				e.setText("The model's working directory could not be created.");
+				e.addInfo("directory", path.toString());
+				// ----
+				throw e;
+			}
+		}
+		else
+		// check if path already contains a model
+		{
+			File file = path.getFile(MAIN_FILENAME);
+
+			if (file.exists())
+			{
+				PrismException2 e = new PrismException2();
+				// ----
+				// ----
+				// ----
+				e.setText("The selected working directory already contains a model.");
+				e.addInfo("directory", path.toString());
+				// ----
+				throw e;
+			}
+		}
+
+		// create main file
+		File mainFile = path.getFile(MAIN_FILENAME);
+		boolean wasCreated;
+		try
+		{
+			wasCreated = mainFile.createNewFile();
+		}
+		catch (IOException e)
+		{
+			wasCreated = false;
+		}
+
+		if (wasCreated)
+		{
+			save();
+		}
+		else
+		{
+			PrismException2 e = new PrismException2();
+			// ----
+			// ----
+			// ----
+			e.setText("Could not write to the specified directory.");
+			e.addInfo("directory", path.toString());
+			// ----
+			throw e;
+		}
+	}
 }

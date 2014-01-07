@@ -3,9 +3,8 @@ package xoric.prism.creator.bootstrap;
 import xoric.prism.creator.drawer.control.DrawerControl2;
 import xoric.prism.creator.drawer.view.DrawerView2;
 import xoric.prism.data.PrismDataLoader;
-import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions2.PrismException2;
 import xoric.prism.data.global.Prism;
-import xoric.prism.data.modules.ModuleID;
 import xoric.prism.global.PrismGlobal;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.lwjgl.PrismSceneLWJGL;
@@ -24,7 +23,7 @@ public class PrismCreatorBootstrap
 		{
 			// global initialization
 			PrismGlobal.setLookAndFeel();
-			PrismGlobal global = new PrismGlobal(ModuleID.CREATOR);
+			PrismGlobal global = new PrismGlobal();
 			global.load();
 			Prism.global = global;
 
@@ -43,10 +42,10 @@ public class PrismCreatorBootstrap
 			// start creator
 			drawerView.start();
 		}
-		catch (PrismException e)
+		catch (PrismException2 e)
 		{
-			e.printStackTrace();
-			e.showErrorMessage();
+			e.user.showMessage();
+			e.code.print();
 		}
 		catch (Exception e)
 		{
