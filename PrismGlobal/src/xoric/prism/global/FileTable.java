@@ -3,8 +3,8 @@ package xoric.prism.global;
 import java.util.ArrayList;
 import java.util.List;
 
-import xoric.prism.data.exceptions2.PrismException2;
-import xoric.prism.data.exceptions2.UserErrorText;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.global.FileIndex;
 import xoric.prism.data.meta.MetaBlock;
 import xoric.prism.data.meta.MetaFile;
@@ -28,7 +28,7 @@ public class FileTable
 		this.list = new ArrayList<FileTableEntry>();
 	}
 
-	public void load(String filename) throws PrismException2
+	public void load(String filename) throws PrismException
 	{
 		MetaFile f = new MetaFile(dataPath, filename);
 		f.load();
@@ -44,7 +44,7 @@ public class FileTable
 			}
 			else
 			{
-				PrismException2 e = new PrismException2();
+				PrismException e = new PrismException();
 				// ----
 				e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
 				// ----
@@ -58,13 +58,13 @@ public class FileTable
 		}
 	}
 
-	public MetaFile loadMetaFile(FileIndex fi) throws PrismException2
+	public MetaFile loadMetaFile(FileIndex fi) throws PrismException
 	{
 		int index = fi.ordinal();
 
 		if (index >= list.size())
 		{
-			PrismException2 e = new PrismException2();
+			PrismException e = new PrismException();
 			// ----
 			e.user.setText(UserErrorText.INTERNAL_PROBLEM);
 			// ----

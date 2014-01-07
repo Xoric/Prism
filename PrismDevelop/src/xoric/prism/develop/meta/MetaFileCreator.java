@@ -7,8 +7,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import xoric.prism.data.exceptions2.PrismException2;
-import xoric.prism.data.exceptions2.UserErrorText;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.meta.AttachmentHeader;
 import xoric.prism.data.meta.AttachmentTable;
 import xoric.prism.data.meta.MetaBlock;
@@ -41,7 +41,7 @@ public class MetaFileCreator
 		this.targetPath = targetPath;
 	}
 
-	private MetaBlock createMetaBlock(String line) throws PrismException2
+	private MetaBlock createMetaBlock(String line) throws PrismException
 	{
 		// split line
 		line = line.substring(1);
@@ -50,7 +50,7 @@ public class MetaFileCreator
 		// check parameter count
 		if (s.length != 2)
 		{
-			PrismException2 e = new PrismException2();
+			PrismException e = new PrismException();
 			// ----
 			e.user.setText(UserErrorText.INTERNAL_PROBLEM);
 			// ----
@@ -69,14 +69,14 @@ public class MetaFileCreator
 		return block;
 	}
 
-	private MetaTextLine createMetaTextLine(String line) throws PrismException2
+	private MetaTextLine createMetaTextLine(String line) throws PrismException
 	{
 		// split line
 		String[] s = line.split(CHAR_KEY_SPLIT);
 
 		if (s.length != 2)
 		{
-			PrismException2 e = new PrismException2();
+			PrismException e = new PrismException();
 			// ----
 			e.user.setText(UserErrorText.INTERNAL_PROBLEM);
 			// ----
@@ -97,7 +97,7 @@ public class MetaFileCreator
 		return t;
 	}
 
-	private int readVersion(IPath_r path, String filename) throws PrismException2
+	private int readVersion(IPath_r path, String filename) throws PrismException
 	{
 		int version = 0;
 		File file = path.getFile(filename);
@@ -112,7 +112,7 @@ public class MetaFileCreator
 			}
 			catch (Exception e0)
 			{
-				PrismException2 e = new PrismException2();
+				PrismException e = new PrismException();
 				// ----
 				// ----
 				// ----
@@ -125,12 +125,12 @@ public class MetaFileCreator
 		return version;
 	}
 
-	public void create() throws PrismException2
+	public void create() throws PrismException
 	{
 		// check if path exists
 		if (!sourcePath.exists())
 		{
-			PrismException2 e = new PrismException2();
+			PrismException e = new PrismException();
 			// ----
 			// ----
 			// ----
@@ -144,7 +144,7 @@ public class MetaFileCreator
 		File textFile = sourcePath.getFile("meta.txt");
 		if (!textFile.exists())
 		{
-			PrismException2 e = new PrismException2();
+			PrismException e = new PrismException();
 			// ----
 			// ----
 			// ----
@@ -167,7 +167,7 @@ public class MetaFileCreator
 		}
 		catch (Exception e0)
 		{
-			PrismException2 e = new PrismException2(e0);
+			PrismException e = new PrismException(e0);
 			// ----
 			// ----
 			// ----
@@ -190,7 +190,7 @@ public class MetaFileCreator
 
 				if (b == null && !isMetaBlock)
 				{
-					PrismException2 e = new PrismException2();
+					PrismException e = new PrismException();
 					// ----
 					e.user.setText(UserErrorText.DEVELOP_FILE_CAUSED_PROBLEM);
 					// ----
@@ -225,7 +225,7 @@ public class MetaFileCreator
 		// check if MetaBlock of type DEVELOP exists
 		if (!metaList.hasMetaBlock(MetaType.DEVELOP))
 		{
-			PrismException2 e = new PrismException2();
+			PrismException e = new PrismException();
 			// ----
 			e.user.setText(UserErrorText.DEVELOP_FILE_CAUSED_PROBLEM);
 			// ----
@@ -245,7 +245,7 @@ public class MetaFileCreator
 
 		if (targetFilename == null)
 		{
-			PrismException2 e = new PrismException2();
+			PrismException e = new PrismException();
 			// ----
 			e.user.setText(UserErrorText.DEVELOP_FILE_CAUSED_PROBLEM);
 			// ----
@@ -276,7 +276,7 @@ public class MetaFileCreator
 
 				if (file == null || !file.exists())
 				{
-					PrismException2 e = new PrismException2();
+					PrismException e = new PrismException();
 					// ----
 					e.user.setText(UserErrorText.DEVELOP_FILE_CAUSED_PROBLEM);
 					// ----
@@ -308,7 +308,7 @@ public class MetaFileCreator
 			boolean wasPathCreated = makePath.mkdirs();
 			if (!wasPathCreated)
 			{
-				PrismException2 e = new PrismException2();
+				PrismException e = new PrismException();
 				// ----
 				e.user.setText(UserErrorText.COULD_NOT_CREATE_DIRECTORY);
 				// ----
@@ -361,7 +361,7 @@ public class MetaFileCreator
 		}
 		catch (Exception e0)
 		{
-			PrismException2 e = new PrismException2(e0);
+			PrismException e = new PrismException(e0);
 			// ----
 			e.user.setText(UserErrorText.WRITE_ERROR);
 			// ----
@@ -399,7 +399,7 @@ public class MetaFileCreator
 		{
 			f.create();
 		}
-		catch (PrismException2 e)
+		catch (PrismException e)
 		{
 			e.code.print();
 			e.user.showMessage();

@@ -4,7 +4,7 @@ import java.util.Properties;
 
 import javax.swing.UIManager;
 
-import xoric.prism.data.exceptions2.PrismException2;
+import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.FileIndex;
 import xoric.prism.data.global.IPrismGlobal;
 import xoric.prism.data.meta.MetaFile;
@@ -20,7 +20,7 @@ public class PrismGlobal implements IPrismGlobal
 	{
 	}
 
-	public void load() throws PrismException2
+	public void load() throws PrismException
 	{
 		Properties prop = System.getProperties();
 		String os = prop.getProperty("os.name");
@@ -51,7 +51,7 @@ public class PrismGlobal implements IPrismGlobal
 	}
 
 	@Override
-	public MetaFile loadMetaFile(FileIndex fi) throws PrismException2
+	public MetaFile loadMetaFile(FileIndex fi) throws PrismException
 	{
 		return fileTable.loadMetaFile(fi);
 	}

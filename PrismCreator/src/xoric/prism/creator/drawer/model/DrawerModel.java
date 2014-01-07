@@ -8,8 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import xoric.prism.creator.drawer.view.NewModelData;
-import xoric.prism.data.exceptions2.PrismException2;
-import xoric.prism.data.exceptions2.UserErrorText;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.types.IPackable;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
@@ -89,7 +89,7 @@ public class DrawerModel implements IPackable
 		this.hasChanges = false;
 	}
 
-	public void save() throws PrismException2
+	public void save() throws PrismException
 	{
 		File file = path.getFile(MAIN_FILENAME);
 		try
@@ -102,7 +102,7 @@ public class DrawerModel implements IPackable
 		}
 		catch (Exception e0)
 		{
-			PrismException2 e = new PrismException2(e0);
+			PrismException e = new PrismException(e0);
 			// ----
 			e.user.setText(UserErrorText.WRITE_ERROR);
 			// ----
@@ -138,7 +138,7 @@ public class DrawerModel implements IPackable
 		return size;
 	}
 
-	public void preparePath() throws PrismException2
+	public void preparePath() throws PrismException
 	{
 		// try to create path if it does not exist yet
 		if (!path.exists())
@@ -147,7 +147,7 @@ public class DrawerModel implements IPackable
 
 			if (!wasCreated)
 			{
-				PrismException2 e = new PrismException2();
+				PrismException e = new PrismException();
 				// ----
 				// ----
 				// ----
@@ -164,7 +164,7 @@ public class DrawerModel implements IPackable
 
 			if (file.exists())
 			{
-				PrismException2 e = new PrismException2();
+				PrismException e = new PrismException();
 				// ----
 				// ----
 				// ----
@@ -193,7 +193,7 @@ public class DrawerModel implements IPackable
 		}
 		else
 		{
-			PrismException2 e = new PrismException2();
+			PrismException e = new PrismException();
 			// ----
 			// ----
 			// ----

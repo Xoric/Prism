@@ -9,8 +9,8 @@ import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.ARBVertexShader;
 import org.lwjgl.opengl.GL11;
 
-import xoric.prism.data.exceptions2.PrismException2;
-import xoric.prism.data.exceptions2.UserErrorText;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.scene.shader.IShader;
 
 @Deprecated
@@ -37,7 +37,7 @@ public class Shader implements IShader
 	 * @return int
 	 * @throws Exception
 	 */
-	private int createShader(ByteBuffer shaderBuffer, int glShaderType) throws PrismException2
+	private int createShader(ByteBuffer shaderBuffer, int glShaderType) throws PrismException
 	{
 		int shaderID = 0;
 
@@ -53,7 +53,7 @@ public class Shader implements IShader
 		// check for errors
 		if (ARBShaderObjects.glGetObjectParameteriARB(shaderID, ARBShaderObjects.GL_OBJECT_COMPILE_STATUS_ARB) == GL11.GL_FALSE)
 		{
-			PrismException2 e = new PrismException2();
+			PrismException e = new PrismException();
 			// ----
 			// ----
 			// ----
@@ -65,7 +65,7 @@ public class Shader implements IShader
 	}
 
 	@Override
-	public void createShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException2
+	public void createShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException
 	{
 		int vertShader, fragShader;
 
@@ -75,7 +75,7 @@ public class Shader implements IShader
 
 		if (vertShader == 0 || fragShader == 0)
 		{
-			PrismException2 e = new PrismException2();
+			PrismException e = new PrismException();
 			// ----
 			// ----
 			// ----
@@ -112,7 +112,7 @@ public class Shader implements IShader
 		}
 	}
 
-	public void createFrom(File vertexFile, File pixelFile) throws PrismException2
+	public void createFrom(File vertexFile, File pixelFile) throws PrismException
 	{
 		ByteBuffer vertexBuf = readFileAsByteBuffer(vertexFile);
 		ByteBuffer pixelBuf = readFileAsByteBuffer(pixelFile);
@@ -125,7 +125,7 @@ public class Shader implements IShader
 		ARBShaderObjects.glUseProgramObjectARB(program);
 	}
 
-	private ByteBuffer readFileAsByteBuffer(File file) throws PrismException2
+	private ByteBuffer readFileAsByteBuffer(File file) throws PrismException
 	{
 		try
 		{
@@ -137,7 +137,7 @@ public class Shader implements IShader
 		}
 		catch (Exception e0)
 		{
-			PrismException2 e = new PrismException2(e0);
+			PrismException e = new PrismException(e0);
 			// ----
 			// ----
 			// ----

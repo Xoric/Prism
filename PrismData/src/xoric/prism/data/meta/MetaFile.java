@@ -3,8 +3,8 @@ package xoric.prism.data.meta;
 import java.io.File;
 import java.io.FileInputStream;
 
-import xoric.prism.data.exceptions2.PrismException2;
-import xoric.prism.data.exceptions2.UserErrorText;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IntPacker;
 
@@ -35,7 +35,7 @@ public class MetaFile implements IMetaListOwner
 		this.metaList.setOwner(this);
 	}
 
-	public void load() throws PrismException2
+	public void load() throws PrismException
 	{
 		try
 		{
@@ -60,7 +60,7 @@ public class MetaFile implements IMetaListOwner
 		}
 		catch (Exception e0)
 		{
-			PrismException2 e = new PrismException2(e0);
+			PrismException e = new PrismException(e0);
 			// ----
 			e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
 			// ----

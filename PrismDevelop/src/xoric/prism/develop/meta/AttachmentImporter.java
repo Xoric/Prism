@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import xoric.prism.data.compression.BufferCompressor;
-import xoric.prism.data.exceptions2.PrismException2;
+import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.meta.AttachmentHeader;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Text;
@@ -27,13 +27,13 @@ class AttachmentImporter
 		return content;
 	}
 
-	public void importAttachment() throws PrismException2
+	public void importAttachment() throws PrismException
 	{
 		// check file size
 		int originalSize = (int) file.length();
 		if (originalSize <= 0)
 		{
-			PrismException2 e = new PrismException2();
+			PrismException e = new PrismException();
 			// ----
 			// ----
 			// ----
@@ -54,7 +54,7 @@ class AttachmentImporter
 		}
 		catch (Exception e0)
 		{
-			PrismException2 e = new PrismException2(e0);
+			PrismException e = new PrismException(e0);
 			// ----
 			// ----
 			// ----
@@ -76,7 +76,7 @@ class AttachmentImporter
 		}
 		catch (Exception e0)
 		{
-			PrismException2 e = new PrismException2(e0);
+			PrismException e = new PrismException(e0);
 			// ----
 			// ----
 			// ----

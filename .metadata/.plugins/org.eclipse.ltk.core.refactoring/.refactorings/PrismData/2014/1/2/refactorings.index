@@ -8,3 +8,6 @@
 1389089549226	Rename type 'UserErrorDescription'
 1389094825430	Rename enum constant 'CANNOT_CREATE_DIRECTORY'
 1389094828944	Rename enum constant 'COULD_CREATE_DIRECTORY'
+1389099533467	Delete elements
+1389099551170	Rename package 'xoric.prism.data.exceptions2'
+1389099555292	Rename type 'PrismException2'

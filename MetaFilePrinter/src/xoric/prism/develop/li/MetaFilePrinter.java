@@ -1,6 +1,6 @@
 package xoric.prism.develop.li;
 
-import xoric.prism.data.exceptions2.PrismException2;
+import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.meta.AttachmentHeader;
 import xoric.prism.data.meta.AttachmentLoader;
 import xoric.prism.data.meta.MetaFile;
@@ -45,7 +45,7 @@ public class MetaFilePrinter
 				System.out.println(sb.toString());
 			}
 		}
-		catch (PrismException2 e)
+		catch (PrismException e)
 		{
 			e.printStackTrace();
 		}

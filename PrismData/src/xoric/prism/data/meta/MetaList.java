@@ -6,8 +6,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import xoric.prism.data.exceptions2.PrismException2;
-import xoric.prism.data.exceptions2.UserErrorText;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.types.IPackable;
 import xoric.prism.data.types.IntPacker;
 
@@ -51,13 +51,13 @@ public class MetaList implements IPackable
 		blocks.add(b);
 	}
 
-	public MetaBlock findMetaBlock(MetaType t) throws PrismException2
+	public MetaBlock findMetaBlock(MetaType t) throws PrismException
 	{
 		for (MetaBlock b : blocks)
 			if (b.getMetaType() == t)
 				return b;
 
-		PrismException2 e = new PrismException2();
+		PrismException e = new PrismException();
 		// ----
 		e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
 		// ----

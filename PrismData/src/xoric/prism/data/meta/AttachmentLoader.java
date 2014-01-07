@@ -7,8 +7,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import xoric.prism.data.exceptions2.PrismException2;
-import xoric.prism.data.exceptions2.UserErrorText;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.types.IPath_r;
 
 /**
@@ -33,9 +33,9 @@ public class AttachmentLoader extends AttachmentTable
 	 * @param attachmentIndex
 	 * @return ByteArrayInputStream
 	 * @throws IOException
-	 * @throws PrismException2
+	 * @throws PrismException
 	 */
-	public byte[] loadAttachment(int attachmentIndex) throws PrismException2
+	public byte[] loadAttachment(int attachmentIndex) throws PrismException
 	{
 		// get AttachmentHeader
 		AttachmentHeader h = get(attachmentIndex);
@@ -43,7 +43,7 @@ public class AttachmentLoader extends AttachmentTable
 
 		if (!isIndexValid)
 		{
-			PrismException2 e = new PrismException2();
+			PrismException e = new PrismException();
 			// ----
 			e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
 			// ----
@@ -68,7 +68,7 @@ public class AttachmentLoader extends AttachmentTable
 		}
 		catch (Exception e0)
 		{
-			PrismException2 e = new PrismException2(e0);
+			PrismException e = new PrismException(e0);
 			// ----
 			e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
 			// ----
@@ -89,7 +89,7 @@ public class AttachmentLoader extends AttachmentTable
 	 * @return String[]
 	 * @throws PrismMetaFileException
 	 */
-	public String[] loadAttachmentAsStringArray(int attachmentIndex) throws PrismException2
+	public String[] loadAttachmentAsStringArray(int attachmentIndex) throws PrismException
 	{
 		byte[] buf = loadAttachment(attachmentIndex);
 		ByteArrayInputStream stream = new ByteArrayInputStream(buf);
@@ -105,7 +105,7 @@ public class AttachmentLoader extends AttachmentTable
 		}
 		catch (Exception e0)
 		{
-			PrismException2 e = new PrismException2(e0);
+			PrismException e = new PrismException(e0);
 			// ----
 			e.user.setText(UserErrorText.INTERNAL_PROBLEM);
 			// ----

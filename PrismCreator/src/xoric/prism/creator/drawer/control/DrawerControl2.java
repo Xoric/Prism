@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 import xoric.prism.creator.drawer.model.DrawerModel;
 import xoric.prism.creator.drawer.view.IDrawerView2;
 import xoric.prism.creator.drawer.view.NewModelData;
-import xoric.prism.data.exceptions2.PrismException2;
+import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Path;
@@ -42,7 +42,7 @@ public class DrawerControl2 implements IDrawerControl2
 			model = newModel;
 			view.displayAll(newModel);
 		}
-		catch (PrismException2 e)
+		catch (PrismException e)
 		{
 			e.user.showMessage();
 		}
@@ -141,7 +141,7 @@ public class DrawerControl2 implements IDrawerControl2
 			model.save();
 			isOK = true;
 		}
-		catch (PrismException2 e)
+		catch (PrismException e)
 		{
 			e.user.showMessage();
 			isOK = false;

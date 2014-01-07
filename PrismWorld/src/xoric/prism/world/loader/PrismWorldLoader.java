@@ -1,7 +1,7 @@
 package xoric.prism.world.loader;
 
-import xoric.prism.data.exceptions2.PrismException2;
-import xoric.prism.data.exceptions2.UserErrorText;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.global.FileIndex;
 import xoric.prism.data.global.Prism;
 import xoric.prism.data.meta.MetaBlock;
@@ -12,13 +12,13 @@ import xoric.prism.world.entities.AnimationIndex;
 
 public abstract class PrismWorldLoader
 {
-	public static void loadAll(boolean loadAnimationDescriptions) throws PrismException2
+	public static void loadAll(boolean loadAnimationDescriptions) throws PrismException
 	{
 		if (loadAnimationDescriptions)
 			loadAnimationDescriptions();
 	}
 
-	private static void loadAnimationDescriptions() throws PrismException2
+	private static void loadAnimationDescriptions() throws PrismException
 	{
 		MetaFile f = Prism.global.loadMetaFile(FileIndex.ANIM_D);
 		MetaList metaList = f.getMetaList();
@@ -27,7 +27,7 @@ public abstract class PrismWorldLoader
 		boolean isOK = AnimationIndex.loadDescriptions(metaBlock);
 		if (!isOK)
 		{
-			PrismException2 e = new PrismException2();
+			PrismException e = new PrismException();
 			// ----
 			e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
 			// ----

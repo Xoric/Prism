@@ -1,7 +1,7 @@
 package xoric.prism.server.bootstrap;
 
 import xoric.prism.data.PrismDataLoader;
-import xoric.prism.data.exceptions2.PrismException2;
+import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.Prism;
 import xoric.prism.global.PrismGlobal;
 import xoric.prism.server.main.PrismServer;
@@ -31,7 +31,7 @@ public class PrismServerBootstrap
 			// start client
 			server.start();
 		}
-		catch (PrismException2 e)
+		catch (PrismException e)
 		{
 			e.code.print();
 		}

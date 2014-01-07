@@ -9,8 +9,8 @@ import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.ARBVertexShader;
 import org.lwjgl.opengl.GL11;
 
-import xoric.prism.data.exceptions2.PrismException2;
-import xoric.prism.data.exceptions2.UserErrorText;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.scene.shader.IShader2;
 
 public class ShaderIO2
@@ -37,7 +37,7 @@ public class ShaderIO2
 	 * @return int
 	 * @throws Exception
 	 */
-	private int createShader(ByteBuffer shaderBuffer, int glShaderType) throws PrismException2
+	private int createShader(ByteBuffer shaderBuffer, int glShaderType) throws PrismException
 	{
 		int shaderID = 0;
 
@@ -53,7 +53,7 @@ public class ShaderIO2
 		// check for errors
 		if (ARBShaderObjects.glGetObjectParameteriARB(shaderID, ARBShaderObjects.GL_OBJECT_COMPILE_STATUS_ARB) == GL11.GL_FALSE)
 		{
-			PrismException2 e = new PrismException2();
+			PrismException e = new PrismException();
 			// ----
 			// ----
 			// ----
@@ -65,7 +65,7 @@ public class ShaderIO2
 		return shaderID;
 	}
 
-	private int createProgram(int vertShader, int fragShader) throws PrismException2
+	private int createProgram(int vertShader, int fragShader) throws PrismException
 	{
 		int program = 0;
 		String errorLog = "";
@@ -95,7 +95,7 @@ public class ShaderIO2
 
 		if (errorLog.length() > 0 || program == 0)
 		{
-			PrismException2 e = new PrismException2();
+			PrismException e = new PrismException();
 			// ----
 			// ----
 			// ----
@@ -108,7 +108,7 @@ public class ShaderIO2
 		return program;
 	}
 
-	public IShader2 createShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException2
+	public IShader2 createShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException
 	{
 		IShader2 shader = null;
 
@@ -125,7 +125,7 @@ public class ShaderIO2
 		return shader;
 	}
 
-	public IShader2 createShader(File vertexFile, File pixelFile) throws PrismException2
+	public IShader2 createShader(File vertexFile, File pixelFile) throws PrismException
 	{
 		ByteBuffer vertexBuf = readFileAsByteBuffer(vertexFile);
 		ByteBuffer pixelBuf = readFileAsByteBuffer(pixelFile);
@@ -135,7 +135,7 @@ public class ShaderIO2
 		return shader;
 	}
 
-	private ByteBuffer readFileAsByteBuffer(File file) throws PrismException2
+	private ByteBuffer readFileAsByteBuffer(File file) throws PrismException
 	{
 		ByteBuffer buf = null;
 		try
@@ -147,7 +147,7 @@ public class ShaderIO2
 		}
 		catch (Exception e0)
 		{
-			PrismException2 e = new PrismException2(e0);
+			PrismException e = new PrismException(e0);
 			// ----
 			e.user.setText(UserErrorText.READ_ERROR);
 			// ----
