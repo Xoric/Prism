@@ -1,0 +1,24 @@
+package xoric.prism.creator.drawer.image;
+
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+
+import javax.swing.JPanel;
+
+public class AnimationView extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+	
+	private AngleView angleView;
+
+	public AnimationView()
+	{
+		super(new GridBagLayout());
+		
+		angleView = new AngleView();
+		
+		GridBagConstraints c = new GridBagConstraints(x++, 0, 1, 1, 0.2, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+				new Insets(0, 0, 0, 0), 0, 0);
+		add(angleView,c);
+	}
+}

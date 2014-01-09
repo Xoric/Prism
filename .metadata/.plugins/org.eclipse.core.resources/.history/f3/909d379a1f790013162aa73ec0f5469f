@@ -1,0 +1,11 @@
+package xoric.prism.creator.drawer.image;
+
+public class AnimationView extends JPanel
+{
+	private AngleView angleView;
+	
+	public AnimationView()
+	{
+		
+	}
+}

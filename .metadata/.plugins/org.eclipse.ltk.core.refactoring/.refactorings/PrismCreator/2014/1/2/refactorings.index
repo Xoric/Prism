@@ -12,3 +12,13 @@
 1389262985363	Rename method 'getFrameCount'
 1389265691470	Rename type 'ImageEditor'
 1389265698818	Delete element
+1389265794524	Rename type 'AnimationView'
+1389266078008	Rename local variable 'arg0'
+1389266200078	Delete element
+1389266204508	Rename type 'AnimationView'
+1389266786336	Rename local variable 'i'
+1389267754588	Rename method 'createButton'
+1389267759751	Rename field 'buttons'
+1389272990441	Rename local variable 'g'
+1389273579496	Rename type 'AngleViewDialog'
+1389273592584	Rename method 'show'

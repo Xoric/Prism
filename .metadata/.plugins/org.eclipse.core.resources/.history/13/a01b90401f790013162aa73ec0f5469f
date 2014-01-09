@@ -1,0 +1,44 @@
+package xoric.prism.creator.drawer.image;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class AnimationView extends JPanel implements ActionListener
+{
+	private static final long serialVersionUID = 1L;
+
+	private final JLabel frameLabel;
+	private final JButton leftButton;
+	private final JButton rightButton;
+
+	public AnimationView()
+	{
+		super(new GridBagLayout());
+
+		leftButton = createButton("<");
+		frameLabel = new JLabel("0 of 0");
+
+		int x = 0;
+
+		GridBagConstraints c = new GridBagConstraints(x++, 0, 1, 1, 0.2, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+				new Insets(0, 0, 0, 0), 0, 0);
+		add(leftButton, c);
+
+		GridBagConstraints c = new GridBagConstraints(x++, 0, 1, 1, 0.2, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+				new Insets(0, 0, 0, 0), 0, 0);
+		add(frameLabel, c);
+	}
+
+	private JButton createButton(String s)
+	{
+		JButton b = new JButton(s);
+		b.addActionListener(this);
+		return b;
+	}
+}
