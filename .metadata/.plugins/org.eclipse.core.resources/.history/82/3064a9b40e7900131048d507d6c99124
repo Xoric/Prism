@@ -1,0 +1,18 @@
+package xoric.prism.creator.drawer.model;
+
+import xoric.prism.data.types.IPath_r;
+import xoric.prism.world.entities.AnimationIndex;
+
+public class AnimationModel
+{
+	private IPath_r path;
+	private AnimationIndex animationIndex;
+	private int directionCount[];
+
+	public AnimationModel(IPath_r path, AnimationIndex animationIndex)
+	{
+		this.path = path;
+		this.animationIndex = animationIndex;
+		this.directionCount = new int[8];
+	}
+}

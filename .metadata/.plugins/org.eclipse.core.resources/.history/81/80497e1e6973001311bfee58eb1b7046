@@ -1,9 +1,0 @@
-package xoric.prism.data.global;
-
-public abstract class Prism
-{
-	public static IPrismGlobal global;
-	
-	public static final int TOC = 0;
-	public static final int ANIM_D = 1;
-}

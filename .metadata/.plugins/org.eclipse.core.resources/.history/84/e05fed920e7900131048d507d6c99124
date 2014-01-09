@@ -1,0 +1,14 @@
+package xoric.prism.creator.drawer.model;
+
+import xoric.prism.world.entities.AnimationIndex;
+
+public class AnimationLineModel
+{
+	private AnimationIndex animationIndex;
+	private int tileCount;
+
+	public AnimationLineModel(AnimationIndex animationIndex)
+	{
+		this.animationIndex = animationIndex;
+	}
+}

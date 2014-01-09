@@ -1,1 +1,0 @@
-jar cf ../../PrismCreator/res/icons.jar icons

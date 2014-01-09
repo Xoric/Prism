@@ -1,0 +1,16 @@
+package xoric.prism.creator.drawer.model;
+
+import xoric.prism.world.entities.AnimationIndex;
+
+public class AnimationLineModel
+{
+	private IPath_r path;
+	private AnimationIndex animationIndex;
+	private int tileCount;
+
+	public AnimationLineModel(IPath_r path, AnimationIndex animationIndex)
+	{
+		this.path = path;
+		this.animationIndex = animationIndex;
+	}
+}

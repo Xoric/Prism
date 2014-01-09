@@ -1,0 +1,15 @@
+package xoric.prism.creator.drawer.model;
+
+import xoric.prism.world.entities.AnimationIndex;
+
+public class AnimationModel
+{
+	private AnimationIndex animationIndex;
+	private boolean hasDirection[];
+
+	public AnimationModelx(AnimationIndex a)
+	{
+		this.animationIndex = a;
+		this.hasDirection = new boolean[8];
+	}
+}

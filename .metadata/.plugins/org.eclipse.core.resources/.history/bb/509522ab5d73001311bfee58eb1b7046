@@ -1,6 +1,0 @@
-package xoric.prism.meta;
-
-public interface IMetaListOwner
-{
-	public String getFilename();
-}

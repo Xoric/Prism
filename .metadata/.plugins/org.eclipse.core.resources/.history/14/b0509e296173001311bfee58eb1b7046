@@ -1,8 +1,0 @@
-package xoric.prism.data.global;
-
-import xoric.prism.data.types.IPath_r;
-
-public class IPrismGlobal
-{
-	public IPath_r getDataPath();
-}

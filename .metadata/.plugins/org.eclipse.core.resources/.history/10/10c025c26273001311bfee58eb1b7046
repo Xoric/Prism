@@ -1,6 +1,0 @@
-package xoric.prism.data.global;
-
-public interface IFileTableEntry
-{
-
-}

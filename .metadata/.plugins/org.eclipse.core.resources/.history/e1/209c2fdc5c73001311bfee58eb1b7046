@@ -1,6 +1,0 @@
-package xoric.prism.common;
-
-public interface IPath_r
-{
-
-}

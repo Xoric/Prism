@@ -1,6 +1,0 @@
-package xoric.prism.global.modules;
-
-public interface IActor
-{
-	public ActorID getActorID();
-}

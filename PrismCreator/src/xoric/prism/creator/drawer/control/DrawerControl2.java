@@ -103,6 +103,22 @@ public class DrawerControl2 implements IDrawerControl2
 	}
 
 	@Override
+	public void requestAddAnimation(AnimationIndex animation)
+	{
+		System.out.println("requestAddAnimation(" + animation + ")");
+
+		//		view.displayAnimation(animation, true);
+	}
+
+	@Override
+	public void requestDeleteAnimation(AnimationIndex animation)
+	{
+		System.out.println("requestDeleteAnimation(" + animation + ")");
+
+		//		view.displayAnimation(animation, false);
+	}
+
+	@Override
 	public boolean askSaveChanges()
 	{
 		boolean isOK = !model.hasChanges();
@@ -110,7 +126,7 @@ public class DrawerControl2 implements IDrawerControl2
 		if (!isOK)
 		{
 			int result = JOptionPane.showConfirmDialog(null,
-					"The current model contains unsaved changes. Would you like to save before closing?", "Save changes",
+					"The current model has unsaved changes. Would you like to save before closing?", "Save changes",
 					JOptionPane.YES_NO_CANCEL_OPTION);
 
 			if (result == 0) // 0: Yes, save changes
@@ -147,11 +163,5 @@ public class DrawerControl2 implements IDrawerControl2
 			isOK = false;
 		}
 		return isOK;
-	}
-
-	@Override
-	public void requestAddAnimation(AnimationIndex animation)
-	{
-		System.out.println("requestAddAnimation(" + animation + ")");
 	}
 }

@@ -11,6 +11,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import xoric.prism.creator.drawer.control.IDrawerControl2;
+import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.model.DrawerModel;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
@@ -95,6 +96,7 @@ public class DrawerView2 extends PrismFrame implements IDrawerView2, ActionListe
 		displayTileSize(model.getTileSize());
 		displayPath(model.getPath());
 		displaySaveState(model.hasChanges());
+		displayAnimations(model.getAnimations());
 	}
 
 	@Override
@@ -122,6 +124,19 @@ public class DrawerView2 extends PrismFrame implements IDrawerView2, ActionListe
 	public void displaySaveState(boolean canSave)
 	{
 		menuItemSaveModel.setEnabled(canSave);
+	}
+
+	@Override
+	public void displayAnimations(AnimationModel[] animations)
+	{
+		for (AnimationModel m : animations)
+			animationList.displayAnimation(m);
+	}
+
+	@Override
+	public void displayAnimation(AnimationModel m)
+	{
+		animationList.displayAnimation(m);
 	}
 
 	/* ********** internal *********************** */

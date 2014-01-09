@@ -7,3 +7,8 @@
 1388916280863	Rename local variable 'tileSizeMaxY0'
 1389037144095	Rename local variable 'file'
 1389037506825	Rename type 'NewModelInput'
+1389258980846	Rename field 'direction'
+1389262980807	Rename method 'getTileCount'
+1389262985363	Rename method 'getFrameCount'
+1389265691470	Rename type 'ImageEditor'
+1389265698818	Delete element

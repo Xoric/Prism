@@ -1,0 +1,21 @@
+package xoric.prism.creator.drawer.model;
+
+import xoric.prism.data.types.IPath_r;
+import xoric.prism.world.entities.AnimationIndex;
+
+public class AnimationModel
+{
+	private IPath_r path;
+	private AnimationIndex animationIndex;
+	private AnimationLineModel directions[];
+
+	public AnimationModel(IPath_r path, AnimationIndex animationIndex)
+	{
+		this.path = path;
+		this.animationIndex = animationIndex;
+		this.directions = new AnimationLineModel[8];
+		
+		for (int i = 0; i < 8; ++i)
+			directions[i] = new AnimationLineModel(path,animationIndex);
+	}
+}

@@ -11,6 +11,7 @@ import xoric.prism.creator.drawer.view.NewModelData;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.types.IPackable;
+import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.IntPacker;
@@ -18,6 +19,7 @@ import xoric.prism.data.types.Path;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
 import xoric.prism.data.types.TextPacker;
+import xoric.prism.world.entities.AnimationIndex;
 
 public class DrawerModel implements IPackable
 {
@@ -28,6 +30,7 @@ public class DrawerModel implements IPackable
 	private Path path;
 	private Point tileSize;
 	private boolean hasChanges;
+	private AnimationModel[] animations;
 
 	public DrawerModel()
 	{
@@ -35,6 +38,7 @@ public class DrawerModel implements IPackable
 		path = new Path("");
 		tileSize = new Point();
 		hasChanges = false;
+		animations = new AnimationModel[AnimationIndex.values().length];
 	}
 
 	public DrawerModel(NewModelData data)
@@ -43,9 +47,15 @@ public class DrawerModel implements IPackable
 		path = data.getPath();
 		tileSize = data.getTileSize();
 		hasChanges = false;
+		animations = new AnimationModel[AnimationIndex.values().length];
 	}
 
-	public Path getPath()
+	public AnimationModel[] getAnimations()
+	{
+		return animations;
+	}
+
+	public IPath_r getPath()
 	{
 		return path;
 	}
@@ -86,6 +96,12 @@ public class DrawerModel implements IPackable
 		unpack(in);
 		in.close();
 
+		for (AnimationIndex a : AnimationIndex.values())
+		{
+			AnimationModel m = new AnimationModel(path, a);
+			m.load();
+			animations[a.ordinal()] = m;
+		}
 		this.hasChanges = false;
 	}
 
@@ -106,7 +122,7 @@ public class DrawerModel implements IPackable
 			// ----
 			e.user.setText(UserErrorText.WRITE_ERROR);
 			// ----
-			e.code.setText("error while saving a DrawerModel");
+			e.code.setText("error while saving DrawerModel");
 			// ----
 			e.addInfo("file", file.toString());
 			// ----
