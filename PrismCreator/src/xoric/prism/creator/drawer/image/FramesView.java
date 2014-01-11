@@ -20,7 +20,7 @@ public class FramesView extends JPanel
 		for (int i = 0; i < 4; ++i)
 		{
 			FrameView v = new FrameView(i);
-			v.loadImage(path, "idle.right." + i + ".png");
+			v.loadImage(path, "idle.right." + i + ".png", i);
 			add(v);
 		}
 	}

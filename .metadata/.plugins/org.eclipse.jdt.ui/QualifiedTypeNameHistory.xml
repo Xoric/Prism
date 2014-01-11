@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="xoric.prism.data.exceptions.PrismMetaFileException"/>
 <fullyQualifiedTypeName name="xoric.prism.data.global.IFileTable_r"/>
 <fullyQualifiedTypeName name="xoric.prism.data.global.IPrismGlobal"/>
 <fullyQualifiedTypeName name="xoric.prism.server.main.PrismServer"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="java.awt.FlowLayout"/>
 <fullyQualifiedTypeName name="javax.swing.BorderFactory"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.IPath_r"/>
+<fullyQualifiedTypeName name="java.awt.Cursor"/>
 </qualifiedTypeNameHistroy>

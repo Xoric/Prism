@@ -14,4 +14,6 @@ public interface IDrawerView2 extends IModelTable, IAnimationList, IAnimationVie
 	public void displaySaveState(boolean canSave);
 
 	public void displayAnimations(AnimationModel[] animations);
+
+	public void setHourglass(boolean b);
 }

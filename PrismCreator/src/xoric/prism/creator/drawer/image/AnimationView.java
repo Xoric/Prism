@@ -46,7 +46,8 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 		framesView = new FramesView();
 		angleView = new AngleView();
 
-		framesView.loadFrames(new Path("E:/Prism/work"));
+		//		framesView.loadFrames(new Path("E:/Prism/work"));
+		framesView.loadFrames(new Path("/home/xoric/workspace/prismwork"));
 
 		// create top panel
 		//		JPanel topPanel = new JPanel(new GridBagLayout());

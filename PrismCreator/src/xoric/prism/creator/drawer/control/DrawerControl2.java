@@ -35,6 +35,7 @@ public class DrawerControl2 implements IDrawerControl2
 		if (!isOK)
 			return;
 
+		view.setHourglass(true);
 		try
 		{
 			DrawerModel newModel = new DrawerModel(data);
@@ -47,6 +48,7 @@ public class DrawerControl2 implements IDrawerControl2
 		{
 			e.user.showMessage();
 		}
+		view.setHourglass(false);
 	}
 
 	@Override
@@ -62,7 +64,9 @@ public class DrawerControl2 implements IDrawerControl2
 			openedModel = new DrawerModel();
 			try
 			{
+				view.setHourglass(true);
 				openedModel.load(path);
+				view.setHourglass(false);
 			}
 			catch (IOException e)
 			{
@@ -83,7 +87,11 @@ public class DrawerControl2 implements IDrawerControl2
 	public void requestSaveModel()
 	{
 		if (model.hasChanges())
+		{
+			view.setHourglass(true);
 			saveChanges();
+			view.setHourglass(false);
+		}
 	}
 
 	@Override
@@ -116,8 +124,10 @@ public class DrawerControl2 implements IDrawerControl2
 	@Override
 	public void requestEditAnimation(AnimationIndex animation)
 	{
+		view.setHourglass(true);
 		AnimationModel m = model.getAnimation(animation);
 		view.displayAnimationImages(m);
+		view.setHourglass(false);
 	}
 
 	@Override
@@ -141,7 +151,9 @@ public class DrawerControl2 implements IDrawerControl2
 
 			if (result == 0) // 0: Yes, save changes
 			{
+				view.setHourglass(true);
 				isOK = saveChanges();
+				view.setHourglass(false);
 			}
 			else
 			{

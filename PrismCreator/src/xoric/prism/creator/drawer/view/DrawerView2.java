@@ -1,5 +1,6 @@
 package xoric.prism.creator.drawer.view;
 
+import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -157,6 +158,16 @@ public class DrawerView2 extends PrismFrame implements IDrawerView2, ActionListe
 	{
 		animationView.displayAnimationImages(m);
 		showControls(true);
+	}
+
+	@Override
+	public void setHourglass(boolean b)
+	{
+		if (b)
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		else
+			setCursor(Cursor.getDefaultCursor());
+		// TODO test
 	}
 
 	/* ********** internal *********************** */

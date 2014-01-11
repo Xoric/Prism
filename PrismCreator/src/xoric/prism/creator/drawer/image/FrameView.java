@@ -39,9 +39,10 @@ public class FrameView extends JPanel
 		add(nameLabel, c);
 	}
 
-	public void loadImage(IPath_r path, String filename)
+	public void loadImage(IPath_r path, String filename, int frameIndex)
 	{
-		nameLabel.setText("<html><span style=\"background-color:#DCDCDC; color:#0;\"><strong>" + filename.toLowerCase() + "</html>");
+		nameLabel.setText("<html><span style=\"background-color:#DCDCDC; color:#0;\"><strong>" + "Frame " + frameIndex
+				+ "<br><font size=\"-2\">" + filename.toLowerCase() + "</font></html>");
 
 		try
 		{
