@@ -1,0 +1,35 @@
+package xoric.prism.creator.drawer.control;
+
+import xoric.prism.creator.drawer.model.AnimationModel;
+import xoric.prism.creator.drawer.model.DrawerModel;
+import xoric.prism.world.entities.AnimationIndex;
+
+public class AnimationControl extends ControlLayer
+{
+	public AnimationControl(DrawerModel model, IBusyControl busyControl)
+	{
+		super(model, busyControl);
+	}
+
+	public void requestAddAnimation(AnimationIndex animation)
+	{
+		System.out.println("requestAddAnimation(" + animation + ")");
+
+		//		view.displayAnimation(animation, true);
+	}
+
+	public void requestEditAnimation(AnimationIndex animation)
+	{
+		view.setHourglass(true);
+		AnimationModel m = model.getAnimation(animation);
+		view.displayAnimationImages(m);
+		view.setHourglass(false);
+	}
+
+	public void requestDeleteAnimation(AnimationIndex animation)
+	{
+		System.out.println("requestDeleteAnimation(" + animation + ")");
+
+		//		view.displayAnimation(animation, false);
+	}
+}

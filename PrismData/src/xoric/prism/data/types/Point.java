@@ -17,8 +17,8 @@ public class Point implements IStackable, IPackable, IPoint_r
 
 	public Point(IPoint_r p)
 	{
-		this.x = p.getX();
-		this.y = p.getY();
+		this.x = p == null ? 0 : p.getX();
+		this.y = p == null ? 0 : p.getY();
 	}
 
 	public Point(int x, int y)
@@ -29,8 +29,8 @@ public class Point implements IStackable, IPackable, IPoint_r
 
 	public void copyFrom(IPoint_r p)
 	{
-		x = p.getX();
-		y = p.getY();
+		x = p == null ? 0 : p.getX();
+		y = p == null ? 0 : p.getY();
 	}
 
 	@Override

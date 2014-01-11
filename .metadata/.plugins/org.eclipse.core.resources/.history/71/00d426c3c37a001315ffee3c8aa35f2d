@@ -1,0 +1,16 @@
+package xoric.prism.creator.drawer.control;
+
+import xoric.prism.creator.drawer.view.NewModelData;
+import xoric.prism.data.types.IPoint_r;
+import xoric.prism.data.types.IText_r;
+import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.entities.ViewAngle;
+
+public interface IAnimationControl
+{
+	public void requestAddAnimation(AnimationIndex animation);
+
+	public void requestEditAnimation(AnimationIndex animation);
+
+	public void requestDeleteAnimation(AnimationIndex animation);
+}

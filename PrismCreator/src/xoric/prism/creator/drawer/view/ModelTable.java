@@ -8,7 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-import xoric.prism.creator.drawer.control.IDrawerControl2;
+import xoric.prism.creator.drawer.control.IDrawerControl;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Point;
@@ -23,7 +23,7 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 {
 	private static final long serialVersionUID = 1L;
 
-	private IDrawerControl2 control;
+	private IDrawerControl control;
 
 	private TextInput nameInput;
 	private PointInput tileSizeInput;
@@ -63,7 +63,7 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 		setContent(contentPane);
 	}
 
-	public void setControl(IDrawerControl2 control)
+	public void setControl(IDrawerControl control)
 	{
 		this.control = control;
 	}
@@ -93,12 +93,14 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 	@Override
 	public void displayName(IText_r name)
 	{
+		nameInput.setEnabled(name != null);
 		nameInput.setValue(name);
 	}
 
 	@Override
 	public void displayTileSize(IPoint_r tileSize)
 	{
+		tileSizeInput.setEnabled(tileSize != null);
 		tileSizeInput.setValue(tileSize);
 	}
 }

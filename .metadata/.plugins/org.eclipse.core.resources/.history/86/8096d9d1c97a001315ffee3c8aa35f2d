@@ -1,0 +1,121 @@
+package xoric.prism.creator.drawer.control;
+
+import xoric.prism.creator.drawer.model.AnimationModel;
+import xoric.prism.creator.drawer.model.DrawerModel;
+import xoric.prism.creator.drawer.view.IDrawerView2;
+import xoric.prism.data.types.IPoint_r;
+import xoric.prism.data.types.IText_r;
+import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.entities.ViewAngle;
+
+public class AnimationControl implements IDrawerControl, IBusyControl
+{
+	private IDrawerView2 view;
+	private DrawerModel model;
+
+	private ModelControl modelControl;
+	private AnimationControl animationControl;
+
+	public AnimationControl(IDrawerView2 view)
+	{
+		this.view = view;
+		this.model = new DrawerModel();
+	}
+
+	private void updateSaveState()
+	{
+		boolean canSave = model != null && model.hasChanges();
+		view.displaySaveState(canSave);
+	}
+
+	@Override
+	public void setBusy(boolean b)
+	{
+		view.setHourglass(b);
+	}
+
+	private void acceptModel(DrawerModel m, boolean acceptNull)
+	{
+		if (m != null || acceptNull)
+		{
+			model = m;
+			modelControl.setModel(m);
+
+			view.displayAll(m);
+		}
+	}
+
+	/* *********** model control ****************** */
+
+	@Override
+	public void requestNewModel()
+	{
+		acceptModel(modelControl.createNewModel(), false);
+	}
+
+	@Override
+	public void requestOpenModel()
+	{
+		acceptModel(modelControl.openModel(), false);
+	}
+
+	@Override
+	public void requestCloseModel()
+	{
+		if (modelControl.closeModel())
+			acceptModel(null, true);
+	}
+
+	@Override
+	public void requestSetName(IText_r name)
+	{
+		modelControl.setName(name);
+
+		view.displayName(name);
+		updateSaveState();
+	}
+
+	@Override
+	public void requestSetTileSize(IPoint_r tileSize)
+	{
+		model.setTileSize(tileSize);
+		view.displayTileSize(tileSize);
+		// TODO: every single png has to be changed
+	}
+
+	/* *********** animation control ****************** */
+
+	@Override
+	public void requestAddAnimation(AnimationIndex animation)
+	{
+		System.out.println("requestAddAnimation(" + animation + ")");
+
+		//		view.displayAnimation(animation, true);
+	}
+
+	@Override
+	public void requestEditAnimation(AnimationIndex animation)
+	{
+		view.setHourglass(true);
+		AnimationModel m = model.getAnimation(animation);
+		view.displayAnimationImages(m);
+		view.setHourglass(false);
+	}
+
+	@Override
+	public void requestDeleteAnimation(AnimationIndex animation)
+	{
+		System.out.println("requestDeleteAnimation(" + animation + ")");
+
+		//		view.displayAnimation(animation, false);
+	}
+
+	/* *********** sprite control ****************** */
+
+	@Override
+	public void requestAddSprite(AnimationIndex animation, ViewAngle v, int index)
+	{
+		// TODO Auto-generated method stub
+
+	}
+}

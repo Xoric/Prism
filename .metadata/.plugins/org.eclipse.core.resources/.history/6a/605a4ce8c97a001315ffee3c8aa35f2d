@@ -1,0 +1,20 @@
+package xoric.prism.creator.drawer.control;
+
+import xoric.prism.creator.drawer.model.DrawerModel;
+
+class ControlLayer
+{
+	private IBusyControl busyControl;
+	private DrawerModel model;
+
+	public ModelControl(DrawerModel model, IBusyControl busyControl)
+	{
+		this.busyControl = busyControl;
+		this.model = model;
+	}
+
+	public void setModel(DrawerModel model)
+	{
+		this.model = model;
+	}
+}

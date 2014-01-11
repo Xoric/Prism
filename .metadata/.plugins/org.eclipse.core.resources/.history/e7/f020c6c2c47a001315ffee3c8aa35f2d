@@ -1,0 +1,117 @@
+package xoric.prism.creator.drawer.control;
+
+import java.io.IOException;
+
+import javax.swing.JOptionPane;
+
+import xoric.prism.creator.drawer.model.DrawerModel;
+import xoric.prism.creator.drawer.view.NewModelData;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.types.IPoint_r;
+import xoric.prism.data.types.IText_r;
+import xoric.prism.data.types.Path;
+import xoric.prism.swing.input.OpenPathDialog;
+
+public class ModelControl
+{
+	private DrawerModel model;
+
+	public ModelControl(DrawerModel model)
+	{
+		this.model = model;
+	}
+
+	public DrawerModel createNewModel(NewModelData data) throws PrismException
+	{
+		DrawerModel newModel = new DrawerModel(data);
+		newModel.preparePath();
+		return model;
+	}
+
+	@Override
+	public void requestOpenModel()
+	{
+		DrawerModel openedModel = null;
+		OpenPathDialog d = new OpenPathDialog("Open Model", "Please enter the working directory of the model you want to open.");
+		boolean b = d.show();
+		Path path = b ? d.getResult() : null;
+
+		if (path != null)
+		{
+			openedModel = new DrawerModel();
+			try
+			{
+				view.setHourglass(true);
+				openedModel.load(path);
+				view.setHourglass(false);
+			}
+			catch (IOException e)
+			{
+				openedModel = null;
+				JOptionPane.showMessageDialog(null, "An error occured while trying to load a model from the specified directory:\n\n"
+						+ e.getMessage(), "Open model", JOptionPane.WARNING_MESSAGE);
+			}
+		}
+
+		if (openedModel != null)
+		{
+			model = openedModel;
+			view.displayAll(openedModel);
+		}
+	}
+
+	@Override
+	public void requestSaveModel()
+	{
+		if (model.hasChanges())
+		{
+			view.setHourglass(true);
+			saveChanges();
+			view.setHourglass(false);
+		}
+	}
+
+	@Override
+	public void requestSetName(IText_r name)
+	{
+		if (!model.getName().equals(name))
+		{
+			model.setName(name);
+			view.displayName(name);
+
+			updateSaveState();
+		}
+	}
+
+	@Override
+	public void requestSetTileSize(IPoint_r tileSize)
+	{
+		model.setTileSize(tileSize);
+		view.displayTileSize(tileSize);
+	}
+
+	@Override
+	public boolean askSaveChanges()
+	{
+		boolean isOK = !model.hasChanges();
+
+		if (!isOK)
+		{
+			int result = JOptionPane.showConfirmDialog(null,
+					"The current model has unsaved changes. Would you like to save before closing?", "Save changes",
+					JOptionPane.YES_NO_CANCEL_OPTION);
+
+			if (result == 0) // 0: Yes, save changes
+			{
+				view.setHourglass(true);
+				isOK = saveChanges();
+				view.setHourglass(false);
+			}
+			else
+			{
+				isOK = result == 1; // 1: No, discard | 2: Cancel
+			}
+		}
+		return isOK;
+	}
+}

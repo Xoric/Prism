@@ -8,7 +8,7 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import xoric.prism.creator.drawer.control.IDrawerControl2;
+import xoric.prism.creator.drawer.control.IDrawerControl;
 import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.world.entities.AnimationIndex;
 
@@ -27,7 +27,7 @@ public class AnimationLine extends JPanel implements IAnimationLine
 	//	private final JButton editButton;
 	//	private final JButton deleteButton;
 
-	protected IDrawerControl2 control;
+	protected IDrawerControl control;
 
 	public AnimationLine(AnimationIndex animation)
 	{
@@ -71,7 +71,7 @@ public class AnimationLine extends JPanel implements IAnimationLine
 		return isUsed;
 	}
 
-	public void setControl(IDrawerControl2 control)
+	public void setControl(IDrawerControl control)
 	{
 		this.control = control;
 	}
@@ -107,7 +107,7 @@ public class AnimationLine extends JPanel implements IAnimationLine
 	public void displayAnimation(AnimationModel m)
 	{
 		// show/hide buttons
-		isUsed = m.isUsed();
+		isUsed = m != null && m.isUsed();
 		//		showAddButton(!isUsed);
 
 		// display other information

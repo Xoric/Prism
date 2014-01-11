@@ -55,3 +55,16 @@
 1389440951076	Infer generic type arguments
 1389441201405	Rename method 'getName'
 1389442257959	Rename field 'filenameLabel'
+1389442547881	Delete element
+1389442922730	Rename local variable 'buttonsPanel'
+1389446666185	Copy compilation unit
+1389446688485	Copy compilation unit
+1389446703554	Copy compilation unit
+1389446751209	Rename type 'IDrawerControl2'
+1389449275476	Copy compilation unit
+1389449616929	Rename local variable 'animation'
+1389449671875	Delete element
+1389449930907	Rename field 'view'
+1389449938520	Rename local variable 'view'
+1389449947092	Rename local variable 'mainView'
+1389450292175	Rename type 'DrawerView2'

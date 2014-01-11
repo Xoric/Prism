@@ -1,23 +1,18 @@
 package xoric.prism.creator.drawer.image;
 
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import xoric.prism.data.types.IPath_r;
-
-public class SpriteCell
+public abstract class SpriteCell
 {
-	private String filename;
-	private ImageIcon icon;
+	protected String filename;
+	protected ImageIcon icon;
 
 	public SpriteCell(String filename)
 	{
 		this.filename = filename;
 	}
+
+	public abstract String getFrameName();
 
 	public ImageIcon getIcon()
 	{
@@ -27,25 +22,5 @@ public class SpriteCell
 	public String getFileName()
 	{
 		return filename;
-	}
-
-	public void loadIcon(IPath_r path)
-	{
-		//		nameLabel.setText("<html><span style=\"background-color:#DCDCDC; color:#0;\"><strong>" + "Frame " + frameIndex
-		//				+ "<br><font size=\"-2\">" + filename.toLowerCase() + "</font></html>");
-
-		try
-		{
-			File file = path.getFile(filename);
-			Image img = ImageIO.read(file);
-			icon = new ImageIcon(img);
-			//			iconLabel.setIcon(icn);
-		}
-		catch (IOException e)
-		{
-			//			iconLabel.setIcon(null);
-			//			iconLabel.setText(e.toString());
-			icon = null;
-		}
 	}
 }

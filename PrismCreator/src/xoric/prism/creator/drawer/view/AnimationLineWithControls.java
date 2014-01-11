@@ -21,13 +21,16 @@ public class AnimationLineWithControls extends AnimationLine implements ActionLi
 {
 	private static final long serialVersionUID = 1L;
 
+	private final IAnimationEditor mainView;
+
 	private final JButton addButton;
 	private final JButton editButton;
 	private final JButton deleteButton;
 
-	public AnimationLineWithControls(AnimationIndex animation)
+	public AnimationLineWithControls(AnimationIndex animation, IAnimationEditor e)
 	{
 		super(animation);
+		this.mainView = e;
 
 		addButton = createButton("Add", "icons/add.png", "Click here to add this animation");
 		editButton = createButton("Edit", "icons/edit.png", "Click here to edit this animation");
@@ -110,7 +113,7 @@ public class AnimationLineWithControls extends AnimationLine implements ActionLi
 		if (o == addButton)
 			control.requestAddAnimation(animation);
 		else if (o == editButton)
-			control.requestEditAnimation(animation);
+			mainView.requestEditAnimation(animation);
 		else if (o == deleteButton)
 			control.requestDeleteAnimation(animation);
 	}

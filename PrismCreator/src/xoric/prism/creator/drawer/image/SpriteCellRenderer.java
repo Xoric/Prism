@@ -13,7 +13,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
-public class SpriteCellRenderer extends JPanel implements ListCellRenderer<SpriteCell>
+class SpriteCellRenderer extends JPanel implements ListCellRenderer<SpriteCell>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ public class SpriteCellRenderer extends JPanel implements ListCellRenderer<Sprit
 	public Component getListCellRendererComponent(JList list, SpriteCell cell, int index, boolean isSelected, boolean hasFocus)
 	{
 		iconLabel.setIcon(cell.getIcon());
-		nameLabel.setText("Frame " + index);
+		nameLabel.setText(cell.getFrameName());
 		fileLabel.setText(cell.getFileName());
 
 		if (isSelected)

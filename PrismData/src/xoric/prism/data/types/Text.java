@@ -8,6 +8,8 @@ import java.awt.event.KeyEvent;
  */
 public class Text implements IText_r
 {
+	public static final IText_r EMPTY = new Text("");
+
 	protected final StringBuffer ascii = new StringBuffer();
 	protected final StringBuffer symbols = new StringBuffer(); // TODO change to List<Byte>
 
@@ -22,7 +24,7 @@ public class Text implements IText_r
 
 	public Text(IText_r t)
 	{
-		set(t.toString()); // TODO copy ascii and symbols directly
+		set(t == null ? "" : t.toString()); // TODO copy ascii and symbols directly
 	}
 
 	public Text()

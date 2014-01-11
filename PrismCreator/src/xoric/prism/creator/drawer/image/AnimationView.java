@@ -13,9 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.ScrollPaneConstants;
 
 import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.view.AnimationLine;
@@ -34,7 +32,6 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 	private final IAnimationLine animationLine;
 	private IAngleSelector angleSelector;
 	private IFramesView framesView;
-	private FrameSelector frameSelector;
 
 	private AnimationModel animationModel;
 
@@ -48,7 +45,6 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 		angleSelector = a;
 		SpritesList f = new SpritesList();
 		framesView = f;
-		frameSelector = new FrameSelector();
 
 		backButton = createButton("Back", null);
 
@@ -68,16 +64,16 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 		c = new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
 		add(a/*angleSelector*/, c);
 
+		//		c = new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
+		//		JScrollPane scroll = new JScrollPane(f /*framesView*/, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		//				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		//		add(scroll, c);
+		//
+		//		scroll.getVerticalScrollBar().setUnitIncrement(16);
+		//		scroll.getHorizontalScrollBar().setUnitIncrement(16);
+
 		c = new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
-		JScrollPane scroll = new JScrollPane(f /*framesView*/, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		add(scroll, c);
-
-		scroll.getVerticalScrollBar().setUnitIncrement(16);
-		scroll.getHorizontalScrollBar().setUnitIncrement(16);
-
-		c = new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, insets, 0, 0);
-		add(frameSelector, c);
+		add(f, c);
 	}
 
 	private JButton createButton(String s, String icon)

@@ -1,0 +1,110 @@
+package xoric.prism.creator.drawer.control;
+
+import xoric.prism.creator.drawer.model.DrawerModel;
+import xoric.prism.creator.drawer.view.IDrawerView2;
+import xoric.prism.data.types.IPoint_r;
+import xoric.prism.data.types.IText_r;
+import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.entities.ViewAngle;
+
+public class DrawerControl2 implements IDrawerControl, IBusyControl
+{
+	private IDrawerView2 view;
+	private DrawerModel model;
+
+	private ModelControl modelControl;
+	private AnimationControl animationControl;
+
+	public DrawerControl2(IDrawerView2 view)
+	{
+		this.view = view;
+		this.model = new DrawerModel();
+
+		modelControl = new ModelControl(model, this);
+		animationControl = new AnimationControl(model, this);
+	}
+
+	@Override
+	public void setBusy(boolean b)
+	{
+		view.setHourglass(b);
+	}
+
+	private void acceptModel(DrawerModel m, boolean acceptNull)
+	{
+		if (m != null || acceptNull)
+		{
+			model = m;
+
+			modelControl.setModel(m);
+			animationControl.setModel(m);
+
+			view.displayAll(m);
+		}
+	}
+
+	/* *********** model control ****************** */
+
+	@Override
+	public void requestNewModel()
+	{
+		acceptModel(modelControl.createNewModel(), false);
+	}
+
+	@Override
+	public void requestOpenModel()
+	{
+		acceptModel(modelControl.openModel(), false);
+	}
+
+	@Override
+	public void requestCloseModel()
+	{
+		if (modelControl.closeModel())
+			acceptModel(null, true);
+	}
+
+	@Override
+	public void requestSetName(IText_r name)
+	{
+		modelControl.setName(name);
+
+		view.displayName(name);
+		updateSaveState();
+	}
+
+	@Override
+	public void requestSetTileSize(IPoint_r tileSize)
+	{
+		model.setTileSize(tileSize);
+		view.displayTileSize(tileSize);
+		// TODO: every single png has to be changed
+	}
+
+	/* *********** animation control ****************** */
+
+	@Override
+	public void requestAddAnimation(AnimationIndex animation)
+	{
+		System.out.println("requestAddAnimation(" + animation + ")");
+
+		//		view.displayAnimation(animation, true);
+	}
+
+	@Override
+	public void requestDeleteAnimation(AnimationIndex animation)
+	{
+		System.out.println("requestDeleteAnimation(" + animation + ")");
+
+		//		view.displayAnimation(animation, false);
+	}
+
+	/* *********** sprite control ****************** */
+
+	@Override
+	public void requestAddSprite(AnimationIndex animation, ViewAngle v, int index)
+	{
+		// TODO Auto-generated method stub
+
+	}
+}

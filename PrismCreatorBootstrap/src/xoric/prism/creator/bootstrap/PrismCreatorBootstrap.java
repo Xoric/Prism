@@ -1,7 +1,7 @@
 package xoric.prism.creator.bootstrap;
 
 import xoric.prism.creator.drawer.control.DrawerControl2;
-import xoric.prism.creator.drawer.view.DrawerView2;
+import xoric.prism.creator.drawer.view.DrawerView;
 import xoric.prism.data.PrismDataLoader;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.Prism;
@@ -14,7 +14,7 @@ public class PrismCreatorBootstrap
 {
 	private static IScene scene;
 
-	private static DrawerView2 drawerView;
+	private static DrawerView drawerView;
 	private static DrawerControl2 drawerControl;
 
 	public static void main(String[] args)
@@ -35,7 +35,7 @@ public class PrismCreatorBootstrap
 			scene = new PrismSceneLWJGL();
 
 			// setup Drawer
-			drawerView = new DrawerView2(scene);
+			drawerView = new DrawerView(scene);
 			drawerControl = new DrawerControl2(drawerView);
 			drawerView.setControl(drawerControl);
 

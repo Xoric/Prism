@@ -1,0 +1,36 @@
+package xoric.prism.creator.drawer.control;
+
+import xoric.prism.creator.drawer.view.NewModelData;
+import xoric.prism.data.types.IPoint_r;
+import xoric.prism.data.types.IText_r;
+import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.entities.ViewAngle;
+
+public interface IAnimationControl
+{
+	/* model control */
+
+	public void requestNewModel(NewModelData data);
+
+	public void requestOpenModel();
+
+	public void requestSaveModel();
+
+	public void requestSetName(IText_r name);
+
+	public void requestSetTileSize(IPoint_r tileSize);
+
+	public boolean askSaveChanges();
+
+	/* animation control */
+
+	public void requestAddAnimation(AnimationIndex animation);
+
+	public void requestEditAnimation(AnimationIndex animation);
+
+	public void requestDeleteAnimation(AnimationIndex animation);
+
+	/* sprite control */
+
+	public void requestAddSprite(AnimationIndex animation, ViewAngle v, int index);
+}

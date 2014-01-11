@@ -1,109 +1,77 @@
 package xoric.prism.creator.drawer.control;
 
-import java.io.IOException;
-
-import javax.swing.JOptionPane;
-
-import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.model.DrawerModel;
 import xoric.prism.creator.drawer.view.IDrawerView2;
-import xoric.prism.creator.drawer.view.NewModelData;
-import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
-import xoric.prism.data.types.Path;
-import xoric.prism.swing.input.OpenPathDialog;
 import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.entities.ViewAngle;
 
-public class DrawerControl2 implements IDrawerControl2
+public class DrawerControl2 implements IDrawerControl, IBusyControl
 {
 	private IDrawerView2 view;
 	private DrawerModel model;
 
+	private ModelControl modelControl;
+	private AnimationControl animationControl;
+
 	public DrawerControl2(IDrawerView2 view)
 	{
 		this.view = view;
-		this.model = new DrawerModel();
+		//		this.model = new DrawerModel();
+
+		modelControl = new ModelControl(model, this);
+		animationControl = new AnimationControl(model, this);
+
+		acceptModel(null, true);
 	}
 
-	/* *********** IDrawerControl2 ****************** */
+	@Override
+	public void setBusy(boolean b)
+	{
+		view.setHourglass(b);
+	}
+
+	private void acceptModel(DrawerModel m, boolean acceptNull)
+	{
+		if (m != null || acceptNull)
+		{
+			model = m;
+
+			view.setModel(m);
+			modelControl.setModel(m);
+			animationControl.setModel(m);
+
+			view.displayAll(m);
+		}
+	}
+
+	/* *********** model control ****************** */
 
 	@Override
-	public void requestNewModel(NewModelData data)
+	public void requestNewModel()
 	{
-		boolean isOK = askSaveChanges();
-		if (!isOK)
-			return;
-
-		view.setHourglass(true);
-		try
-		{
-			DrawerModel newModel = new DrawerModel(data);
-			newModel.preparePath();
-
-			model = newModel;
-			view.displayAll(newModel);
-		}
-		catch (PrismException e)
-		{
-			e.user.showMessage();
-		}
-		view.setHourglass(false);
+		acceptModel(modelControl.createNewModel(), false);
 	}
 
 	@Override
 	public void requestOpenModel()
 	{
-		DrawerModel openedModel = null;
-		OpenPathDialog d = new OpenPathDialog("Open Model", "Please enter the working directory of the model you want to open.");
-		boolean b = d.show();
-		Path path = b ? d.getResult() : null;
-
-		if (path != null)
-		{
-			openedModel = new DrawerModel();
-			try
-			{
-				view.setHourglass(true);
-				openedModel.load(path);
-				view.setHourglass(false);
-			}
-			catch (IOException e)
-			{
-				openedModel = null;
-				JOptionPane.showMessageDialog(null, "An error occured while trying to load a model from the specified directory:\n\n"
-						+ e.getMessage(), "Open model", JOptionPane.WARNING_MESSAGE);
-			}
-		}
-
-		if (openedModel != null)
-		{
-			model = openedModel;
-			view.displayAll(openedModel);
-		}
+		acceptModel(modelControl.openModel(), false);
 	}
 
 	@Override
-	public void requestSaveModel()
+	public void requestCloseModel()
 	{
-		if (model.hasChanges())
-		{
-			view.setHourglass(true);
-			saveChanges();
-			view.setHourglass(false);
-		}
+		if (modelControl.closeModel())
+			acceptModel(null, true);
 	}
 
 	@Override
 	public void requestSetName(IText_r name)
 	{
-		if (!model.getName().equals(name))
-		{
-			model.setName(name);
-			view.displayName(name);
-
-			updateSaveState();
-		}
+		modelControl.setName(name);
+		view.displayName(name);
 	}
 
 	@Override
@@ -111,7 +79,10 @@ public class DrawerControl2 implements IDrawerControl2
 	{
 		model.setTileSize(tileSize);
 		view.displayTileSize(tileSize);
+		// TODO: every single png has to be changed
 	}
+
+	/* *********** animation control ****************** */
 
 	@Override
 	public void requestAddAnimation(AnimationIndex animation)
@@ -122,15 +93,6 @@ public class DrawerControl2 implements IDrawerControl2
 	}
 
 	@Override
-	public void requestEditAnimation(AnimationIndex animation)
-	{
-		view.setHourglass(true);
-		AnimationModel m = model.getAnimation(animation);
-		view.displayAnimationImages(m);
-		view.setHourglass(false);
-	}
-
-	@Override
 	public void requestDeleteAnimation(AnimationIndex animation)
 	{
 		System.out.println("requestDeleteAnimation(" + animation + ")");
@@ -138,52 +100,12 @@ public class DrawerControl2 implements IDrawerControl2
 		//		view.displayAnimation(animation, false);
 	}
 
+	/* *********** sprite control ****************** */
+
 	@Override
-	public boolean askSaveChanges()
+	public void requestAddSprite(AnimationIndex animation, ViewAngle v, int index)
 	{
-		boolean isOK = !model.hasChanges();
+		// TODO Auto-generated method stub
 
-		if (!isOK)
-		{
-			int result = JOptionPane.showConfirmDialog(null,
-					"The current model has unsaved changes. Would you like to save before closing?", "Save changes",
-					JOptionPane.YES_NO_CANCEL_OPTION);
-
-			if (result == 0) // 0: Yes, save changes
-			{
-				view.setHourglass(true);
-				isOK = saveChanges();
-				view.setHourglass(false);
-			}
-			else
-			{
-				isOK = result == 1; // 1: No, discard | 2: Cancel
-			}
-		}
-		return isOK;
-	}
-
-	/* ***************** internal ****************** */
-
-	private void updateSaveState()
-	{
-		boolean canSave = model != null && model.hasChanges();
-		view.displaySaveState(canSave);
-	}
-
-	private boolean saveChanges()
-	{
-		boolean isOK;
-		try
-		{
-			model.save();
-			isOK = true;
-		}
-		catch (PrismException e)
-		{
-			e.user.showMessage();
-			isOK = false;
-		}
-		return isOK;
 	}
 }
