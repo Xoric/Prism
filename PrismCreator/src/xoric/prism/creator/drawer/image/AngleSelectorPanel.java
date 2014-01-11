@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 import xoric.prism.world.entities.ViewAngle;
 
-public class AngleSelectorPanel extends JPanel implements ActionListener
+public class AngleSelectorPanel extends JPanel implements ActionListener, IAngleSelector
 {
 	private static final long serialVersionUID = 1L;
 
@@ -22,9 +22,13 @@ public class AngleSelectorPanel extends JPanel implements ActionListener
 	private final ImageIcon[][] icons;
 	private ViewAngle selectedAngle;
 
-	public AngleSelectorPanel()
+	private IAngleSelectorListener listener;
+
+	public AngleSelectorPanel(IAngleSelectorListener listener)
 	{
 		super(new GridBagLayout());
+
+		this.listener = listener;
 
 		Insets insets = new Insets(0, 0, 0, 0);
 		directions = new JCheckBox[8];
@@ -115,6 +119,7 @@ public class AngleSelectorPanel extends JPanel implements ActionListener
 			JCheckBox c = (JCheckBox) o;
 			String s = c.getToolTipText().toUpperCase();
 			selectedAngle = ViewAngle.valueOf(s);
+			listener.changedAngle(selectedAngle);
 
 			for (JCheckBox b : directions)
 			{
@@ -122,5 +127,11 @@ public class AngleSelectorPanel extends JPanel implements ActionListener
 				updateIcon(b);
 			}
 		}
+	}
+
+	@Override
+	public ViewAngle getAngle()
+	{
+		return selectedAngle;
 	}
 }

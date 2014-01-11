@@ -20,11 +20,11 @@ import javax.swing.ScrollPaneConstants;
 import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.view.AnimationLine;
 import xoric.prism.creator.drawer.view.IAnimationLine;
-import xoric.prism.data.types.Path;
 import xoric.prism.swing.PrismFrame;
 import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.entities.ViewAngle;
 
-public class AnimationView extends JPanel implements ActionListener, IAnimationView
+public class AnimationView extends JPanel implements ActionListener, IAnimationView, IAngleSelectorListener
 {
 	private static final long serialVersionUID = 1L;
 
@@ -32,9 +32,11 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 	//	private final JLabel nameLabel;
 
 	private final IAnimationLine animationLine;
-	private AngleSelectorPanel angleSelectorPanel;
-	private FramesView framesView;
-	private AngleView angleView;
+	private IAngleSelector angleSelector;
+	private IFramesView framesView;
+	private FrameSelector frameSelector;
+
+	private AnimationModel animationModel;
 
 	public AnimationView()
 	{
@@ -42,23 +44,13 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 
 		AnimationLine l = new AnimationLine(AnimationIndex.IDLE);
 		animationLine = l;
-		angleSelectorPanel = new AngleSelectorPanel();
-		framesView = new FramesView();
-		angleView = new AngleView();
-
-		//		framesView.loadFrames(new Path("E:/Prism/work"));
-		framesView.loadFrames(new Path("/home/xoric/workspace/prismwork"));
-
-		// create top panel
-		//		JPanel topPanel = new JPanel(new GridBagLayout());
+		AngleSelectorPanel a = new AngleSelectorPanel(this);
+		angleSelector = a;
+		SpritesList f = new SpritesList();
+		framesView = f;
+		frameSelector = new FrameSelector();
 
 		backButton = createButton("Back", null);
-		//		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,
-		//				0, 0, 0), 0, 0);
-		//		topPanel.add(backButton, c);
-		//
-		//		c = new GridBagConstraints(1, 0, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 30, 0, 0), 0, 0);
-		//		topPanel.add(l, c);
 
 		Insets insets = new Insets(15, 15, 15, 15);
 
@@ -74,27 +66,18 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 		add(new JSeparator(), c);
 
 		c = new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
-		add(angleSelectorPanel, c);
+		add(a/*angleSelector*/, c);
 
 		c = new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
-		JScrollPane scroll = new JScrollPane(framesView, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		JScrollPane scroll = new JScrollPane(f /*framesView*/, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		add(scroll, c);
 
 		scroll.getVerticalScrollBar().setUnitIncrement(16);
 		scroll.getHorizontalScrollBar().setUnitIncrement(16);
 
-		//		c = new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
-		//		JPanel p = new JPanel();
-		//		p.setOpaque(true);
-		//		p.setBackground(Color.DARK_GRAY);
-		//		Dimension d = new Dimension(300, 120);
-		//		p.setMinimumSize(d);
-		//		p.setPreferredSize(d);
-		//		add(p, c);
-
 		c = new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, insets, 0, 0);
-		add(angleView, c);
+		add(frameSelector, c);
 	}
 
 	private JButton createButton(String s, String icon)
@@ -147,7 +130,15 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 	@Override
 	public void displayAnimationImages(AnimationModel m)
 	{
-		//		nameLabel.setText(m.getAnimationIndex().toString());
+		animationModel = m;
 		animationLine.displayAnimation(m);
+
+		framesView.loadFrames(animationModel, angleSelector.getAngle());
+	}
+
+	@Override
+	public void changedAngle(ViewAngle v)
+	{
+		framesView.loadFrames(animationModel, v);
 	}
 }

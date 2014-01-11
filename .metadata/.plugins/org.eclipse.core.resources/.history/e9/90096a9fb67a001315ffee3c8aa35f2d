@@ -1,0 +1,59 @@
+package xoric.prism.creator.drawer.image;
+
+import java.io.File;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.ListModel;
+
+import xoric.prism.creator.drawer.model.AnimationModel;
+import xoric.prism.data.types.IPath_r;
+import xoric.prism.world.entities.ViewAngle;
+
+public class SpritesList extends JList<SpriteCell> implements IFramesView
+{
+	private static final long serialVersionUID = 1L;
+
+	private ListModel<SpriteCell> listModel;
+
+	private ViewAngle viewAngle;
+
+	public SpritesList()
+	{
+		//		setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		//		setVisibleRowCount(1);
+
+		listModel = new DefaultListModel<SpriteCell>();
+		setModel(listModel);
+	}
+
+	@Override
+	public void loadFrames(AnimationModel m, ViewAngle viewAngle)
+	{
+		this.viewAngle = viewAngle;
+		this.removeAll();
+
+		boolean resume = true;
+		int i = 0;
+
+		do
+		{
+			String filename = m.getFileName(viewAngle, i);
+			IPath_r path = m.getPath();
+			File f = path.getFile(filename);
+			resume = f.exists();
+
+			if (resume)
+			{
+				SpriteCell v = new SpriteCell(filename, i);
+				v.loadImage(path);
+				add(v);
+			}
+			++i;
+		}
+		while (resume);
+
+		this.validate();
+		this.repaint();
+	}
+}

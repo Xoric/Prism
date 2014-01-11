@@ -1,0 +1,45 @@
+package xoric.prism.creator.drawer.image;
+
+import java.awt.FlowLayout;
+import java.io.File;
+
+import javax.swing.JPanel;
+
+import xoric.prism.creator.drawer.model.AnimationModel;
+import xoric.prism.world.entities.ViewAngle;
+
+public class FramesView extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+
+	private ViewAngle viewAngle;
+
+	public FramesView(ViewAngle viewAngle)
+	{
+		super(new FlowLayout());
+
+		this.viewAngle = viewAngle;
+	}
+
+	public void loadFrames(AnimationModel m)
+	{
+		boolean resume = true;
+		int i = 0;
+
+		do
+		{
+//			File f = m.getFile(viewAngle, i);
+			String filename = m.getFileName(viewAngle, i);
+			resume = f.exists();
+
+			if (resume)
+			{
+				FrameView v = new FrameView(i);
+				v.loadImage(m.getPath(), "idle.right." + i + ".png", i);
+				add(v);
+			}
+			++i;
+		}
+		while (resume);
+	}
+}

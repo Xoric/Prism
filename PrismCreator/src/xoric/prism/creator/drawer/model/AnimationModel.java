@@ -1,5 +1,7 @@
 package xoric.prism.creator.drawer.model;
 
+import java.io.File;
+
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.world.entities.AnimationIndex;
 import xoric.prism.world.entities.ViewAngle;
@@ -23,6 +25,11 @@ public class AnimationModel
 			directions[a.ordinal()] = new AnimationLineModel(path, animationIndex, a);
 	}
 
+	public IPath_r getPath()
+	{
+		return path;
+	}
+
 	public AnimationIndex getAnimationIndex()
 	{
 		return animationIndex;
@@ -42,5 +49,15 @@ public class AnimationModel
 			a.load();
 			isUsed |= a.getCount() > 0;
 		}
+	}
+
+	public File getFile(ViewAngle v, int index)
+	{
+		return path.getFile(getFileName(v, index));
+	}
+
+	public String getFileName(ViewAngle v, int index)
+	{
+		return animationIndex.toString().toLowerCase() + "." + v.toString().toLowerCase() + "." + index + ".png";
 	}
 }

@@ -1,0 +1,5 @@
+package xoric.prism.creator.drawer.image;
+
+public interface ISpriteSelectionController
+{
+}

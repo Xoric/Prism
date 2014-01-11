@@ -98,7 +98,7 @@ public class DrawerView2 extends PrismFrame implements IDrawerView2, ActionListe
 		c = new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(animationView, c);
 
-		showControls(false);
+		showAnimationControls(false);
 	}
 
 	/* *********** IDrawerView ********************** */
@@ -157,7 +157,7 @@ public class DrawerView2 extends PrismFrame implements IDrawerView2, ActionListe
 	public void displayAnimationImages(AnimationModel m)
 	{
 		animationView.displayAnimationImages(m);
-		showControls(true);
+		showAnimationControls(true);
 	}
 
 	@Override
@@ -172,7 +172,7 @@ public class DrawerView2 extends PrismFrame implements IDrawerView2, ActionListe
 
 	/* ********** internal *********************** */
 
-	private void showControls(boolean showAnimationView)
+	private void showAnimationControls(boolean showAnimationView)
 	{
 		modelTable.setVisible(!showAnimationView);
 		animationList.setVisible(!showAnimationView);
