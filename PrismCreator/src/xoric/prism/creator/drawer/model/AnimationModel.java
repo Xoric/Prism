@@ -58,6 +58,11 @@ public class AnimationModel
 
 	public String getFileName(ViewAngle v, int index)
 	{
-		return animationIndex.toString().toLowerCase() + "." + v.toString().toLowerCase() + "." + index + ".png";
+		return getFileName(animationIndex, v, index);
+	}
+
+	public static String getFileName(AnimationIndex a, ViewAngle v, int index)
+	{
+		return a.toString().toLowerCase() + "." + v.toString().toLowerCase() + "." + index + ".png";
 	}
 }

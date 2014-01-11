@@ -10,9 +10,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 import xoric.prism.creator.drawer.control.IDrawerControl;
 import xoric.prism.creator.drawer.image.AnimationView;
+import xoric.prism.creator.drawer.image.IAnimationView;
 import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.model.DrawerModel;
 import xoric.prism.data.types.IPath_r;
@@ -33,7 +35,8 @@ public class DrawerView extends PrismFrame implements IDrawerView2, ActionListen
 
 	private ModelTable modelTable;
 	private AnimationList animationList;
-	private AnimationView animationView;
+	private IAnimationView animationView;
+	private JPanel animationViewPanel;
 
 	private JMenu menuModel;
 	private JMenuItem menuItemNewModel;
@@ -88,7 +91,9 @@ public class DrawerView extends PrismFrame implements IDrawerView2, ActionListen
 		animationList = new AnimationList(this);
 
 		// animation view
-		animationView = new AnimationView();
+		AnimationView v = new AnimationView();
+		animationViewPanel = v;
+		animationView = v;
 
 		Insets insets = new Insets(15, 15, 15, 15);
 
@@ -100,7 +105,7 @@ public class DrawerView extends PrismFrame implements IDrawerView2, ActionListen
 		add(animationList, c);
 
 		c = new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets, 0, 0);
-		add(animationView, c);
+		add(animationViewPanel, c);
 
 		showAnimationControls(false);
 	}
@@ -163,6 +168,7 @@ public class DrawerView extends PrismFrame implements IDrawerView2, ActionListen
 	public void displayAnimation(AnimationModel m)
 	{
 		animationList.displayAnimation(m);
+		animationView.displayAnimationImages(m);
 	}
 
 	@Override
@@ -195,7 +201,7 @@ public class DrawerView extends PrismFrame implements IDrawerView2, ActionListen
 	{
 		modelTable.setVisible(!showAnimationView);
 		animationList.setVisible(!showAnimationView);
-		animationView.setVisible(showAnimationView);
+		animationViewPanel.setVisible(showAnimationView);
 	}
 
 	public void setControl(IDrawerControl control)
@@ -205,6 +211,7 @@ public class DrawerView extends PrismFrame implements IDrawerView2, ActionListen
 		// pass control to sub classes
 		this.modelTable.setControl(control);
 		this.animationList.setControl(control);
+		this.animationView.setControl(control);
 	}
 
 	private JMenuItem createMenuItem(JMenu parentMenu, String text)

@@ -27,9 +27,9 @@ public class SpriteMenu extends JPopupMenu implements ActionListener
 
 	private JMenuItem createItem(String s)
 	{
-		JMenuItem i = new JMenuItem(s);
-		i.addActionListener(this);
-		return i;
+		JMenuItem item = new JMenuItem(s);
+		item.addActionListener(this);
+		return item;
 	}
 
 	@Override
@@ -38,6 +38,6 @@ public class SpriteMenu extends JPopupMenu implements ActionListener
 		Object o = e.getSource();
 
 		if (o == insertItem)
-			listener.requestInsertItem();
+			listener.requestInsertSprite();
 	}
 }

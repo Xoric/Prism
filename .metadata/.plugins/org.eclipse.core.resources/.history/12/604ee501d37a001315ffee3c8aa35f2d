@@ -1,0 +1,46 @@
+package xoric.prism.creator.drawer.control;
+
+import java.io.File;
+
+import xoric.prism.creator.drawer.model.AnimationModel;
+import xoric.prism.creator.drawer.model.DrawerModel;
+import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.entities.ViewAngle;
+
+public class SpriteControl extends ControlLayer
+{
+	public SpriteControl(DrawerModel model, IBusyControl busyControl)
+	{
+		super(model, busyControl);
+	}
+
+	public void addSprite(AnimationIndex a, ViewAngle v, int index)
+	{
+		System.out.println("requestAddAnimation(" + a + ")");
+
+		//		view.displayAnimation(animation, true);
+
+		// find highest existing index
+		int i = index;
+		boolean b;
+		do
+		{
+			String filename = AnimationModel.getFileName(a, v, i);
+			File file = model.getPath().getFile(filename);
+			b = file.exists();
+			if (b)
+				++i;
+		}
+		while (b);
+
+		// increase all indices equal or greater than the given parameter by one
+		for (int j = i; j >= index; --j)
+		{
+			String filenameOld = AnimationModel.getFileName(a, v, j);
+			String filenameNew = AnimationModel.getFileName(a, v, j + 1);
+			File file = model.getPath().getFile(filename);
+		}
+		System.out.println("increase " + index + " to " + (--i));
+
+	}
+}

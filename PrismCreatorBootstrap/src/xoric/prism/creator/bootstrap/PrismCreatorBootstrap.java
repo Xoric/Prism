@@ -1,6 +1,6 @@
 package xoric.prism.creator.bootstrap;
 
-import xoric.prism.creator.drawer.control.DrawerControl2;
+import xoric.prism.creator.drawer.control.DrawerControl;
 import xoric.prism.creator.drawer.view.DrawerView;
 import xoric.prism.data.PrismDataLoader;
 import xoric.prism.data.exceptions.PrismException;
@@ -15,7 +15,7 @@ public class PrismCreatorBootstrap
 	private static IScene scene;
 
 	private static DrawerView drawerView;
-	private static DrawerControl2 drawerControl;
+	private static DrawerControl drawerControl;
 
 	public static void main(String[] args)
 	{
@@ -36,7 +36,7 @@ public class PrismCreatorBootstrap
 
 			// setup Drawer
 			drawerView = new DrawerView(scene);
-			drawerControl = new DrawerControl2(drawerView);
+			drawerControl = new DrawerControl(drawerView);
 			drawerView.setControl(drawerControl);
 
 			// start creator

@@ -11,14 +11,13 @@ import java.awt.event.ActionListener;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
+import xoric.prism.creator.drawer.control.IDrawerControl;
 import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.view.AnimationLine;
 import xoric.prism.creator.drawer.view.IAnimationLine;
-import xoric.prism.swing.PrismFrame;
 import xoric.prism.world.entities.AnimationIndex;
 import xoric.prism.world.entities.ViewAngle;
 
@@ -31,7 +30,7 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 
 	private final IAnimationLine animationLine;
 	private IAngleSelector angleSelector;
-	private IFramesView framesView;
+	private ISpriteList spriteList;
 
 	private AnimationModel animationModel;
 
@@ -43,8 +42,8 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 		animationLine = l;
 		AngleSelectorPanel a = new AngleSelectorPanel(this);
 		angleSelector = a;
-		SpritesList f = new SpritesList();
-		framesView = f;
+		SpriteList f = new SpriteList();
+		spriteList = f;
 
 		backButton = createButton("Back", null);
 
@@ -104,16 +103,6 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 		return b;
 	}
 
-	public static void main(String[] args)
-	{
-		AnimationView p = new AnimationView();
-
-		JFrame f = new PrismFrame("Test", 300, 300, true);
-		f.setContentPane(p);
-
-		f.setVisible(true);
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
@@ -129,12 +118,17 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 		animationModel = m;
 		animationLine.displayAnimation(m);
 
-		framesView.loadFrames(animationModel, angleSelector.getAngle());
+		spriteList.loadFrames(animationModel, angleSelector.getAngle());
 	}
 
 	@Override
 	public void changedAngle(ViewAngle v)
 	{
-		framesView.loadFrames(animationModel, v);
+		spriteList.loadFrames(animationModel, v);
+	}
+
+	public void setControl(IDrawerControl control)
+	{
+		spriteList.setControl(control);
 	}
 }
