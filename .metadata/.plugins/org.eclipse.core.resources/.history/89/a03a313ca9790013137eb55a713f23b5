@@ -1,0 +1,31 @@
+package xoric.prism.creator.drawer.image;
+
+import java.awt.Image;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class FrameView extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+
+	private final JLabel label;
+
+	public FrameView()
+	{
+		super(new GridBagLayout());
+		
+		label = new JLabel();
+	}
+
+	public void loadImage(File file)
+	{
+		Image img = ImageIO.read(file);
+		ImageIcon icn = new ImageIcon(img);
+		label.setIcon(icn);
+
+	}
+}

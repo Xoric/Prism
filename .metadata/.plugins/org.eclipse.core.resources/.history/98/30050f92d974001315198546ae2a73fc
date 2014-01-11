@@ -1,8 +1,0 @@
-package xoric.prism.creator.drawer.control;
-
-import xoric.prism.data.types.IText_r;
-
-public interface IDrawerControl2
-{
-	public void requestSetName(IText_r name);
-}

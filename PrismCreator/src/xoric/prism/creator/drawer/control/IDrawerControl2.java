@@ -19,6 +19,8 @@ public interface IDrawerControl2
 
 	public void requestAddAnimation(AnimationIndex animation);
 
+	public void requestEditAnimation(AnimationIndex animation);
+
 	public void requestDeleteAnimation(AnimationIndex animation);
 
 	public boolean askSaveChanges();

@@ -1,6 +1,0 @@
-package xoric.prism.creator.drawer;
-
-public interface IModelDisplay
-{
-	public void setModel(DrawerModel model);
-}

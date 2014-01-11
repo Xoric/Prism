@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import xoric.prism.world.entities.ViewAngle;
@@ -19,19 +18,19 @@ public class AngleSelectorPanel extends JPanel implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 
-	private static final float F = 1.0f / 3.0f;
-
-	private final Object[] message;
 	private final JCheckBox[] directions;
-	private final boolean allowMultiselect;
+	private final ImageIcon[][] icons;
+	private ViewAngle selectedAngle;
 
-	public AngleSelectorPanel(boolean allowMultiselect)
+	public AngleSelectorPanel()
 	{
 		super(new GridBagLayout());
-		this.allowMultiselect = allowMultiselect;
 
-		Insets insets = new Insets(5, 5, 5, 5);
+		Insets insets = new Insets(0, 0, 0, 0);
 		directions = new JCheckBox[8];
+
+		int m = ViewAngle.values().length;
+		icons = new ImageIcon[m][2];
 
 		int y = 0;
 		directions[y++] = createBox(ViewAngle.TOP_LEFT);
@@ -51,14 +50,37 @@ public class AngleSelectorPanel extends JPanel implements ActionListener
 			{
 				if (y != 1 || x != 1)
 				{
-					GridBagConstraints c = new GridBagConstraints(x, y, 1, 1, F, F, GridBagConstraints.CENTER, GridBagConstraints.NONE,
+					GridBagConstraints c = new GridBagConstraints(x, y, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
 							insets, 0, 0);
 					add(directions[i], c);
 					++i;
 				}
 			}
 		}
-		message = new Object[] { null, null, this };
+
+		// set default direction to RIGHT
+		selectedAngle = ViewAngle.RIGHT;
+		directions[4].setSelected(true);
+		updateIcon(directions[4]);
+	}
+
+	private ImageIcon getIcon(String s, int n)
+	{
+		ViewAngle v = ViewAngle.valueOf(s.toUpperCase());
+		int i = v.ordinal();
+
+		if (icons[i][n] == null)
+		{
+			try
+			{
+				Image img = ImageIO.read(ClassLoader.getSystemResource("icons/" + s.toLowerCase() + n + ".png"));
+				icons[i][n] = new ImageIcon(img);
+			}
+			catch (Exception e)
+			{
+			}
+		}
+		return icons[i][n];
 	}
 
 	private JCheckBox createBox(ViewAngle v)
@@ -66,32 +88,21 @@ public class AngleSelectorPanel extends JPanel implements ActionListener
 		JCheckBox b = new JCheckBox();
 		String s = v.toString().toLowerCase();
 		b.setToolTipText(s);
-		updateIcon(b);
 		b.addActionListener(this);
+		updateIcon(b);
 		return b;
 	}
 
-	private static void updateIcon(JCheckBox c)
+	private void updateIcon(JCheckBox c)
 	{
 		String s = c.getToolTipText();
+		int n = c.isSelected() ? 1 : 0;
+		ImageIcon icn = getIcon(s.toUpperCase(), n);
 
-		try
-		{
-			String n = c.isSelected() ? "1" : "0";
-			Image img = ImageIO.read(ClassLoader.getSystemResource("icons/" + s + n + ".png"));
-			ImageIcon icn = new ImageIcon(img);
+		if (icn != null)
 			c.setIcon(icn);
-		}
-		catch (Exception e)
-		{
+		else
 			c.setText(s);
-		}
-	}
-
-	public boolean showDialog()
-	{
-		int n = JOptionPane.showConfirmDialog(null, message, "New Model", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-		return n == JOptionPane.OK_OPTION;
 	}
 
 	@Override
@@ -102,18 +113,13 @@ public class AngleSelectorPanel extends JPanel implements ActionListener
 		if (o instanceof JCheckBox)
 		{
 			JCheckBox c = (JCheckBox) o;
-			updateIcon(c);
+			String s = c.getToolTipText().toUpperCase();
+			selectedAngle = ViewAngle.valueOf(s);
 
-			if (!allowMultiselect)
+			for (JCheckBox b : directions)
 			{
-				for (JCheckBox b : directions)
-				{
-					if (b != c)
-					{
-						b.setSelected(false);
-						updateIcon(b);
-					}
-				}
+				b.setSelected(b == c);
+				updateIcon(b);
 			}
 		}
 	}

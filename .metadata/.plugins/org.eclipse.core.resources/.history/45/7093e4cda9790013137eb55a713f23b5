@@ -1,0 +1,13 @@
+package xoric.prism.creator.drawer.image;
+
+import javax.swing.JScrollPane;
+
+public class FramesView extends JScrollPane
+{
+	private static final long serialVersionUID = 1L;
+
+	public FramesView()
+	{
+
+	}
+}

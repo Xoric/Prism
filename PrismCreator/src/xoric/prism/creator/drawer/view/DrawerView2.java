@@ -11,6 +11,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import xoric.prism.creator.drawer.control.IDrawerControl2;
+import xoric.prism.creator.drawer.image.AnimationView;
 import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.model.DrawerModel;
 import xoric.prism.data.types.IPath_r;
@@ -30,6 +31,7 @@ public class DrawerView2 extends PrismFrame implements IDrawerView2, ActionListe
 
 	private ModelTable modelTable;
 	private AnimationList animationList;
+	private AnimationView animationView;
 
 	private JMenu menuModel;
 	private JMenuItem menuItemNewModel;
@@ -73,9 +75,15 @@ public class DrawerView2 extends PrismFrame implements IDrawerView2, ActionListe
 		menuRemoveAnimation = createMenu(menuAnimation, "Remove");
 		// --
 
+		// model table
 		ModelTable m = new ModelTable();
 		modelTable = m;
+
+		// animation list
 		animationList = new AnimationList();
+
+		// animation view
+		animationView = new AnimationView();
 
 		Insets insets = new Insets(15, 15, 15, 15);
 
@@ -85,6 +93,11 @@ public class DrawerView2 extends PrismFrame implements IDrawerView2, ActionListe
 
 		c = new GridBagConstraints(1, 0, 1, 1, 0.85, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(animationList, c);
+
+		c = new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets, 0, 0);
+		add(animationView, c);
+
+		showControls(false);
 	}
 
 	/* *********** IDrawerView ********************** */
@@ -139,7 +152,21 @@ public class DrawerView2 extends PrismFrame implements IDrawerView2, ActionListe
 		animationList.displayAnimation(m);
 	}
 
+	@Override
+	public void displayAnimationImages(AnimationModel m)
+	{
+		animationView.displayAnimationImages(m);
+		showControls(true);
+	}
+
 	/* ********** internal *********************** */
+
+	private void showControls(boolean showAnimationView)
+	{
+		modelTable.setVisible(!showAnimationView);
+		animationList.setVisible(!showAnimationView);
+		animationView.setVisible(showAnimationView);
+	}
 
 	public void setControl(IDrawerControl2 control)
 	{

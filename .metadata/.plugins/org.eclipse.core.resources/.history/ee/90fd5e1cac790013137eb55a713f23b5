@@ -1,0 +1,33 @@
+package xoric.prism.creator.drawer.image;
+
+import java.awt.FlowLayout;
+import java.io.File;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import xoric.prism.data.types.IPath_r;
+
+public class FramesView extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+
+	private final JPanel panel;
+
+	public FramesView()
+	{
+		panel = new JPanel(new FlowLayout());
+		JScrollPane scroll = new JScrollPane(panel);
+		add(scroll);
+	}
+
+	public void loadFrames(IPath_r path)
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			FrameView v = new FrameView(path, "idle.right." + i + ".png");
+			v.loadImage(f);
+			panel.add(v);
+		}
+	}
+}

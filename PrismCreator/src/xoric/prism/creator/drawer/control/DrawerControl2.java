@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
+import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.model.DrawerModel;
 import xoric.prism.creator.drawer.view.IDrawerView2;
 import xoric.prism.creator.drawer.view.NewModelData;
@@ -11,7 +12,7 @@ import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Path;
-import xoric.prism.swing.input.PathInput;
+import xoric.prism.swing.input.OpenPathDialog;
 import xoric.prism.world.entities.AnimationIndex;
 
 public class DrawerControl2 implements IDrawerControl2
@@ -52,7 +53,9 @@ public class DrawerControl2 implements IDrawerControl2
 	public void requestOpenModel()
 	{
 		DrawerModel openedModel = null;
-		Path path = PathInput.showDialog("Open model");
+		OpenPathDialog d = new OpenPathDialog("Open Model", "Please enter the working directory of the model you want to open.");
+		boolean b = d.show();
+		Path path = b ? d.getResult() : null;
 
 		if (path != null)
 		{
@@ -108,6 +111,13 @@ public class DrawerControl2 implements IDrawerControl2
 		System.out.println("requestAddAnimation(" + animation + ")");
 
 		//		view.displayAnimation(animation, true);
+	}
+
+	@Override
+	public void requestEditAnimation(AnimationIndex animation)
+	{
+		AnimationModel m = model.getAnimation(animation);
+		view.displayAnimationImages(m);
 	}
 
 	@Override

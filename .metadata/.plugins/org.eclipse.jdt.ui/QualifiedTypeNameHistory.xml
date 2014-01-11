@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="xoric.prism.data.meta.MetaKey"/>
 <fullyQualifiedTypeName name="xoric.prism.data.exceptions.PrismMetaFileException"/>
 <fullyQualifiedTypeName name="xoric.prism.data.global.IFileTable_r"/>
 <fullyQualifiedTypeName name="xoric.prism.data.global.IPrismGlobal"/>
@@ -10,7 +9,6 @@
 <fullyQualifiedTypeName name="xoric.prism.data.meta.MetaFile"/>
 <fullyQualifiedTypeName name="java.io.StringWriter"/>
 <fullyQualifiedTypeName name="java.io.PrintWriter"/>
-<fullyQualifiedTypeName name="xoric.prism.data.types.IPath_r"/>
 <fullyQualifiedTypeName name="java.awt.Image"/>
 <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
@@ -20,8 +18,6 @@
 <fullyQualifiedTypeName name="java.awt.Insets"/>
 <fullyQualifiedTypeName name="java.awt.GridBagLayout"/>
 <fullyQualifiedTypeName name="xoric.prism.scene.SceneStage"/>
-<fullyQualifiedTypeName name="javax.swing.JLabel"/>
-<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
 <fullyQualifiedTypeName name="java.util.Calendar"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.TextPacker"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.IntPacker"/>
@@ -49,15 +45,19 @@
 <fullyQualifiedTypeName name="xoric.prism.data.types.Text"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.Point"/>
 <fullyQualifiedTypeName name="javax.swing.JDialog"/>
-<fullyQualifiedTypeName name="javax.swing.JButton"/>
-<fullyQualifiedTypeName name="java.awt.Color"/>
-<fullyQualifiedTypeName name="xoric.prism.world.entities.ViewAngle"/>
-<fullyQualifiedTypeName name="xoric.prism.world.entities.AnimationIndex"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
 <fullyQualifiedTypeName name="javax.swing.JFrame"/>
-<fullyQualifiedTypeName name="java.awt.FlowLayout"/>
 <fullyQualifiedTypeName name="javax.swing.JPanel"/>
 <fullyQualifiedTypeName name="javax.swing.Icon"/>
+<fullyQualifiedTypeName name="xoric.prism.world.entities.ViewAngle"/>
+<fullyQualifiedTypeName name="xoric.prism.swing.input.OpenPathDialog"/>
+<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
+<fullyQualifiedTypeName name="javax.swing.JLabel"/>
+<fullyQualifiedTypeName name="xoric.prism.world.entities.AnimationIndex"/>
+<fullyQualifiedTypeName name="javax.swing.JButton"/>
+<fullyQualifiedTypeName name="java.awt.Color"/>
+<fullyQualifiedTypeName name="java.awt.FlowLayout"/>
 <fullyQualifiedTypeName name="javax.swing.BorderFactory"/>
+<fullyQualifiedTypeName name="xoric.prism.data.types.IPath_r"/>
 </qualifiedTypeNameHistroy>

@@ -22,3 +22,12 @@
 1389272990441	Rename local variable 'g'
 1389273579496	Rename type 'AngleViewDialog'
 1389273592584	Rename method 'show'
+1389307788550	Copy compilation unit
+1389307989272	Move compilation unit
+1389321612251	Copy compilation unit
+1389321631935	Delete element
+1389321691756	Delete element
+1389321698404	Copy compilation unit
+1389321944729	Rename local variable 'arg0'
+1389326383167	Rename field 'labelName'
+1389326387350	Rename field 'label'

@@ -50,6 +50,11 @@ public class DrawerModel implements IPackable
 		animations = new AnimationModel[AnimationIndex.values().length];
 	}
 
+	public AnimationModel getAnimation(AnimationIndex a)
+	{
+		return animations[a.ordinal()];
+	}
+
 	public AnimationModel[] getAnimations()
 	{
 		return animations;

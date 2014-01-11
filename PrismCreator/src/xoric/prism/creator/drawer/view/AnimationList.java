@@ -22,7 +22,7 @@ public class AnimationList extends PrismPanel implements IAnimationList
 {
 	private static final long serialVersionUID = 1L;
 
-	private List<AnimationLine> list;
+	private List<AnimationLineWithControls> list;
 	private final JPanel pane;
 
 	public AnimationList()
@@ -33,7 +33,7 @@ public class AnimationList extends PrismPanel implements IAnimationList
 
 		int y = 0;
 
-		list = new ArrayList<AnimationLine>();
+		list = new ArrayList<AnimationLineWithControls>();
 		AnimationIndex[] animations = AnimationIndex.values();
 
 		// create a line for each animation
@@ -48,7 +48,7 @@ public class AnimationList extends PrismPanel implements IAnimationList
 
 			AnimationIndex a = animations[i];
 
-			AnimationLine l = new AnimationLine(a);
+			AnimationLineWithControls l = new AnimationLineWithControls(a);
 			//			GridBagConstraints c = createConstraints(y++);
 			//			pane.add(l, c);
 			insertSorted(l);
@@ -65,7 +65,7 @@ public class AnimationList extends PrismPanel implements IAnimationList
 		sortList();
 	}
 
-	private void insertSorted(AnimationLine l)
+	private void insertSorted(AnimationLineWithControls l)
 	{
 		String b = l.getAnimationName();
 
@@ -162,8 +162,8 @@ public class AnimationList extends PrismPanel implements IAnimationList
 	public void displayAnimation(AnimationModel m)
 	{
 		int i = getListIndex(m.getAnimationIndex());
-		AnimationLine l = list.get(i);
-		l.display(m);
+		AnimationLineWithControls l = list.get(i);
+		l.displayAnimation(m);
 		sortList();
 	}
 }

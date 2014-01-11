@@ -1,0 +1,112 @@
+package xoric.prism.creator.drawer.view;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import xoric.prism.creator.drawer.model.AnimationModel;
+
+public class AnimationLineWithControls extends AnimationLine
+{
+	private static final long serialVersionUID = 1L;
+	
+	private final JButton addButton;
+	private final JButton editButton;
+	private final JButton deleteButton;
+
+	public AnimationLineWithControls()
+	{
+		addButton = createButton("Add", "icons/add.png", "Click here to add this animation");
+		editButton = createButton("Edit", "icons/edit.png", "Click here to edit this animation");
+		deleteButton = createButton("Delete", "icons/del.png", "Click here to delete this animation");
+
+		JPanel buttonPanel = new JPanel(new FlowLayout());
+		buttonPanel.add(addButton);
+		buttonPanel.add(editButton);
+		buttonPanel.add(deleteButton);
+	}
+
+	private JButton createButton(String name, String icon, String tooltip)
+	{
+		JButton button = new JButton();
+		button.addActionListener(this);
+		button.setToolTipText(tooltip);
+		boolean hasIcon = false;
+		try
+		{
+			if (icon != null)
+			{
+				Image img = ImageIO.read(ClassLoader.getSystemResource(icon));
+				ImageIcon icn = new ImageIcon(img);
+				button.setIcon(icn);
+				button.setText("");
+				button.setPreferredSize(new Dimension(icn.getIconWidth() + 8, icn.getIconHeight() + 4));
+				hasIcon = true;
+			}
+		}
+		catch (IOException e)
+		{
+		}
+
+		if (!hasIcon)
+			button.setText(name);
+
+		return button;
+	}
+
+	@Override
+	public void display(AnimationModel m)
+	{
+		super.display(m);
+
+		// show/hide buttons
+		showAddButton(!isUsed);
+	}
+
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+		super.setEnabled(enabled);
+		addButton.setEnabled(enabled);
+		deleteButton.setEnabled(enabled);
+	}
+
+	private void showAddButton(boolean b)
+	{
+		Color cb = new Color(150, 75, 200, (b ? 0 : 75));
+		Color cf = new Color(0, 0, 0, (b ? 150 : 255));
+
+		nameLabel.setBackground(cb);
+		descriptionLabel.setBackground(cb);
+
+		nameLabel.setForeground(cf);
+		descriptionLabel.setForeground(cf);
+
+		nameLabel.setEnabled(!b);
+		descriptionLabel.setEnabled(!b);
+		addButton.setVisible(b);
+		editButton.setVisible(!b);
+		deleteButton.setVisible(!b);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		Object o = e.getSource();
+
+		if (o == addButton)
+			control.requestAddAnimation(animation);
+		else if (o == editButton)
+			control.requestEditAnimation(animation);
+		else if (o == deleteButton)
+			control.requestDeleteAnimation(animation);
+	}
+}

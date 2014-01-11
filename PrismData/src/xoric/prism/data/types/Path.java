@@ -23,10 +23,12 @@ public class Path implements IPath_r
 	 */
 	public void set(String path)
 	{
-		if (path != null && path.length() > 0 && !path.endsWith("\\") && !path.endsWith("/"))
-			path += '/';
+		String p = path.replace('\\', '/');
 
-		this.path = path;
+		if (!p.endsWith("/"))
+			p += '/';
+
+		this.path = p;
 	}
 
 	/**
