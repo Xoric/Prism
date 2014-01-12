@@ -45,13 +45,11 @@ public class PrismWatcher extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		if (worker.isDone())
-		{
 			this.dispose();
-		}
 		else
 		{
-			textLabel.setText(worker.getText());
-			progressBar.setValue((int) (1000 * worker.getProgress()));
+		textLabel.setText(worker.getText());
+		progressBar.setValue((int) (1000 * worker.getProgress()));
 		}
 	}
 }

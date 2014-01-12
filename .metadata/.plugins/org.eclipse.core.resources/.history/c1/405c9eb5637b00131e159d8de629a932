@@ -31,7 +31,7 @@ public class PrismWatcher extends JFrame implements ActionListener
 		this.progressBar = new JProgressBar();
 
 		progressBar.setMaximum(1000);
-		progressBar.setValue((int) (1000 * worker.getProgress()));
+		progressBar.setValue(1000*worker.getProgress() );
 	}
 
 	public void start()
@@ -44,14 +44,7 @@ public class PrismWatcher extends JFrame implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if (worker.isDone())
-		{
-			this.dispose();
-		}
-		else
-		{
-			textLabel.setText(worker.getText());
-			progressBar.setValue((int) (1000 * worker.getProgress()));
-		}
+		textLabel.setText(worker.getText());
+		progressBar.setValue(1000*worker.getProgress() );
 	}
 }

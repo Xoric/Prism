@@ -92,13 +92,13 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 	@Override
 	public void requestGenerateAnimations()
 	{
-		modelControl.generateAnimations(model);
+		modelControl.generateAnimations();
 	}
 
 	@Override
 	public void requestExportModel()
 	{
-		modelControl.exportModel(model);
+		modelControl.exportModel();
 	}
 
 	/* *********** animation control ****************** */

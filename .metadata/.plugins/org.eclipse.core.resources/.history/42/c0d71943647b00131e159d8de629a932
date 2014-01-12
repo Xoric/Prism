@@ -148,16 +148,14 @@ public class ModelControl extends ControlLayer
 		model.setTileSize(tileSize);
 	}
 
-	public void generateAnimations(DrawerModel model)
+	public void generateAnimations(IPath_r path)
 	{
-		IPath_r path = model.getPath();
 		GridGenerator g = new GridGenerator(path);
 		g.generateAll();
 	}
 
-	public void exportModel(DrawerModel model)
+	public void exportModel(IPath_r path)
 	{
-		IPath_r path = model.getPath();
 		System.out.println("export model");
 	}
 }
