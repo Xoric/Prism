@@ -1,0 +1,17 @@
+package xoric.prism.creator.drawer.image;
+
+import javax.swing.ImageIcon;
+
+public class NewSpriteCell extends SpriteCell
+{
+	public NewSpriteCell(ImageIcon icon)
+	{
+		super("");
+	}
+
+	@Override
+	public String getFrameName()
+	{
+		return "+";
+	}
+}

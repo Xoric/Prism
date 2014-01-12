@@ -23,12 +23,17 @@ public class PrismPanel extends JPanel
 		add(BorderLayout.NORTH, titleLabel);
 	}
 
+	protected void setTitle(String title)
+	{
+		titleLabel.setText(title);
+	}
+
 	@Override
 	public void setEnabled(boolean enabled)
 	{
 		super.setEnabled(enabled);
 
-		titleLabel.setEnabled(enabled);
+		//		titleLabel.setEnabled(enabled);
 	}
 
 	protected void setContent(JComponent comp)

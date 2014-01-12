@@ -1,0 +1,11 @@
+package xoric.prism.creator.drawer.view;
+
+import xoric.prism.creator.drawer.model.AnimationModel;
+import xoric.prism.world.entities.AnimationIndex;
+
+public interface IAnimationLine
+{
+	public void displayAnimation(AnimationIndex a);
+
+	public void displayAnimationModel(AnimationModel m);
+}

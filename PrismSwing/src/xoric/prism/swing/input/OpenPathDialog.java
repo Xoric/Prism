@@ -50,7 +50,7 @@ public class OpenPathDialog implements ActionListener
 
 	public boolean show()
 	{
-		int n = JOptionPane.showConfirmDialog(null, message, "Open Model", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+		int n = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 		return n == JOptionPane.OK_OPTION;
 	}
 

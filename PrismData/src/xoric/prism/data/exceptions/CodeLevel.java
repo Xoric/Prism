@@ -50,7 +50,7 @@ public class CodeLevel extends InfoContainer
 		// add original exception
 		if (originalException != null)
 		{
-			sb.append("\nsource: " + originalException.toString() + '\n');
+			sb.append("\n\nsource: " + originalException.toString() + '\n');
 
 			StringWriter sw2 = new StringWriter();
 			PrintWriter pw2 = new PrintWriter(sw2);

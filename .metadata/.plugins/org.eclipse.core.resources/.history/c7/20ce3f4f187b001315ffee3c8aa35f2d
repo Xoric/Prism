@@ -1,0 +1,79 @@
+package xoric.prism.creator.drawer.model;
+
+import java.io.File;
+
+import xoric.prism.data.types.IPath_r;
+import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.entities.ViewAngle;
+
+public class AnimationModel
+{
+	private IPath_r path;
+	private AnimationIndex animationIndex;
+	private AnimationAngleModel[] angles;
+	private boolean isUnlocked;
+
+	public AnimationModel(IPath_r path, AnimationIndex a)
+	{
+		this.path = path;
+		this.animationIndex = a;
+		this.isUnlocked = false;
+
+		int n = ViewAngle.values().length;
+		this.angles = new AnimationAngleModel[n];
+		for (ViewAngle v : ViewAngle.values())
+			angles[v.ordinal()] = new AnimationAngleModel(path, a, v);
+	}
+
+	public IPath_r getPath()
+	{
+		return path;
+	}
+
+	public AnimationIndex getAnimationIndex()
+	{
+		return animationIndex;
+	}
+
+	public void unlock()
+	{
+		this.isUnlocked = true;
+	}
+
+	public boolean isUsed()
+	{
+		boolean b = isUnlocked;
+
+		if (!b)
+			for (AnimationAngleModel m : angles)
+				b |= m.isUsed();
+
+		return b;
+	}
+
+	public void load()
+	{
+		isUsed = false;
+
+		for (AnimationAngleModel a : directions)
+		{
+			a.load();
+			isUsed |= a.getCount() > 0;
+		}
+	}
+
+	public File getFile(ViewAngle v, int index)
+	{
+		return path.getFile(getFileName(v, index));
+	}
+
+	public String getFileName(ViewAngle v, int index)
+	{
+		return getFileName(animationIndex, v, index);
+	}
+
+	public static String getFileName(AnimationIndex a, ViewAngle v, int index)
+	{
+		return a.toString().toLowerCase() + "." + v.toString().toLowerCase() + "." + index + ".png";
+	}
+}

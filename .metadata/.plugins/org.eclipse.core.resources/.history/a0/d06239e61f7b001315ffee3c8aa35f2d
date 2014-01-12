@@ -1,0 +1,16 @@
+package xoric.prism.creator.drawer.model;
+
+import java.io.File;
+
+public class SpriteNames
+{
+	private String getFilename(int index)
+	{
+		return animationIndex.toString().toLowerCase() + "." + viewAngle.toString().toLowerCase() + "." + index + ".png";
+	}
+
+	private File getFile(int index)
+	{
+		return path.getFile(getFilename(index));
+	}
+}

@@ -1,0 +1,16 @@
+package xoric.prism.creator.drawer.control;
+
+public class ExternalImageEditor
+{
+	private File file;
+
+	public File getFile()
+	{
+		return file;
+	}
+
+	public void setFile(File file)
+	{
+		this.file = file;
+	}
+}

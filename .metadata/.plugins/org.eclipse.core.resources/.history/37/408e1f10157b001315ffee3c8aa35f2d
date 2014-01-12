@@ -1,0 +1,21 @@
+package xoric.prism.creator.drawer.model;
+
+import xoric.prism.data.types.IPath_r;
+import xoric.prism.world.entities.ViewAngle;
+
+public class AnimationUsage
+{
+	private IPath_r path;
+	private AnimationLineModel directions[];
+	private boolean isUsed;
+
+	public AnimationUsage(IPath_r path)
+	{
+		this.path = path;
+		int n = ViewAngle.values().length;
+		this.directions = new AnimationLineModel[n];
+
+		for (ViewAngle a : ViewAngle.values())
+			directions[a.ordinal()] = new AnimationLineModel(path, a, a);
+	}
+}

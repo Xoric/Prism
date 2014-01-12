@@ -10,3 +10,9 @@
 1388906350249	Rename local variable 'text'
 1388906355309	Rename local variable 'string'
 1389307995450	Rename type 'OpenModelDialog'
+1389487505753	Copy compilation unit
+1389487512484	Rename field 'pathField'
+1389487516005	Rename field 'fielField'
+1389487519040	Rename field 'pathPanel'
+1389487522364	Rename field 'pathButton'
+1389487535505	Rename field 'pathPanel0'

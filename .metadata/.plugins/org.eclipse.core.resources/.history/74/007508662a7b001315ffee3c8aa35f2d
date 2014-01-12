@@ -1,0 +1,27 @@
+package xoric.prism.creator.drawer.control;
+
+import java.io.File;
+
+import xoric.prism.swing.input.OpenFileDialog;
+
+public class ExternalImageEditor
+{
+	private File file;
+
+	public File getFile()
+	{
+		if (file == null)
+			askUser();
+
+		return file;
+	}
+
+	private void askUser()
+	{
+		OpenFileDialog d = new OpenFileDialog("Select program", "Select an external image editing program in order to edit sprites.");
+		boolean b = d.show();
+
+		if (b)
+			file = d.getResult();
+	}
+}

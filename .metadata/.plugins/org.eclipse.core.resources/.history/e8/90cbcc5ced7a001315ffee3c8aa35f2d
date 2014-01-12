@@ -1,0 +1,15 @@
+package xoric.prism.creator.drawer.image;
+
+public class NewSpriteCell extends SpriteCell
+{
+	public NewSpriteCell(IPoint_r size)
+	{
+		super("");
+	}
+
+	@Override
+	public String getFrameName()
+	{
+		return "+";
+	}
+}
