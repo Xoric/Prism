@@ -112,7 +112,7 @@ public class AnimationsGenerator
 					BufferedImage bi = ImageIO.read(file);
 					int x = spriteX + spriteWidth / 2 - bi.getWidth() / 2;
 					int y = spriteY + spriteHeight - bi.getHeight();
-					graphics.drawImage(bi, x, y, null);
+					graphics.drawImage(bi, x,y, null);
 					spriteX += spriteWidth;
 				}
 				catch (Exception e0)
