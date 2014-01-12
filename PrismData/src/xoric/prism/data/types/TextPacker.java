@@ -21,14 +21,14 @@ public class TextPacker implements IPackable
 
 	private final byte[] buf = new byte[4];
 
-	private Text text;
+	private IText_r text;
 
-	public void setText(Text text)
+	public void setText(IText_r text)
 	{
 		this.text = text;
 	}
 
-	public Text getText()
+	public IText_r getText()
 	{
 		return text;
 	}
@@ -130,7 +130,7 @@ public class TextPacker implements IPackable
 		return text.length() >= 128;
 	}
 
-	public static synchronized void pack_s(OutputStream stream, Text text) throws IOException
+	public static synchronized void pack_s(OutputStream stream, IText_r text) throws IOException
 	{
 		instance.setText(text);
 		instance.pack(stream);
@@ -139,10 +139,10 @@ public class TextPacker implements IPackable
 	public static synchronized Text unpack_s(InputStream stream) throws IOException
 	{
 		instance.unpack(stream);
-		return instance.getText();
+		return new Text(instance.getText());
 	}
 
-	public static synchronized int getPackedSize_s(Text text)
+	public static synchronized int getPackedSize_s(IText_r text)
 	{
 		instance.setText(text);
 		return instance.getPackedSize();

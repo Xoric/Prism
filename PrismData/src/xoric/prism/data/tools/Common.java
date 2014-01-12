@@ -9,9 +9,9 @@ public abstract class Common
 		if (bytes < 1024)
 			s = bytes + " byte(s)";
 		else if (bytes < 1024 * 1024)
-			s = (bytes / (1024 * 1024)) + " kB";
+			s = (bytes / 1024) + " KB";
 		else
-			s = (bytes / (1024 * 1024 * 1024)) + " MB";
+			s = (bytes / (1024 * 1024)) + " MB";
 
 		return s;
 	}

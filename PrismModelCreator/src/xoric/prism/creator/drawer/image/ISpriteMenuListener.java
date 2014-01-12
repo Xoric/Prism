@@ -4,9 +4,13 @@ public interface ISpriteMenuListener
 {
 	public void requestInsertSprite();
 
+	public void requestInsertSpriteFromClipboard();
+
 	public void requestEditSprite();
 
 	public void requestDeleteSprites();
+
+	public void requestCopySpriteImage();
 
 	public void requestCopySpriteFilename();
 

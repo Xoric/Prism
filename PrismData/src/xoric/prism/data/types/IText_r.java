@@ -26,4 +26,6 @@ public interface IText_r
 	 * @return int
 	 */
 	public int length();
+
+	public String cut(int count);
 }

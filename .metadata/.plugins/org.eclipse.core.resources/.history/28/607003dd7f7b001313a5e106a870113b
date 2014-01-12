@@ -1,0 +1,71 @@
+package xoric.prism.creator.drawer.generator;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import xoric.prism.data.types.IPackable;
+import xoric.prism.data.types.IText_r;
+import xoric.prism.data.types.IntPacker;
+import xoric.prism.data.types.TextPacker;
+import xoric.prism.world.entities.ViewAngle;
+
+class AnimationMeta implements IPackable
+{
+	private IText_r name;
+	private final List<ViewAngle> angles;
+	private final List<Integer> columnCounts;
+
+	public AnimationMeta()
+	{
+		this.angles = new ArrayList<ViewAngle>();
+		this.columnCounts = new ArrayList<Integer>();
+	}
+
+	public AnimationMeta(IText_r name)
+	{
+		this.name = name;
+		this.angles = new ArrayList<ViewAngle>();
+		this.columnCounts = new ArrayList<Integer>();
+	}
+
+	public void addAngle(ViewAngle v, int columns)
+	{
+		angles.add(v);
+		columnCounts.add(columns);
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException
+	{
+		TextPacker.pack_s(stream, name);
+
+		for (int i = 0; i < angles.size(); ++i)
+		{
+			IntPacker.getPackedSize_s(angles.get(i).ordinal());
+			IntPacker.getPackedSize_s(columnCounts.get(i));
+		}
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException
+	{
+		name = TextPacker.unpack_s(stream);
+
+	}
+
+	@Override
+	public int getPackedSize()
+	{
+		int size = TextPacker.getPackedSize_s(name);
+
+			for (int i = 0; i < angles.size(); ++i)
+			{
+				size+=IntPacker.getPackedSize_s(angles.get(i).ordinal());
+				size+=IntPacker.getPackedSize_s(columnCounts.get(i));
+		}
+		return size;
+	}
+}

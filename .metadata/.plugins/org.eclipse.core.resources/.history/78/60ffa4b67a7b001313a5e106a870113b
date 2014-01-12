@@ -1,0 +1,90 @@
+package xoric.prism.creator.drawer.generator;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+
+import xoric.prism.creator.drawer.model.DrawerModel;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.types.IPath_r;
+
+public class ModelGenerator
+{
+	private final DrawerModel model;
+
+	public ModelGenerator(DrawerModel model)
+	{
+		this.model = model;
+	}
+
+	public void generateAll()
+	{
+		try
+		{
+			tryGenerate();
+		}
+		catch (PrismException e)
+		{
+			e.code.print();
+			e.user.showMessage();
+		}
+	}
+
+	private void tryGenerate() throws PrismException
+	{
+		// create model summary
+		ModelSummary ms = new ModelSummary();
+		IPath_r path = model.getPath();
+		ms.load(path);
+
+		// calculate required width and height 
+		int rows = ms.countRows();
+		int columns = ms.countColumns();
+		int width = rows * spriteWidth;
+		int height = columns * spriteHeight;
+
+		// create image to fit all sprites
+		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		graphics = image.getGraphics();
+		spriteX = 0;
+		spriteY = 0;
+
+		// insert all sprites to the image
+		for (int i = 0; i < ms.getAnimationCount(); ++i)
+		{
+			AnimationSummary as = ms.getAnimation(i);
+			generateAnimation(as);
+		}
+		graphics.dispose();
+	}
+
+	private void generateAnimation(AnimationSummary as) throws PrismException
+	{
+		for (int i = 0; i < as.getAngleCount(); ++i)
+		{
+			AngleSummary an = as.getAngle(i);
+
+			for (int k = 0; k < an.getSpriteCount(); ++k)
+			{
+				File file = an.getSpriteFile(k);
+				try
+				{
+					BufferedImage bi = ImageIO.read(file);
+					graphics.drawImage(bi, spriteX, spriteY, spriteWidth, spriteHeight, null);
+					spriteX += spriteWidth;
+				}
+				catch (Exception e0)
+				{
+					PrismException e = new PrismException(e0);
+					e.setText("There was an error while reading an image.");
+					if (file != null)
+						e.addInfo("image file", file.toString());
+					throw e;
+				}
+			}
+			spriteX = 0;
+			spriteY += spriteHeight;
+		}
+	}
+}

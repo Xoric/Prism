@@ -1,0 +1,13 @@
+package xoric.prism.creator.drawer.generator;
+
+public class AngleSummary
+{
+	private final List<File> files;
+	
+	private final nimationIndex a; private final  ViewAngle v;
+	
+	public AngleSummary(AnimationIndex a, ViewAngle v)
+	{
+		
+	}
+}

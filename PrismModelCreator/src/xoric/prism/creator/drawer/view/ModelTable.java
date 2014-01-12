@@ -26,7 +26,7 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 	private IDrawerControl control;
 
 	private TextInput nameInput;
-	private PointInput tileSizeInput;
+	private PointInput spriteSizeInput;
 
 	public ModelTable()
 	{
@@ -40,12 +40,12 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 		nameInput.setPrompt("Please enter a new name for this model.");
 		nameInput.setToolTipText("Provide a name for this model.");
 
-		tileSizeInput = new PointInput("Tile size", this);
-		tileSizeInput.setUnit("px");
-		tileSizeInput.setValue(new Point(0, 0));
-		tileSizeInput.setLabels("Width", "Height");
-		tileSizeInput.setPrompt("Please enter a new tile size.");
-		tileSizeInput.setToolTipText("Size of one animation tile. This is the width and height per sprite in the model's images.");
+		spriteSizeInput = new PointInput("Sprite size", this);
+		spriteSizeInput.setUnit("px");
+		spriteSizeInput.setValue(new Point(0, 0));
+		spriteSizeInput.setLabels("Width", "Height");
+		spriteSizeInput.setPrompt("Please enter a new tile size.");
+		spriteSizeInput.setToolTipText("Size of one animation tile. This is the width and height per sprite in the model's images.");
 
 		Insets insets = new Insets(0, 0, 0, 0);
 
@@ -57,7 +57,7 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 		contentPane.add(new JSeparator(), c);
 
 		c = new GridBagConstraints(0, 2, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
-		contentPane.add(tileSizeInput, c);
+		contentPane.add(spriteSizeInput, c);
 
 		setEnabled(false);
 		setContent(contentPane);
@@ -74,7 +74,7 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 		//		super.setEnabled(enabled);
 
 		nameInput.setEnabled(enabled);
-		tileSizeInput.setEnabled(enabled);
+		spriteSizeInput.setEnabled(enabled);
 	}
 
 	@Override
@@ -84,9 +84,9 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 		{
 			control.requestSetName(nameInput.getValue());
 		}
-		else if (input == tileSizeInput)
+		else if (input == spriteSizeInput)
 		{
-			control.requestSetTileSize(tileSizeInput.getValue());
+			control.requestSetTileSize(spriteSizeInput.getValue());
 		}
 	}
 
@@ -100,7 +100,7 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 	@Override
 	public void displayTileSize(IPoint_r tileSize)
 	{
-		tileSizeInput.setEnabled(tileSize != null);
-		tileSizeInput.setValue(tileSize);
+		spriteSizeInput.setEnabled(tileSize != null);
+		spriteSizeInput.setValue(tileSize);
 	}
 }

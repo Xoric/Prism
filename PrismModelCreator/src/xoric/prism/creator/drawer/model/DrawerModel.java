@@ -28,7 +28,7 @@ public class DrawerModel implements IPackable
 
 	private Text name;
 	private Path path;
-	private Point tileSize;
+	private Point spriteSize;
 	private boolean hasChanges;
 	private AnimationModel[] animations;
 
@@ -36,18 +36,26 @@ public class DrawerModel implements IPackable
 	{
 		name = new Text("");
 		path = new Path("");
-		tileSize = new Point();
+		spriteSize = new Point();
 		hasChanges = false;
 		animations = new AnimationModel[AnimationIndex.values().length];
+		init();
 	}
 
 	public DrawerModel(NewModelData data)
 	{
 		name = data.getName();
 		path = data.getPath();
-		tileSize = data.getTileSize();
+		spriteSize = data.getTileSize();
 		hasChanges = false;
 		animations = new AnimationModel[AnimationIndex.values().length];
+		init();
+	}
+
+	public void init()
+	{
+		for (int i = 0; i < animations.length; ++i)
+			animations[i] = new AnimationModel(path, AnimationIndex.valueOf(i));
 	}
 
 	public AnimationModel getAnimation(AnimationIndex a)
@@ -81,15 +89,15 @@ public class DrawerModel implements IPackable
 		this.name.set(name);
 	}
 
-	public void setTileSize(IPoint_r tileSize)
+	public void setSpriteSize(IPoint_r spriteSize)
 	{
-		this.tileSize.x = tileSize.getX();
-		this.tileSize.y = tileSize.getY();
+		this.spriteSize.x = spriteSize.getX();
+		this.spriteSize.y = spriteSize.getY();
 	}
 
-	public IPoint_r getTileSize()
+	public IPoint_r getSpriteSize()
 	{
-		return tileSize;
+		return spriteSize;
 	}
 
 	public void load(Path path) throws IOException
@@ -140,7 +148,7 @@ public class DrawerModel implements IPackable
 	{
 		IntPacker.pack_s(stream, CURRENT_VERSION);
 		TextPacker.pack_s(stream, name);
-		tileSize.pack(stream);
+		spriteSize.pack(stream);
 	}
 
 	@Override
@@ -148,14 +156,14 @@ public class DrawerModel implements IPackable
 	{
 		int version = IntPacker.unpack_s(stream);
 		name = TextPacker.unpack_s(stream);
-		tileSize.unpack(stream);
+		spriteSize.unpack(stream);
 	}
 
 	@Override
 	public int getPackedSize()
 	{
 		int size = TextPacker.getPackedSize_s(name);
-		size += tileSize.getPackedSize();
+		size += spriteSize.getPackedSize();
 		return size;
 	}
 

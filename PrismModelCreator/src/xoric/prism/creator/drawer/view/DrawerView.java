@@ -32,6 +32,7 @@ public class DrawerView extends PrismFrame implements IDrawerView2, IAnimationEd
 	private AnimationList animationList;
 	private IAnimationView animationView;
 	private JPanel animationViewPanel;
+	private final MainMenuBar mainMenuBar;
 
 	public DrawerView(IScene scene)
 	{
@@ -43,8 +44,8 @@ public class DrawerView extends PrismFrame implements IDrawerView2, IAnimationEd
 		this.scene = scene;
 
 		// main menu
-		MainMenuBar menuBar = new MainMenuBar();
-		setJMenuBar(menuBar);
+		mainMenuBar = new MainMenuBar();
+		setJMenuBar(mainMenuBar);
 
 		// model table
 		ModelTable m = new ModelTable();
@@ -86,7 +87,7 @@ public class DrawerView extends PrismFrame implements IDrawerView2, IAnimationEd
 	public void displayAll(DrawerModel model)
 	{
 		displayName(model == null ? null : model.getName());
-		displayTileSize(model == null ? null : model.getTileSize());
+		displayTileSize(model == null ? null : model.getSpriteSize());
 		displayPath(model == null ? null : model.getPath());
 		displayAnimationsInList(model == null ? null : model.getAnimations());
 	}
@@ -179,6 +180,7 @@ public class DrawerView extends PrismFrame implements IDrawerView2, IAnimationEd
 		this.modelTable.setControl(control);
 		this.animationList.setControl(control);
 		this.animationView.setControl(control);
+		this.mainMenuBar.setControl(control);
 	}
 
 	public void start()

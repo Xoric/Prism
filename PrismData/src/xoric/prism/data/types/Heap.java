@@ -10,23 +10,23 @@ public class Heap
 {
 	public final List<Integer> ints;
 	public final List<Float> floats;
-	public final List<Text> texts;
+	public final List<IText_r> texts;
 
 	public Heap()
 	{
 		ints = new ArrayList<Integer>(5);
 		floats = new ArrayList<Float>(5);
-		texts = new ArrayList<Text>(5);
+		texts = new ArrayList<IText_r>(5);
 	}
 
 	public Heap(int intCount, int floatCount, int textCount)
 	{
 		ints = intCount > 0 ? new ArrayList<Integer>(intCount) : null;
 		floats = floatCount > 0 ? new ArrayList<Float>(floatCount) : null;
-		texts = textCount > 0 ? new ArrayList<Text>(textCount) : null;
+		texts = textCount > 0 ? new ArrayList<IText_r>(textCount) : null;
 	}
 
-	public Heap(List<Integer> ints, List<Float> floats, List<Text> texts)
+	public Heap(List<Integer> ints, List<Float> floats, List<IText_r> texts)
 	{
 		this.ints = ints;
 		this.floats = floats;

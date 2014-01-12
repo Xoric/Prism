@@ -118,7 +118,15 @@ public class SpriteList extends JPanel implements ISpriteList, ISpriteMenuListen
 	{
 		int index = list.getSelectedIndex();
 		if (isValidIndex(index))
-			control.requestAddSprite(animationModel.getAnimationIndex(), viewAngle, index);
+			control.requestInsertSprite(animationModel.getAnimationIndex(), viewAngle, index);
+	}
+
+	@Override
+	public void requestInsertSpriteFromClipboard()
+	{
+		int index = list.getSelectedIndex();
+		if (isValidIndex(index))
+			control.requestInsertSpriteFromClipboard(animationModel.getAnimationIndex(), viewAngle, index);
 	}
 
 	@Override
@@ -171,6 +179,14 @@ public class SpriteList extends JPanel implements ISpriteList, ISpriteMenuListen
 		model.addElement(c);
 
 		list.setModel(model);
+	}
+
+	@Override
+	public void requestCopySpriteImage()
+	{
+		int index = list.getSelectedIndex();
+		if (isValidIndex(index))
+			control.requestCopySpriteToClipboard(animationModel.getAnimationIndex(), viewAngle, index);
 	}
 
 	@Override

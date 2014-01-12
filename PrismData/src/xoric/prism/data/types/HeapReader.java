@@ -25,7 +25,7 @@ public class HeapReader
 		return heap.floats.get(floatIndex++);
 	}
 
-	public Text getNextText()
+	public IText_r getNextText()
 	{
 		return heap.texts.get(textIndex++);
 	}

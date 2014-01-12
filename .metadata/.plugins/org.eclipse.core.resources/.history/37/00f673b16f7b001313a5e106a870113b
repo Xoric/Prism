@@ -1,0 +1,33 @@
+package xoric.prism.creator.drawer.generator;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import xoric.prism.data.types.IPath_r;
+import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.entities.ViewAngle;
+
+class AnimationSummary
+{
+	private final AnimationIndex animationIndex;
+	private List<AngleSummary> angles;
+
+	public AnimationSummary(AnimationIndex a)
+	{
+		this.animationIndex = a;
+	}
+
+	public void load(IPath_r path)
+	{
+		angles = new ArrayList<AngleSummary>();
+
+		for (ViewAngle v : ViewAngle.values())
+		{
+			AngleSummary an = new AngleSummary(animationIndex, v);
+			an.load(path);
+
+			if (an.isUsed())
+				angles.add(an);
+		}
+	}
+}

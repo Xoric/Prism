@@ -1,5 +1,11 @@
 package xoric.prism.creator.drawer.control;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -43,11 +49,10 @@ public class SpriteControl extends ControlLayer
 		return n - 1;
 	}
 
-	public void addSprite(AnimationIndex a, ViewAngle v, int index)
+	public void insertSprite(AnimationIndex a, ViewAngle v, int index)
 	{
-		IPath_r path = model.getPath();
-
 		// find highest existing index
+		IPath_r path = model.getPath();
 		int n = findHighestIndex(path, a, v);
 
 		// increase all indices equal or greater than the given parameter by one
@@ -70,6 +75,83 @@ public class SpriteControl extends ControlLayer
 		{
 			e.user.showMessage();
 		}
+	}
+
+	public void insertSpriteFromClipboard(AnimationIndex a, ViewAngle v, int index)
+	{
+		// get image from clipboard
+		Image clipboardImage = null;
+		Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
+
+		if (t != null && t.isDataFlavorSupported(DataFlavor.imageFlavor))
+		{
+			try
+			{
+				clipboardImage = (Image) t.getTransferData(DataFlavor.imageFlavor);
+				if (clipboardImage == null)
+					throw new Exception("image is null");
+			}
+			catch (Exception e0)
+			{
+				PrismException e = new PrismException(e0);
+				e.setText("There was a problem while trying to get an image from clipboard.");
+				e.user.showMessage();
+				return;
+			}
+		}
+
+		// find highest existing index
+		IPath_r path = model.getPath();
+		int n = findHighestIndex(path, a, v);
+
+		// increase all indices equal or greater than the given parameter by one
+		try
+		{
+			renameFiles(path, a, v, n, index);
+		}
+		catch (PrismException e)
+		{
+			e.user.showMessage();
+			return;
+		}
+
+		// insert sprite
+		try
+		{
+			BufferedImage bi = embedClipboard(clipboardImage);
+			writeImage(path, a, v, index, bi);
+		}
+		catch (PrismException e)
+		{
+			e.user.showMessage();
+		}
+	}
+
+	private BufferedImage embedClipboard(Image clipboardImage)
+	{
+		BufferedImage bi = new BufferedImage(clipboardImage.getWidth(null), clipboardImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2d = bi.createGraphics();
+		g2d.drawImage(clipboardImage, 0, 0, null);
+		g2d.dispose();
+
+		int w = bi.getWidth();
+		int h = bi.getHeight();
+		int tc = bi.getRGB(0, 0);
+
+		for (int y = 0; y < h; ++y)
+			for (int x = 0; x < w; ++x)
+				if (bi.getRGB(x, y) == tc)
+					bi.setRGB(x, y, 0);
+
+		IPoint_r spriteSize = model.getSpriteSize();
+		BufferedImage img = new BufferedImage(spriteSize.getX(), spriteSize.getY(), BufferedImage.TYPE_INT_ARGB);
+		Graphics g = img.getGraphics();
+		int x = spriteSize.getX() / 2 - w / 2;
+		int y = spriteSize.getY() - h;
+		g.drawImage(bi, x, y, null);
+		g.dispose();
+
+		return img;
 	}
 
 	private void renameFiles(IPath_r path, AnimationIndex a, ViewAngle v, int highest, int lowest) throws PrismException
@@ -101,13 +183,18 @@ public class SpriteControl extends ControlLayer
 
 	private void createSprite(IPath_r path, AnimationIndex a, ViewAngle v, int index) throws PrismException
 	{
+		IPoint_r spriteSize = model.getSpriteSize();
+		BufferedImage img = new BufferedImage(spriteSize.getX(), spriteSize.getY(), BufferedImage.TYPE_INT_ARGB);
+		writeImage(path, a, v, index, img);
+	}
+
+	private void writeImage(IPath_r path, AnimationIndex a, ViewAngle v, int index, BufferedImage bi) throws PrismException
+	{
 		File file = null;
 		try
 		{
-			IPoint_r tileSize = model.getTileSize();
-			BufferedImage img = new BufferedImage(tileSize.getX(), tileSize.getY(), BufferedImage.TYPE_INT_ARGB);
 			file = path.getFile(SpriteNames.getFilename(a, v, index));
-			ImageIO.write(img, "png", file);
+			ImageIO.write(bi, "png", file);
 		}
 		catch (Exception e0)
 		{
@@ -215,5 +302,25 @@ public class SpriteControl extends ControlLayer
 	public void inputExternalImageEditor()
 	{
 		externalEditor.showInput();
+	}
+
+	public void copySpriteToClipboard(IPath_r path, AnimationIndex a, ViewAngle v, int index)
+	{
+		String filename = SpriteNames.getFilename(a, v, index);
+		File file = path.getFile(filename);
+		try
+		{
+			BufferedImage bi = ImageIO.read(file);
+			ImageTransfer ti = new ImageTransfer(bi);
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ti, null);
+		}
+		catch (Exception e0)
+		{
+			PrismException e = new PrismException(e0);
+			e.setText("There was a problem while copying an image to clipboard.");
+			e.addInfo("image file", file.toString());
+			e.code.print();
+			e.user.showMessage();
+		}
 	}
 }

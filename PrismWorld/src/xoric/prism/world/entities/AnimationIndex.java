@@ -46,6 +46,7 @@ public enum AnimationIndex
 	SNEAK_IDLE(true);
 
 	public static final int COUNT = values().length;
+	private static final AnimationIndex[] values = values();
 
 	static
 	{
@@ -65,7 +66,11 @@ public enum AnimationIndex
 		CAST_OMNI.setSubstitute(CAST_TARGET);
 	}
 
-	// Animation class
+	public static AnimationIndex valueOf(int i)
+	{
+		return values[i];
+	}
+
 	private final boolean loop;
 	private AnimationIndex substitute;
 	private String description;

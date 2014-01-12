@@ -1,0 +1,12 @@
+package xoric.prism.creator.drawer.generator;
+
+import xoric.prism.data.types.IPath_r;
+import xoric.prism.world.entities.AnimationIndex;
+
+class AnimationSummary
+{
+	public AnimationSummary(AnimationIndex a, IPath_r path)
+	{
+
+	}
+}

@@ -1,8 +1,0 @@
-package xoric.prism.swing.input;
-
-import javax.swing.JTextField;
-
-public class PrismTextField extends JTextField
-{
-
-}

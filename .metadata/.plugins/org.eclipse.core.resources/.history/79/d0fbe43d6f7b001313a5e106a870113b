@@ -1,0 +1,23 @@
+package xoric.prism.creator.drawer.generator;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.entities.ViewAngle;
+
+public class AngleSummary
+{
+	private final AnimationIndex a;
+	private final ViewAngle v;
+
+	private final List<File> files;
+
+	public AngleSummary(AnimationIndex a, ViewAngle v)
+	{
+		this.a = a;
+		this.v = v;
+		this.files = new ArrayList<File>();
+	}
+}
