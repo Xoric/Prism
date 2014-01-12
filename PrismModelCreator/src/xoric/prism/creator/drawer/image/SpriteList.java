@@ -220,6 +220,14 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 		}
 	}
 
+	@Override
+	public void requestMakeTransparent()
+	{
+		List<Integer> indices = getValidSelectedIndices();
+		if (indices.size() > 0)
+			control.requestMakeSpritesTransparent(animationModel.getAnimationIndex(), viewAngle, indices);
+	}
+
 	/* *************** MouseListener ************** */
 
 	@Override

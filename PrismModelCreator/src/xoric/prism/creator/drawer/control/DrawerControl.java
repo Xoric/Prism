@@ -198,6 +198,15 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 	}
 
 	@Override
+	public void requestMakeSpritesTransparent(AnimationIndex a, ViewAngle v, List<Integer> indices)
+	{
+		spriteControl.makeSpritesTransparent(a, v, indices);
+
+		// reload animation sprites
+		view.updateCurrentAnimation();
+	}
+
+	@Override
 	public void requestInputExternalImageEditor()
 	{
 		spriteControl.inputExternalImageEditor();

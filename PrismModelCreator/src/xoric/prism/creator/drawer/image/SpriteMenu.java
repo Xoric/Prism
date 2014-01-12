@@ -20,6 +20,7 @@ public class SpriteMenu extends JPopupMenu implements ActionListener
 	private final JMenuItem deleteItem;
 	private final JMenuItem copyImageItem;
 	private final JMenuItem copyNameItem;
+	private final JMenuItem makeTransparentItem;
 	private final JMenuItem reloadItem;
 
 	public SpriteMenu(ISpriteMenuListener listener)
@@ -34,6 +35,7 @@ public class SpriteMenu extends JPopupMenu implements ActionListener
 		add(deleteItem = createItem("Delete"));
 		add(copyImageItem = createItem("Copy image"));
 		add(copyNameItem = createItem("Copy filename"));
+		add(makeTransparentItem = createItem("Make transparent"));
 		add(new JSeparator());
 		add(reloadItem = createItem("Reload all"));
 
@@ -44,6 +46,7 @@ public class SpriteMenu extends JPopupMenu implements ActionListener
 		deleteItem.setToolTipText("Delete the selected sprites.");
 		copyImageItem.setToolTipText("Copy the image to clipboard.");
 		copyNameItem.setToolTipText("Copy the sprite's filename to clipboard.");
+		makeTransparentItem.setToolTipText("Cut off the background.");
 		reloadItem.setToolTipText("Reload all sprites to make external changes visible.");
 	}
 
@@ -73,6 +76,8 @@ public class SpriteMenu extends JPopupMenu implements ActionListener
 			listener.requestCopySpriteImage();
 		else if (o == copyNameItem)
 			listener.requestCopySpriteFilename();
+		else if (o == makeTransparentItem)
+			listener.requestMakeTransparent();
 		else if (o == reloadItem)
 			listener.requestReloadSprite();
 	}

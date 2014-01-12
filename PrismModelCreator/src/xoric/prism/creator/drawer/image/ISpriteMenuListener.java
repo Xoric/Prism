@@ -16,5 +16,7 @@ public interface ISpriteMenuListener
 
 	public void requestCopySpriteFilename();
 
+	public void requestMakeTransparent();
+
 	public void requestReloadSprite();
 }

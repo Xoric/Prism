@@ -185,3 +185,4 @@
 1389537395218	Rename local variable 'tileSize'
 1389537458550	Rename method 'requestSetSpriteSize'
 1389539244001	Rename field 'MAIN_FILENAME'
+1389541467879	Rename method 'requestMakeTransparent'

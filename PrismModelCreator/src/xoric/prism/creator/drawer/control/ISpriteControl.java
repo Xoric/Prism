@@ -20,5 +20,7 @@ public interface ISpriteControl
 
 	public void requestEditSprite(File file);
 
+	public void requestMakeSpritesTransparent(AnimationIndex a, ViewAngle v, List<Integer> indices);
+
 	public void requestInputExternalImageEditor();
 }
