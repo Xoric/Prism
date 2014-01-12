@@ -1,0 +1,21 @@
+package xoric.prism.swing.multithread;
+
+import javax.swing.JFrame;
+
+import xoric.prism.swing.PrismFrame;
+
+public class PrismWatcher extends JFrame
+{
+	public PrismWatcher(PrismWorker worker)
+	{
+		// set frame title
+		this.setTitle(worker.getText());
+
+		// set frame size
+		this.setSize(320, 240);
+
+		// set default close operation
+			this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+	}
+
+}

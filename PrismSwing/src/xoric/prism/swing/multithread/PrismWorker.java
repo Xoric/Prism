@@ -5,10 +5,10 @@ public abstract class PrismWorker implements Runnable
 	protected volatile float progress;
 	protected volatile String text;
 
-	public PrismWorker()
+	public PrismWorker(String initialText)
 	{
+		text = initialText;
 		progress = 0.0f;
-		text = "";
 	}
 
 	public float getProgress()

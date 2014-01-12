@@ -1,0 +1,22 @@
+package xoric.prism.swing.multithread;
+
+
+import javax.swing.JFrame;
+import javax.swing.Timer;
+
+public class PrismWatcher extends JFrame
+{
+	private static final long serialVersionUID = 1L;
+
+	private Timer timer;
+
+	public PrismWatcher(PrismWorker worker)
+	{
+		this.setTitle(worker.getText());
+		this.setSize(320, 240);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		timer = new Timer(500, this);
+	}
+
+}

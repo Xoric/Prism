@@ -1,0 +1,6 @@
+package xoric.prism.swing.multithread;
+
+public class PrismWatcher extends JPanel
+{
+
+}
