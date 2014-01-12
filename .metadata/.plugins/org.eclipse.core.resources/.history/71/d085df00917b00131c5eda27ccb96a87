@@ -70,7 +70,7 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 		c = new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(hintLabel2, c);
 
-		c = new GridBagConstraints(0, 2, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(15, 0, 0, 0), 0, 0);
+		c = new GridBagConstraints(0, 2, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(5,0,0,0), 0, 0);
 		add(scroll, c);
 	}
 

@@ -33,7 +33,6 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	private ImageIcon newIcon;
 
 	private final JLabel hintLabel;
-	private final JLabel hintLabel2;
 	private final JList<SpriteCell> list;
 
 	private final SpriteMenu menu;
@@ -45,15 +44,15 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	public SpriteList()
 	{
 		super(new GridBagLayout());
+		
+		this.addMouseListener(this);
 
-		hintLabel = new JLabel("Double click on a sprite in order to edit it.");
-		hintLabel2 = new JLabel("Right click on the list below for further options.");
+		hintLabel = new JLabel("Right click on the list below for further options.");
 
 		list = new JList<SpriteCell>();
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		list.setVisibleRowCount(1);
 		list.setCellRenderer(new SpriteCellRenderer());
-		list.addMouseListener(this);
 
 		JScrollPane scroll = new JScrollPane(list);
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -64,13 +63,10 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 
 		Insets insets = new Insets(0, 0, 0, 0);
 
-		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(hintLabel, c);
 
-		c = new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
-		add(hintLabel2, c);
-
-		c = new GridBagConstraints(0, 2, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(15, 0, 0, 0), 0, 0);
+		c = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(scroll, c);
 	}
 
@@ -220,10 +216,8 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	/* *************** MouseListener ************** */
 
 	@Override
-	public void mouseClicked(MouseEvent e)
+	public void mouseClicked(MouseEvent arg0)
 	{
-		if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2)
-			requestEditSprite();
 	}
 
 	@Override
@@ -244,6 +238,8 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
+		if (e.getClickCount() == 2)
+			requestEditSprite();
 	}
 
 	/* ***************************** */

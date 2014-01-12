@@ -5,7 +5,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -33,7 +32,6 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	private ImageIcon newIcon;
 
 	private final JLabel hintLabel;
-	private final JLabel hintLabel2;
 	private final JList<SpriteCell> list;
 
 	private final SpriteMenu menu;
@@ -46,14 +44,12 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	{
 		super(new GridBagLayout());
 
-		hintLabel = new JLabel("Double click on a sprite in order to edit it.");
-		hintLabel2 = new JLabel("Right click on the list below for further options.");
+		hintLabel = new JLabel("Right click on the list below for further options.");
 
 		list = new JList<SpriteCell>();
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		list.setVisibleRowCount(1);
 		list.setCellRenderer(new SpriteCellRenderer());
-		list.addMouseListener(this);
 
 		JScrollPane scroll = new JScrollPane(list);
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -64,13 +60,10 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 
 		Insets insets = new Insets(0, 0, 0, 0);
 
-		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(hintLabel, c);
 
-		c = new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
-		add(hintLabel2, c);
-
-		c = new GridBagConstraints(0, 2, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(15, 0, 0, 0), 0, 0);
+		c = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(scroll, c);
 	}
 
@@ -215,35 +208,6 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 			File file = animationModel.getPath().getFile(filename);
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(file.toString()), null);
 		}
-	}
-
-	/* *************** MouseListener ************** */
-
-	@Override
-	public void mouseClicked(MouseEvent e)
-	{
-		if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2)
-			requestEditSprite();
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0)
-	{
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0)
-	{
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0)
-	{
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e)
-	{
 	}
 
 	/* ***************************** */

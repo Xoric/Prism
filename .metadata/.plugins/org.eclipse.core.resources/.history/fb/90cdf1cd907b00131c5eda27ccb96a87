@@ -46,8 +46,8 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	{
 		super(new GridBagLayout());
 
-		hintLabel = new JLabel("Double click on a sprite in order to edit it.");
-		hintLabel2 = new JLabel("Right click on the list below for further options.");
+		hintLabel = new JLabel("Right click on the list below for further options.");
+		hintLabel2 = new JLabel("RDouble click on a sprite in order to edit it.");
 
 		list = new JList<SpriteCell>();
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
@@ -64,13 +64,12 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 
 		Insets insets = new Insets(0, 0, 0, 0);
 
-		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
+		add(hintLabel, c);
+		c = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(hintLabel, c);
 
-		c = new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
-		add(hintLabel2, c);
-
-		c = new GridBagConstraints(0, 2, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(15, 0, 0, 0), 0, 0);
+		c = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(scroll, c);
 	}
 

@@ -40,7 +40,7 @@ public class SpriteMenu extends JPopupMenu implements ActionListener
 		cloneItem.setToolTipText("Clone the selected sprite and insert it as successor.");
 		insertItem.setToolTipText("Insert a new sprite at the selected position.");
 		insertFromClipboardItem.setToolTipText("Insert a new sprite at the selected position from clipboard.");
-		editItem.setToolTipText("Edit the selected sprite. A program can be specified in the menu above.");
+		editItem.setToolTipText("Edit the selected sprite in an external editing program. Use the menu above to specify your preferred program.");
 		deleteItem.setToolTipText("Delete the selected sprites.");
 		copyImageItem.setToolTipText("Copy the image to clipboard.");
 		copyNameItem.setToolTipText("Copy the sprite's filename to clipboard.");
