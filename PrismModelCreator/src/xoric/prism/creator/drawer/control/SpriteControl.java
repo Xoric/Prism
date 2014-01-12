@@ -49,6 +49,50 @@ public class SpriteControl extends ControlLayer
 		return n - 1;
 	}
 
+	public void cloneSprite(AnimationIndex a, ViewAngle v, int index)
+	{
+		// load sprite image
+		IPath_r path = model.getPath();
+		File file = path.getFile(SpriteNames.getFilename(a, v, index));
+		BufferedImage bi = null;
+		try
+		{
+			bi = ImageIO.read(file);
+		}
+		catch (Exception e0)
+		{
+			PrismException e = new PrismException(e0);
+			e.setText("There was a problem reading the image to be cloned.");
+			e.addInfo("image file", file.toString());
+			e.user.showMessage();
+			return;
+		}
+
+		// find highest existing index
+		int n = findHighestIndex(path, a, v);
+
+		// increase all indices equal or greater than the given parameter by one
+		try
+		{
+			renameFiles(path, a, v, n, index);
+		}
+		catch (PrismException e)
+		{
+			e.user.showMessage();
+			return;
+		}
+
+		// insert sprite
+		try
+		{
+			writeImage(path, a, v, index, bi);
+		}
+		catch (PrismException e)
+		{
+			e.user.showMessage();
+		}
+	}
+
 	public void insertSprite(AnimationIndex a, ViewAngle v, int index)
 	{
 		// find highest existing index

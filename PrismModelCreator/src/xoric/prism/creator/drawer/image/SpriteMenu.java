@@ -13,6 +13,7 @@ public class SpriteMenu extends JPopupMenu implements ActionListener
 
 	private final ISpriteMenuListener listener;
 
+	private final JMenuItem cloneItem;
 	private final JMenuItem insertItem;
 	private final JMenuItem insertFromClipboardItem;
 	private final JMenuItem editItem;
@@ -25,6 +26,7 @@ public class SpriteMenu extends JPopupMenu implements ActionListener
 	{
 		this.listener = listener;
 
+		add(cloneItem = createItem("Clone"));
 		add(insertItem = createItem("Insert new"));
 		add(insertFromClipboardItem = createItem("Insert from clipboard"));
 		add(new JSeparator());
@@ -35,6 +37,7 @@ public class SpriteMenu extends JPopupMenu implements ActionListener
 		add(new JSeparator());
 		add(reloadItem = createItem("Reload all"));
 
+		cloneItem.setToolTipText("Clone the selected sprite and insert it as successor.");
 		insertItem.setToolTipText("Insert a new sprite at the selected position.");
 		insertFromClipboardItem.setToolTipText("Insert a new sprite at the selected position from clipboard.");
 		editItem.setToolTipText("Edit the selected sprite in an external editing program. Use the menu above to specify your preferred program.");
@@ -56,7 +59,9 @@ public class SpriteMenu extends JPopupMenu implements ActionListener
 	{
 		Object o = e.getSource();
 
-		if (o == insertItem)
+		if (o == cloneItem)
+			listener.requestCloneSprite();
+		else if (o == insertItem)
 			listener.requestInsertSprite();
 		else if (o == insertFromClipboardItem)
 			listener.requestInsertSpriteFromClipboard();

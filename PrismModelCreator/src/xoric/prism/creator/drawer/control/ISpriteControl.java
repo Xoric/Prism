@@ -8,6 +8,8 @@ import xoric.prism.world.entities.ViewAngle;
 
 public interface ISpriteControl
 {
+	public void requestCloneSprite(AnimationIndex a, ViewAngle v, int index);
+
 	public void requestInsertSprite(AnimationIndex a, ViewAngle v, int index);
 
 	public void requestInsertSpriteFromClipboard(AnimationIndex a, ViewAngle v, int index);

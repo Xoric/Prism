@@ -114,6 +114,14 @@ public class SpriteList extends JPanel implements ISpriteList, ISpriteMenuListen
 	/* *************** ISpriteMenuListener ************** */
 
 	@Override
+	public void requestCloneSprite()
+	{
+		int index = list.getSelectedIndex();
+		if (isValidIndex(index))
+			control.requestCloneSprite(animationModel.getAnimationIndex(), viewAngle, index);
+	}
+
+	@Override
 	public void requestInsertSprite()
 	{
 		int index = list.getSelectedIndex();

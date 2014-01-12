@@ -122,6 +122,19 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 	/* *********** sprite control ****************** */
 
 	@Override
+	public void requestCloneSprite(AnimationIndex a, ViewAngle v, int index)
+	{
+		// add a sprite
+		spriteControl.cloneSprite(a, v, index);
+
+		// reload animation list and sprites
+		AnimationModel m = model.getAnimation(a);
+		m.load();
+		view.displayAnimationInList(m);
+		view.updateCurrentAnimation();
+	}
+
+	@Override
 	public void requestInsertSprite(AnimationIndex a, ViewAngle v, int index)
 	{
 		// add a sprite
