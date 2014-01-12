@@ -89,6 +89,18 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 		// TODO: every single png has to be changed
 	}
 
+	@Override
+	public void requestGenerateAnimations()
+	{
+		modelControl.generateAnimations();
+	}
+
+	@Override
+	public void requestExportModel()
+	{
+		modelControl.exportModel();
+	}
+
 	/* *********** animation control ****************** */
 
 	@Override

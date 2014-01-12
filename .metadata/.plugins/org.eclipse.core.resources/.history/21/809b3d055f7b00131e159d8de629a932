@@ -1,0 +1,7 @@
+package xoric.prism.swing;
+
+public interface IProgressDisplay
+{
+	public void displayProgressText(String text);
+	public void displayProgress(float progress);
+}

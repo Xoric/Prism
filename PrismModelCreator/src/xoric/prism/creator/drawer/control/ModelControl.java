@@ -8,6 +8,7 @@ import xoric.prism.creator.drawer.model.DrawerModel;
 import xoric.prism.creator.drawer.view.NewModelData;
 import xoric.prism.creator.drawer.view.NewModelDialog;
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Path;
@@ -145,5 +146,16 @@ public class ModelControl extends ControlLayer
 	public void setTileSize(IPoint_r tileSize)
 	{
 		model.setTileSize(tileSize);
+	}
+
+	public void generateAnimations(IPath_r path)
+	{
+		GridGenerator g = new GridGenerator(path);
+		g.generateAll();
+	}
+
+	public void exportModel(IPath_r path)
+	{
+		System.out.println("export model");
 	}
 }

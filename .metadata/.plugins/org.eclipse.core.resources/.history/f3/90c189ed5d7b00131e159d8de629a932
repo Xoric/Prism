@@ -1,0 +1,18 @@
+package xoric.prism.creator.drawer.control;
+
+import xoric.prism.data.types.IPath_r;
+
+public class ModelExporter
+{
+	private final IPath_r path;
+
+	public ModelExporter(IPath_r path)
+	{
+		this.path = path;
+	}
+	
+	public void create()
+	{
+		
+	}
+}

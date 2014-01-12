@@ -4,12 +4,7 @@ import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import xoric.prism.creator.drawer.control.IDrawerControl;
@@ -24,7 +19,7 @@ import xoric.prism.scene.IScene;
 import xoric.prism.swing.PrismFrame;
 import xoric.prism.world.entities.AnimationIndex;
 
-public class DrawerView extends PrismFrame implements IDrawerView2, ActionListener, IAnimationEditor
+public class DrawerView extends PrismFrame implements IDrawerView2, IAnimationEditor
 {
 	private static final long serialVersionUID = 1L;
 	private static final String title = "Prism Drawer";
@@ -38,15 +33,6 @@ public class DrawerView extends PrismFrame implements IDrawerView2, ActionListen
 	private IAnimationView animationView;
 	private JPanel animationViewPanel;
 
-	private JMenu menuModel;
-	private JMenuItem menuItemNewModel;
-	private JMenuItem menuItemOpenModel;
-	private JMenuItem menuItemCloseModel;
-	private JMenuItem menuItemExit;
-
-	private JMenu menuTools;
-	private JMenuItem menuItemExternalEditor;
-
 	public DrawerView(IScene scene)
 	{
 		super(title, 640, 480, true);
@@ -56,25 +42,9 @@ public class DrawerView extends PrismFrame implements IDrawerView2, ActionListen
 
 		this.scene = scene;
 
-		JMenuBar menuBar = new JMenuBar();
+		// main menu
+		MainMenuBar menuBar = new MainMenuBar();
 		setJMenuBar(menuBar);
-
-		// model menu
-		menuModel = createMenu(menuBar, "Model");
-		// --
-		menuItemNewModel = createMenuItem(menuModel, "New");
-		menuModel.addSeparator(); // --
-		menuItemOpenModel = createMenuItem(menuModel, "Open");
-		menuItemCloseModel = createMenuItem(menuModel, "Close");
-		menuModel.addSeparator(); // --
-		menuItemExit = createMenuItem(menuModel, "Exit");
-		// --
-
-		// tools menu
-		menuTools = createMenu(menuBar, "Tools");
-		// --
-		menuItemExternalEditor = createMenuItem(menuTools, "External image editor");
-		// --
 
 		// model table
 		ModelTable m = new ModelTable();
@@ -211,48 +181,8 @@ public class DrawerView extends PrismFrame implements IDrawerView2, ActionListen
 		this.animationView.setControl(control);
 	}
 
-	private JMenuItem createMenuItem(JMenu parentMenu, String text)
-	{
-		JMenuItem m = new JMenuItem(text);
-
-		if (parentMenu != null)
-			parentMenu.add(m);
-
-		m.addActionListener(this);
-
-		return m;
-	}
-
-	private JMenu createMenu(JMenuBar parentMenuBar, String text)
-	{
-		JMenu m = new JMenu(text);
-
-		if (parentMenuBar != null)
-			parentMenuBar.add(m);
-
-		return m;
-	}
-
 	public void start()
 	{
 		setVisible(true);
-	}
-
-	/* *********** menu ********************** */
-
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		Object o = e.getSource();
-
-		if (o == menuItemNewModel)
-			control.requestNewModel();
-		else if (o == menuItemOpenModel)
-			control.requestOpenModel();
-		else if (o == menuItemCloseModel)
-			control.requestCloseModel();
-
-		else if (o == menuItemExternalEditor)
-			control.requestInputExternalImageEditor();
 	}
 }

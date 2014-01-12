@@ -1,0 +1,16 @@
+package xoric.prism.creator.drawer.view;
+
+public class ModelMenu extends JMenu
+{
+public ModelMenu()
+{
+	menuItemNewModel = createMenuItem(menuModel, "New");
+	menuModel.addSeparator(); // --
+	menuItemOpenModel = createMenuItem(menuModel, "Open");
+	menuItemCloseModel = createMenuItem(menuModel, "Close");
+	menuModel.addSeparator(); // --
+	menuItemCloseModel = createMenuItem(menuModel, "Close");
+	menuModel.addSeparator(); // --
+	menuItemExit = createMenuItem(menuModel, "Exit");
+}
+}

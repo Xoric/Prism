@@ -1,0 +1,13 @@
+package xoric.prism.swing;
+
+public class PrismWorker
+{
+private volatile float progress;
+private volatile String text;
+
+public synchronized float getProgress()
+{
+	return progress;
+}
+
+}
