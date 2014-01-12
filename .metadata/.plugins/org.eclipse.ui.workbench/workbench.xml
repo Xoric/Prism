@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="14" version="2.0">
+<workbench progressCount="20" version="2.0">
 <workbenchAdvisor/>
 <window height="453" maximized="true" width="641" x="49" y="147">
 <fastViewData fastViewLocation="1024"/>
@@ -32,13 +32,28 @@
 <folder appearance="1" expanded="2">
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
+<part id="1"/>
+<part id="2"/>
+<part id="3"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AnimationControl.java" partName="AnimationControl.java" path="/home/xoric/workspace/Prism/PrismModelCreator/src/xoric/prism/creator/drawer/control/AnimationControl.java" title="AnimationControl.java" tooltip="PrismModelCreator/src/xoric/prism/creator/drawer/control/AnimationControl.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AnimationControl.java" partName="AnimationControl.java" path="/home/xoric/workspace/Prism/PrismModelCreator/src/xoric/prism/creator/drawer/control/AnimationControl.java" title="AnimationControl.java" tooltip="PrismModelCreator/src/xoric/prism/creator/drawer/control/AnimationControl.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/PrismModelCreator/src/xoric/prism/creator/drawer/control/AnimationControl.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="362" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AnimationsGenerator.java" partName="AnimationsGenerator.java" path="/home/xoric/workspace/Prism/PrismModelCreator/src/xoric/prism/creator/drawer/generator/AnimationsGenerator.java" title="AnimationsGenerator.java" tooltip="PrismModelCreator/src/xoric/prism/creator/drawer/generator/AnimationsGenerator.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/PrismModelCreator/src/xoric/prism/creator/drawer/generator/AnimationsGenerator.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="50" selectionOffset="763" selectionTopPixel="0"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="DrawerView.java" partName="DrawerView.java" path="/home/xoric/workspace/Prism/PrismModelCreator/src/xoric/prism/creator/drawer/view/DrawerView.java" title="DrawerView.java" tooltip="PrismModelCreator/src/xoric/prism/creator/drawer/view/DrawerView.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/PrismModelCreator/src/xoric/prism/creator/drawer/view/DrawerView.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2402" selectionTopPixel="921"/>
+</editor>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MainMenuBar.java" partName="MainMenuBar.java" path="/home/xoric/workspace/Prism/PrismModelCreator/src/xoric/prism/creator/drawer/view/MainMenuBar.java" title="MainMenuBar.java" tooltip="PrismModelCreator/src/xoric/prism/creator/drawer/view/MainMenuBar.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/PrismModelCreator/src/xoric/prism/creator/drawer/view/MainMenuBar.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2689" selectionTopPixel="498"/>
 </editor>
 </editors>
 <views>
@@ -51,7 +66,7 @@
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
-<category IMemento.internal.id="Warnings (27 items)"/>
+<category IMemento.internal.id="Warnings (30 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -290,7 +305,6 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismCreator/src/xoric/prism/creator/drawer/view/NewModelDialog.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismIntField.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismIntFilter.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismDocumentFilter.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismSwing/src/xoric/prism/swing/input/fields/IValueController.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismCreator/src/xoric/prism/creator/drawer/view/ModelTable.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismCreator/src/xoric/prism/creator/drawer/image/FramesView.java"/>
@@ -301,35 +315,14 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismCreator/src/xoric/prism/creator/drawer/view/DrawerView2.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismCreator/src/xoric/prism/creator/drawer/view/IDrawerView2.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismModelCreator/src/xoric/prism/creator/drawer/control/AnimationControl.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismModelCreator/src/xoric/prism/creator/drawer/generator/AnimationsGenerator.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismModelCreator/src/xoric/prism/creator/drawer/view/DrawerView.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismModelCreator/src/xoric/prism/creator/drawer/view/MainMenuBar.java"/>
 </editors>
-<item historyLabel="PrismIntField.java" index="1">
-<position info="not_deleted" x="329" y="0"/>
-</item>
-<item historyLabel="PrismIntFilter.java" index="2">
+<item historyLabel="IValueController.java" index="3">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="PrismIntFilter.java" index="2">
-<position/>
-</item>
-<item historyLabel="PrismIntFilter.java" index="2">
-<position/>
-</item>
-<item historyLabel="PrismIntFilter.java" index="2">
-<position/>
-</item>
-<item historyLabel="PrismIntField.java" index="1">
-<position/>
-</item>
-<item historyLabel="PrismDocumentFilter.java" index="3">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="PrismIntFilter.java" index="2">
-<position/>
-</item>
-<item historyLabel="IValueController.java" index="4">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="IValueController.java" index="4">
+<item historyLabel="IValueController.java" index="3">
 <position info="not_deleted" x="58" y="16"/>
 </item>
 <item historyLabel="PrismIntFilter.java" index="2">
@@ -353,7 +346,7 @@
 <item historyLabel="NewModelDialog.java" index="0">
 <position info="not_deleted" x="2207" y="0"/>
 </item>
-<item historyLabel="ModelTable.java" index="5">
+<item historyLabel="ModelTable.java" index="4">
 <position info="not_deleted" x="1668" y="0"/>
 </item>
 <item historyLabel="NewModelDialog.java" index="0">
@@ -389,7 +382,7 @@
 <item historyLabel="NewModelDialog.java" index="0">
 <position info="not_deleted" x="4794" y="0"/>
 </item>
-<item historyLabel="ModelTable.java" index="5">
+<item historyLabel="ModelTable.java" index="4">
 <position info="not_deleted" x="1307" y="0"/>
 </item>
 <item historyLabel="NewModelDialog.java" index="0">
@@ -398,57 +391,81 @@
 <item historyLabel="NewModelDialog.java" index="0">
 <position info="not_deleted" x="193" y="0"/>
 </item>
-<item historyLabel="FramesView.java" index="6">
+<item historyLabel="FramesView.java" index="5">
 <position info="not_deleted" x="408" y="0"/>
 </item>
-<item historyLabel="FrameView.java" index="7">
+<item historyLabel="FrameView.java" index="6">
 <position info="not_deleted" x="1086" y="9"/>
 </item>
-<item historyLabel="FrameView.java" index="7">
+<item historyLabel="FrameView.java" index="6">
 <position info="not_deleted" x="1346" y="0"/>
 </item>
-<item historyLabel="FramesView.java" index="6">
+<item historyLabel="FramesView.java" index="5">
 <position info="not_deleted" x="305" y="0"/>
 </item>
-<item historyLabel="AnimationView.java" index="8">
+<item historyLabel="AnimationView.java" index="7">
 <position info="not_deleted" x="1489" y="0"/>
 </item>
-<item historyLabel="FrameView.java" index="7">
+<item historyLabel="FrameView.java" index="6">
 <position info="not_deleted" x="1086" y="0"/>
 </item>
-<item historyLabel="DrawerControl2.java" index="9">
+<item historyLabel="DrawerControl2.java" index="8">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="DrawerControl2.java" index="9">
+<item historyLabel="DrawerControl2.java" index="8">
 <position info="not_deleted" x="4008" y="0"/>
 </item>
-<item historyLabel="IDrawerView2.java" index="10">
+<item historyLabel="IDrawerView2.java" index="9">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="IDrawerView2.java" index="10">
+<item historyLabel="IDrawerView2.java" index="9">
 <position info="not_deleted" x="526" y="39"/>
 </item>
-<item historyLabel="DrawerView2.java" index="11">
+<item historyLabel="DrawerView2.java" index="10">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="DrawerView2.java" index="11">
+<item historyLabel="DrawerView2.java" index="10">
 <position info="not_deleted" x="4351" y="0"/>
 </item>
-<item historyLabel="DrawerControl2.java" index="9">
+<item historyLabel="DrawerControl2.java" index="8">
 <position info="not_deleted" x="4008" y="0"/>
 </item>
-<item historyLabel="FrameView.java" index="7">
+<item historyLabel="FrameView.java" index="6">
 <position info="not_deleted" x="1292" y="0"/>
 </item>
-<item historyLabel="FramesView.java" index="6">
+<item historyLabel="FramesView.java" index="5">
 <position info="not_deleted" x="447" y="0"/>
 </item>
-<item historyLabel="FrameView.java" index="7">
+<item historyLabel="FrameView.java" index="6">
 <position info="not_deleted" x="1292" y="0"/>
 </item>
-<item historyLabel="IDrawerView2.java" index="12"/>
-<item active="true" historyLabel="AnimationControl.java" index="13">
+<item historyLabel="IDrawerView2.java" index="11"/>
+<item historyLabel="AnimationControl.java" index="12">
 <position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="AnimationControl.java" index="12">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="AnimationsGenerator.java" index="13">
+<position info="not_deleted" x="763" y="50"/>
+</item>
+<item historyLabel="DrawerView.java" index="14">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="DrawerView.java" index="14">
+<position info="not_deleted" x="2386" y="0"/>
+</item>
+<item historyLabel="MainMenuBar.java" index="15">
+<position info="not_deleted" x="2563" y="6"/>
+</item>
+<item historyLabel="MainMenuBar.java" index="15">
+<position info="not_deleted" x="2736" y="0"/>
+</item>
+<item historyLabel="MainMenuBar.java" index="15">
+<position info="not_deleted" x="2689" y="0"/>
+</item>
+<item active="true" historyLabel="DrawerView.java" index="14">
+<position info="not_deleted" x="2386" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -468,6 +485,15 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MainMenuBar.java" tooltip="PrismModelCreator/src/xoric/prism/creator/drawer/view/MainMenuBar.java">
+<persistable path="/PrismModelCreator/src/xoric/prism/creator/drawer/view/MainMenuBar.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="DrawerView.java" tooltip="PrismModelCreator/src/xoric/prism/creator/drawer/view/DrawerView.java">
+<persistable path="/PrismModelCreator/src/xoric/prism/creator/drawer/view/DrawerView.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AnimationsGenerator.java" tooltip="PrismModelCreator/src/xoric/prism/creator/drawer/generator/AnimationsGenerator.java">
+<persistable path="/PrismModelCreator/src/xoric/prism/creator/drawer/generator/AnimationsGenerator.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AnimationControl.java" tooltip="PrismModelCreator/src/xoric/prism/creator/drawer/control/AnimationControl.java">
 <persistable path="/PrismModelCreator/src/xoric/prism/creator/drawer/control/AnimationControl.java"/>
 </file>
@@ -503,15 +529,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismIntField.java" tooltip="PrismSwing/src/xoric/prism/swing/input/fields/PrismIntField.java">
 <persistable path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismIntField.java"/>
-</file>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="NumberFormatException.class" tooltip="java.lang.NumberFormatException">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=MetaFilePrinter/\/usr\/lib\/jvm\/java-7-openjdk-i386\/jre\/lib\/rt.jar&lt;java.lang(NumberFormatException.class"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismField.java" tooltip="PrismSwing/src/xoric/prism/swing/input/fields/PrismField.java">
-<persistable path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismField.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="PrismTextFilter.java" tooltip="PrismSwing/src/xoric/prism/swing/input/fields/PrismTextFilter.java">
-<persistable path="/PrismSwing/src/xoric/prism/swing/input/fields/PrismTextFilter.java"/>
 </file>
 </mruList>
 </workbench>

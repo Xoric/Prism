@@ -81,6 +81,7 @@ public class DrawerView extends PrismFrame implements IDrawerView2, IAnimationEd
 	public void setModel(DrawerModel model)
 	{
 		this.model = model;
+		mainMenuBar.setModel(model);
 	}
 
 	@Override

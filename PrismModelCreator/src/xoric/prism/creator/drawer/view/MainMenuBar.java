@@ -9,6 +9,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import xoric.prism.creator.drawer.control.IDrawerControl;
+import xoric.prism.creator.drawer.model.DrawerModel;
 
 public class MainMenuBar extends JMenuBar implements ActionListener
 {
@@ -86,6 +87,7 @@ public class MainMenuBar extends JMenuBar implements ActionListener
 			control.requestNewModel();
 		else if (o == menuItemOpenModel)
 			control.requestOpenModel();
+
 		else if (o == menuItemCloseModel)
 			control.requestCloseModel();
 
@@ -96,5 +98,15 @@ public class MainMenuBar extends JMenuBar implements ActionListener
 
 		else if (o == menuItemExternalEditor)
 			control.requestInputExternalImageEditor();
+	}
+
+	public void setModel(DrawerModel model)
+	{
+		boolean b = model != null;
+		menuItemCloseModel.setEnabled(b);
+
+		menuExportModel.setEnabled(b);
+		menuItemGenerate.setEnabled(b);
+		menuItemExport.setEnabled(b);
 	}
 }
