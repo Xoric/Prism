@@ -87,7 +87,7 @@ public class DrawerView extends PrismFrame implements IDrawerView2, IAnimationEd
 	public void displayAll(DrawerModel model)
 	{
 		displayName(model == null ? null : model.getName());
-		displayTileSize(model == null ? null : model.getSpriteSize());
+		displaySpriteSize(model == null ? null : model.getSpriteSize());
 		displayPath(model == null ? null : model.getPath());
 		displayAnimationsInList(model == null ? null : model.getAnimations());
 	}
@@ -99,9 +99,9 @@ public class DrawerView extends PrismFrame implements IDrawerView2, IAnimationEd
 	}
 
 	@Override
-	public void displayTileSize(IPoint_r tileSize)
+	public void displaySpriteSize(IPoint_r tileSize)
 	{
-		modelTable.displayTileSize(tileSize);
+		modelTable.displaySpriteSize(tileSize);
 		animationView.setTileSize(tileSize);
 	}
 

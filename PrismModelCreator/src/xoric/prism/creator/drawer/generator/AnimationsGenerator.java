@@ -47,7 +47,7 @@ public class AnimationsGenerator
 				for (File f : files)
 				{
 					long s = f.length();
-					sb.append("<br><code>" + f.getName() + "</code> (" + Common.getFileSize(s) + ")");
+					sb.append("<br><code>" + f.getName() + "</code> - " + Common.getFileSize(s));
 				}
 				sb.append("</html>");
 			}

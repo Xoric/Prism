@@ -82,11 +82,22 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 	}
 
 	@Override
-	public void requestSetTileSize(IPoint_r tileSize)
+	public void requestResizeSprites(IPoint_r spriteSize)
 	{
-		model.setSpriteSize(tileSize);
-		view.displayTileSize(tileSize);
-		// TODO: every single png has to be changed
+		boolean b = modelControl.askChangeSpriteSize(spriteSize);
+
+		if (b)
+		{
+			// apply changes to model
+			modelControl.setSpriteSize(spriteSize);
+
+			// resize sprites
+			spriteControl.resizeAllSprites(model.getPath(), spriteSize);
+
+			// update displays
+			view.displaySpriteSize(spriteSize);
+			view.updateCurrentAnimation();
+		}
 	}
 
 	@Override

@@ -13,7 +13,7 @@ public interface IModelControl
 
 	public void requestSetName(IText_r name);
 
-	public void requestSetTileSize(IPoint_r tileSize);
+	public void requestResizeSprites(IPoint_r tileSize);
 
 	public void requestGenerateAnimations();
 

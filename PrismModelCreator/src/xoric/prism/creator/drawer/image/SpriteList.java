@@ -168,6 +168,9 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	@Override
 	public void requestReloadSprite()
 	{
+		if (animationModel == null)
+			return;
+
 		DefaultListModel<SpriteCell> model = new DefaultListModel<SpriteCell>();
 		boolean resume = true;
 		int i = 0;

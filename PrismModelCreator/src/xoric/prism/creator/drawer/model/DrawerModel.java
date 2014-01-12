@@ -23,8 +23,8 @@ import xoric.prism.world.entities.AnimationIndex;
 
 public class DrawerModel implements IPackable
 {
+	public static final String mainFilename = "m.meta";
 	private static final int CURRENT_VERSION = 1;
-	private static final String MAIN_FILENAME = "m.meta";
 
 	private Text name;
 	private Path path;
@@ -91,6 +91,7 @@ public class DrawerModel implements IPackable
 
 	public void setSpriteSize(IPoint_r spriteSize)
 	{
+		this.hasChanges = true;
 		this.spriteSize.x = spriteSize.getX();
 		this.spriteSize.y = spriteSize.getY();
 	}
@@ -120,7 +121,7 @@ public class DrawerModel implements IPackable
 
 	public void save() throws PrismException
 	{
-		File file = path.getFile(MAIN_FILENAME);
+		File file = path.getFile(mainFilename);
 		try
 		{
 			FileOutputStream out = new FileOutputStream(file);
@@ -189,7 +190,7 @@ public class DrawerModel implements IPackable
 		else
 		// check if path already contains a model
 		{
-			File file = path.getFile(MAIN_FILENAME);
+			File file = path.getFile(mainFilename);
 
 			if (file.exists())
 			{
@@ -205,7 +206,7 @@ public class DrawerModel implements IPackable
 		}
 
 		// create main file
-		File mainFile = path.getFile(MAIN_FILENAME);
+		File mainFile = path.getFile(mainFilename);
 		boolean wasCreated;
 		try
 		{

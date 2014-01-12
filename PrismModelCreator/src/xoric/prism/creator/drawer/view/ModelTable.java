@@ -37,15 +37,15 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 
 		nameInput = new TextInput("Name", this);
 		nameInput.setValue(new Text("NONE"));
-		nameInput.setPrompt("Please enter a new name for this model.");
+		nameInput.setPrompt("Enter a new name for this model.");
 		nameInput.setToolTipText("Provide a name for this model.");
 
 		spriteSizeInput = new PointInput("Sprite size", this);
 		spriteSizeInput.setUnit("px");
 		spriteSizeInput.setValue(new Point(0, 0));
 		spriteSizeInput.setLabels("Width", "Height");
-		spriteSizeInput.setPrompt("Please enter a new tile size.");
-		spriteSizeInput.setToolTipText("Size of one animation tile. This is the width and height per sprite in the model's images.");
+		spriteSizeInput.setPrompt("Enter new sprite size.");
+		spriteSizeInput.setToolTipText("Size of one sprite. This is the width and height of one tile in the model's images.");
 
 		Insets insets = new Insets(0, 0, 0, 0);
 
@@ -86,7 +86,7 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 		}
 		else if (input == spriteSizeInput)
 		{
-			control.requestSetTileSize(spriteSizeInput.getValue());
+			control.requestResizeSprites(spriteSizeInput.getValue());
 		}
 	}
 
@@ -98,9 +98,9 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 	}
 
 	@Override
-	public void displayTileSize(IPoint_r tileSize)
+	public void displaySpriteSize(IPoint_r spriteSize)
 	{
-		spriteSizeInput.setEnabled(tileSize != null);
-		spriteSizeInput.setValue(tileSize);
+		spriteSizeInput.setEnabled(spriteSize != null);
+		spriteSizeInput.setValue(spriteSize);
 	}
 }

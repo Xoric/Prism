@@ -7,5 +7,5 @@ public interface IModelTable
 {
 	public void displayName(IText_r name);
 
-	public void displayTileSize(IPoint_r tileSize);
+	public void displaySpriteSize(IPoint_r tileSize);
 }

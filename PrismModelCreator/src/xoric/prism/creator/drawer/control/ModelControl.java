@@ -1,5 +1,6 @@
 package xoric.prism.creator.drawer.control;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JOptionPane;
@@ -108,21 +109,34 @@ public class ModelControl extends ControlLayer
 
 			if (path != null)
 			{
-				busyControl.setBusy(true);
+				File f = path.getFile(DrawerModel.mainFilename);
 
-				openedModel = new DrawerModel();
-				try
+				if (!f.exists())
 				{
-					openedModel.load(path);
+					PrismException e = new PrismException();
+					e.setText("No model could be found in the specified directory.");
+					e.addInfo("missing file", DrawerModel.mainFilename);
+					e.user.showMessage();
 				}
-				catch (IOException e)
+				else
 				{
-					openedModel = null;
-					JOptionPane.showMessageDialog(null, "An error occured while trying to load a model from the specified directory:\n\n"
-							+ e.getMessage(), "Open model", JOptionPane.WARNING_MESSAGE);
-				}
+					busyControl.setBusy(true);
 
-				busyControl.setBusy(false);
+					openedModel = new DrawerModel();
+					try
+					{
+						openedModel.load(path);
+					}
+					catch (IOException e0)
+					{
+						openedModel = null;
+
+						PrismException e = new PrismException(e0);
+						e.setText("An error occured while trying to load a model from the specified directory.");
+						e.user.showMessage();
+					}
+					busyControl.setBusy(false);
+				}
 			}
 		}
 		return openedModel;
@@ -143,9 +157,52 @@ public class ModelControl extends ControlLayer
 		}
 	}
 
-	public void setTileSize(IPoint_r tileSize)
+	public boolean askChangeSpriteSize(IPoint_r spriteSize)
 	{
-		model.setSpriteSize(tileSize);
+		StringBuilder sb = new StringBuilder();
+		sb.append("<html><p width=\"360\">");
+		sb.append("You are about to change the sprite size of the current model. ");
+		sb.append("This means that all existing sprites will be resized. ");
+		sb.append("<br><br>");
+
+		sb.append("Additional horizontal space (if any) will be appended at the left and right margin equally. ");
+		sb.append("Extra vertical space will be appended on top of the images. ");
+		sb.append("If the size should decrease in any direction the images will get cropped in these areas. ");
+		sb.append("It is therefore recommended to create a backup first.");
+
+		int dx = spriteSize.getX() - model.getSpriteSize().getX();
+		int dy = spriteSize.getY() - model.getSpriteSize().getY();
+
+		if (dx != 0 || dy != 0)
+		{
+			sb.append("<br><br>Effects:<br><code>");
+
+			if (dx != 0)
+			{
+				sb.append(dx > 0 ? "increase" : "decrease");
+				sb.append(" width by " + Math.abs(dx) + " pixel(s)<br>");
+			}
+			if (dy != 0)
+			{
+				sb.append(dy > 0 ? "increase" : "decrease");
+				sb.append(" height by " + Math.abs(dy) + " pixel(s)<br>");
+			}
+
+			sb.append("</code>");
+		}
+		sb.append("</p></html>");
+
+		String[] options = { "Resize", "Cancel" };
+		int n = JOptionPane.showOptionDialog(null, sb.toString(), "Resize sprites", JOptionPane.DEFAULT_OPTION,
+				JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+
+		return n == 0;
+	}
+
+	public void setSpriteSize(IPoint_r spriteSize)
+	{
+		model.setSpriteSize(spriteSize);
+		saveModel();
 	}
 
 	public void generateAnimations(DrawerModel model)
