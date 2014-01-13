@@ -15,7 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import xoric.prism.creator.drawer.model.AnimationModel;
-import xoric.prism.swing.tooltips.ToolTipFormatter;
+import xoric.prism.swing.tooltips.ToolTipCreator;
 import xoric.prism.world.entities.AnimationIndex;
 
 public class AnimationCellWithControls extends AnimationCell implements ActionListener, IAnimationCellControls
@@ -37,9 +37,9 @@ public class AnimationCellWithControls extends AnimationCell implements ActionLi
 		mainView = e;
 		isUsed = false;
 
-		addButton = createButton("Add", "icons/add.png", "Click here to add this animation.");
-		editButton = createButton("Edit", "icons/edit.png", "Click here to edit this animation.");
-		deleteButton = createButton("Delete", "icons/del.png", "Click here to delete this animation.");
+		addButton = createButton("Add", "icons/add.png", "Click here to add this animation");
+		editButton = createButton("Edit", "icons/edit.png", "Click here to edit this animation");
+		deleteButton = createButton("Delete", "icons/del.png", "Click here to delete this animation");
 
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(addButton);
@@ -117,7 +117,7 @@ public class AnimationCellWithControls extends AnimationCell implements ActionLi
 				b.setPreferredSize(d);
 				b.setMinimumSize(d);
 				b.setMaximumSize(d);
-				b.setToolTipText(ToolTipFormatter.split(tooltip));
+				b.setToolTipText(ToolTipCreator.split(tooltip));
 				hasIcon = true;
 			}
 		}

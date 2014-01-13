@@ -5,3 +5,4 @@
 1389620729256	Rename local variable 'text'
 1389621002367	Rename type 'TooltipCreator'
 1389621079443	Rename method 'createTooltip'
+1389621138176	Rename type 'ToolTipCreator'

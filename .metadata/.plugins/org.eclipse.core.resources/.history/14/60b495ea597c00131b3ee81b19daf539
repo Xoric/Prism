@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import xoric.prism.creator.drawer.image.IconLoader;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.swing.PrismPanel;
-import xoric.prism.swing.tooltips.ToolTipFormatter;
+import xoric.prism.swing.tooltips.ToolTipCreator;
 
 public class PortraitPanel extends PrismPanel implements ActionListener
 {
@@ -103,7 +103,7 @@ public class PortraitPanel extends PrismPanel implements ActionListener
 		if (!hasIcon)
 			b.setText(text);
 
-		b.setToolTipText(ToolTipFormatter.split(tooltip));
+		b.setToolTipText(ToolTipCreator.split(tooltip));
 		b.addActionListener(this);
 
 		return b;

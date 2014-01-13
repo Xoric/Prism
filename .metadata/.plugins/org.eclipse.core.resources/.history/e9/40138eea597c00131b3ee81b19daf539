@@ -18,7 +18,7 @@ import xoric.prism.swing.input.IValueInputListener;
 import xoric.prism.swing.input.PointInput;
 import xoric.prism.swing.input.TextInput;
 import xoric.prism.swing.input.ValueInput;
-import xoric.prism.swing.tooltips.ToolTipFormatter;
+import xoric.prism.swing.tooltips.ToolTipCreator;
 
 class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 {
@@ -39,14 +39,14 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 		nameInput = new TextInput("Name", this);
 		nameInput.setValue(new Text("NONE"));
 		nameInput.setPrompt("Enter a new name for this model.");
-		nameInput.setToolTipText(ToolTipFormatter.split("Provide a name for this model."));
+		nameInput.setToolTipText(ToolTipCreator.split("Provide a name for this model."));
 
 		spriteSizeInput = new PointInput("Sprite size", this);
 		spriteSizeInput.setUnit("px");
 		spriteSizeInput.setValue(new Point(0, 0));
 		spriteSizeInput.setLabels("Width", "Height");
 		spriteSizeInput.setPrompt("Enter new sprite size.");
-		spriteSizeInput.setToolTipText(ToolTipFormatter
+		spriteSizeInput.setToolTipText(ToolTipCreator
 				.split("Size of one sprite. This is the width and height of one tile in the model's images."));
 
 		Insets insets = new Insets(0, 0, 0, 0);
