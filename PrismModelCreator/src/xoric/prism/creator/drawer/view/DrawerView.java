@@ -29,6 +29,7 @@ public class DrawerView extends PrismFrame implements IDrawerView2, IAnimationEd
 	private IDrawerControl control;
 
 	private ModelTable modelTable;
+	private PortraitPanel portraitPanel;
 	private AnimationList animationList;
 	private IAnimationView animationView;
 	private JPanel animationViewPanel;
@@ -51,6 +52,9 @@ public class DrawerView extends PrismFrame implements IDrawerView2, IAnimationEd
 		ModelTable m = new ModelTable();
 		modelTable = m;
 
+		// portrait panel
+		portraitPanel = new PortraitPanel();
+
 		// animation list
 		animationList = new AnimationList(this);
 		animationList.setEnabled(false);
@@ -62,14 +66,18 @@ public class DrawerView extends PrismFrame implements IDrawerView2, IAnimationEd
 
 		Insets insets = new Insets(15, 15, 15, 15);
 
-		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 0.15, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 2, 0.15, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
 				insets, 0, 0);
 		add(m, c);
 
-		c = new GridBagConstraints(1, 0, 1, 1, 0.85, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets, 0, 0);
+		c = new GridBagConstraints(1, 0, 1, 1, 0.85, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets, 0, 0);
+		add(portraitPanel, c);
+
+		c = new GridBagConstraints(1, 1, 1, 1, 0.85, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(animationList, c);
 
-		c = new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets, 0, 0);
+		// initially hidden:
+		c = new GridBagConstraints(0, 0, 2, 2, 1.0, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(animationViewPanel, c);
 
 		showAnimationControls(false);

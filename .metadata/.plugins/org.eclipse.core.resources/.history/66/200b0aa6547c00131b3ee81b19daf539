@@ -1,0 +1,13 @@
+package xoric.prism.creator.drawer.image;
+
+import java.io.File;
+
+import javax.swing.ImageIcon;
+
+public abstract class IconLoader
+{
+	public static ImageIcon loadIcon(File file)
+	{
+
+	}
+}

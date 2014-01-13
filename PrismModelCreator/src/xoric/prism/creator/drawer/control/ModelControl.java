@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-import xoric.prism.creator.drawer.generator.AnimationsGenerator;
-import xoric.prism.creator.drawer.generator.ModelFilter;
-import xoric.prism.creator.drawer.generator.ModelGenerator;
+import xoric.prism.creator.drawer.generators.AnimationsGenerator;
+import xoric.prism.creator.drawer.generators.ModelFilter;
+import xoric.prism.creator.drawer.generators.ModelGenerator;
 import xoric.prism.creator.drawer.model.DrawerModel;
 import xoric.prism.creator.drawer.view.NewModelData;
 import xoric.prism.creator.drawer.view.NewModelDialog;

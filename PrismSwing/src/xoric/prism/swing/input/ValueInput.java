@@ -20,6 +20,8 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import xoric.prism.swing.tooltips.TooltipCreator;
+
 public abstract class ValueInput extends JPanel implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
@@ -102,35 +104,10 @@ public abstract class ValueInput extends JPanel implements ActionListener
 		unitSuffix = unit.length() == 0 ? "" : " " + unit;
 	}
 
-	private static String splitTooltip(String text, int maxCharsPerLine)
-	{
-		StringBuffer sb = new StringBuffer("<html>");
-		String[] words = text.split(" ");
-		boolean isFirstInLine = true;
-		int sum = 0;
-
-		for (String s : words)
-		{
-			if (!isFirstInLine)
-				sb.append(" ");
-			sb.append(s);
-
-			isFirstInLine = (sb.length() - sum) >= maxCharsPerLine;
-			if (isFirstInLine)
-			{
-				sum = sb.length();
-				sb.append("<br>");
-			}
-		}
-		sb.append("</html>");
-
-		return sb.toString();
-	}
-
 	@Override
-	public void setToolTipText(String text)
+	public void setToolTipText(String tooltip)
 	{
-		String s = splitTooltip(text, 30);
+		String s = TooltipCreator.createTooltip(tooltip);
 		super.setToolTipText(s);
 		valuePane.setToolTipText(s);
 	}
