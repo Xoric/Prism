@@ -1,7 +1,8 @@
 package xoric.prism.creator.drawer.control;
 
+import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.model.DrawerModel;
-import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.animations.AnimationIndex;
 
 public class AnimationControl extends ControlLayer
 {
@@ -22,5 +23,16 @@ public class AnimationControl extends ControlLayer
 		System.out.println("requestDeleteAnimation(" + animation + ")");
 
 		//		view.displayAnimation(animation, false);
+	}
+
+	public void setDuration(AnimationIndex a, int ms)
+	{
+		if (ms < 100)
+			ms = 100;
+		else if (ms > 10000)
+			ms = 10000;
+
+		AnimationModel m = model.getAnimation(a);
+		m.setDurationMs(ms);
 	}
 }

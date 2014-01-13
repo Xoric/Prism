@@ -20,9 +20,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import xoric.prism.swing.tooltips.ToolTipFormatter;
-
-public abstract class ValueInput extends JPanel implements ActionListener
+public abstract class ValueInput extends JPanel implements ActionListener, IValueInput
 {
 	private static final long serialVersionUID = 1L;
 
@@ -94,11 +92,13 @@ public abstract class ValueInput extends JPanel implements ActionListener
 		editButton.setEnabled(enabled);
 	}
 
+	@Override
 	public void setPrompt(String prompt)
 	{
 		this.prompt = prompt;
 	}
 
+	@Override
 	public void setUnit(String unit)
 	{
 		unitSuffix = unit.length() == 0 ? "" : " " + unit;

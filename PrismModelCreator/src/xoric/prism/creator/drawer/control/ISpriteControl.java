@@ -3,7 +3,7 @@ package xoric.prism.creator.drawer.control;
 import java.io.File;
 import java.util.List;
 
-import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.animations.AnimationIndex;
 import xoric.prism.world.entities.ViewAngle;
 
 public interface ISpriteControl

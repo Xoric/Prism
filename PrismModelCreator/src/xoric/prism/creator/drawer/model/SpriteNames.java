@@ -1,6 +1,6 @@
 package xoric.prism.creator.drawer.model;
 
-import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.animations.AnimationIndex;
 import xoric.prism.world.entities.ViewAngle;
 
 public class SpriteNames

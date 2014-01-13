@@ -14,7 +14,7 @@ import xoric.prism.creator.drawer.model.DrawerModel;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.tools.Common;
 import xoric.prism.data.types.IPath_r;
-import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.animations.AnimationIndex;
 import xoric.prism.world.entities.ViewAngle;
 
 public class AnimationsGenerator

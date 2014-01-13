@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 
 import xoric.prism.data.types.Text;
 
-public class IntInput extends ValueInput
+public class IntInput extends ValueInput implements IIntInput
 {
 	private static final long serialVersionUID = 1L;
 
@@ -15,6 +15,7 @@ public class IntInput extends ValueInput
 		super(name, listener);
 	}
 
+	@Override
 	public void setValue(int value)
 	{
 		this.value = value;
@@ -50,5 +51,11 @@ public class IntInput extends ValueInput
 	protected String getValueText()
 	{
 		return String.valueOf(value);
+	}
+
+	@Override
+	public int getValue()
+	{
+		return value;
 	}
 }

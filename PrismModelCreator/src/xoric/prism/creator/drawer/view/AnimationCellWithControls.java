@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 
 import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.swing.tooltips.ToolTipFormatter;
-import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.animations.AnimationIndex;
 
 public class AnimationCellWithControls extends AnimationCell implements ActionListener, IAnimationCellControls
 {

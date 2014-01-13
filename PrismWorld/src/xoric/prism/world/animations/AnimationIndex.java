@@ -1,30 +1,39 @@
-package xoric.prism.world.entities;
+package xoric.prism.world.animations;
 
 import xoric.prism.data.meta.MetaBlock;
 import xoric.prism.data.meta.MetaLine;
 import xoric.prism.data.types.Heap;
 
 /**
- * First eight values are equivalent to {@link move.MoveType}.
+ * First eight values are equivalent to {@link xoric.prism.world.movement.MoveType}.
  * @author XoricLee
  * @since 23.03.2012, 11:49:14
  */
 public enum AnimationIndex
 {
-	// the first eight values are equivalent to world.MoveType; their order is fixed
+	// the first eight values are equivalent to movement types
+	// revised:
 	WALK(true),
 	RUN(true),
+	CROUCH(true),
 	SLIDE(true),
-	RAIL(true),
-	DRIVE(true),
 	SWIM(true),
 	FLY(true),
-	SNEAK(true),
+	// unsure:
+	RIDE(true),
+	RAIL(true),
 
-	// variable animations
+	// the second eight values are the appropriate idle animations for all movement types
 	IDLE(true),
 	IDLE_SWIM(true),
 	IDLE_FLY(true),
+	// revised:
+	ATTACK(false),
+	ALERT(false),
+
+	// variable animations
+	// revised:
+	// unsure:
 	JUMP_UP(false),
 	JUMP_DOWN(false),
 	DROP_DOWN(false),
@@ -33,13 +42,11 @@ public enum AnimationIndex
 	STUN(true),
 	SIT_DOWN(false),
 	SIT_LOOP(true),
-	ALERT(false),
 	CAST_TARGET(false),
 	CAST_OMNI(false),
 	DIE_DOWN(false),
 	DIE_LOOP(true),
 	HURT(false),
-	ATTACK(false),
 	CRIT(false),
 	BLOCK(false),
 	SNEAK_DOWN(false),
@@ -53,13 +60,13 @@ public enum AnimationIndex
 		SNEAK_IDLE.setSubstitute(IDLE);
 		WALK.setSubstitute(IDLE);
 
-		RUN.setSubstitute(WALK);
-		SLIDE.setSubstitute(WALK);
-		RAIL.setSubstitute(WALK);
-		DRIVE.setSubstitute(WALK);
-		SWIM.setSubstitute(WALK);
-		FLY.setSubstitute(WALK);
-		SNEAK.setSubstitute(WALK);
+		//		RUN.setSubstitute(WALK);
+		//		SLIDE.setSubstitute(WALK);
+		//		RAIL.setSubstitute(WALK);
+		//		DRIVE.setSubstitute(WALK);
+		//		SWIM.setSubstitute(WALK);
+		//		FLY.setSubstitute(WALK);
+		//		SNEAK.setSubstitute(WALK);
 
 		CRIT.setSubstitute(ATTACK);
 		CAST_TARGET.setSubstitute(ATTACK);

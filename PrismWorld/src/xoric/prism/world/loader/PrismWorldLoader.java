@@ -8,7 +8,7 @@ import xoric.prism.data.meta.MetaBlock;
 import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.meta.MetaList;
 import xoric.prism.data.meta.MetaType;
-import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.animations.AnimationIndex;
 
 public abstract class PrismWorldLoader
 {

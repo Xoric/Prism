@@ -8,7 +8,7 @@ import xoric.prism.creator.drawer.model.DrawerModel;
 import xoric.prism.creator.drawer.view.IDrawerView;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
-import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.animations.AnimationIndex;
 import xoric.prism.world.entities.ViewAngle;
 
 public class DrawerControl implements IDrawerControl, IBusyControl
@@ -160,6 +160,13 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 		System.out.println("requestDeleteAnimation(" + a + ")");
 
 		//		view.displayAnimation(animation, false);
+	}
+
+	@Override
+	public void requestSetAnimationDuration(AnimationIndex a, int ms)
+	{
+		animationControl.setDuration(a, ms);
+		view.displayCurrentAnimationDuration();
 	}
 
 	/* *********** sprite control ****************** */

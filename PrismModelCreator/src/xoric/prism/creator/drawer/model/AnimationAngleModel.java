@@ -3,7 +3,7 @@ package xoric.prism.creator.drawer.model;
 import java.io.File;
 
 import xoric.prism.data.types.IPath_r;
-import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.animations.AnimationIndex;
 import xoric.prism.world.entities.ViewAngle;
 
 public class AnimationAngleModel

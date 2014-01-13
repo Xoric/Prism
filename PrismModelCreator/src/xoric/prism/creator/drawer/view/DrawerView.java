@@ -17,7 +17,7 @@ import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.scene.IScene;
 import xoric.prism.swing.PrismFrame;
-import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.animations.AnimationIndex;
 
 public class DrawerView extends PrismFrame implements IDrawerView, IAnimationEditor
 {
@@ -147,7 +147,7 @@ public class DrawerView extends PrismFrame implements IDrawerView, IAnimationEdi
 	@Override
 	public void updateCurrentAnimation()
 	{
-		animationView.updateCurrentAnimation();
+		animationView.reloadCurrentAnimationFrames();
 	}
 
 	@Override
@@ -179,11 +179,20 @@ public class DrawerView extends PrismFrame implements IDrawerView, IAnimationEdi
 		showAnimationControls(false);
 	}
 
+	/* *********** IAnimationPanel ********************** */
+
+	@Override
+	public void displayCurrentAnimationDuration()
+	{
+		animationView.displayCurrentAnimationDuration();
+	}
+
 	/* ********** internal *********************** */
 
 	private void showAnimationControls(boolean showAnimationView)
 	{
 		modelTable.setVisible(!showAnimationView);
+		portraitPanel.setVisible(!showAnimationView);
 		animationList.setVisible(!showAnimationView);
 		animationViewPanel.setVisible(showAnimationView);
 	}

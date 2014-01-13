@@ -6,7 +6,7 @@ import java.util.List;
 
 import xoric.prism.creator.drawer.model.SpriteNames;
 import xoric.prism.data.types.IPath_r;
-import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.animations.AnimationIndex;
 import xoric.prism.world.entities.ViewAngle;
 
 class AngleSummary

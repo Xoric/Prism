@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import xoric.prism.creator.drawer.control.IDrawerControl;
-import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.animations.AnimationIndex;
 
 public class AnimationCell extends JPanel implements IAnimationCell
 {

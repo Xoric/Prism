@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;AnimationIndex.java&apos; to &apos;PrismWorld/src/xoric.prism.world.animations&apos;&#x0D;&#x0A;- Original project: &apos;PrismWorld&apos;&#x0D;&#x0A;- Destination element: &apos;PrismWorld/src/xoric.prism.world.animations&apos;&#x0D;&#x0A;- Original element: &apos;xoric.prism.world.entities.AnimationIndex.java&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move compilation unit" destination="/src&lt;xoric.prism.world.animations" element1="/src&lt;xoric.prism.world.entities{AnimationIndex.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" patterns="*" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1389626810563" units="1" version="1.0"/>
+</session>

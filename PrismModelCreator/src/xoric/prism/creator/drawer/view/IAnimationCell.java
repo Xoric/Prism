@@ -1,6 +1,6 @@
 package xoric.prism.creator.drawer.view;
 
-import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.animations.AnimationIndex;
 
 public interface IAnimationCell
 {

@@ -19,7 +19,7 @@ import xoric.prism.creator.drawer.model.SpriteNames;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
-import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.animations.AnimationIndex;
 import xoric.prism.world.entities.ViewAngle;
 
 public class SpriteControl extends ControlLayer

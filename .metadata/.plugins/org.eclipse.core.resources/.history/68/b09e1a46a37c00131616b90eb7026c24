@@ -1,0 +1,97 @@
+package xoric.prism.creator.drawer.view;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+import javax.swing.JLabel;
+import javax.swing.Timer;
+
+import xoric.prism.creator.drawer.model.AnimationModel;
+import xoric.prism.creator.drawer.model.SpriteNames;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.types.IPath_r;
+import xoric.prism.world.animations.AnimationIndex;
+import xoric.prism.world.entities.ViewAngle;
+
+public class PreviewFrame implements ActionListener
+{
+	private final JLabel imageLabel;
+	private final Timer timer;
+
+	private final List<BufferedImage> images;
+	private int durationMs;
+
+	public PreviewFrame()
+	{
+		imageLabel = new JLabel();
+		images = new ArrayList<BufferedImage>();
+		timer = new Timer(200, this);
+	}
+
+	public void loadAndPlay(AnimationModel m, ViewAngle v)
+	{
+		durationMs = m.getDurationMs();
+		AnimationIndex a = m.getAnimationIndex();
+		IPath_r path = m.getPath();
+
+		try
+		{
+			loadImages(path, a, v);
+
+		}
+		catch (PrismException e)
+		{
+			e.user.showMessage();
+		}
+	}
+
+	public void loadImages(IPath_r path, AnimationIndex a, ViewAngle v) throws PrismException
+	{
+		images.clear();
+
+		int n = 0;
+		boolean b;
+		do
+		{
+			String filename = SpriteNames.getFilename(a, v, n);
+			File file = path.getFile(filename);
+			b = file.exists();
+			if (b)
+			{
+				BufferedImage bi;
+				try
+				{
+					bi = ImageIO.read(file);
+					images.add(bi);
+				}
+				catch (Exception e0)
+				{
+					PrismException e = new PrismException(e0);
+					e.setText("There was a problem loading an image.");
+					e.addInfo("image file", file.toString());
+					throw e;
+				}
+			}
+		}
+		while (b);
+
+		if (images.size() == 0)
+		{
+			PrismException e = new PrismException();
+			e.setText("No images were found.");
+			throw e;
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		// TODO Auto-generated method stub
+
+	}
+}

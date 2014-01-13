@@ -19,7 +19,7 @@ import xoric.prism.data.types.Path;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
 import xoric.prism.data.types.TextPacker;
-import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.animations.AnimationIndex;
 
 public class DrawerModel implements IPackable
 {

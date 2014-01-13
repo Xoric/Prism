@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -14,6 +16,7 @@ import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -22,18 +25,22 @@ import javax.swing.JScrollPane;
 import xoric.prism.creator.drawer.control.IDrawerControl;
 import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.model.SpriteNames;
+import xoric.prism.creator.drawer.view.PreviewFrame;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.world.entities.ViewAngle;
 
-public class SpriteList extends JPanel implements MouseListener, ISpriteList, ISpriteMenuListener
+public class SpriteList extends JPanel implements MouseListener, ActionListener, ISpriteList, ISpriteMenuListener
 {
 	private static final long serialVersionUID = 1L;
+
+	private final PreviewFrame previewFrame;
 
 	private ImageIcon newIcon;
 
 	private final JLabel hintLabel;
 	private final JLabel hintLabel2;
+	private final JButton previewButton;
 	private final JList<SpriteCell> list;
 
 	private final SpriteMenu menu;
@@ -46,6 +53,8 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	{
 		super(new GridBagLayout());
 
+		previewFrame = new PreviewFrame();
+
 		hintLabel = new JLabel("Double click on a sprite in order to edit it.");
 		hintLabel2 = new JLabel("Right click on the list below for further options.");
 
@@ -54,6 +63,9 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 		list.setVisibleRowCount(1);
 		list.setCellRenderer(new SpriteCellRenderer());
 		list.addMouseListener(this);
+
+		previewButton = new JButton("Preview");
+		previewButton.addActionListener(this);
 
 		JScrollPane scroll = new JScrollPane(list);
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -70,7 +82,10 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 		c = new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(hintLabel2, c);
 
-		c = new GridBagConstraints(0, 2, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(15, 0, 0, 0), 0, 0);
+		c = new GridBagConstraints(1, 0, 1, 2, 1.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, insets, 0, 0);
+		add(previewButton, c);
+
+		c = new GridBagConstraints(0, 2, 2, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(15, 0, 0, 0), 0, 0);
 		add(scroll, c);
 	}
 
@@ -258,4 +273,15 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	}
 
 	/* ***************************** */
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		Object o = e.getSource();
+
+		if (o == previewButton)
+		{
+			previewFrame.loadAndPlay(animationModel, viewAngle);
+		}
+	}
 }

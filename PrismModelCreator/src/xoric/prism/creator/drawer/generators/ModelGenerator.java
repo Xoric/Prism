@@ -19,7 +19,7 @@ import xoric.prism.data.tools.Common;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Text;
 import xoric.prism.develop.meta.MetaFileCreator;
-import xoric.prism.world.entities.AnimationIndex;
+import xoric.prism.world.animations.AnimationIndex;
 
 public class ModelGenerator
 {
