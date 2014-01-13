@@ -23,11 +23,11 @@ public class MainMenuBar extends JMenuBar implements ActionListener
 	private JMenuItem menuItemNewModel;
 	private JMenuItem menuItemOpenModel;
 	private JMenuItem menuItemCloseModel;
-	private JMenu menuExportModel;
+	private JMenu menuGenerate;
 	private JMenuItem menuItemExit;
 
-	private JMenuItem menuItemGenerate;
-	private JMenuItem menuItemExport;
+	private JMenuItem menuItemGenerateAnimations;
+	private JMenuItem menuItemGenerateModel;
 
 	private JMenu menuTools;
 	private JMenuItem menuItemExternalEditor;
@@ -40,14 +40,14 @@ public class MainMenuBar extends JMenuBar implements ActionListener
 		menuItemNewModel = createMenuItem(menuModel, "New");
 		menuItemOpenModel = createMenuItem(menuModel, "Open");
 		menuModel.addSeparator(); // --
-		menuExportModel = createMenu(menuModel, "Export");
+		menuGenerate = createMenu(menuModel, "Generate");
 		menuItemCloseModel = createMenuItem(menuModel, "Close");
 		menuModel.addSeparator(); // --
 		menuItemExit = createMenuItem(menuModel, "Exit");
 		// --
 
-		menuItemGenerate = createMenuItem(menuExportModel, "Generate animations");
-		menuItemExport = createMenuItem(menuExportModel, "Export model (" + modelExtension + ")");
+		menuItemGenerateAnimations = createMenuItem(menuGenerate, "Generate animations");
+		menuItemGenerateModel = createMenuItem(menuGenerate, "Generate model (" + modelExtension + ")");
 
 		// tools menu
 		menuTools = createMenu(this, "Tools");
@@ -91,9 +91,9 @@ public class MainMenuBar extends JMenuBar implements ActionListener
 		else if (o == menuItemCloseModel)
 			control.requestCloseModel();
 
-		else if (o == menuItemGenerate)
+		else if (o == menuItemGenerateAnimations)
 			control.requestGenerateAnimations();
-		else if (o == menuItemExport)
+		else if (o == menuItemGenerateModel)
 			control.requestExportModel();
 
 		else if (o == menuItemExternalEditor)
@@ -105,8 +105,8 @@ public class MainMenuBar extends JMenuBar implements ActionListener
 		boolean b = model != null;
 		menuItemCloseModel.setEnabled(b);
 
-		menuExportModel.setEnabled(b);
-		menuItemGenerate.setEnabled(b);
-		menuItemExport.setEnabled(b);
+		menuGenerate.setEnabled(b);
+		menuItemGenerateAnimations.setEnabled(b);
+		menuItemGenerateModel.setEnabled(b);
 	}
 }

@@ -35,12 +35,14 @@ class InfoContainer implements IInfoContainer
 	public void extractInfoAsText(StringBuilder sb)
 	{
 		for (InfoPair p : infoPairs)
-			sb.append('\n' + p.key + ": " + p.value);
+			if (p != null)
+				sb.append('\n' + p.key + ": " + p.value);
 	}
 
 	public void extractInfoAsHtml(StringBuilder sb)
 	{
 		for (InfoPair p : infoPairs)
-			sb.append("<br>" + p.key + ": <code>" + p.value + "</code>");
+			if (p != null)
+				sb.append("<br>" + p.key + ": <code>" + p.value + "</code>");
 	}
 }

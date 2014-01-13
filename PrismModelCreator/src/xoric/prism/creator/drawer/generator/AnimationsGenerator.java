@@ -34,7 +34,10 @@ public class AnimationsGenerator
 	{
 		try
 		{
+			// generate animations
 			List<File> files = tryGenerate();
+
+			// show success
 			StringBuilder sb = new StringBuilder();
 
 			if (files.size() == 0)
@@ -64,14 +67,14 @@ public class AnimationsGenerator
 	{
 		// create model summary
 		List<File> files = new ArrayList<File>();
-		ModelSummary ms = new ModelSummary();
 		IPath_r path = model.getPath();
-		ms.load(path);
+		AnimationListSummary als = new AnimationListSummary();
+		als.load(path);
 
 		// insert all sprites to the image
-		for (int i = 0; i < ms.getAnimationCount(); ++i)
+		for (int i = 0; i < als.getAnimationCount(); ++i)
 		{
-			AnimationSummary as = ms.getAnimation(i);
+			AnimationSummary as = als.getAnimation(i);
 			File f = generateAnimation(as);
 			files.add(f);
 		}

@@ -44,7 +44,10 @@ public class CodeLevel extends InfoContainer
 		sb.append('\n');
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
-		throwable.printStackTrace(pw);
+		if (originalException != null)
+			originalException.printStackTrace(pw);
+		else
+			throwable.printStackTrace(pw);
 		sb.append(sw.toString());
 
 		// add original exception

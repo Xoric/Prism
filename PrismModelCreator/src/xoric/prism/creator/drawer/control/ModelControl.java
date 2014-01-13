@@ -6,6 +6,8 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 import xoric.prism.creator.drawer.generator.AnimationsGenerator;
+import xoric.prism.creator.drawer.generator.ModelFilter;
+import xoric.prism.creator.drawer.generator.ModelGenerator;
 import xoric.prism.creator.drawer.model.DrawerModel;
 import xoric.prism.creator.drawer.view.NewModelData;
 import xoric.prism.creator.drawer.view.NewModelDialog;
@@ -213,7 +215,8 @@ public class ModelControl extends ControlLayer
 
 	public void exportModel(DrawerModel model)
 	{
-		ModelExporter e = new ModelExporter(model);
-		e.start();
+		String targetFilename = model.getName().toString().toLowerCase() + ModelFilter.dotExtension;
+		ModelGenerator g = new ModelGenerator(model);
+		g.generateModel(targetFilename);
 	}
 }

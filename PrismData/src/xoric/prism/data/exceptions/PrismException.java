@@ -1,62 +1,22 @@
 package xoric.prism.data.exceptions;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
-
 public class PrismException extends Throwable implements IInfoContainer
 {
 	private static final long serialVersionUID = 1L;
-
-	private final Exception originalException;
 
 	public final UserLevel user;
 	public final CodeLevel code;
 
 	public PrismException()
 	{
-		this.originalException = null;
 		this.user = new UserLevel();
 		this.code = new CodeLevel(this);
 	}
 
 	public PrismException(Exception originalException)
 	{
-		this.originalException = originalException;
 		this.user = new UserLevel();
 		this.code = new CodeLevel(this, originalException);
-	}
-
-	@Override
-	public void printStackTrace()
-	{
-		if (originalException != null)
-			originalException.printStackTrace();
-		else
-			super.printStackTrace();
-	}
-
-	@Override
-	public void printStackTrace(PrintWriter w)
-	{
-		if (originalException != null)
-			originalException.printStackTrace(w);
-		else
-			super.printStackTrace(w);
-	}
-
-	@Override
-	public void printStackTrace(PrintStream s)
-	{
-		if (originalException != null)
-			originalException.printStackTrace(s);
-		else
-			super.printStackTrace(s);
-	}
-
-	@Override
-	public String toString()
-	{
-		return code.toString();
 	}
 
 	@Override

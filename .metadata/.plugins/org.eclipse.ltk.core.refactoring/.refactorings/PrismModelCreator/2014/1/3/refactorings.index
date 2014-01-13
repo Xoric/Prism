@@ -1,3 +1,25 @@
 1389510287313	Rename type 'ModelMenu'
 1389510294376	Rename type 'MainMenu'
 1389513087451	Rename method 'generate'
+1389608372366	Rename type 'ModelSummary'
+1389608380288	Copy compilation unit
+1389608390498	Delete element
+1389608396746	Copy compilation unit
+1389608408581	Delete element
+1389608813984	Rename local variable 'ms'
+1389608837538	Rename type 'AnimationsSummary'
+1389609216873	Rename local variable 'filename'
+1389609230493	Rename local variable 'filenamePNG'
+1389609235535	Rename local variable 'f'
+1389609370583	Rename local variable 'l'
+1389610401089	Rename local variable 'filenamePng'
+1389610405125	Rename local variable 'filePng'
+1389613609102	Delete element
+1389613626145	Rename local variable 'e'
+1389614338036	Rename field 'extension'
+1389614420802	Rename field 'menuExportModel'
+1389614430736	Rename field 'menuGenerateModel'
+1389614437087	Rename field 'menuItemGenerate'
+1389614442558	Rename field 'menuItemExport'
+1389614783519	Rename local variable 'animations'
+1389614789574	Rename local variable 'animations'
