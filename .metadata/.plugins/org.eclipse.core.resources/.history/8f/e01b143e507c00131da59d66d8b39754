@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -38,72 +39,47 @@ public class ModelGenerator
 			List<AnimationIndex> addedAnimations = tryGenerate(targetFilename);
 
 			// show success
-			showSuccess(addedAnimations, targetFilename);
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("<html>The model <code>" + targetFilename + "</code> was created successfully.<br>");
+			sb.append("The following animations were added:<br><br>");
+			int n = 0;
+			for (int i = 0; i < addedAnimations.size(); ++i)
+			{
+				if (++n >= 5)
+				{
+					n = 0;
+					sb.append("<br>");
+				}
+				else if (i > 0)
+					sb.append(", ");
+
+				sb.append("<code>" + addedAnimations.get(i).toString() + "</code>");
+			}
+			sb.append("</html>");
+
+			ImageIcon icon = null;
+			File portraitFile = model.getPath().getFile(("portrait.png"));
+			try
+			{
+				if (portraitFile.exists())
+				{
+					icon = new ImageIcon(portraitFile.toString());
+				}
+				Image img = ImageIO.read(ClassLoader.getSystemResource("icons/add.png"));
+				ImageIcon icon = new ImageIcon(img);
+				JOptionPane.showMessageDialog(null, sb.toString(), "Generate model", JOptionPane.INFORMATION_MESSAGE, icon);
+			}
+			catch (Exception e)
+			{
+				JOptionPane.showMessageDialog(null, sb.toString(), "Generate model", JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 		catch (PrismException e)
 		{
 			e.code.print();
 			e.user.showMessage();
 		}
-	}
-
-	private void showSuccess(List<AnimationIndex> addedAnimations, String targetFilename)
-	{
-		// generate message
-		StringBuilder sb = new StringBuilder();
-
-		sb.append("<html>The model <code>" + targetFilename + "</code> was created successfully.<br>");
-		sb.append("The following animations were added:<br><br>");
-		int n = 0;
-		for (int i = 0; i < addedAnimations.size(); ++i)
-		{
-			if (++n >= 5)
-			{
-				n = 0;
-				sb.append("<br>");
-			}
-			else if (i > 0)
-				sb.append(", ");
-
-			sb.append("<code>" + addedAnimations.get(i).toString() + "</code>");
-		}
-		sb.append("</html>");
-
-		// load the model's portrait as icon if any
-		ImageIcon icon = null;
-		File portraitFile = model.getPath().getFile("portrait.png");
-		try
-		{
-			if (portraitFile.exists())
-			{
-				// load portrait as icon
-				icon = new ImageIcon(portraitFile.toString());
-
-				// scale icon if too big
-				int w = icon.getIconWidth();
-				int h = icon.getIconHeight();
-
-				if (w > 100 || h > 80)
-				{
-					float f1 = 100.0f / w;
-					float f2 = 80.0f / h;
-					float f = f1 < f2 ? f1 : f2;
-					w *= f;
-					h *= f;
-
-					Image image = icon.getImage();
-					Image newimg = image.getScaledInstance(w, h, java.awt.Image.SCALE_SMOOTH);
-					icon = new ImageIcon(newimg);
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			icon = null;
-		}
-
-		// show success message with or without custom icon
-		JOptionPane.showMessageDialog(null, sb.toString(), "Generate model", JOptionPane.INFORMATION_MESSAGE, icon);
 	}
 
 	private List<AnimationIndex> tryGenerate(String targetFilename) throws PrismException

@@ -99,7 +99,6 @@ public class ModelGenerator
 		}
 		catch (Exception e)
 		{
-			icon = null;
 		}
 
 		// show success message with or without custom icon

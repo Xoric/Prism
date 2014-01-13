@@ -76,10 +76,7 @@ public class ModelGenerator
 		{
 			if (portraitFile.exists())
 			{
-				// load portrait as icon
 				icon = new ImageIcon(portraitFile.toString());
-
-				// scale icon if too big
 				int w = icon.getIconWidth();
 				int h = icon.getIconHeight();
 
@@ -88,22 +85,23 @@ public class ModelGenerator
 					float f1 = 100.0f / w;
 					float f2 = 80.0f / h;
 					float f = f1 < f2 ? f1 : f2;
-					w *= f;
-					h *= f;
+					Image image = imageIcon.getImage();
+					Image newimg = image.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way 
 
-					Image image = icon.getImage();
-					Image newimg = image.getScaledInstance(w, h, java.awt.Image.SCALE_SMOOTH);
-					icon = new ImageIcon(newimg);
 				}
+
+				imageIcon = new ImageIcon(newimg);
 			}
 		}
 		catch (Exception e)
 		{
-			icon = null;
 		}
 
 		// show success message with or without custom icon
-		JOptionPane.showMessageDialog(null, sb.toString(), "Generate model", JOptionPane.INFORMATION_MESSAGE, icon);
+		if (icon != null)
+			JOptionPane.showMessageDialog(null, sb.toString(), "Generate model", JOptionPane.INFORMATION_MESSAGE, icon);
+		else
+			JOptionPane.showMessageDialog(null, sb.toString(), "Generate model", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private List<AnimationIndex> tryGenerate(String targetFilename) throws PrismException

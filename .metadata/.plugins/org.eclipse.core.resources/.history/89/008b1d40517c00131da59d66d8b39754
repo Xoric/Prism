@@ -70,7 +70,7 @@ public class ModelGenerator
 		sb.append("</html>");
 
 		// load the model's portrait as icon if any
-		ImageIcon icon = null;
+		ImageIcon icon;
 		File portraitFile = model.getPath().getFile("portrait.png");
 		try
 		{

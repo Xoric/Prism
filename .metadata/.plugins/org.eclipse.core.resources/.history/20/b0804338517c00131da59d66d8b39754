@@ -99,11 +99,10 @@ public class ModelGenerator
 		}
 		catch (Exception e)
 		{
-			icon = null;
 		}
 
 		// show success message with or without custom icon
-		JOptionPane.showMessageDialog(null, sb.toString(), "Generate model", JOptionPane.INFORMATION_MESSAGE, icon);
+			JOptionPane.showMessageDialog(null, sb.toString(), "Generate model", JOptionPane.INFORMATION_MESSAGE, icon);
 	}
 
 	private List<AnimationIndex> tryGenerate(String targetFilename) throws PrismException
