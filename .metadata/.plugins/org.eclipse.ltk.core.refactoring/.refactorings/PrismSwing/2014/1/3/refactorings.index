@@ -3,3 +3,5 @@
 1389617578353	Delete element
 1389620690956	Rename local variable 'text'
 1389620729256	Rename local variable 'text'
+1389621002367	Rename type 'TooltipCreator'
+1389621079443	Rename method 'createTooltip'

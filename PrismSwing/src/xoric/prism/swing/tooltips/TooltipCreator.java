@@ -1,10 +1,10 @@
 package xoric.prism.swing.tooltips;
 
-public abstract class TooltipCreator
+public abstract class ToolTipCreator
 {
 	private static final int maxCharsPerLine = 30;
 
-	public static String createTooltip(String tooltip)
+	public static String split(String tooltip)
 	{
 		StringBuffer sb = new StringBuffer("<html>");
 		String[] words = tooltip.split(" ");

@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import xoric.prism.creator.drawer.model.AnimationModel;
+import xoric.prism.swing.tooltips.ToolTipCreator;
 import xoric.prism.world.entities.AnimationIndex;
 
 public class AnimationCellWithControls extends AnimationCell implements ActionListener, IAnimationCellControls
@@ -116,7 +117,7 @@ public class AnimationCellWithControls extends AnimationCell implements ActionLi
 				b.setPreferredSize(d);
 				b.setMinimumSize(d);
 				b.setMaximumSize(d);
-				b.setToolTipText(tooltip);
+				b.setToolTipText(ToolTipCreator.split(tooltip));
 				hasIcon = true;
 			}
 		}

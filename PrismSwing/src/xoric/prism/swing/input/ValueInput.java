@@ -20,7 +20,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import xoric.prism.swing.tooltips.TooltipCreator;
+import xoric.prism.swing.tooltips.ToolTipCreator;
 
 public abstract class ValueInput extends JPanel implements ActionListener
 {
@@ -107,9 +107,8 @@ public abstract class ValueInput extends JPanel implements ActionListener
 	@Override
 	public void setToolTipText(String tooltip)
 	{
-		String s = TooltipCreator.createTooltip(tooltip);
-		super.setToolTipText(s);
-		valuePane.setToolTipText(s);
+		super.setToolTipText(tooltip);
+		valuePane.setToolTipText(tooltip);
 	}
 
 	protected abstract void requestEdit();

@@ -7,6 +7,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 
+import xoric.prism.swing.tooltips.ToolTipCreator;
+
 public class SpriteMenu extends JPopupMenu implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
@@ -39,15 +41,16 @@ public class SpriteMenu extends JPopupMenu implements ActionListener
 		add(new JSeparator());
 		add(reloadItem = createItem("Reload all"));
 
-		cloneItem.setToolTipText("Clone the selected sprite and insert it as successor.");
-		insertItem.setToolTipText("Insert a new sprite at the selected position.");
-		insertFromClipboardItem.setToolTipText("Insert a new sprite at the selected position from clipboard.");
-		editItem.setToolTipText("Edit the selected sprite. A program can be specified in the menu above.");
-		deleteItem.setToolTipText("Delete the selected sprites.");
-		copyImageItem.setToolTipText("Copy the image to clipboard.");
-		copyNameItem.setToolTipText("Copy the sprite's filename to clipboard.");
-		makeTransparentItem.setToolTipText("Cut off the background.");
-		reloadItem.setToolTipText("Reload all sprites to make external changes visible.");
+		cloneItem.setToolTipText(ToolTipCreator.split("Clone the selected sprite and insert it as successor."));
+		insertItem.setToolTipText(ToolTipCreator.split("Insert a new sprite at the selected position."));
+		insertFromClipboardItem
+				.setToolTipText(ToolTipCreator.split("Insert a new sprite at the selected position from clipboard."));
+		editItem.setToolTipText(ToolTipCreator.split("Edit the selected sprite. A program can be specified in the menu above."));
+		deleteItem.setToolTipText(ToolTipCreator.split("Delete the selected sprites."));
+		copyImageItem.setToolTipText(ToolTipCreator.split("Copy the image to clipboard."));
+		copyNameItem.setToolTipText(ToolTipCreator.split("Copy the sprite's filename to clipboard."));
+		makeTransparentItem.setToolTipText(ToolTipCreator.split("Cut off the background."));
+		reloadItem.setToolTipText(ToolTipCreator.split("Reload all sprites to make external changes visible."));
 	}
 
 	private JMenuItem createItem(String s)

@@ -24,6 +24,7 @@ import xoric.prism.swing.input.PathInput;
 import xoric.prism.swing.input.fields.IInputListener;
 import xoric.prism.swing.input.fields.PrismIntField;
 import xoric.prism.swing.input.fields.PrismTextField;
+import xoric.prism.swing.tooltips.ToolTipCreator;
 
 public class NewModelDialog implements ActionListener, IInputListener
 {
@@ -66,7 +67,7 @@ public class NewModelDialog implements ActionListener, IInputListener
 		JLabel pathLabel = new JLabel("Working directory");
 		JLabel pathLabel2 = new JLabel(" ? ");
 		pathLabel2.setBorder(BorderFactory.createEtchedBorder());
-		pathLabel2.setToolTipText("This directory will be used to store the model's settings and images.");
+		pathLabel2.setToolTipText(ToolTipCreator.split("This directory will be used to store the model's settings and images."));
 		pathPanel0 = new JPanel(new BorderLayout());
 		pathPanel0.add(BorderLayout.CENTER, pathLabel);
 		pathPanel0.add(BorderLayout.EAST, pathLabel2);
@@ -106,7 +107,7 @@ public class NewModelDialog implements ActionListener, IInputListener
 		sizePanel.add(l, c);
 		JLabel sizeLabel2 = new JLabel(" ? ");
 		sizeLabel2.setBorder(BorderFactory.createEtchedBorder());
-		sizeLabel2.setToolTipText("Size of one sprite within the images.");
+		sizeLabel2.setToolTipText(ToolTipCreator.split("Size of one sprite within the images."));
 		c = new GridBagConstraints(4, 0, 1, 1, 0.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0);
 		l.setHorizontalAlignment(SwingConstants.CENTER);
 		sizePanel.add(sizeLabel2, c);
