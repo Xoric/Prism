@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="xoric.prism.data.modules.ModuleID"/>
-<fullyQualifiedTypeName name="xoric.prism.data.PrismDataLoader"/>
-<fullyQualifiedTypeName name="xoric.prism.world.loader.PrismWorldLoader"/>
 <fullyQualifiedTypeName name="xoric.prism.scene.lwjgl.PrismSceneLWJGL"/>
 <fullyQualifiedTypeName name="xoric.prism.data.global.Prism"/>
 <fullyQualifiedTypeName name="xoric.prism.swing.input.PrismIntField"/>
@@ -16,9 +13,7 @@
 <fullyQualifiedTypeName name="xoric.prism.data.modules.ErrorID"/>
 <fullyQualifiedTypeName name="xoric.prism.data.exceptions2.UserErrorText"/>
 <fullyQualifiedTypeName name="xoric.prism.data.exceptions2.PrismException2"/>
-<fullyQualifiedTypeName name="xoric.prism.data.types.Point"/>
 <fullyQualifiedTypeName name="javax.swing.JDialog"/>
-<fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
 <fullyQualifiedTypeName name="javax.swing.JFrame"/>
 <fullyQualifiedTypeName name="javax.swing.Icon"/>
 <fullyQualifiedTypeName name="xoric.prism.swing.input.OpenPathDialog"/>
@@ -31,7 +26,6 @@
 <fullyQualifiedTypeName name="javax.swing.DefaultListModel"/>
 <fullyQualifiedTypeName name="javax.swing.JPanel"/>
 <fullyQualifiedTypeName name="java.awt.BorderLayout"/>
-<fullyQualifiedTypeName name="java.awt.GridBagLayout"/>
 <fullyQualifiedTypeName name="java.awt.GridBagConstraints"/>
 <fullyQualifiedTypeName name="javax.swing.JPopupMenu"/>
 <fullyQualifiedTypeName name="javax.swing.JSeparator"/>
@@ -41,17 +35,12 @@
 <fullyQualifiedTypeName name="javax.swing.JFileChooser"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.model.DrawerModel"/>
 <fullyQualifiedTypeName name="xoric.prism.world.entities.ViewAngle"/>
-<fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.model.SpriteNames"/>
-<fullyQualifiedTypeName name="xoric.prism.data.types.IPath_r"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.IPoint_r"/>
 <fullyQualifiedTypeName name="javax.swing.filechooser.FileFilter"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
-<fullyQualifiedTypeName name="xoric.prism.data.tools.Common"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.Text"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.TextPacker"/>
-<fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="xoric.prism.world.entities.AnimationIndex"/>
 <fullyQualifiedTypeName name="xoric.prism.data.meta.MetaKey"/>
 <fullyQualifiedTypeName name="xoric.prism.data.meta.MetaType"/>
@@ -60,4 +49,15 @@
 <fullyQualifiedTypeName name="xoric.prism.develop.meta.MetaFileCreator"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.generator.ModelGenerator"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.generator.ModelFilter"/>
+<fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
+<fullyQualifiedTypeName name="xoric.prism.creator.drawer.image.IconLoader"/>
+<fullyQualifiedTypeName name="java.awt.GridBagLayout"/>
+<fullyQualifiedTypeName name="xoric.prism.data.types.IPath_r"/>
+<fullyQualifiedTypeName name="xoric.prism.swing.tooltips.TooltipCreator"/>
+<fullyQualifiedTypeName name="xoric.prism.swing.tooltips.ToolTipCreator"/>
+<fullyQualifiedTypeName name="xoric.prism.data.types.Point"/>
+<fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="xoric.prism.data.tools.Common"/>
+<fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>

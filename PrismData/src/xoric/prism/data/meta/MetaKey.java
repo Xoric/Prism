@@ -5,7 +5,9 @@ public enum MetaKey
 	// do not resort
 	ATTACH,
 	TARGET,
-	ITEM;
+	ITEM,
+	SUB,
+	ALT;
 
 	public byte toByte()
 	{

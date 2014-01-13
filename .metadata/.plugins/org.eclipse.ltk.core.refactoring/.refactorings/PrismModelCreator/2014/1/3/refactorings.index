@@ -30,3 +30,6 @@
 1389621764297	Rename type 'IDrawerView2'
 1389622927585	Rename field 'file'
 1389622935045	Rename local variable 'file'
+1389624665676	Rename local variable 'angleLine'
+1389624712325	Rename local variable 'angleLine'
+1389625610948	Rename local variable 'animations'

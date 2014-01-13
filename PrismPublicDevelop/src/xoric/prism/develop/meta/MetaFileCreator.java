@@ -35,6 +35,8 @@ public class MetaFileCreator
 	private final IPath_r sourcePath;
 	private final IPath_r targetPath;
 
+	private File targetFile;
+
 	private MetaList infusedMetaList;
 
 	public MetaFileCreator(IPath_r sourcePath, IPath_r targetPath)
@@ -207,7 +209,7 @@ public class MetaFileCreator
 		int newVersion = currentVersion + 1;
 
 		// create directories
-		File targetFile = targetPath.getFile(targetFilename);
+		targetFile = targetPath.getFile(targetFilename);
 		File makePath = targetFile.getParentFile();
 		if (!makePath.isDirectory())
 		{
@@ -483,5 +485,10 @@ public class MetaFileCreator
 			e.code.print();
 			e.user.showMessage();
 		}
+	}
+
+	public File getResultingTargetFile()
+	{
+		return targetFile;
 	}
 }

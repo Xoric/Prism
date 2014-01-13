@@ -1,0 +1,20 @@
+package xoric.prism.creator.drawer.generators;
+
+class ModelResult
+{
+	private File targetFile;
+	private boolean hasPortait;
+	private List<AnimationIndex> animations;
+	
+	public ModelResult(File targetFile,boolean hasPortait)
+	{
+		this.targetFile = targetFile;
+		this.hasPortait = hasPortait;
+		this.animations = new ArrayList<AnimationIndex>();
+	}
+	
+	public void addAnimation(AnimationIndex a)
+	{
+		animations.add(a);
+	}
+}
