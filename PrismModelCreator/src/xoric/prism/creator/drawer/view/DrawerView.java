@@ -19,7 +19,7 @@ import xoric.prism.scene.IScene;
 import xoric.prism.swing.PrismFrame;
 import xoric.prism.world.entities.AnimationIndex;
 
-public class DrawerView extends PrismFrame implements IDrawerView2, IAnimationEditor
+public class DrawerView extends PrismFrame implements IDrawerView, IAnimationEditor
 {
 	private static final long serialVersionUID = 1L;
 	private static final String title = "Prism Drawer";
@@ -97,6 +97,7 @@ public class DrawerView extends PrismFrame implements IDrawerView2, IAnimationEd
 	{
 		displayName(model == null ? null : model.getName());
 		displaySpriteSize(model == null ? null : model.getSpriteSize());
+		displayPortrait(model == null ? null : model.getPath());
 		displayPath(model == null ? null : model.getPath());
 		displayAnimationsInList(model == null ? null : model.getAnimations());
 	}
@@ -112,6 +113,12 @@ public class DrawerView extends PrismFrame implements IDrawerView2, IAnimationEd
 	{
 		modelTable.displaySpriteSize(tileSize);
 		animationView.setTileSize(tileSize);
+	}
+
+	@Override
+	public void displayPortrait(IPath_r path)
+	{
+		portraitPanel.displayPortrait(path);
 	}
 
 	@Override
@@ -187,6 +194,7 @@ public class DrawerView extends PrismFrame implements IDrawerView2, IAnimationEd
 
 		// pass control to sub classes
 		this.modelTable.setControl(control);
+		this.portraitPanel.setControl(control);
 		this.animationList.setControl(control);
 		this.animationView.setControl(control);
 		this.mainMenuBar.setControl(control);

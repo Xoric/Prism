@@ -26,3 +26,7 @@
 1389618762652	Delete element
 1389618773260	Rename package 'xoric.prism.creator.drawer.generator'
 1389620544497	Rename local variable 'file'
+1389621352846	Rename method 'updatePortrait'
+1389621764297	Rename type 'IDrawerView2'
+1389622927585	Rename field 'file'
+1389622935045	Rename local variable 'file'

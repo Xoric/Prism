@@ -18,4 +18,12 @@ public interface IModelControl
 	public void requestGenerateAnimations();
 
 	public void requestExportModel();
+
+	public void requestCreateNewPortrait();
+
+	public void requestImportPortrait();
+
+	public void requestEditPortrait();
+
+	public void requestDeletePortrait();
 }

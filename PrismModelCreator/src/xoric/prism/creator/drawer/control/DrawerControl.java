@@ -5,7 +5,7 @@ import java.util.List;
 
 import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.model.DrawerModel;
-import xoric.prism.creator.drawer.view.IDrawerView2;
+import xoric.prism.creator.drawer.view.IDrawerView;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.world.entities.AnimationIndex;
@@ -13,14 +13,16 @@ import xoric.prism.world.entities.ViewAngle;
 
 public class DrawerControl implements IDrawerControl, IBusyControl
 {
-	private IDrawerView2 view;
+	private IDrawerView view;
 	private DrawerModel model;
+
+	private final ExternalImageEditor externalEditor;
 
 	private ModelControl modelControl;
 	private AnimationControl animationControl;
 	private SpriteControl spriteControl;
 
-	public DrawerControl(IDrawerView2 view)
+	public DrawerControl(IDrawerView view)
 	{
 		this.view = view;
 		//		this.model = new DrawerModel();
@@ -28,6 +30,8 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 		modelControl = new ModelControl(model, this);
 		animationControl = new AnimationControl(model, this);
 		spriteControl = new SpriteControl(model, this);
+
+		externalEditor = new ExternalImageEditor();
 
 		acceptModel(null, true);
 	}
@@ -112,6 +116,34 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 		modelControl.exportModel(model);
 	}
 
+	@Override
+	public void requestCreateNewPortrait()
+	{
+		modelControl.createNewPortrait(model);
+		view.displayPortrait(model.getPath());
+	}
+
+	@Override
+	public void requestImportPortrait()
+	{
+		modelControl.importPortrait(model);
+		view.displayPortrait(model.getPath());
+	}
+
+	@Override
+	public void requestEditPortrait()
+	{
+		modelControl.editPortrait(model, externalEditor);
+		view.displayPortrait(model.getPath());
+	}
+
+	@Override
+	public void requestDeletePortrait()
+	{
+		modelControl.deletePortrait(model);
+		view.displayPortrait(model.getPath());
+	}
+
 	/* *********** animation control ****************** */
 
 	@Override
@@ -194,7 +226,7 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 	@Override
 	public void requestEditSprite(File file)
 	{
-		spriteControl.editSprite(file);
+		spriteControl.editSprite(file, externalEditor);
 	}
 
 	@Override
@@ -209,6 +241,6 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 	@Override
 	public void requestInputExternalImageEditor()
 	{
-		spriteControl.inputExternalImageEditor();
+		externalEditor.showInput();
 	}
 }

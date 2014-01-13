@@ -6,3 +6,7 @@
 1389621002367	Rename type 'TooltipCreator'
 1389621079443	Rename method 'createTooltip'
 1389621138176	Rename type 'ToolTipCreator'
+1389622328500	Rename local variable 'w'
+1389622331050	Rename local variable 'h'
+1389622336320	Rename local variable 'widthField'
+1389622339120	Rename local variable 'heightField'

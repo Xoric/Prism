@@ -1,5 +1,6 @@
 package xoric.prism.swing.input;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -57,28 +58,37 @@ public class PointInput extends ValueInput
 		return i;
 	}
 
+	public static Point showInputMessage(String title, String prompt, String xName, String yName, int defaultX, int defaultY)
+	{
+		JTextField XField = new JTextField(String.valueOf(defaultX));
+		JTextField yField = new JTextField(String.valueOf(defaultY));
+
+		Object[] message = { prompt, null, new JLabel(xName), XField, new JLabel(yName), yField };
+
+		JOptionPane pane = new JOptionPane(message, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+		pane.createDialog(null, title).setVisible(true);
+
+		int x = castInt(XField.getText());
+		int y = castInt(yField.getText());
+
+		if (x < 0)
+			x = 0;
+		if (y < 0)
+			y = 0;
+
+		return new Point(x, y);
+	}
+
 	@Override
 	protected void requestEdit()
 	{
-		JTextField widthField = new JTextField(String.valueOf(value.x));
-		JTextField heightField = new JTextField(String.valueOf(value.y));
+		Point p = showInputMessage(name, prompt, xLabel, yLabel, value.x, value.y);
 
-		Object[] message = { prompt, null, xLabel, widthField, yLabel, heightField };
-
-		JOptionPane pane = new JOptionPane(message, JOptionPane.PLAIN_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
-		pane.createDialog(null, name).setVisible(true);
-
-		int w = castInt(widthField.getText());
-		int h = castInt(heightField.getText());
-
-		if (w < 0)
-			w = 0;
-		if (h < 0)
-			h = 0;
-
-		value.x = w;
-		value.y = h;
-		valueChanged(true);
+		if (p != null)
+		{
+			value.copyFrom(p);
+			valueChanged(true);
+		}
 	}
 
 	@Override

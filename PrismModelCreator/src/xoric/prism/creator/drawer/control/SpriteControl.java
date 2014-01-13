@@ -24,13 +24,9 @@ import xoric.prism.world.entities.ViewAngle;
 
 public class SpriteControl extends ControlLayer
 {
-	private final ExternalImageEditor externalEditor;
-
 	public SpriteControl(DrawerModel model, IBusyControl busyControl)
 	{
 		super(model, busyControl);
-
-		externalEditor = new ExternalImageEditor();
 	}
 
 	private int findHighestIndex(IPath_r path, AnimationIndex a, ViewAngle v)
@@ -329,32 +325,9 @@ public class SpriteControl extends ControlLayer
 		while (b);
 	}
 
-	public void editSprite(File file)
+	public void editSprite(File file, ExternalImageEditor externalEditor)
 	{
-		File programFile = externalEditor.getFile();
-
-		if (programFile != null)
-		{
-			try
-			{
-				String[] s = { programFile.toString(), file.toString() };
-				Runtime.getRuntime().exec(s);
-			}
-			catch (IOException e0)
-			{
-				PrismException e = new PrismException(e0);
-				e.setText("An error occured while trying to open an image in an external editing program specified by the user.");
-				e.addInfo("image file", file.toString());
-				e.addInfo("editing program", programFile.toString());
-				e.code.print();
-				e.user.showMessage();
-			}
-		}
-	}
-
-	public void inputExternalImageEditor()
-	{
-		externalEditor.showInput();
+		externalEditor.execute(file);
 	}
 
 	public void copySpriteToClipboard(IPath_r path, AnimationIndex a, ViewAngle v, int index)
