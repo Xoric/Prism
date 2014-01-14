@@ -100,6 +100,8 @@ public class DrawerView extends PrismFrame implements IDrawerView, IAnimationEdi
 		displayPortrait(model == null ? null : model.getPath());
 		displayPath(model == null ? null : model.getPath());
 		displayAnimationsInList(model == null ? null : model.getAnimations());
+
+		showAnimationControls(false);
 	}
 
 	@Override
@@ -141,11 +143,10 @@ public class DrawerView extends PrismFrame implements IDrawerView, IAnimationEdi
 	public void displayAnimationInList(AnimationModel m)
 	{
 		animationList.displayAnimationInList(m);
-		//		animationView.displayAnimation(m);
 	}
 
 	@Override
-	public void updateCurrentAnimation()
+	public void reloadCurrentAnimationFrames()
 	{
 		animationView.reloadCurrentAnimationFrames();
 	}

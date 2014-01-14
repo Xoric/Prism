@@ -177,12 +177,14 @@ public class MetaFileCreator
 
 		// gather attachments
 		List<MetaLine> attachmentLines = devBlock.findLines(MetaKey.ATTACH);
+		AttachmentImporter[] imports = null;
 		final int attachmentCount = attachmentLines.size();
 		AttachmentTable table = null;
 
 		if (attachmentCount > 0)
 		{
-			table = new AttachmentTable(attachmentLines.size());
+			table = new AttachmentTable(attachmentCount);
+			imports = new AttachmentImporter[attachmentCount];
 
 			for (int i = 0; i < attachmentCount; ++i)
 			{
@@ -199,6 +201,7 @@ public class MetaFileCreator
 				// insert attachment to table
 				AttachmentImporter a = new AttachmentImporter(sourcePath, filename);
 				a.importAttachment();
+				imports[i] = a;
 				AttachmentHeader h = a.createHeader();
 				table.set(i, h);
 			}
@@ -252,7 +255,6 @@ public class MetaFileCreator
 			int currentAttachmentStart = startOfAttachmentTable;
 			if (table != null)
 				currentAttachmentStart += table.getPackedSize();
-
 			for (int i = 0; i < attachmentCount; ++i)
 			{
 				AttachmentHeader h = table.get(i);
@@ -260,9 +262,16 @@ public class MetaFileCreator
 				currentAttachmentStart += h.getContentSize();
 			}
 
-			// 5) write attachment contents to MetaFile
+			// 5) write attachment headers
 			if (table != null)
 				table.pack(stream);
+
+			// 6) write attachment contents
+			for (int i = 0; i < attachmentCount; ++i)
+			{
+				AttachmentImporter ai = imports[i];
+				stream.write(ai.getContent());
+			}
 
 			// close MetaFile
 			stream.close();

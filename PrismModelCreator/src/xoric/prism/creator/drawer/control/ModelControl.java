@@ -41,7 +41,7 @@ public class ModelControl extends ControlLayer
 
 			if (result == 0) // 0: Yes, save changes
 			{
-				saveModel();
+				saveModel(false);
 			}
 			else
 			{
@@ -51,11 +51,11 @@ public class ModelControl extends ControlLayer
 		return isOK;
 	}
 
-	private boolean saveModel()
+	public boolean saveModel(boolean force)
 	{
 		boolean isOK = !model.hasChanges();
 
-		if (!isOK)
+		if (!isOK || force)
 		{
 			busyControl.setBusy(true);
 			try
@@ -160,7 +160,7 @@ public class ModelControl extends ControlLayer
 		if (b)
 		{
 			model.setName(name);
-			saveModel();
+			saveModel(false);
 		}
 	}
 
@@ -209,7 +209,7 @@ public class ModelControl extends ControlLayer
 	public void setSpriteSize(IPoint_r spriteSize)
 	{
 		model.setSpriteSize(spriteSize);
-		saveModel();
+		saveModel(false);
 	}
 
 	public void generateAnimations(DrawerModel model)

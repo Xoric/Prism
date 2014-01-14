@@ -100,7 +100,7 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 
 			// update displays
 			view.displaySpriteSize(spriteSize);
-			view.updateCurrentAnimation();
+			view.reloadCurrentAnimationFrames();
 		}
 	}
 
@@ -165,8 +165,10 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 	@Override
 	public void requestSetAnimationDuration(AnimationIndex a, int ms)
 	{
+		// TODO: move to ModelControl?
 		animationControl.setDuration(a, ms);
 		view.displayCurrentAnimationDuration();
+		modelControl.saveModel(true);
 	}
 
 	/* *********** sprite control ****************** */
@@ -179,9 +181,9 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 
 		// reload animation list and sprites
 		AnimationModel m = model.getAnimation(a);
-		m.load();
+		m.loadSpriteCount();
 		view.displayAnimationInList(m);
-		view.updateCurrentAnimation();
+		view.reloadCurrentAnimationFrames();
 	}
 
 	@Override
@@ -192,9 +194,9 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 
 		// reload animation list and sprites
 		AnimationModel m = model.getAnimation(a);
-		m.load();
+		m.loadSpriteCount();
 		view.displayAnimationInList(m);
-		view.updateCurrentAnimation();
+		view.reloadCurrentAnimationFrames();
 	}
 
 	@Override
@@ -205,9 +207,9 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 
 		// reload animation list and sprites
 		AnimationModel m = model.getAnimation(a);
-		m.load();
+		m.loadSpriteCount();
 		view.displayAnimationInList(m);
-		view.updateCurrentAnimation();
+		view.reloadCurrentAnimationFrames();
 	}
 
 	@Override
@@ -225,9 +227,9 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 
 		// reload animation list and sprites
 		AnimationModel m = model.getAnimation(a);
-		m.load();
+		m.loadSpriteCount();
 		view.displayAnimationInList(m);
-		view.updateCurrentAnimation();
+		view.reloadCurrentAnimationFrames();
 	}
 
 	@Override
@@ -242,7 +244,7 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 		spriteControl.makeSpritesTransparent(a, v, indices);
 
 		// reload animation sprites
-		view.updateCurrentAnimation();
+		view.reloadCurrentAnimationFrames();
 	}
 
 	@Override

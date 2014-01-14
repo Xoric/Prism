@@ -12,7 +12,7 @@ public interface IDrawerView extends IModelTable, IPortraitView, IAnimationList,
 
 	public void displayPath(IPath_r path);
 
-	public void updateCurrentAnimation();
+	public void reloadCurrentAnimationFrames();
 
 	public void setHourglass(boolean b);
 }

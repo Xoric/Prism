@@ -105,17 +105,19 @@ public class DrawerModel implements IPackable
 	{
 		this.path = path;
 
+		// afterwards load model meta (updates animations as well)
 		File file = path.getFile("m.meta");
-		FileInputStream in = new FileInputStream(file);
-		unpack(in);
-		in.close();
-
+		FileInputStream stream = new FileInputStream(file);
+		unpack(stream);
 		for (AnimationIndex a : AnimationIndex.values())
 		{
 			AnimationModel m = new AnimationModel(path, a);
-			m.load();
+			m.loadSpriteCount();
+			m.unpack(stream);
 			animations[a.ordinal()] = m;
 		}
+		stream.close();
+
 		this.hasChanges = false;
 	}
 
@@ -124,9 +126,11 @@ public class DrawerModel implements IPackable
 		File file = path.getFile(mainFilename);
 		try
 		{
-			FileOutputStream out = new FileOutputStream(file);
-			pack(out);
-			out.close();
+			FileOutputStream stream = new FileOutputStream(file);
+			pack(stream);
+			for (AnimationIndex a : AnimationIndex.values())
+				animations[a.ordinal()].pack(stream);
+			stream.close();
 
 			this.hasChanges = false;
 		}
@@ -163,8 +167,10 @@ public class DrawerModel implements IPackable
 	@Override
 	public int getPackedSize()
 	{
-		int size = TextPacker.getPackedSize_s(name);
+		int size = IntPacker.getPackedSize_s(CURRENT_VERSION);
+		size += TextPacker.getPackedSize_s(name);
 		size += spriteSize.getPackedSize();
+
 		return size;
 	}
 

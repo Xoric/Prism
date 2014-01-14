@@ -93,7 +93,7 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 		c = new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
 		add(angleSel, c);
 
-		c = new GridBagConstraints(1, 2, 2, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
+		c = new GridBagConstraints(1, 2, 2, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(f, c);
 	}
 
@@ -128,7 +128,7 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 	@Override
 	public void setTileSize(IPoint_r tileSize)
 	{
-		spriteList.setTileSize(tileSize);
+		spriteList.setSpriteSize(tileSize);
 	}
 
 	@Override

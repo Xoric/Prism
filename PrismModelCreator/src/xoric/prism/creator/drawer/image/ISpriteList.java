@@ -11,5 +11,5 @@ public interface ISpriteList
 
 	public void setControl(IDrawerControl control);
 
-	public void setTileSize(IPoint_r tileSize);
+	public void setSpriteSize(IPoint_r tileSize);
 }

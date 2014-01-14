@@ -48,6 +48,7 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 
 	private AnimationModel animationModel;
 	private ViewAngle viewAngle;
+	private IPoint_r spriteSize;
 
 	public SpriteList()
 	{
@@ -123,11 +124,13 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 	}
 
 	@Override
-	public void setTileSize(IPoint_r tileSize)
+	public void setSpriteSize(IPoint_r spriteSize)
 	{
-		if (tileSize != null)
+		this.spriteSize = spriteSize;
+
+		if (spriteSize != null)
 		{
-			BufferedImage img = new BufferedImage(tileSize.getX(), tileSize.getY(), BufferedImage.TYPE_INT_ARGB);
+			BufferedImage img = new BufferedImage(spriteSize.getX(), spriteSize.getY(), BufferedImage.TYPE_INT_ARGB);
 			newIcon = new ImageIcon(img);
 		}
 		else
@@ -281,7 +284,7 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 
 		if (o == previewButton)
 		{
-			previewFrame.loadAndPlay(animationModel, viewAngle);
+			previewFrame.loadAndPlay(animationModel, viewAngle, spriteSize);
 		}
 	}
 }
