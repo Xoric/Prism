@@ -1,13 +1,15 @@
 package xoric.prism.creator.drawer.view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -38,8 +40,13 @@ public class AnimationList extends PrismPanel implements IAnimationList
 		// create a line for each animation
 		for (int i = 0; i < animations.length; ++i)
 		{
-			AnimationCellWithControls c = new AnimationCellWithControls(animations[i], e);
-			insertSorted(c);
+			AnimationIndex a = animations[i];
+			int p = a.getPriority();
+			if (p > 0)
+			{
+				AnimationCellWithControls c = new AnimationCellWithControls(animations[i], e);
+				insertSorted(c);
+			}
 		}
 
 		JScrollPane scroll = new JScrollPane(pane, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -72,6 +79,7 @@ public class AnimationList extends PrismPanel implements IAnimationList
 	public void sortList()
 	{
 		int y = 0;
+		boolean isFirst = true;
 
 		pane.removeAll();
 
@@ -81,6 +89,12 @@ public class AnimationList extends PrismPanel implements IAnimationList
 			AnimationCellWithControls c = list.get(i);
 			if (c.isUsed())
 			{
+				if (isFirst)
+				{
+					isFirst = false;
+					pane.add(createPriorityHeader("Currently supported", Color.blue), createConstraints(y++));
+				}
+
 				if (y > 0)
 					pane.add(new JSeparator(), createConstraints(y++));
 
@@ -88,31 +102,65 @@ public class AnimationList extends PrismPanel implements IAnimationList
 			}
 		}
 
-		if (y > 0)
-		{
-			JPanel p = new JPanel();
-			p.setMinimumSize(new Dimension(0, 3));
-			p.setOpaque(true);
-			p.setBackground(new Color(0, 0, 0, 75));
-			pane.add(p, createConstraints(y++));
-		}
-		int y2 = y;
-
 		// add unused animations
-		for (int i = 0; i < list.size(); ++i)
+		int p = 0;
+		boolean isFirstInPriority;
+		do
 		{
-			AnimationCellWithControls c = list.get(i);
-			if (!c.isUsed())
-			{
-				if (y > y2)
-					pane.add(new JSeparator(), createConstraints(y++));
+			++p;
+			isFirstInPriority = true;
 
-				pane.add(c, createConstraints(y++));
+			for (int i = 0; i < list.size(); ++i)
+			{
+				AnimationCellWithControls c = list.get(i);
+				int priority = c.getAnimationIndex().getPriority();
+
+				if (!c.isUsed() && priority == p)
+				{
+					if (isFirstInPriority)
+					{
+						isFirstInPriority = false;
+						pane.add(createPriorityHeader(p, Color.gray), createConstraints(y++));
+					}
+					pane.add(c, createConstraints(y++));
+				}
 			}
 		}
+		while (p < 5);
 
 		pane.revalidate();
 		pane.repaint();
+	}
+
+	private static JComponent createPriorityHeader(int p, Color color)
+	{
+		String s;
+		if (p == 1)
+			s = "Primary animations";
+		else if (p == 2)
+			s = "Secondary animations";
+		else if (p == 3)
+			s = "Rarely needed";
+		else
+			s = "Priority level" + p;
+
+		return createPriorityHeader(s, color);
+	}
+
+	private static JComponent createPriorityHeader(String s, Color color)
+	{
+		JLabel l = new JLabel(s);
+		l.setBorder(BorderFactory.createEtchedBorder());
+		l.setOpaque(true);
+
+		JPanel p = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(3,
+				3, 3, 3), 0, 0);
+		p.add(l, c);
+		//		p.setBackground(color);
+		//		p.setOpaque(true);
+
+		return p;
 	}
 
 	private static GridBagConstraints createConstraints(int line)
@@ -162,8 +210,11 @@ public class AnimationList extends PrismPanel implements IAnimationList
 			for (AnimationIndex a : AnimationIndex.values())
 			{
 				int i = getListIndex(a);
-				AnimationCellWithControls c = list.get(i);
-				c.displayAnimationModel(null);
+				if (i >= 0)
+				{
+					AnimationCellWithControls c = list.get(i);
+					c.displayAnimationModel(null);
+				}
 			}
 		}
 		else
@@ -171,8 +222,11 @@ public class AnimationList extends PrismPanel implements IAnimationList
 			for (AnimationModel m : ms)
 			{
 				int i = getListIndex(m.getAnimationIndex());
-				AnimationCellWithControls l = list.get(i);
-				l.displayAnimationModel(m);
+				if (i >= 0)
+				{
+					AnimationCellWithControls l = list.get(i);
+					l.displayAnimationModel(m);
+				}
 			}
 		}
 		sortList();

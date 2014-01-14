@@ -15,16 +15,16 @@ public abstract class PrismWorldLoader
 	public static void loadAll(boolean loadAnimationDescriptions) throws PrismException
 	{
 		if (loadAnimationDescriptions)
-			loadAnimationDescriptions();
+			loadAnimationDevInfo();
 	}
 
-	private static void loadAnimationDescriptions() throws PrismException
+	private static void loadAnimationDevInfo() throws PrismException
 	{
 		MetaFile f = Prism.global.loadMetaFile(FileIndex.ANIM_D);
 		MetaList metaList = f.getMetaList();
 		MetaBlock metaBlock = metaList.findMetaBlock(MetaType.ANIM_D);
 
-		boolean isOK = AnimationIndex.loadDescriptions(metaBlock);
+		boolean isOK = AnimationIndex.loadDevInfoAll(metaBlock);
 		if (!isOK)
 		{
 			PrismException e = new PrismException();

@@ -1,1 +1,4 @@
 1389626810563	Move compilation unit
+1389705182287	Rename method 'loadDescription'
+1389705191826	Rename method 'loadDescriptions'
+1389705350549	Rename method 'loadAnimationDescriptions'

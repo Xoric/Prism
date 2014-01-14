@@ -8,16 +8,15 @@ package xoric.prism.world.movement;
 public enum MoveType
 {
 	// limited to eight, equivalent to the the first eight animations
-	// revised:
 	WALK,
 	RUN,
 	CROUCH,
-	SLIDE,
-	SWIM,
 	FLY,
-	// unsure:
-	RIDE,
-	RAIL;
+	SWIM,
+	DIVE,
+
+	UNUSED0,
+	UNUSED2;
 
 	public static final MoveType[] VALUES = values();
 	public static final String[] NAMES;

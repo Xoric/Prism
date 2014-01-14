@@ -1,5 +1,6 @@
 package xoric.prism.creator.drawer.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -59,6 +60,17 @@ public class AnimationCellWithControls extends AnimationCell implements ActionLi
 		return isUsed;
 	}
 
+	private void updateColor()
+	{
+		if (isUsed)
+		{
+			this.setBackground(Color.orange);
+			this.setOpaque(true);
+		}
+		else
+			this.setOpaque(false);
+	}
+
 	@Override
 	public void setEnabled(boolean enabled)
 	{
@@ -81,6 +93,8 @@ public class AnimationCellWithControls extends AnimationCell implements ActionLi
 			super.displayAnimation(m.getAnimationIndex());
 
 		isUsed = m == null ? false : m.isUsed();
+
+		updateColor();
 
 		// show/hide buttons
 		showAddButton(!isUsed);
