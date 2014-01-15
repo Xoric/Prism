@@ -183,9 +183,9 @@ public class Angle implements IAngle_r, IPackable
 		set(degree);
 	}
 
-	@Override
-	public int getPackedSize()
-	{
-		return IntPacker.getPackedSize_s(degree);
-	}
+	//	@Override
+	//	public int getPackedSize()
+	//	{
+	//		return IntPacker.getPackedSize_s(degree);
+	//	}
 }

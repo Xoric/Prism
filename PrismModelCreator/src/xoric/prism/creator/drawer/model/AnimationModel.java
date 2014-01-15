@@ -102,12 +102,12 @@ public class AnimationModel implements IPackable
 		durationMs = IntPacker.unpack_s(stream);
 	}
 
-	@Override
-	public int getPackedSize()
-	{
-		int size = IntPacker.getPackedSize_s(CURRENT_VERSION);
-		size += IntPacker.getPackedSize_s(durationMs);
-
-		return size;
-	}
+	//	@Override
+	//	public int getPackedSize()
+	//	{
+	//		int size = IntPacker.getPackedSize_s(CURRENT_VERSION);
+	//		size += IntPacker.getPackedSize_s(durationMs);
+	//
+	//		return size;
+	//	}
 }

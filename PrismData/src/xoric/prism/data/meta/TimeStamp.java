@@ -52,9 +52,9 @@ public class TimeStamp implements IPackable
 		year = (i >> 14) + 2013;
 	}
 
-	@Override
-	public int getPackedSize()
-	{
-		return 3;
-	}
+	//	@Override
+	//	public int getPackedSize()
+	//	{
+	//		return 3;
+	//	}
 }

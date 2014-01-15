@@ -65,15 +65,15 @@ public class TileLayer implements IMapLayer, IPackable
 				tiles[iy][ix].unpack(stream);
 	}
 
-	@Override
-	public int getPackedSize()
-	{
-		int size = 0;
-
-		for (int iy = 0; iy < tiles.length; ++iy)
-			for (int ix = 0; ix < tiles[iy].length; ++ix)
-				size += tiles[iy][ix].getPackedSize();
-
-		return size;
-	}
+	//	@Override
+	//	public int getPackedSize()
+	//	{
+	//		int size = 0;
+	//
+	//		for (int iy = 0; iy < tiles.length; ++iy)
+	//			for (int ix = 0; ix < tiles[iy].length; ++ix)
+	//				size += tiles[iy][ix].getPackedSize();
+	//
+	//		return size;
+	//	}
 }

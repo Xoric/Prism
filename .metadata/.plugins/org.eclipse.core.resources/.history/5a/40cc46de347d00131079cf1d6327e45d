@@ -1,0 +1,18 @@
+package xoric.prism.creator.drawer.control;
+
+import java.io.File;
+
+import xoric.prism.data.types.Path;
+
+public class TempFile
+{
+	private final File file;
+
+	public TempFile()
+	{
+		Path tempPath = new Path(System.getProperty("java.io.tmpdir"));
+		file = tempPath.getFile("pmcreate.tmp");
+
+	}
+
+}

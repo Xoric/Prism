@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class IntPacker implements IPackable
+public class IntPacker implements IPredictablePackable
 {
 	private static final IntPacker instance = new IntPacker();
 
@@ -26,7 +26,7 @@ public class IntPacker implements IPackable
 	@Override
 	public void pack(OutputStream stream) throws IOException
 	{
-		int bytes = getPackedSize();
+		int bytes = calcPackedSize();
 		int packed = bytes - 1;
 		packed |= value << 2;
 
@@ -49,7 +49,7 @@ public class IntPacker implements IPackable
 	}
 
 	@Override
-	public int getPackedSize()
+	public int calcPackedSize()
 	{
 		int v = value;
 		for (int i = 0; i < 4; ++i)
@@ -68,11 +68,11 @@ public class IntPacker implements IPackable
 	 * @return int
 	 * @throws IOException
 	 */
-	public static synchronized int pack_s(OutputStream stream, int value) throws IOException
+	public static synchronized void pack_s(OutputStream stream, int value) throws IOException
 	{
 		instance.setValue(value);
 		instance.pack(stream);
-		return instance.getPackedSize();
+		//		return instance.getPackedSize();
 	}
 
 	public static synchronized int unpack_s(InputStream stream) throws IOException
@@ -81,9 +81,9 @@ public class IntPacker implements IPackable
 		return instance.getValue();
 	}
 
-	public static synchronized int getPackedSize_s(int value)
+	public static synchronized int calcPackedSize_s(int value)
 	{
 		instance.setValue(value);
-		return instance.getPackedSize();
+		return instance.calcPackedSize();
 	}
 }

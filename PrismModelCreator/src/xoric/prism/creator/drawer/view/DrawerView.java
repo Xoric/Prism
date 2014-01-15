@@ -12,6 +12,7 @@ import xoric.prism.creator.drawer.image.AnimationView;
 import xoric.prism.creator.drawer.image.IAnimationView;
 import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.model.DrawerModel;
+import xoric.prism.creator.drawer.settings.WorkingDirs;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
@@ -213,5 +214,13 @@ public class DrawerView extends PrismFrame implements IDrawerView, IAnimationEdi
 	public void start()
 	{
 		setVisible(true);
+
+		control.initialize();
+	}
+
+	@Override
+	public void displayRecentDirectories(WorkingDirs dirs)
+	{
+		mainMenuBar.displayRecentDirectories(dirs);
 	}
 }

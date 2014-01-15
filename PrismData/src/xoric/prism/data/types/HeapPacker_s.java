@@ -118,29 +118,29 @@ public abstract class HeapPacker_s
 		return heap;
 	}
 
-	public static/*synchronized*/int getPackedSize_s(Heap heap, int floatDecimals)
-	{
-		int mode = calcMode(heap);
-		int bytes;
-
-		if (mode == 0)
-			bytes = 1;
-		else if (mode == 1)
-			bytes = 3;
-		else
-			bytes = 9;
-
-		for (int i = 0; i < heap.ints.size(); ++i)
-			bytes += IntPacker.getPackedSize_s(heap.ints.get(i));
-
-		for (int i = 0; i < heap.floats.size(); ++i)
-			bytes += FloatPacker.getPackedSize_s(heap.floats.get(i), floatDecimals);
-
-		for (int i = 0; i < heap.texts.size(); ++i)
-			bytes += TextPacker.getPackedSize_s(heap.texts.get(i));
-
-		return bytes;
-	}
+	//	public static/*synchronized*/int getPackedSize_s(Heap heap, int floatDecimals)
+	//	{
+	//		int mode = calcMode(heap);
+	//		int bytes;
+	//
+	//		if (mode == 0)
+	//			bytes = 1;
+	//		else if (mode == 1)
+	//			bytes = 3;
+	//		else
+	//			bytes = 9;
+	//
+	//		for (int i = 0; i < heap.ints.size(); ++i)
+	//			bytes += IntPacker.getPackedSize_s(heap.ints.get(i));
+	//
+	//		for (int i = 0; i < heap.floats.size(); ++i)
+	//			bytes += FloatPacker.getPackedSize_s(heap.floats.get(i), floatDecimals);
+	//
+	//		for (int i = 0; i < heap.texts.size(); ++i)
+	//			bytes += TextPacker.getPackedSize_s(heap.texts.get(i));
+	//
+	//		return bytes;
+	//	}
 
 	private static int calcMode(Heap heap)
 	{

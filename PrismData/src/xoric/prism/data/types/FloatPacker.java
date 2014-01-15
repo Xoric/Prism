@@ -43,7 +43,7 @@ public class FloatPacker implements IPackable
 	@Override
 	public void pack(OutputStream stream) throws IOException
 	{
-		int bytes = getPackedSize();
+		int bytes = calcPackedSize();
 		int packed = bytes - 1;
 		long temp = ((long) (value * factors[decimalPlaces])) % divisors[decimalPlaces];
 		int carry = ((temp % 10) >= 5) ? 1 : 0;
@@ -121,8 +121,7 @@ public class FloatPacker implements IPackable
 		value += preComma;
 	}
 
-	@Override
-	public int getPackedSize()
+	private int calcPackedSize()
 	{
 		int v = (int) value;
 		for (int i = 0; i < 4; ++i)
@@ -148,10 +147,10 @@ public class FloatPacker implements IPackable
 		return instance.getValue();
 	}
 
-	public static synchronized int getPackedSize_s(float value, int decimalPlaces)
-	{
-		instance.setDecimalPlaces(decimalPlaces);
-		instance.setValue(value);
-		return instance.getPackedSize();
-	}
+	//	public static synchronized int getPackedSize_s(float value, int decimalPlaces)
+	//	{
+	//		instance.setDecimalPlaces(decimalPlaces);
+	//		instance.setValue(value);
+	//		return instance.getPackedSize();
+	//	}
 }

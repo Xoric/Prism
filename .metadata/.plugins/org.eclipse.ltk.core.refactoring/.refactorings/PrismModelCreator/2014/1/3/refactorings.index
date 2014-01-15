@@ -48,3 +48,10 @@
 1389699866603	Rename local variable 'tileSize'
 1389700929089	Rename field 'lastButton'
 1389701241016	Rename local variable 'p2'
+1389712926699	Move compilation unit
+1389715167153	Rename type 'Settings'
+1389715418307	Move compilation unit
+1389715436649	Rename type 'ModelCreatorSettings'
+1389723083003	Rename local variable 'read'
+1389723442805	Rename type 'Settings'
+1389724410245	Rename method 'displayRecent'

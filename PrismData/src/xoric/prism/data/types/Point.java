@@ -84,10 +84,10 @@ public class Point implements IStackable, IPackable, IPoint_r
 
 	}
 
-	@Override
-	public int getPackedSize()
-	{
-		int size = IntPacker.getPackedSize_s(x) + IntPacker.getPackedSize_s(y);
-		return size;
-	}
+	//	@Override
+	//	public int getPackedSize()
+	//	{
+	//		int size = IntPacker.getPackedSize_s(x) + IntPacker.getPackedSize_s(y);
+	//		return size;
+	//	}
 }

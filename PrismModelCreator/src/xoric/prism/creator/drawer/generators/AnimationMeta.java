@@ -68,16 +68,16 @@ class AnimationMeta implements IPackable
 		}
 	}
 
-	@Override
-	public int getPackedSize()
-	{
-		int size = 0;
-
-		for (int i = 0; i < angles.size(); ++i)
-		{
-			size += IntPacker.getPackedSize_s(angles.get(i).ordinal());
-			size += IntPacker.getPackedSize_s(columnCounts.get(i));
-		}
-		return size;
-	}
+	//	@Override
+	//	public int getPackedSize()
+	//	{
+	//		int size = 0;
+	//
+	//		for (int i = 0; i < angles.size(); ++i)
+	//		{
+	//			size += IntPacker.getPackedSize_s(angles.get(i).ordinal());
+	//			size += IntPacker.getPackedSize_s(columnCounts.get(i));
+	//		}
+	//		return size;
+	//	}
 }

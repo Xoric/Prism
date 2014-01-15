@@ -1,0 +1,39 @@
+package xoric.prism.creator.drawer.view;
+
+import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
+import xoric.prism.creator.drawer.settings.WorkingDirs;
+import xoric.prism.data.types.IPath_r;
+
+public class RecentMenu extends JMenu implements ActionListener
+{
+	private static final long serialVersionUID = 1L;
+
+	public RecentMenu()
+	{
+		super("Recent");
+	}
+
+	public void load(WorkingDirs workingDirs)
+	{
+		this.removeAll();
+
+		List<IPath_r> dirs = workingDirs.getDirectories();
+		int n = dirs.size();
+		if (n > 5)
+			n = 5;
+
+		for (int i = 0; i < n; ++i)
+		{
+			IPath_r p = dirs.get(i);
+			String s = p.toString();
+			JMenuItem m = new JMenuItem(s);
+			add(m);
+			m.addActionListener(this);
+		}
+	}
+}

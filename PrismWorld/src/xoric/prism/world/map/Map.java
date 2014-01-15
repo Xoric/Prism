@@ -88,15 +88,15 @@ public class Map implements IPackable
 		routingLayer.init(tileLayer.getTiles());
 	}
 
-	@Override
-	public int getPackedSize()
-	{
-		// tile count
-		int size = tileCount.getPackedSize();
-
-		// TileLayer
-		size += tileLayer.getPackedSize();
-
-		return size;
-	}
+	//	@Override
+	//	public int getPackedSize()
+	//	{
+	//		// tile count
+	//		int size = tileCount.getPackedSize();
+	//
+	//		// TileLayer
+	//		size += tileLayer.getPackedSize();
+	//
+	//		return size;
+	//	}
 }

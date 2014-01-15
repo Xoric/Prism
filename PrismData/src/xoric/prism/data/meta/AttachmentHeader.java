@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import xoric.prism.data.types.IPackable;
+import xoric.prism.data.types.IPredictablePackable;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.IntPacker;
 import xoric.prism.data.types.Text;
 import xoric.prism.data.types.TextPacker;
 
-public class AttachmentHeader implements IPackable
+public class AttachmentHeader implements IPredictablePackable
 {
 	private Text name;
 	private boolean isCompressed;
@@ -107,14 +107,14 @@ public class AttachmentHeader implements IPackable
 	}
 
 	@Override
-	public int getPackedSize()
+	public int calcPackedSize()
 	{
 		// name
-		int size = TextPacker.getPackedSize_s(name);
+		int size = TextPacker.calcPackedSize_s(name);
 
 		// compressed-flag
 		int compressed = isCompressed ? 1 : 0;
-		size += IntPacker.getPackedSize_s(compressed);
+		size += IntPacker.calcPackedSize_s(compressed);
 
 		// start and size
 		size += 4 + 4;

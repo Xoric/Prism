@@ -1,0 +1,11 @@
+package xoric.prism.creator.drawer.settings;
+
+public class Settings extends TempFile
+{
+	public Settings()
+	{
+		super("pmcreate.tmp");
+		// TODO Auto-generated constructor stub
+	}
+
+}

@@ -107,10 +107,10 @@ public class Tile implements INode, IPackable
 		setIndex(index);
 	}
 
-	@Override
-	public int getPackedSize()
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	//	@Override
+	//	public int getPackedSize()
+	//	{
+	//		// TODO Auto-generated method stub
+	//		return 0;
+	//	}
 }

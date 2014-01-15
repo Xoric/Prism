@@ -60,10 +60,10 @@ public class MetaLine implements IPackable
 		heap = HeapPacker_s.unpack_s(stream, 2);
 	}
 
-	@Override
-	public int getPackedSize()
-	{
-		int size = 1 /*token*/+ HeapPacker_s.getPackedSize_s(heap, 2);
-		return size;
-	}
+	//	@Override
+	//	public int getPackedSize()
+	//	{
+	//		int size = 1 /*token*/+ HeapPacker_s.getPackedSize_s(heap, 2);
+	//		return size;
+	//	}
 }

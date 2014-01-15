@@ -1,0 +1,39 @@
+package xoric.prism.creator.drawer.settings;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+public class Settings extends TempFile
+{
+	private File externalEditor;
+	private List<Path> workingPaths;
+	
+	public Settings()
+	{
+		super("md-create.tmp");
+		
+		workingPaths = new ArrayList<Path>(),
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public int getPackedSize()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+}

@@ -145,21 +145,21 @@ public class MetaBlock implements IPackable
 		}
 	}
 
-	@Override
-	public int getPackedSize()
-	{
-		// metaType
-		intPacker.setValue(metaType.ordinal());
-		int size = intPacker.getPackedSize();
-
-		// number of lines
-		intPacker.setValue(list.size());
-		size += intPacker.getPackedSize();
-
-		// lines
-		for (MetaLine l : list)
-			size += l.getPackedSize();
-
-		return size;
-	}
+	//	@Override
+	//	public int getPackedSize()
+	//	{
+	//		// metaType
+	//		intPacker.setValue(metaType.ordinal());
+	//		int size = intPacker.getPackedSize();
+	//
+	//		// number of lines
+	//		intPacker.setValue(list.size());
+	//		size += intPacker.getPackedSize();
+	//
+	//		// lines
+	//		for (MetaLine l : list)
+	//			size += l.getPackedSize();
+	//
+	//		return size;
+	//	}
 }

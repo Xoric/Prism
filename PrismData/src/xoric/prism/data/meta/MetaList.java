@@ -112,19 +112,19 @@ public class MetaList implements IPackable
 		}
 	}
 
-	@Override
-	public int getPackedSize()
-	{
-		// block count
-		intPacker.setValue(blocks.size());
-		int size = intPacker.getPackedSize();
-
-		// blocks
-		for (MetaBlock b : blocks)
-			size += b.getPackedSize();
-
-		return size;
-	}
+	//	@Override
+	//	public int getPackedSize()
+	//	{
+	//		// block count
+	//		intPacker.setValue(blocks.size());
+	//		int size = intPacker.getPackedSize();
+	//
+	//		// blocks
+	//		for (MetaBlock b : blocks)
+	//			size += b.getPackedSize();
+	//
+	//		return size;
+	//	}
 
 	public int getBlockCount()
 	{

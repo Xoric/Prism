@@ -164,15 +164,15 @@ public class DrawerModel implements IPackable
 		spriteSize.unpack(stream);
 	}
 
-	@Override
-	public int getPackedSize()
-	{
-		int size = IntPacker.getPackedSize_s(CURRENT_VERSION);
-		size += TextPacker.getPackedSize_s(name);
-		size += spriteSize.getPackedSize();
-
-		return size;
-	}
+	//	@Override
+	//	public int getPackedSize()
+	//	{
+	//		int size = IntPacker.getPackedSize_s(CURRENT_VERSION);
+	//		size += TextPacker.getPackedSize_s(name);
+	//		size += spriteSize.getPackedSize();
+	//
+	//		return size;
+	//	}
 
 	public void preparePath() throws PrismException
 	{

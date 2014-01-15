@@ -8,7 +8,7 @@ import java.io.OutputStream;
  * @author Felix M�hrle
  * @since 31.05.2011, 15:12:42
  */
-public class TextPacker implements IPackable
+public class TextPacker implements IPredictablePackable
 {
 	private static final TextPacker instance = new TextPacker();
 
@@ -113,7 +113,7 @@ public class TextPacker implements IPackable
 	}
 
 	@Override
-	public int getPackedSize()
+	public int calcPackedSize()
 	{
 		int bytes = isExtended() ? 2 : 1;
 		int length = text.length();
@@ -142,9 +142,9 @@ public class TextPacker implements IPackable
 		return new Text(instance.getText());
 	}
 
-	public static synchronized int getPackedSize_s(IText_r text)
+	public static synchronized int calcPackedSize_s(IText_r text)
 	{
 		instance.setText(text);
-		return instance.getPackedSize();
+		return instance.calcPackedSize();
 	}
 }

@@ -10,6 +10,7 @@ import javax.swing.JMenuItem;
 
 import xoric.prism.creator.drawer.control.IDrawerControl;
 import xoric.prism.creator.drawer.model.DrawerModel;
+import xoric.prism.creator.drawer.settings.WorkingDirs;
 
 public class MainMenuBar extends JMenuBar implements ActionListener
 {
@@ -23,6 +24,7 @@ public class MainMenuBar extends JMenuBar implements ActionListener
 	private JMenuItem menuItemNewModel;
 	private JMenuItem menuItemOpenModel;
 	private JMenuItem menuItemCloseModel;
+	private RecentMenu recentMenu;
 	private JMenu menuGenerate;
 	private JMenuItem menuItemExit;
 
@@ -38,7 +40,10 @@ public class MainMenuBar extends JMenuBar implements ActionListener
 		menuModel = createMenu(this, "Model");
 		// --
 		menuItemNewModel = createMenuItem(menuModel, "New");
+		menuModel.addSeparator(); // --
 		menuItemOpenModel = createMenuItem(menuModel, "Open");
+		recentMenu = new RecentMenu();
+		menuModel.add(recentMenu);
 		menuModel.addSeparator(); // --
 		menuGenerate = createMenu(menuModel, "Generate");
 		menuItemCloseModel = createMenuItem(menuModel, "Close");
@@ -54,6 +59,11 @@ public class MainMenuBar extends JMenuBar implements ActionListener
 		// --
 		menuItemExternalEditor = createMenuItem(menuTools, "External image editor");
 		// --
+	}
+
+	public void displayRecentDirectories(WorkingDirs dirs)
+	{
+		recentMenu.displayDirectories(dirs);
 	}
 
 	public void setControl(IDrawerControl control)

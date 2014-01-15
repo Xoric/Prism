@@ -167,39 +167,39 @@ public class HeapPacker implements IPackable
 		}
 	}
 
-	@Override
-	public int getPackedSize()
-	{
-		int mode = calcMode();
-		int bytes;
-
-		if (mode == 0)
-			bytes = 1;
-		else if (mode == 1)
-			bytes = 3;
-		else
-			bytes = 9;
-
-		for (int i = 0; i < heap.ints.size(); ++i)
-		{
-			intPacker.setValue(heap.ints.get(i));
-			bytes += intPacker.getPackedSize();
-		}
-
-		for (int i = 0; i < heap.floats.size(); ++i)
-		{
-			floatPacker.setValue(heap.floats.get(i));
-			bytes += floatPacker.getPackedSize();
-		}
-
-		for (int i = 0; i < heap.texts.size(); ++i)
-		{
-			textPacker.setText(heap.texts.get(i));
-			bytes += textPacker.getPackedSize();
-		}
-
-		return bytes;
-	}
+	//	@Override
+	//	public int getPackedSize()
+	//	{
+	//		int mode = calcMode();
+	//		int bytes;
+	//
+	//		if (mode == 0)
+	//			bytes = 1;
+	//		else if (mode == 1)
+	//			bytes = 3;
+	//		else
+	//			bytes = 9;
+	//
+	//		for (int i = 0; i < heap.ints.size(); ++i)
+	//		{
+	//			intPacker.setValue(heap.ints.get(i));
+	//			bytes += intPacker.getPackedSize();
+	//		}
+	//
+	//		for (int i = 0; i < heap.floats.size(); ++i)
+	//		{
+	//			floatPacker.setValue(heap.floats.get(i));
+	//			bytes += floatPacker.getPackedSize();
+	//		}
+	//
+	//		for (int i = 0; i < heap.texts.size(); ++i)
+	//		{
+	//			textPacker.setText(heap.texts.get(i));
+	//			bytes += textPacker.getPackedSize();
+	//		}
+	//
+	//		return bytes;
+	//	}
 
 	private int calcMode()
 	{

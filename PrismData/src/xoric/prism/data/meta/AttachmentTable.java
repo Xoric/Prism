@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import xoric.prism.data.types.IPackable;
+import xoric.prism.data.types.IPredictablePackable;
 
-public class AttachmentTable implements IPackable
+public class AttachmentTable implements IPredictablePackable
 {
 	private final AttachmentHeader[] attachments;
 
@@ -51,13 +51,13 @@ public class AttachmentTable implements IPackable
 	}
 
 	@Override
-	public int getPackedSize()
+	public int calcPackedSize()
 	{
 		int size = 0;
 
 		// attachment headers
 		for (int i = 0; i < attachments.length; ++i)
-			size += attachments[i].getPackedSize();
+			size += attachments[i].calcPackedSize();
 
 		return size;
 	}

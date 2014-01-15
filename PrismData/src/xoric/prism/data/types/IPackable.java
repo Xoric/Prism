@@ -14,5 +14,6 @@ public interface IPackable
 	 * Get packed size in bytes.
 	 * @return int
 	 */
-	public int getPackedSize();
+	//	@Deprecated
+	//	public int getPackedSize();
 }
