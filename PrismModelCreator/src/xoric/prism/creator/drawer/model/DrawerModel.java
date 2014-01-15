@@ -101,9 +101,9 @@ public class DrawerModel implements IPackable
 		return spriteSize;
 	}
 
-	public void load(Path path) throws IOException
+	public void load(IPath_r path) throws IOException
 	{
-		this.path = path;
+		this.path = new Path(path);
 
 		// afterwards load model meta (updates animations as well)
 		File file = path.getFile("m.meta");

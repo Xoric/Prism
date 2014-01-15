@@ -7,16 +7,25 @@ import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import xoric.prism.creator.drawer.control.IDrawerControl;
 import xoric.prism.creator.drawer.settings.WorkingDirs;
 import xoric.prism.data.types.IPath_r;
+import xoric.prism.data.types.Path;
 
 public class RecentMenu extends JMenu implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 
+	private IDrawerControl control;
+
 	public RecentMenu()
 	{
 		super("Recent");
+	}
+
+	public void setControl(IDrawerControl control)
+	{
+		this.control = control;
 	}
 
 	public void displayDirectories(WorkingDirs workingDirs)
@@ -45,6 +54,6 @@ public class RecentMenu extends JMenu implements ActionListener
 		String s = e.getActionCommand();
 
 		if (s != null && s.length() > 0)
-			System.out.println("Clicked " + s);
+			control.requestOpenRecent(new Path(s));
 	}
 }

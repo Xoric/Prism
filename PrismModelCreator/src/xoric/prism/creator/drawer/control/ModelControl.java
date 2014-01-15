@@ -14,6 +14,7 @@ import xoric.prism.creator.drawer.model.DrawerModel;
 import xoric.prism.creator.drawer.view.NewModelData;
 import xoric.prism.creator.drawer.view.NewModelDialog;
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Path;
@@ -106,45 +107,51 @@ public class ModelControl extends ControlLayer
 
 	public DrawerModel openModel()
 	{
+		OpenPathDialog d = new OpenPathDialog("Open Model", "Please enter the working directory of the model you want to open.");
+		boolean b = d.show();
+		Path path = b ? d.getResult() : null;
+
 		DrawerModel openedModel = null;
 
-		if (askSaveChanges())
+		if (path != null)
+			openedModel = openModel(path);
+		else
+			openedModel = null;
+
+		return openedModel;
+	}
+
+	public DrawerModel openModel(IPath_r path)
+	{
+		DrawerModel openedModel = null;
+
+		File f = path.getFile(DrawerModel.mainFilename);
+
+		if (!f.exists())
 		{
-			OpenPathDialog d = new OpenPathDialog("Open Model", "Please enter the working directory of the model you want to open.");
-			boolean b = d.show();
-			Path path = b ? d.getResult() : null;
+			PrismException e = new PrismException();
+			e.setText("No model could be found in the specified directory.");
+			e.addInfo("missing file", DrawerModel.mainFilename);
+			e.user.showMessage();
+		}
+		else
+		{
+			busyControl.setBusy(true);
 
-			if (path != null)
+			openedModel = new DrawerModel();
+			try
 			{
-				File f = path.getFile(DrawerModel.mainFilename);
-
-				if (!f.exists())
-				{
-					PrismException e = new PrismException();
-					e.setText("No model could be found in the specified directory.");
-					e.addInfo("missing file", DrawerModel.mainFilename);
-					e.user.showMessage();
-				}
-				else
-				{
-					busyControl.setBusy(true);
-
-					openedModel = new DrawerModel();
-					try
-					{
-						openedModel.load(path);
-					}
-					catch (IOException e0)
-					{
-						openedModel = null;
-
-						PrismException e = new PrismException(e0);
-						e.setText("An error occured while trying to load a model from the specified directory.");
-						e.user.showMessage();
-					}
-					busyControl.setBusy(false);
-				}
+				openedModel.load(path);
 			}
+			catch (IOException e0)
+			{
+				openedModel = null;
+
+				PrismException e = new PrismException(e0);
+				e.setText("An error occured while trying to load a model from the specified directory.");
+				e.user.showMessage();
+			}
+			busyControl.setBusy(false);
 		}
 		return openedModel;
 	}

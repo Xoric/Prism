@@ -7,6 +7,7 @@ import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.model.DrawerModel;
 import xoric.prism.creator.drawer.settings.WorkingDirs;
 import xoric.prism.creator.drawer.view.IDrawerView;
+import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.world.animations.AnimationIndex;
@@ -79,6 +80,19 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 	public void requestOpenModel()
 	{
 		DrawerModel m = modelControl.openModel();
+		acceptModel(m, false);
+
+		if (m != null)
+		{
+			workingDirs.addWorkingDirectory(m.getPath());
+			view.displayRecentDirectories(workingDirs);
+		}
+	}
+
+	@Override
+	public void requestOpenRecent(IPath_r path)
+	{
+		DrawerModel m = modelControl.openModel(path);
 		acceptModel(m, false);
 
 		if (m != null)

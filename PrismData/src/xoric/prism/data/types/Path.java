@@ -11,6 +11,11 @@ public class Path implements IPath_r
 		set(path);
 	}
 
+	public Path(IPath_r path)
+	{
+		set(path.toString());
+	}
+
 	@Override
 	public File getFile(String filename)
 	{

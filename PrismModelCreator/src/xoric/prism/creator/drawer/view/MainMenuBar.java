@@ -69,6 +69,8 @@ public class MainMenuBar extends JMenuBar implements ActionListener
 	public void setControl(IDrawerControl control)
 	{
 		this.control = control;
+
+		recentMenu.setControl(control);
 	}
 
 	private JMenuItem createMenuItem(JMenu parentMenu, String text)
