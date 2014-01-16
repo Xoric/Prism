@@ -23,6 +23,8 @@ public class AnimationCellWithControls extends AnimationCell implements ActionLi
 {
 	private static final long serialVersionUID = 1L;
 
+	private static final Color selectedColor = new Color(50,50,250,50);
+	
 	private final IAnimationEditor mainView;
 
 	private boolean isUsed;
@@ -47,18 +49,12 @@ public class AnimationCellWithControls extends AnimationCell implements ActionLi
 		buttonPanel.add(editButton);
 		buttonPanel.add(deleteButton);
 
-		buttonPanel.setOpaque(false);
-
 		GridBagConstraints c = new GridBagConstraints(1, 0, 1, 2, 0.0, 1.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0,
 				0, 0, 0), 0, 0);
 		add(buttonPanel, c);
 
-		setBorder(BorderFactory.createEmptyBorder(3, 6, 3, 6));
+		setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 		showAddButton(true);
-
-		float f = 0.85f;
-		float g = f * getBackground().getRGB() + (1.0f - f) * Color.blue.getRGB();
-		this.setBackground(new Color((int) g));
 	}
 
 	public boolean isUsed()
@@ -70,10 +66,11 @@ public class AnimationCellWithControls extends AnimationCell implements ActionLi
 	{
 		if (isUsed)
 		{
-			setOpaque(true);
+			this.setBackground(Color.orange);
+			this.setOpaque(true);
 		}
 		else
-			setOpaque(false);
+			this.setOpaque(false);
 	}
 
 	@Override

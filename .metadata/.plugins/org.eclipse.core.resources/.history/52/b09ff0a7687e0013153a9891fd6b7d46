@@ -25,7 +25,6 @@ public class AnimationCell extends JPanel implements IAnimationCell
 	public AnimationCell(AnimationIndex a)
 	{
 		super(new GridBagLayout());
-		setOpaque(true);
 
 		animationIndex = a;
 

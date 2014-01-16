@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -22,6 +21,8 @@ import xoric.prism.world.animations.AnimationIndex;
 public class AnimationCellWithControls extends AnimationCell implements ActionListener, IAnimationCellControls
 {
 	private static final long serialVersionUID = 1L;
+
+	private static final Color selectedColor = new Color(50, 50, 250, 50);
 
 	private final IAnimationEditor mainView;
 
@@ -51,14 +52,10 @@ public class AnimationCellWithControls extends AnimationCell implements ActionLi
 
 		GridBagConstraints c = new GridBagConstraints(1, 0, 1, 2, 0.0, 1.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0,
 				0, 0, 0), 0, 0);
-		add(buttonPanel, c);
+		frontPanel.add(buttonPanel, c);
 
-		setBorder(BorderFactory.createEmptyBorder(3, 6, 3, 6));
+		//		setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 		showAddButton(true);
-
-		float f = 0.85f;
-		float g = f * getBackground().getRGB() + (1.0f - f) * Color.blue.getRGB();
-		this.setBackground(new Color((int) g));
 	}
 
 	public boolean isUsed()
@@ -70,10 +67,11 @@ public class AnimationCellWithControls extends AnimationCell implements ActionLi
 	{
 		if (isUsed)
 		{
-			setOpaque(true);
+			frontPanel.setBackground(selectedColor);
+			frontPanel.setOpaque(true);
 		}
 		else
-			setOpaque(false);
+			frontPanel.setOpaque(false);
 	}
 
 	@Override

@@ -22,6 +22,8 @@ import xoric.prism.world.animations.AnimationIndex;
 
 public class AnimationList extends PrismPanel implements IAnimationList
 {
+	// TODO: reimplement as JList
+
 	private static final long serialVersionUID = 1L;
 
 	private List<AnimationCellWithControls> list;
@@ -90,7 +92,7 @@ public class AnimationList extends PrismPanel implements IAnimationList
 				if (isFirst)
 				{
 					isFirst = false;
-					pane.add(createPriorityHeader("Currently added", Color.blue), createConstraints(y++));
+					pane.add(createPriorityHeader("Currently supported", Color.blue), createConstraints(y++));
 				}
 
 				if (y > 0)
@@ -148,16 +150,15 @@ public class AnimationList extends PrismPanel implements IAnimationList
 	private static JComponent createPriorityHeader(String s, Color color)
 	{
 		JLabel l = new JLabel(s);
+		l.setBorder(BorderFactory.createEtchedBorder());
+		l.setOpaque(true);
 
 		JPanel p = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(3,
-				6, 3, 3), 0, 0);
+				3, 3, 3), 0, 0);
 		p.add(l, c);
 		//		p.setBackground(color);
 		//		p.setOpaque(true);
-
-		p.setBorder(BorderFactory.createEtchedBorder());
-		//		l.setOpaque(true);
 
 		return p;
 	}

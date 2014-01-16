@@ -25,9 +25,13 @@ public class AnimationCell extends JPanel implements IAnimationCell
 	public AnimationCell(AnimationIndex a)
 	{
 		super(new GridBagLayout());
-		setOpaque(true);
 
 		animationIndex = a;
+
+		this.setOpaque(true);
+
+		JPanel frontPanel = new JPanel();
+		frontPanel.setOpaque(true);
 
 		nameLabel = createLabel(animationIndex.toString());
 		nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD));
@@ -38,11 +42,13 @@ public class AnimationCell extends JPanel implements IAnimationCell
 
 		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 0.5, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
 				new Insets(0, 0, 0, 0), 0, 0);
-		add(nameLabel, c);
+		frontPanel.add(nameLabel, c);
 
 		c = new GridBagConstraints(0, 1, 1, 1, 1.0, 0.5, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0,
 				0);
-		add(descriptionLabel, c);
+		frontPanel.add(descriptionLabel, c);
+
+		this.add(frontPanel);
 	}
 
 	@Override

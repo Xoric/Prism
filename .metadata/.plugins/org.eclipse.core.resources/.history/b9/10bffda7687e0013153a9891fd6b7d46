@@ -25,9 +25,11 @@ public class AnimationCell extends JPanel implements IAnimationCell
 	public AnimationCell(AnimationIndex a)
 	{
 		super(new GridBagLayout());
-		setOpaque(true);
 
 		animationIndex = a;
+		
+		JPanel backPanel = new JPanel();
+		backPanel.setOpaque(true);
 
 		nameLabel = createLabel(animationIndex.toString());
 		nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD));

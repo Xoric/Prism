@@ -22,6 +22,8 @@ import xoric.prism.world.animations.AnimationIndex;
 
 public class AnimationList extends PrismPanel implements IAnimationList
 {
+	// TODO: reimplement as JList
+
 	private static final long serialVersionUID = 1L;
 
 	private List<AnimationCellWithControls> list;
