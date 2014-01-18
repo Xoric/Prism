@@ -27,6 +27,8 @@ public interface IScene
 	 */
 	public void setFullScreen(boolean fullscreen);
 
+	public void initialize();
+
 	public void startLoop(ISceneListener listener);
 
 	public void setStage(SceneStage stage);

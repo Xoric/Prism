@@ -16,6 +16,8 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import xoric.prism.scene.lwjgl.textures.Texture;
+
 public class TextureIO2
 {
 	public static Texture createFromFile(File file) throws IOException
@@ -48,8 +50,6 @@ public class TextureIO2
 
 	public static Texture createFromIntBuffer(IntBuffer textureBuffer, int width, int height) throws IOException
 	{
-		GL11.glEnable(GL11.GL_TEXTURE_2D); // TODO: move to Scene.init()
-
 		IntBuffer buffer = BufferUtils.createIntBuffer(1);
 		GL11.glGenTextures(buffer);
 		int programID = buffer.get(0);

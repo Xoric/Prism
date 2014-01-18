@@ -11,24 +11,10 @@ import org.lwjgl.opengl.GL11;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
-import xoric.prism.scene.shader.IShader2;
+import xoric.prism.scene.lwjgl.shaders.Shader2;
 
 public class ShaderIO2
 {
-	private static ShaderIO2 instance;
-
-	private ShaderIO2()
-	{
-	}
-
-	public static ShaderIO2 getInstance()
-	{
-		if (instance == null)
-			instance = new ShaderIO2();
-
-		return instance;
-	}
-
 	/**
 	 * @param shaderBuffer
 	 *            ByteBuffer containing shader code
@@ -37,7 +23,7 @@ public class ShaderIO2
 	 * @return int
 	 * @throws Exception
 	 */
-	private int createShader(ByteBuffer shaderBuffer, int glShaderType) throws PrismException
+	private static int createShader(ByteBuffer shaderBuffer, int glShaderType) throws PrismException
 	{
 		int shaderID = 0;
 
@@ -65,7 +51,7 @@ public class ShaderIO2
 		return shaderID;
 	}
 
-	private int createProgram(int vertShader, int fragShader) throws PrismException
+	private static int createProgram(int vertShader, int fragShader) throws PrismException
 	{
 		int program = 0;
 		String errorLog = "";
@@ -108,9 +94,9 @@ public class ShaderIO2
 		return program;
 	}
 
-	public IShader2 createShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException
+	public static Shader2 createShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException
 	{
-		IShader2 shader = null;
+		Shader2 shader = null;
 
 		// create vertex shader and fragment/pixel shader
 		int vertShader = createShader(vertexShader, ARBVertexShader.GL_VERTEX_SHADER_ARB);
@@ -125,17 +111,17 @@ public class ShaderIO2
 		return shader;
 	}
 
-	public IShader2 createShader(File vertexFile, File pixelFile) throws PrismException
+	public static Shader2 createShader(File vertexFile, File pixelFile) throws PrismException
 	{
 		ByteBuffer vertexBuf = readFileAsByteBuffer(vertexFile);
 		ByteBuffer pixelBuf = readFileAsByteBuffer(pixelFile);
 
-		IShader2 shader = createShader(vertexBuf, pixelBuf);
+		Shader2 shader = createShader(vertexBuf, pixelBuf);
 
 		return shader;
 	}
 
-	private ByteBuffer readFileAsByteBuffer(File file) throws PrismException
+	private static ByteBuffer readFileAsByteBuffer(File file) throws PrismException
 	{
 		ByteBuffer buf = null;
 		try

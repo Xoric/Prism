@@ -33,3 +33,7 @@
 1389964453578	Rename method 'findMetaBlock'
 1389966909629	Rename type 'IExceptionHost'
 1390000993074	Delete element
+1390046228468	Rename field 'rgba'
+1390047735980	Rename local variable 'bytes_read'
+1390047739521	Rename local variable 'bytesRead'
+1390047890732	Rename local variable 'temp'

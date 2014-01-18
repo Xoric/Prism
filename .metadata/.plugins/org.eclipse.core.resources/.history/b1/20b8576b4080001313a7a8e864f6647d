@@ -1,0 +1,168 @@
+package xoric.prism.develop.meta;
+
+import java.awt.Cursor;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import xoric.prism.data.PrismDataLoader;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.global.Prism;
+import xoric.prism.data.types.IPath_r;
+import xoric.prism.data.types.Path;
+import xoric.prism.global.PrismGlobal;
+import xoric.prism.swing.PrismFrame;
+
+public class MetaFileManager extends PrismFrame implements MouseListener
+{
+	private static final long serialVersionUID = 1L;
+
+	private final JTree tree;
+	private final DefaultMutableTreeNode root;
+
+	private final IPath_r resPath = new Path("E:/Prism/resource");
+
+	public MetaFileManager()
+	{
+		super("MetaFile Manager", 640, 400, true);
+
+		root = new DefaultMutableTreeNode("Resources");
+		tree = new JTree(root);
+		tree.addMouseListener(this);
+		JScrollPane scroll = new JScrollPane(tree);
+		this.setContentPane(scroll);
+	}
+
+	public void loadDir(boolean autoCreate) throws PrismException
+	{
+		if (autoCreate)
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+		root.removeAllChildren();
+		loadSubdirs(resPath, root, autoCreate);
+		tree.updateUI();
+
+		if (autoCreate)
+			setCursor(Cursor.getDefaultCursor());
+	}
+
+	private boolean loadSubdirs(IPath_r path, DefaultMutableTreeNode parent, boolean autoCreate) throws PrismException
+	{
+		boolean found = false;
+		File[] subDirs = path.listFiles();
+
+		for (File file : subDirs)
+		{
+			if (file.isDirectory())
+			{
+				Path subPath = new Path(file);
+				String s = file.getName();
+				DefaultMutableTreeNode node = new DefaultMutableTreeNode(s);
+				boolean ok;
+
+				if (subPath.getFile("meta.txt").exists())
+				{
+					ok = true;
+					if (autoCreate)
+					{
+						MetaFileCreator creator = new MetaFileCreator(subPath, Prism.global.getDataPath());
+						creator.create();
+					}
+				}
+				else
+					ok = loadSubdirs(subPath, node, autoCreate);
+
+				if (ok)
+				{
+					found = true;
+					parent.add(node);
+				}
+			}
+		}
+		return found;
+	}
+
+	private void expandAll()
+	{
+		for (int i = 0; i < tree.getRowCount(); i++)
+			tree.expandRow(i);
+	}
+
+	private void collapseAll()
+	{
+		for (int i = 1; i < tree.getRowCount(); i++)
+			tree.collapseRow(i);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0)
+	{
+		// TODO Auto-generated method stub
+
+	}
+	
+	private void start()
+	{
+		
+	}
+
+	public static void main(String[] args)
+	{
+		try
+		{
+			// global initialization
+			PrismGlobal.setLookAndFeel();
+			PrismGlobal global = new PrismGlobal();
+			global.load();
+			Prism.global = global;
+
+			// initialize
+			PrismDataLoader.loadAll();
+
+			MetaFileManager m = new MetaFileManager();
+			m.setVisible(true);
+			m.start();
+		}
+		catch (PrismException e)
+		{
+			e.user.showMessage();
+			e.code.print();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+}

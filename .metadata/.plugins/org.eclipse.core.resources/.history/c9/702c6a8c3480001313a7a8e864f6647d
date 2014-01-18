@@ -1,0 +1,6 @@
+package xoric.prism.data.types;
+
+public class PrismColor
+{
+
+}

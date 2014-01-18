@@ -22,7 +22,6 @@ import xoric.prism.data.tools.Common;
 import xoric.prism.data.types.Heap;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IntPacker;
-import xoric.prism.data.types.Path;
 
 public class MetaFileCreator
 {
@@ -481,26 +480,6 @@ public class MetaFileCreator
 			metaList.addMetaBlock(b);
 
 		return metaList;
-	}
-
-	public static void main(String[] args)
-	{
-		//		IPath_r sourcePath = new Path("/home/xoric/workspace/resource/common/toc");
-		//		IPath_r targetPath = new Path("/home/xoric/workspace/data");
-		String pathBase = "E:/Prism";
-		IPath_r sourcePath = new Path(pathBase + "/resource/shader/default");
-		IPath_r targetPath = new Path(pathBase + "/data");
-
-		MetaFileCreator f = new MetaFileCreator(sourcePath, targetPath);
-		try
-		{
-			f.create();
-		}
-		catch (PrismException e)
-		{
-			e.code.print();
-			e.user.showMessage();
-		}
 	}
 
 	public File getResultingTargetFile()

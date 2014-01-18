@@ -85,6 +85,7 @@ public class PrismClient implements ISceneListener
 		testModelMeta();
 
 		scene.createWindow(800, 480, false);
+		scene.initialize();
 		scene.startLoop(this);
 	}
 
@@ -121,7 +122,7 @@ public class PrismClient implements ISceneListener
 		movable.timeUpdate(passedMs, seconds);
 
 		//		nz = -3.0f;
-		renderer.setColor(0.8f, 0.2f, 0.2f);
+		//		renderer.setColor(0.8f, 0.2f, 0.2f);
 
 		// walk
 		walkingMan.x += walkingX;
@@ -151,7 +152,7 @@ public class PrismClient implements ISceneListener
 		renderer.drawPlane(temp, temp2);
 
 		// draw edges
-		renderer.setColor(0.3f, 0.5f, 0.2f);
+		//		renderer.setColor(0.3f, 0.5f, 0.2f);
 		cam.transformWithCameraBounds(manSize, temp2);
 		for (int i = 0; i < 4; ++i)
 		{
@@ -160,12 +161,12 @@ public class PrismClient implements ISceneListener
 		}
 
 		// draw walking man
-		renderer.setColor(0.3f, 0.2f, 0.8f);
+		//		renderer.setColor(0.3f, 0.2f, 0.8f);
 		cam.transformWithCameraBounds(walkingMan, temp);
 		renderer.drawObject(temp, temp2, 0.0f);
 
 		// draw movable
-		renderer.setColor(0.3f, 0.2f, 0.5f);
+		//		renderer.setColor(0.3f, 0.2f, 0.5f);
 		cam.transformWithCameraBounds(movable.getPosition(), temp);
 		renderer.drawObject(temp, temp2, 0.0f);
 

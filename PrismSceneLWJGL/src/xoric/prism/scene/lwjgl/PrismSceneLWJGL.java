@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.lwjgl.LWJGLException;
@@ -15,17 +14,23 @@ import org.lwjgl.opengl.GL11;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IFloatPoint_r;
+import xoric.prism.data.types.PrismColor;
 import xoric.prism.scene.IRenderer;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
 import xoric.prism.scene.SceneStage;
-import xoric.prism.scene.shader.IShader2;
+import xoric.prism.scene.lwjgl.shaders.Shader2;
+import xoric.prism.scene.lwjgl.textures.Texture;
 
 public class PrismSceneLWJGL implements IScene, IRenderer
 {
 	private float slope;
 
 	private TextureIO[] textures;
+	private Shader2 testingDefaultShader;
+	private Texture testingTexture;
+	private PrismColor testingColor2;
+	private boolean[] brgba = new boolean[4];
 
 	public PrismSceneLWJGL()
 	{
@@ -98,49 +103,35 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 	}
 
 	@Override
-	public void startLoop(ISceneListener listener)
+	public void initialize()
 	{
-		final int loopInterval = IScene.LOOP_INTERVAL_MS;
-		long lastMs = System.currentTimeMillis();
-		boolean resumeTimer = true;
-
-		//		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		//		GL11.glLoadIdentity();
-		//		GL11.glOrtho(0, Display.getDisplayMode().getWidth(), 0, Display.getDisplayMode().getHeight(), 1, -1);
-		//		GL11.glMatrixMode(GL11.GL_MODELVIEW);
-
-		/* test */GL11.glMatrixMode(GL11.GL_PROJECTION); // Den richtigen Stack aktivieren
-		GL11.glLoadIdentity(); // Die Matrix zur�cksetzen
-
-		//		GL11.glEnable(GL11.GL_DEPTH_TEST); // Tiefentest (mit dem Z-Buffer) aktivieren
-
-		// test
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-		// enable transparency for png
 		GL11.glEnable(GL11.GL_BLEND);
-		//		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+		//		GL11.glEnable(GL11.GL_DEPTH_TEST); // Tiefentest (mit dem Z-Buffer) aktivieren
 
 		try
 		{
 			// TODO: throws an exception on netbook
-			IShader2 s = ShaderIO2.getInstance().createShader(new File("../debug/defaultShader.vert"),
-					new File("../debug/defaultShader.frag"));
-			s.activate();
+			testingDefaultShader = ShaderIO2.createShader(new File("../debug/defaultShader.vert"), new File("../debug/defaultShader.frag"));
+			testingDefaultShader.activate();
 		}
 		catch (PrismException e)
 		{
 			e.code.print();
 		}
 
-		//		this.setupQuad();
+		testingColor2 = new PrismColor();
+		testingColor2.set(1.0f, 0.0f, 0.0f, 1.0f);
+
 		try
 		{
 			textures = new TextureIO[3];
 			textures[0] = new TextureIO(new FileInputStream("../debug/g1.png"));
 			textures[1] = new TextureIO(new FileInputStream("../debug/g2.png"));
 			textures[2] = new TextureIO(new FileInputStream("../debug/john.png"));
+			testingTexture = TextureIO2.createFromFile(new File("../debug/john.png"));
 			GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_REPLACE);
 			textures[0].init();
 			textures[1].init();
@@ -150,6 +141,17 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		{
 			e1.printStackTrace();
 		}
+	}
+
+	@Override
+	public void startLoop(ISceneListener listener)
+	{
+		final int loopInterval = IScene.LOOP_INTERVAL_MS;
+		long lastMs = System.currentTimeMillis();
+		boolean resumeTimer = true;
+
+		/* test */GL11.glMatrixMode(GL11.GL_PROJECTION); // Den richtigen Stack aktivieren
+		GL11.glLoadIdentity(); // Die Matrix zur�cksetzen
 
 		int frameCounter = 0;
 		int frameTimerMs = 0;
@@ -238,11 +240,11 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 
 	/* **************** IRenderer *************************** */
 
-	@Override
-	public void setColor(float r, float g, float b)
-	{
-		GL11.glColor3f(r, g, b);
-	}
+	//	@Override
+	//	public void setColor(float r, float g, float b)
+	//	{
+	//		GL11.glColor3f(r, g, b);
+	//	}
 
 	private float calcZ(float y)
 	{
@@ -256,7 +258,7 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 	@Override
 	public void drawPlane(IFloatPoint_r position, IFloatPoint_r size)
 	{
-		bindTexture(textures[0].getProgramID(), false);
+		//		bindTexture(textures[0].getProgramID(), false);
 
 		GL11.glBegin(GL11.GL_QUADS);
 
@@ -279,13 +281,39 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 
 		GL11.glEnd();
 
-		unbindTexture();
+		//		unbindTexture();
 	}
 
 	@Override
 	public void drawObject(IFloatPoint_r position, IFloatPoint_r size, float zOnset)
 	{
-		bindTexture(textures[0].getProgramID(), false);
+		float[] rgba = testingColor2.getRGBA();
+		for (int i = 0; i < 3; ++i)
+		{
+			if (brgba[i])
+			{
+				rgba[i] += 0.001f * i;
+				if (rgba[i] > 1.0f)
+				{
+					rgba[i] = 1.0f;
+					brgba[i] = false;
+				}
+			}
+			else
+			{
+				rgba[i] -= 0.001f * i;
+				if (rgba[i] < 0.0f)
+				{
+					rgba[i] = 0.0f;
+					brgba[i] = true;
+				}
+			}
+		}
+
+		//		bindTexture(textures[0].getProgramID(), false);
+		testingDefaultShader.activate();
+		testingDefaultShader.setTexture(testingTexture);
+		testingDefaultShader.setColor(testingColor2);
 
 		GL11.glBegin(GL11.GL_QUADS);
 
@@ -307,7 +335,7 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 
 		GL11.glEnd();
 
-		unbindTexture();
+		//		unbindTexture();
 	}
 
 	public void setInterpolationNearest()
@@ -319,7 +347,7 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 	@Override
 	public void drawSprite(float x, float y, float w, float h)
 	{
-		bindTexture(textures[2].getProgramID(), true);
+		//		bindTexture(textures[2].getProgramID(), true);
 
 		//		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST_MIPMAP_NEAREST);
 		//		 GL_TEXTURE_MIN_FILTER: used whenever a surface is rendered with smaller dimensions than its corresponding texture bitmap
@@ -340,7 +368,7 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 
 		GL11.glEnd();
 
-		unbindTexture();
+		//		unbindTexture();
 	}
 
 	@Override
@@ -349,29 +377,22 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		this.slope = slope;
 	}
 
-	@Override
-	public void bindTexture(int programID, boolean enableFilter)
-	{
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, programID);
+	//	@Override
+	//	public void bindTexture(int programID, boolean enableFilter)
+	//	{
+	//		GL11.glBindTexture(GL11.GL_TEXTURE_2D, programID);
+	//
+	//
+	//		int s = Calendar.getInstance().get(Calendar.SECOND);
+	//		if (s % 10 < 5)
+	//			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+	//		else
+	//			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+	//	}
 
-		//		int s = Calendar.getInstance().get(Calendar.SECOND);
-		//		if (s % 10 < 5)
-		//			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST_MIPMAP_NEAREST);
-		//		else
-		//			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-		// GL_TEXTURE_MAG_FILTER: used when a surface is bigger than the texture being applied
-
-		int s = Calendar.getInstance().get(Calendar.SECOND);
-		if (s % 10 < 5)
-			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-		else
-			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-		// GL_TEXTURE_MAG_FILTER: used when a surface is bigger than the texture being applied
-	}
-
-	@Override
-	public void unbindTexture()
-	{
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
-	}
+	//	@Override
+	//	public void unbindTexture()
+	//	{
+	//		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+	//	}
 }

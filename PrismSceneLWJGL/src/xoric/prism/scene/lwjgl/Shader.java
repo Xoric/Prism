@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
-import xoric.prism.scene.shader.IShader;
+import xoric.prism.scene.shaders.IShader;
 
 @Deprecated
 public class Shader implements IShader

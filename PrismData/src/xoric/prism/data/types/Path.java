@@ -5,6 +5,7 @@ import java.io.File;
 public class Path implements IPath_r
 {
 	private String path;
+	private File file;
 
 	public Path(String path)
 	{
@@ -16,10 +17,21 @@ public class Path implements IPath_r
 		set(path.toString());
 	}
 
+	public Path(File f)
+	{
+		set(f.toString());
+	}
+
 	@Override
 	public File getFile(String filename)
 	{
 		return new File(path + filename);
+	}
+
+	@Override
+	public File[] listFiles()
+	{
+		return file.listFiles();
 	}
 
 	/**
@@ -34,6 +46,7 @@ public class Path implements IPath_r
 			p += '/';
 
 		this.path = p;
+		this.file = new File(p);
 	}
 
 	/**

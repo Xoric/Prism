@@ -1,0 +1,39 @@
+package xoric.prism.scene.lwjgl.shaders;
+
+import org.lwjgl.opengl.ARBShaderObjects;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+
+import xoric.prism.scene.shaders.IShader2;
+import xoric.prism.scene.textures.ITexture;
+
+public class Shader2 implements IShader2
+{
+	private final int program;
+
+	public Shader2(int program)
+	{
+		this.program = program;
+	}
+
+	@Override
+	public void activate()
+	{
+		ARBShaderObjects.glUseProgramObjectARB(program);
+	}
+
+	@Override
+	public void setTexture(ITexture texture)
+	{
+		// gl2.glActiveTexture(GL.GL_TEXTURE0 + texIndex);
+
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+
+		gl2.glActiveTexture(GL.GL_TEXTURE0);
+		gl2.glBindTexture(GL.GL_TEXTURE_2D, textureObject);
+
+		int uniformLocation = gl2.glGetUniformLocationARB(program, "tex");
+		// gl2.glUniform1iARB(uniformLocation, texIndex);
+		gl2.glUniform1iARB(uniformLocation, 0);
+	}
+}

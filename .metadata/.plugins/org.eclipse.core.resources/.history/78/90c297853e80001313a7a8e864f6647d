@@ -1,0 +1,14 @@
+package xoric.prism.develop.meta;
+
+import xoric.prism.swing.PrismFrame;
+
+public class MetaFileManager extends PrismFrame
+{
+	private static final long serialVersionUID = 1L;
+
+	public MetaFileManager(String title, int width, int height, boolean exitOnClose)
+	{
+		super("MetaFile Manager", 640, 400, true);
+	}
+
+}

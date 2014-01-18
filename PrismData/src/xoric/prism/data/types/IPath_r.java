@@ -9,4 +9,6 @@ public interface IPath_r
 	public boolean exists();
 
 	public boolean createDirectories();
+
+	public File[] listFiles();
 }

@@ -72,13 +72,30 @@ public class IntPacker implements IPredictablePackable
 	{
 		instance.setValue(value);
 		instance.pack(stream);
-		//		return instance.getPackedSize();
+	}
+
+	public static synchronized void pack_s(OutputStream stream, int[] values) throws IOException
+	{
+		for (int v : values)
+		{
+			instance.setValue(v);
+			instance.pack(stream);
+		}
 	}
 
 	public static synchronized int unpack_s(InputStream stream) throws IOException
 	{
 		instance.unpack(stream);
 		return instance.getValue();
+	}
+
+	public static synchronized void unpack_s(InputStream stream, int[] out) throws IOException
+	{
+		for (int i = 0; i < out.length; ++i)
+		{
+			instance.unpack(stream);
+			out[i] = instance.getValue();
+		}
 	}
 
 	public static synchronized int calcPackedSize_s(int value)

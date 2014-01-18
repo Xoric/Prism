@@ -1,0 +1,11 @@
+package xoric.prism.data.types;
+
+public class PrismColor
+{
+	private final float[] rgba;
+	
+	public PrismColor()
+	{
+		rgba = new float[4];
+	}
+}

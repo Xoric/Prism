@@ -1,0 +1,31 @@
+package xoric.prism.data.types;
+
+import java.nio.FloatBuffer;
+
+public class PrismColor
+{
+	private final float[] rgba;
+
+	public PrismColor()
+	{
+		rgba = new float[4];
+	}
+
+	public float[] getRGBA()
+	{
+		return rgba;
+	}
+
+	public void set(float r, float g, float b, float a)
+	{
+		rgba[0].putFloat(r);
+		rgba[1].putFloat(g);
+		rgba[2].putFloat(b);
+		rgba[3].putFloat(a);
+	}
+
+	public FloatBuffer getFloatBuffer()
+	{
+		return buffer.asFloatBuffer();
+	}
+}

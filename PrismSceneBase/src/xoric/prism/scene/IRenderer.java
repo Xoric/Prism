@@ -4,11 +4,11 @@ import xoric.prism.data.types.IFloatPoint_r;
 
 public interface IRenderer
 {
-	public void setColor(float r, float g, float b);
+	//	public void setColor(float r, float g, float b);
 
-	public void bindTexture(int programID, boolean enableFilter);
+	//	public void bindTexture(int programID, boolean enableFilter);
 
-	public void unbindTexture();
+	//	public void unbindTexture();
 
 	public void drawPlane(IFloatPoint_r position, IFloatPoint_r size);
 

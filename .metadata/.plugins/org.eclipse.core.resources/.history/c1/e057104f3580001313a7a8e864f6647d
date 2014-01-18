@@ -1,0 +1,27 @@
+package xoric.prism.data.types;
+
+import java.nio.FloatBuffer;
+
+public class PrismColor
+{
+	private final ByteBuffer buffer;
+
+	public PrismColor()
+	{
+		buffer = FloatBuffer.allocateDirect(4);
+	}
+
+	public void set(float r, float g, float b, float a)
+	{
+		buffer.position(0);
+		buffer.put(r);
+		buffer.put(g);
+		buffer.put(b);
+		buffer.put(a);
+	}
+
+	public FloatBuffer getFloatBuffer()
+	{
+		return buffer;
+	}
+}

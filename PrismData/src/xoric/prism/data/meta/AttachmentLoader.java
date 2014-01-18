@@ -2,10 +2,12 @@ package xoric.prism.data.meta;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.zip.GZIPInputStream;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
@@ -19,6 +21,7 @@ public class AttachmentLoader extends AttachmentTable
 {
 	private final File file;
 	private final String filename;
+	private final byte[] buffer = new byte[1024];
 
 	public AttachmentLoader(IPath_r path, String filename, int count)
 	{
@@ -80,7 +83,46 @@ public class AttachmentLoader extends AttachmentTable
 			// ----			
 			throw e;
 		}
+
+		// decompress attachment buffer if compressed
+		if (h.isCompressed())
+		{
+			try
+			{
+				buf = decompressBuffer(buf);
+			}
+			catch (Exception e0)
+			{
+				PrismException e = new PrismException(e0);
+				// ----
+				e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
+				// ----
+				e.code.setText("error while decompressing attachment buffer");
+				e.code.addInfo("attachmentIndex", attachmentIndex);
+				e.code.addInfo("attachmentHeader", h.toString());
+				// ----
+				e.addInfo("file", filename);
+				// ----			
+				throw e;
+			}
+		}
 		return buf;
+	}
+
+	private byte[] decompressBuffer(byte[] buf) throws IOException
+	{
+		ByteArrayOutputStream result = new ByteArrayOutputStream();
+		ByteArrayInputStream in = new ByteArrayInputStream(buf);
+		GZIPInputStream zin = new GZIPInputStream(in);
+
+		int bytes;
+		while ((bytes = zin.read(buffer)) > 0)
+			result.write(buffer, 0, bytes);
+
+		zin.close();
+		in.close();
+
+		return result.toByteArray();
 	}
 
 	/**

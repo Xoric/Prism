@@ -1,0 +1,6 @@
+package xoric.prism.scene.shader;
+
+public enum ITextureShader
+{
+
+}
