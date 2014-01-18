@@ -2,7 +2,8 @@ package xoric.prism.world.loader;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
-import xoric.prism.data.global.FileIndex;
+import xoric.prism.data.global.DevIndex;
+import xoric.prism.data.global.FileTableDirectoryIndex;
 import xoric.prism.data.global.Prism;
 import xoric.prism.data.meta.MetaBlock;
 import xoric.prism.data.meta.MetaFile;
@@ -20,7 +21,7 @@ public abstract class PrismWorldLoader
 
 	private static void loadAnimationDevInfo() throws PrismException
 	{
-		MetaFile f = Prism.global.loadMetaFile(FileIndex.ANIM_D);
+		MetaFile f = Prism.global.loadMetaFile(FileTableDirectoryIndex.DEV, DevIndex.ANIM_D.ordinal());
 		MetaList metaList = f.getMetaList();
 		MetaBlock metaBlock = metaList.claimMetaBlock(MetaType.ANIM_D);
 

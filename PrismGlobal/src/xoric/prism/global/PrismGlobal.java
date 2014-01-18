@@ -5,7 +5,7 @@ import java.util.Properties;
 import javax.swing.UIManager;
 
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.global.FileIndex;
+import xoric.prism.data.global.FileTableDirectoryIndex;
 import xoric.prism.data.global.IPrismGlobal;
 import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.types.IPath_r;
@@ -15,10 +15,6 @@ public class PrismGlobal implements IPrismGlobal
 {
 	private Path dataPath;
 	private FileTable fileTable;
-
-	public PrismGlobal()
-	{
-	}
 
 	public void load() throws PrismException
 	{
@@ -51,9 +47,9 @@ public class PrismGlobal implements IPrismGlobal
 	}
 
 	@Override
-	public MetaFile loadMetaFile(FileIndex fi) throws PrismException
+	public MetaFile loadMetaFile(FileTableDirectoryIndex fd, int index) throws PrismException
 	{
-		return fileTable.loadMetaFile(fi);
+		return fileTable.loadMetaFile(fd, index);
 	}
 
 	@Override

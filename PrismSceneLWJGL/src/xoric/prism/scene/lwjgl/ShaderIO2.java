@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.scene.lwjgl.shaders.Shader2;
+import xoric.prism.scene.shaders.IShader2;
 
 public class ShaderIO2
 {
@@ -42,9 +43,9 @@ public class ShaderIO2
 			PrismException e = new PrismException();
 			// ----
 			// ----
+			e.code.addInfo("log", getLogInfo(shaderID));
 			// ----
 			e.setText(UserErrorText.SHADER_PROBLEM);
-			e.addInfo("log", getLogInfo(shaderID));
 			// ----
 			throw e;
 		}
@@ -84,17 +85,17 @@ public class ShaderIO2
 			PrismException e = new PrismException();
 			// ----
 			// ----
+			if (errorLog.length() > 0)
+				e.code.addInfo("log", errorLog);
 			// ----
 			e.setText(UserErrorText.SHADER_PROBLEM);
-			if (errorLog.length() > 0)
-				e.addInfo("log", errorLog);
 			// ----
 			throw e;
 		}
 		return program;
 	}
 
-	public static Shader2 createShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException
+	public static IShader2 createShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException
 	{
 		Shader2 shader = null;
 
@@ -111,12 +112,13 @@ public class ShaderIO2
 		return shader;
 	}
 
-	public static Shader2 createShader(File vertexFile, File pixelFile) throws PrismException
+	@Deprecated
+	public static IShader2 createShader(File vertexFile, File pixelFile) throws PrismException
 	{
 		ByteBuffer vertexBuf = readFileAsByteBuffer(vertexFile);
 		ByteBuffer pixelBuf = readFileAsByteBuffer(pixelFile);
 
-		Shader2 shader = createShader(vertexBuf, pixelBuf);
+		IShader2 shader = createShader(vertexBuf, pixelBuf);
 
 		return shader;
 	}

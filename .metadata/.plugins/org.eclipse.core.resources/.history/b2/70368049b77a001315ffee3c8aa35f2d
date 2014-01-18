@@ -1,9 +1,0 @@
-package xoric.prism.creator.drawer.image;
-
-import xoric.prism.creator.drawer.model.AnimationModel;
-import xoric.prism.world.entities.ViewAngle;
-
-public interface IFramesView
-{
-	public void loadFrames(AnimationModel m, ViewAngle viewAngle);
-}

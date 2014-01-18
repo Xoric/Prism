@@ -8,7 +8,7 @@ public enum UserErrorText
 	WRITE_ERROR("An error occurred while trying to write a file."),
 	READ_ERROR("An error occurred while trying to read from a file."),
 	COULD_NOT_CREATE_DIRECTORY("Directory could not be created."),
-	SHADER_PROBLEM("There was a problem with some shaders."),
+	SHADER_PROBLEM("There was a problem with a shader."),
 	FILE_NOT_FOUND("File not found.");
 
 	private final String text;

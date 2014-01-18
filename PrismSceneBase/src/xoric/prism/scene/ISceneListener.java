@@ -4,9 +4,11 @@ public interface ISceneListener
 {
 	/**
 	 * Sends a request to update the scene. Returns true if the scene's loop should resume, false otherwise.
-	 * @return boolean
+	 * @param passedMs
+	 * @param renderer
+	 * @return
 	 */
 	public boolean requestUpdateScene(int passedMs, IRenderer renderer);
 
-	public void onClosingScene();
+	public void onClosingScene(Throwable throwable);
 }

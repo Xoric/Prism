@@ -16,6 +16,12 @@ class FileTableEntry
 		this.filename = filename;
 	}
 
+	@Override
+	public String toString()
+	{
+		return filename;
+	}
+
 	public MetaFile loadMetaFile() throws PrismException
 	{
 		if (metaFile == null)

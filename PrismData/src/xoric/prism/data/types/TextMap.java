@@ -61,8 +61,10 @@ public abstract class TextMap
 				result = "OE";
 			else if ((c == 'Ü') || (c == 'ü'))
 				result = "UE";
-			else if ((c == 'ß'))
+			else if (c == 'ß')
 				result = "SS";
+			else if (c == '\\')
+				result = "/";
 			else
 				result = "";
 		}

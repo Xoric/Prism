@@ -1,0 +1,14 @@
+package xoric.prism.global;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class FileTableDirectory
+{
+	private final List<FileTableEntry> list;
+
+	public FileTableDirectory()
+	{
+		list = new ArrayList<FileTableEntry>();
+	}
+}

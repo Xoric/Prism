@@ -3,7 +3,9 @@ package xoric.prism.scene;
 import java.awt.Dimension;
 import java.util.List;
 
-public interface IScene
+import xoric.prism.scene.shaders.IShaderIO;
+
+public interface IScene extends IShaderIO
 {
 	public static final int LOOP_INTERVAL_MS = 25;
 

@@ -174,8 +174,22 @@ public class PrismClient implements ISceneListener
 	}
 
 	@Override
-	public void onClosingScene()
+	public void onClosingScene(Throwable throwable)
 	{
 		System.out.println("client is being notified that scene is closing");
+
+		if (throwable != null)
+		{
+			if (throwable instanceof PrismException)
+			{
+				PrismException e = (PrismException) throwable;
+				e.code.print();
+				e.user.showMessage();
+			}
+			else
+			{
+				throwable.printStackTrace();
+			}
+		}
 	}
 }

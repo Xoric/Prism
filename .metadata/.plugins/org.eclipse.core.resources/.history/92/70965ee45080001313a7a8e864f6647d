@@ -1,0 +1,46 @@
+package xoric.prism.scene.shaders;
+
+import java.nio.ByteBuffer;
+
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.global.FileTableDirectoryIndex;
+import xoric.prism.data.global.Prism;
+import xoric.prism.data.global.ShaderIndex;
+import xoric.prism.data.meta.AttachmentLoader;
+import xoric.prism.data.meta.MetaFile;
+import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaType;
+
+public class AllShaders
+{
+	public static IShader2 defaultShader;
+
+	public static void load(IShaderIO shaderIO) throws PrismException
+	{
+		defaultShader = loadShader(shaderIO, ShaderIndex.DEFAULT);
+	}
+
+	private static IShader2 loadShader(IShaderIO shaderIO, ShaderIndex si) throws PrismException
+	{
+		MetaFile mf = Prism.global.loadMetaFile(FileTableDirectoryIndex.SHADER, si.ordinal());
+		mf.load();
+		MetaList ml = mf.getMetaList();
+		ml.claimMetaBlock(MetaType.SHADER);
+		AttachmentLoader al = mf.getAttachmentLoader();
+
+		byte[] vertexBuf = al.loadAttachment(0);
+		byte[] fragmentBuf = al.loadAttachment(1);
+
+		ByteBuffer vertex = ByteBuffer.allocateDirect(vertexBuf.length);
+		ByteBuffer fragment = ByteBuffer.allocateDirect(fragmentBuf.length);
+		vertex.put(vertexBuf);
+		fragment.put(fragmentBuf);
+		
+		System.out.println(vertexBuf.length);
+		System.out.println(fragmentBuf.length);
+
+		IShader2 shader = shaderIO.createShader(vertex, fragment);
+
+		return shader;
+	}
+}

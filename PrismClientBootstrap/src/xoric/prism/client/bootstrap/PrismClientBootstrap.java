@@ -24,7 +24,6 @@ public class PrismClientBootstrap
 			global.load();
 			Prism.global = global;
 
-			// initialize
 			PrismDataLoader.loadAll();
 			PrismWorldLoader.loadAll(false);
 
@@ -37,8 +36,8 @@ public class PrismClientBootstrap
 		}
 		catch (PrismException e)
 		{
-			e.user.showMessage();
 			e.code.print();
+			e.user.showMessage();
 		}
 		catch (Exception e)
 		{

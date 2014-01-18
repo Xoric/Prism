@@ -37,3 +37,6 @@
 1390047735980	Rename local variable 'bytes_read'
 1390047739521	Rename local variable 'bytesRead'
 1390047890732	Rename local variable 'temp'
+1390053017340	Delete element
+1390054480152	Rename type 'FileDirectory'
+1390054541364	Rename type 'FileTableDirectory'

@@ -1,6 +1,0 @@
-package xoric.prism.creator.drawer.control;
-
-
-public interface IDrawerControl2 extends IModelControl, IAnimationControl.ISpriteControl
-{
-}

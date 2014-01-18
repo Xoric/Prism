@@ -1,12 +1,10 @@
 package xoric.prism.data.meta;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.zip.GZIPInputStream;
 
 import xoric.prism.data.exceptions.PrismException;
@@ -123,44 +121,5 @@ public class AttachmentLoader extends AttachmentTable
 		in.close();
 
 		return result.toByteArray();
-	}
-
-	/**
-	 * Loads an attachment as String-Array.
-	 * @param attachmentIndex
-	 * @return String[]
-	 * @throws PrismMetaFileException
-	 */
-	public String[] loadAttachmentAsStringArray(int attachmentIndex) throws PrismException
-	{
-		byte[] buf = loadAttachment(attachmentIndex);
-		ByteArrayInputStream stream = new ByteArrayInputStream(buf);
-		BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-		StringBuilder lines = new StringBuilder();
-
-		try
-		{
-			String line;
-			while ((line = br.readLine()) != null)
-				lines.append(line + '\n');
-			stream.close();
-		}
-		catch (Exception e0)
-		{
-			PrismException e = new PrismException(e0);
-			// ----
-			e.user.setText(UserErrorText.INTERNAL_PROBLEM);
-			// ----
-			e.code.setText("error while converting attachment buffer to string array");
-			e.code.addInfo("attachmentIndex", attachmentIndex);
-			e.code.addInfo("bufferLength", buf.length);
-			// ----
-			e.addInfo("file", filename);
-			// ----			
-			throw e;
-		}
-
-		String[] result = new String[] { lines.toString() };
-		return result;
 	}
 }

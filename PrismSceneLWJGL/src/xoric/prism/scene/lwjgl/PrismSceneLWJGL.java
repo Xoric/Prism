@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,22 +19,27 @@ import xoric.prism.data.types.PrismColor;
 import xoric.prism.scene.IRenderer;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
+import xoric.prism.scene.PrismSceneLoader;
 import xoric.prism.scene.SceneStage;
-import xoric.prism.scene.lwjgl.shaders.Shader2;
 import xoric.prism.scene.lwjgl.textures.Texture;
+import xoric.prism.scene.shaders.IShader2;
 
 public class PrismSceneLWJGL implements IScene, IRenderer
 {
+	private final ShaderIO2 shaderIO;
+	private Throwable throwable;
+
 	private float slope;
 
 	private TextureIO[] textures;
-	private Shader2 testingDefaultShader;
+	private IShader2 testingDefaultShader;
 	private Texture testingTexture;
 	private PrismColor testingColor2;
 	private boolean[] brgba = new boolean[4];
 
 	public PrismSceneLWJGL()
 	{
+		shaderIO = new ShaderIO2();
 		slope = 0.5f;
 	}
 
@@ -102,6 +108,11 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		}
 	}
 
+	private void memorizeException(Throwable e)
+	{
+		this.throwable = e;
+	}
+
 	@Override
 	public void initialize()
 	{
@@ -110,6 +121,15 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		GL11.glEnable(GL11.GL_BLEND);
 
 		//		GL11.glEnable(GL11.GL_DEPTH_TEST); // Tiefentest (mit dem Z-Buffer) aktivieren
+
+		try
+		{
+			PrismSceneLoader.loadAll(this);
+		}
+		catch (Throwable e2)
+		{
+			memorizeException(e2);
+		}
 
 		try
 		{
@@ -195,10 +215,12 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 				}
 				catch (InterruptedException e)
 				{
-					e.printStackTrace();
-					resumeTimer = false;
+					if (throwable == null)
+						throwable = e;
 				}
 			}
+
+			resumeTimer &= throwable == null;
 		}
 		while (resumeTimer);
 
@@ -207,8 +229,8 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 			GL11.glDeleteTextures(textures[i].getProgramID());
 
 		// destroy scene
-		listener.onClosingScene();
 		Display.destroy();
+		listener.onClosingScene(throwable);
 	}
 
 	@Override
@@ -375,6 +397,12 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 	public void setSlope(float slope)
 	{
 		this.slope = slope;
+	}
+
+	@Override
+	public IShader2 createShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException
+	{
+		return ShaderIO2.createShader(vertexShader, pixelShader);
 	}
 
 	//	@Override
