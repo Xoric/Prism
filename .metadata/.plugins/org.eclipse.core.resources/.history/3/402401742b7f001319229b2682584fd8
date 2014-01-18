@@ -1,0 +1,8 @@
+package xoric.prism.data.exceptions;
+
+public interface IExceptionHost
+{
+	public void setUplink(IExceptionHost uplink);
+
+	public void addExceptionInfo(PrismException e);
+}

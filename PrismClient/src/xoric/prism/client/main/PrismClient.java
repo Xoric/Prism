@@ -1,13 +1,18 @@
 package xoric.prism.client.main;
 
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.meta.MetaFile;
+import xoric.prism.data.meta.MetaList;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
+import xoric.prism.data.types.Path;
 import xoric.prism.scene.IRenderer;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
 import xoric.prism.scene.SceneStage;
 import xoric.prism.scene.camera.Camera;
 import xoric.prism.world.entities.Movable;
+import xoric.prism.world.model.GridModelMeta;
 
 public class PrismClient implements ISceneListener
 {
@@ -25,6 +30,8 @@ public class PrismClient implements ISceneListener
 	private float walkingX;
 	private float walkingY;
 	private static final FloatPoint manSize = new FloatPoint(20.0f, 40.0f);
+
+	private GridModelMeta gm;
 
 	private FloatPoint temp;
 	private FloatPoint temp2;
@@ -55,8 +62,28 @@ public class PrismClient implements ISceneListener
 		cam = new Camera(0.0f, 0.0f, 800.0f, 480.0f);
 	}
 
+	private void testModelMeta()
+	{
+		try
+		{
+			MetaFile mf = new MetaFile(new Path("E:\\Prism\\data\\model\\creep"), "fennec.md");
+			mf.load();
+			MetaList metaList = mf.getMetaList();
+
+			gm = new GridModelMeta();
+			gm.load(metaList);
+		}
+		catch (PrismException e)
+		{
+			e.code.print();
+			e.user.showMessage();
+		}
+	}
+
 	public void start()
 	{
+		testModelMeta();
+
 		scene.createWindow(800, 480, false);
 		scene.startLoop(this);
 	}

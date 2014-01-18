@@ -1,0 +1,6 @@
+package xoric.prism.world.model;
+
+public class GridModel
+{
+	
+}

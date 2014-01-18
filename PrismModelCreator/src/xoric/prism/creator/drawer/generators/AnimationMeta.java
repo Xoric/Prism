@@ -45,6 +45,9 @@ class AnimationMeta implements IPackable
 	@Override
 	public void pack(OutputStream stream) throws IOException
 	{
+		final int n = angles.size();
+		IntPacker.pack_s(stream, n);
+
 		for (int i = 0; i < angles.size(); ++i)
 		{
 			IntPacker.pack_s(stream, angles.get(i).ordinal());
@@ -58,7 +61,9 @@ class AnimationMeta implements IPackable
 		angles.clear();
 		columnCounts.clear();
 
-		for (int i = 0; i < angles.size(); ++i)
+		final int n = IntPacker.unpack_s(stream);
+
+		for (int i = 0; i < n; ++i)
 		{
 			int j = IntPacker.unpack_s(stream);
 			ViewAngle a = ViewAngle.valueOf(j);
@@ -67,17 +72,4 @@ class AnimationMeta implements IPackable
 			addAngle(a, columns);
 		}
 	}
-
-	//	@Override
-	//	public int getPackedSize()
-	//	{
-	//		int size = 0;
-	//
-	//		for (int i = 0; i < angles.size(); ++i)
-	//		{
-	//			size += IntPacker.getPackedSize_s(angles.get(i).ordinal());
-	//			size += IntPacker.getPackedSize_s(columnCounts.get(i));
-	//		}
-	//		return size;
-	//	}
 }

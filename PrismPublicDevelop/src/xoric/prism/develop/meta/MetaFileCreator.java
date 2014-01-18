@@ -48,7 +48,7 @@ public class MetaFileCreator
 
 	/**
 	 * Supply a previously created MetaList. {@link MetaFileCreator} will then no longer attempt to generate a MetaList from a text file
-	 * {@code "meta.txt"} in the source directory.
+	 * {@code "meta.txt"} within the source directory.
 	 * @param metaList
 	 */
 	public void infuseMetaList(MetaList metaList)
@@ -127,7 +127,7 @@ public class MetaFileCreator
 			}
 			catch (Exception e0)
 			{
-				PrismException e = new PrismException();
+				PrismException e = new PrismException(e0);
 				// ----
 				// ----
 				// ----
@@ -171,7 +171,7 @@ public class MetaFileCreator
 		}
 
 		// check if MetaList contains all required information
-		MetaBlock devBlock = metaList.findMetaBlock(MetaType.DEVELOP);
+		MetaBlock devBlock = metaList.claimMetaBlock(MetaType.DEVELOP);
 		String targetFilename = obtainTargetFilename(devBlock);
 		checkDevelopBlock(devBlock, targetFilename, info);
 
@@ -231,6 +231,10 @@ public class MetaFileCreator
 			}
 		}
 
+		// remove develop MetaBlock from MetaList
+		metaList.dropMetaBlock(devBlock);
+
+		// write file
 		TimeStamp timeStamp = new TimeStamp();
 		try
 		{
@@ -383,7 +387,7 @@ public class MetaFileCreator
 		}
 	}
 
-	private String obtainTargetFilename(MetaBlock devBlock)
+	private String obtainTargetFilename(MetaBlock devBlock) throws PrismException
 	{
 		Heap targetHeap = devBlock.findKey(MetaKey.TARGET);
 		String targetFilename = null;
@@ -483,8 +487,9 @@ public class MetaFileCreator
 	{
 		//		IPath_r sourcePath = new Path("/home/xoric/workspace/resource/common/toc");
 		//		IPath_r targetPath = new Path("/home/xoric/workspace/data");
-		IPath_r sourcePath = new Path("E:\\Prism\\resource\\dev\\anim-descriptions");
-		IPath_r targetPath = new Path("E:\\Prism\\data");
+		String pathBase = "E:/Prism";
+		IPath_r sourcePath = new Path(pathBase + "/resource/shader/default");
+		IPath_r targetPath = new Path(pathBase + "/data");
 
 		MetaFileCreator f = new MetaFileCreator(sourcePath, targetPath);
 		try

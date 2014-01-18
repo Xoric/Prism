@@ -1,6 +1,7 @@
 package xoric.prism.creator.drawer.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -148,16 +149,15 @@ public class AnimationList extends PrismPanel implements IAnimationList
 	private static JComponent createPriorityHeader(String s, Color color)
 	{
 		JLabel l = new JLabel(s);
+		Font f = l.getFont().deriveFont(Font.ITALIC);
+		l.setFont(f);
 
 		JPanel p = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(3,
 				6, 3, 3), 0, 0);
 		p.add(l, c);
-		//		p.setBackground(color);
-		//		p.setOpaque(true);
 
 		p.setBorder(BorderFactory.createEtchedBorder());
-		//		l.setOpaque(true);
 
 		return p;
 	}
@@ -186,8 +186,6 @@ public class AnimationList extends PrismPanel implements IAnimationList
 	@Override
 	public void setEnabled(boolean enabled)
 	{
-		//		super.setEnabled(enabled);
-
 		for (AnimationCell l : list)
 			l.setEnabled(enabled);
 	}

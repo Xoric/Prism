@@ -1,0 +1,18 @@
+package xoric.prism.world.model;
+
+public class AnimationMetaCollection
+{
+	private final AnimationIndex animationIndex;
+	
+	private final List<AnimationMeta> animations;
+	
+	public AnimationMetaCollection(AnimationIndex a)
+	{
+		this.animationIndex = a;
+	}
+	
+	public AnimationIndex getAnimationIndex()
+	{
+		return animationIndex;
+	}
+}

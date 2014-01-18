@@ -1,0 +1,141 @@
+package xoric.prism.world.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions.UserErrorText;
+import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.meta.MetaKey;
+import xoric.prism.data.meta.MetaLine;
+import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaType;
+import xoric.prism.data.types.Heap;
+import xoric.prism.data.types.IMetaChild;
+import xoric.prism.world.animations.AnimationIndex;
+import xoric.prism.world.entities.ViewAngle;
+
+public class GridModelMeta implements IMetaChild
+{
+	private final List<AnimationMetaCollection> animationCollections;
+
+	public GridModelMeta()
+	{
+		animationCollections = new ArrayList<AnimationMetaCollection>();
+	}
+
+	@Override
+	public void load(MetaList metaList) throws PrismException
+	{
+		// load animations
+		MetaBlock mb = metaList.findMetaBlock(MetaType.MODEL_G);
+		AnimationMeta currentAnimationMeta = null;
+
+		for (MetaLine l : mb.getMetaLines())
+		{
+			interpretLine(currentAnimationMeta, l);
+		}
+	}
+
+	private AnimationMeta interpretLine(AnimationMeta currentAnimationMeta, MetaLine metaLine) throws PrismException
+	{
+		MetaKey key = metaLine.getKey();
+
+		if (key == MetaKey.ITEM)
+		{
+			// add new animation
+			currentAnimationMeta = addAnimation(metaLine);
+		}
+		else if (key == MetaKey.SUB)
+		{
+			// add ViewAngle to current AnimationCollection
+			addViewAngle(currentAnimationMeta, metaLine);
+		}
+		return currentAnimationMeta;
+	}
+
+	private AnimationMeta addAnimation(MetaLine metaLine) throws PrismException
+	{
+		AnimationMeta animationMeta = null;
+		metaLine.ensureMinima(1, 0, 0);
+		Heap h = metaLine.getHeap();
+		int ai = h.ints.get(0);
+		AnimationIndex animationIndex;
+
+		try
+		{
+			animationIndex = AnimationIndex.valueOf(ai);
+		}
+		catch (Exception e0)
+		{
+			PrismException e = new PrismException(e0);
+			// ----
+			e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
+			// ----
+			e.code.setText("error casting an int into an AnimationIndex");
+			// ----
+			metaLine.addExceptionInfoTo(e);
+			// ----
+			throw e;
+		}
+
+		AnimationMetaCollection currentCollection = findOrAddCollection(animationIndex);
+		animationMeta = new AnimationMeta();
+		currentCollection.addVariation(animationMeta);
+
+		return animationMeta;
+	}
+
+	private void addViewAngle(AnimationMeta currentAnimationMeta, MetaLine metaLine) throws PrismException
+	{
+		if (currentAnimationMeta == null)
+		{
+			PrismException e = new PrismException();
+			// ----
+			e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
+			// ----
+			e.code.setText("a ViewAngle was added before an animation was specified");
+			// ----
+			metaLine.addExceptionInfoTo(e);
+			// ----
+			throw e;
+		}
+
+		Heap h = metaLine.getHeap();
+		metaLine.ensureMinima(2, 0, 0);
+		ViewAngle viewAngle;
+
+		try
+		{
+			int vi = h.ints.get(0);
+			viewAngle = ViewAngle.valueOf(vi);
+		}
+		catch (Exception e0)
+		{
+			PrismException e = new PrismException(e0);
+			// ----
+			e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
+			// ----
+			e.code.setText("error casting an int into a ViewAngle");
+			// ----
+			metaLine.addExceptionInfoTo(e);
+			// ----
+			throw e;
+		}
+
+		int columnCount = h.ints.get(1);
+		currentAnimationMeta.addViewAngle(viewAngle,  columnCount);
+	}
+
+	private AnimationMetaCollection findOrAddCollection(AnimationIndex a)
+	{
+		for (AnimationMetaCollection am : animationCollections)
+			if (am.getAnimationIndex() == a)
+				return am;
+
+		AnimationMetaCollection am = new AnimationMetaCollection(a);
+		animationCollections.add(am);
+
+		return am;
+	}
+}

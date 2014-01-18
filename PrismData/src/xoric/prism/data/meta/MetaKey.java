@@ -7,10 +7,14 @@ public enum MetaKey
 	TARGET,
 	ITEM,
 	SUB,
-	ALT;
+	ALT,
+	COUNT,
+	SIZE;
 
-	public byte toByte()
+	private static final MetaKey[] VALUES = values();
+
+	public static MetaKey valueOf(int index)
 	{
-		return (byte) ordinal();
+		return VALUES[index];
 	}
 }

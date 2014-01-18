@@ -1,0 +1,10 @@
+package xoric.prism.data.types;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+public interface IPackableRead
+{
+	public void unpack(InputStream stream) throws IOException;
+}

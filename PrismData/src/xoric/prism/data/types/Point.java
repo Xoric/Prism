@@ -70,6 +70,12 @@ public class Point implements IStackable, IPackable, IPoint_r
 	}
 
 	@Override
+	public String toString()
+	{
+		return "x=" + x + ", y=" + y;
+	}
+
+	@Override
 	public void pack(OutputStream stream) throws IOException
 	{
 		IntPacker.pack_s(stream, x);
@@ -83,11 +89,4 @@ public class Point implements IStackable, IPackable, IPoint_r
 		y = IntPacker.unpack_s(stream);
 
 	}
-
-	//	@Override
-	//	public int getPackedSize()
-	//	{
-	//		int size = IntPacker.getPackedSize_s(x) + IntPacker.getPackedSize_s(y);
-	//		return size;
-	//	}
 }

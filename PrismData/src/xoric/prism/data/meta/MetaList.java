@@ -6,16 +6,18 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import xoric.prism.data.exceptions.IInfoLayer;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.types.IPackable;
 import xoric.prism.data.types.IntPacker;
 
-public class MetaList implements IPackable
+public class MetaList implements IPackable, IInfoLayer
 {
 	private final List<MetaBlock> blocks;
 	private final IntPacker intPacker;
-	private IMetaListOwner owner;
+
+	private IInfoLayer uplink;
 
 	public MetaList()
 	{
@@ -41,17 +43,13 @@ public class MetaList implements IPackable
 		return sb.toString();
 	}
 
-	public void setOwner(IMetaListOwner owner)
-	{
-		this.owner = owner;
-	}
-
 	public void addMetaBlock(MetaBlock b)
 	{
+		b.setUplink(uplink);
 		blocks.add(b);
 	}
 
-	public MetaBlock findMetaBlock(MetaType t) throws PrismException
+	public MetaBlock claimMetaBlock(MetaType t) throws PrismException
 	{
 		for (MetaBlock b : blocks)
 			if (b.getMetaType() == t)
@@ -62,10 +60,10 @@ public class MetaList implements IPackable
 		e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
 		// ----
 		e.code.setText("non-existing MetaBlock requested");
-		e.code.addInfo("metaType", t.toString());
+		addExceptionInfoTo(e);
+		e.code.addInfo("MetaType", t.toString());
 		// ----
-		if (owner != null)
-			e.addInfo("file", owner.getMetaFilename());
+		addExceptionInfoTo(e);
 		// ----
 		throw e;
 	}
@@ -97,7 +95,7 @@ public class MetaList implements IPackable
 	}
 
 	@Override
-	public void unpack(InputStream stream) throws IOException
+	public void unpack(InputStream stream) throws IOException, PrismException
 	{
 		// read block count
 		intPacker.unpack(stream);
@@ -106,28 +104,34 @@ public class MetaList implements IPackable
 		// read blocks
 		for (int i = 0; i < n; ++i)
 		{
-			MetaBlock b = new MetaBlock();
-			b.unpack(stream);
-			blocks.add(b);
+			MetaBlock mb = new MetaBlock();
+			mb.unpack(stream);
+			addMetaBlock(mb);
 		}
 	}
-
-	//	@Override
-	//	public int getPackedSize()
-	//	{
-	//		// block count
-	//		intPacker.setValue(blocks.size());
-	//		int size = intPacker.getPackedSize();
-	//
-	//		// blocks
-	//		for (MetaBlock b : blocks)
-	//			size += b.getPackedSize();
-	//
-	//		return size;
-	//	}
 
 	public int getBlockCount()
 	{
 		return blocks.size();
+	}
+
+	@Override
+	public void setUplink(IInfoLayer uplink)
+	{
+		this.uplink = uplink;
+	}
+
+	@Override
+	public void addExceptionInfoTo(PrismException e)
+	{
+		if (uplink != null)
+			uplink.addExceptionInfoTo(e);
+		else
+			e.code.addInfo("MetaFile", "null");
+	}
+
+	public void dropMetaBlock(MetaBlock devBlock)
+	{
+		blocks.remove(devBlock);
 	}
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IPackable;
 import xoric.prism.data.types.Path;
 
@@ -45,6 +46,9 @@ public abstract class TempFile implements IPackable
 				stream.close();
 				b = true;
 			}
+		}
+		catch (PrismException e)
+		{
 		}
 		catch (Exception e)
 		{

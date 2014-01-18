@@ -1,6 +1,0 @@
-package xoric.prism.creator.drawer.settings;
-
-public class Settings extends TempFile
-{
-
-}

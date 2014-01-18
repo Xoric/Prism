@@ -1,0 +1,13 @@
+package xoric.prism.world.model;
+
+import xoric.prism.world.entities.ViewAngle;
+
+public class AnimationMeta
+{
+	private int[] rows;
+
+	public AnimationMeta()
+	{
+		rows = new int[ViewAngle.COUNT]:
+	}
+}

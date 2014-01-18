@@ -34,6 +34,13 @@ public class PrismException extends Throwable implements IInfoContainer
 	}
 
 	@Override
+	public void setText(String text, int expected, int found)
+	{
+		user.setText(text, expected, found);
+		code.setText(text, expected, found);
+	}
+
+	@Override
 	public void addInfo(String key, String value)
 	{
 		user.addInfo(key, value);

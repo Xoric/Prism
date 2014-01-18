@@ -1,6 +1,0 @@
-package xoric.prism.world.entities;
-
-public enum ViewAngle
-{
-
-}

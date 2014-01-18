@@ -1,0 +1,7 @@
+package xoric.prism.data.exceptions;
+
+public interface IExceptionHost
+{
+	public PrismException createException();
+	public void addInfo(PrismException e);
+}

@@ -1,0 +1,6 @@
+package xoric.prism.data.meta;
+
+public interface IMetaBlockParent
+{
+	public MetaBlock getParentMetaBlock();
+}

@@ -1,3 +1,35 @@
 1389786310917	Rename method 'getPackedSize'
 1389786348110	Rename method 'getPackedSize'
 1389786510508	Rename method 'getPackedSize'
+1389917050292	Copy compilation unit
+1389917084949	Rename type 'IPackableRead'
+1389917095211	Rename type 'IPackableWrite'
+1389917232591	Delete elements
+1389917348900	Rename enum constant 'MODEL'
+1389917356565	Rename enum constant 'GMODEL'
+1389918001076	Rename method 'addOwnerInfo'
+1389918414700	Rename method 'addExpectedInfo'
+1389918666571	Rename type 'IMetaListOwner'
+1389918708445	Rename method 'addOwnerTo'
+1389918875067	Rename method 'addOwnerInfoTo'
+1389918880968	Rename method 'addOwnerInfoTo'
+1389919282342	Rename method 'addInfo'
+1389927939084	Copy compilation unit
+1389927977095	Rename method 'getMetaBlock'
+1389928024378	Delete element
+1389928055109	Rename type 'IMetaFileSource'
+1389928083345	Rename type 'IExceptionHost'
+1389928091497	Rename method 'getMetaFilename'
+1389928124505	Rename type 'IMetaOwner'
+1389928158113	Delete element
+1389928209101	Rename field 'owner'
+1389928598992	Rename local variable 'b'
+1389928733157	Rename method 'addExceptionInfo'
+1389928742622	Rename method 'addMetaInfo'
+1389928919155	Rename local variable 'minInts'
+1389928922184	Rename local variable 'minFloats'
+1389928924710	Rename local variable 'minTexts'
+1389931035843	Rename method 'addExceptionInfo'
+1389964453578	Rename method 'findMetaBlock'
+1389966909629	Rename type 'IExceptionHost'
+1390000993074	Delete element

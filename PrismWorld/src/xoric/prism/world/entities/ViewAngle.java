@@ -5,6 +5,7 @@ public enum ViewAngle
 	RIGHT, TOP_RIGHT, TOP, TOP_LEFT, LEFT, BOT_LEFT, BOT, BOT_RIGHT;
 
 	private static final ViewAngle[] values = values();
+	public static final int COUNT = values.length;
 
 	public static ViewAngle valueOf(int index)
 	{

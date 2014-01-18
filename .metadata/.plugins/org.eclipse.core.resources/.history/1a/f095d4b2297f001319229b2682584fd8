@@ -1,0 +1,11 @@
+package xoric.prism.world.model;
+
+public class AnimationMeta
+{
+	private int[] rows;
+	
+	public AnimationMeta()
+	{
+		rows = new int[ViewAngle.COUNT]:
+	}
+}

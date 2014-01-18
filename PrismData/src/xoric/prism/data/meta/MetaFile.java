@@ -3,12 +3,13 @@ package xoric.prism.data.meta;
 import java.io.File;
 import java.io.FileInputStream;
 
+import xoric.prism.data.exceptions.IInfoLayer;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IntPacker;
 
-public class MetaFile implements IMetaListOwner
+public class MetaFile implements IInfoLayer
 {
 	private final File file;
 	private final IPath_r path;
@@ -26,13 +27,13 @@ public class MetaFile implements IMetaListOwner
 		this.localFileVersion = 0;
 		this.timeStamp = new TimeStamp();
 		this.metaList = new MetaList();
-		this.metaList.setOwner(this);
+		this.metaList.setUplink(this);
 	}
 
 	public void setMetaList(MetaList metaList)
 	{
 		this.metaList = metaList;
-		this.metaList.setOwner(this);
+		this.metaList.setUplink(this);
 	}
 
 	public void load() throws PrismException
@@ -66,7 +67,7 @@ public class MetaFile implements IMetaListOwner
 			// ----
 			e.code.setText("an error occured while loading a MetaFile");
 			// ----
-			e.addInfo("file", filename);
+			addExceptionInfoTo(e);
 			// ----
 			throw e;
 		}
@@ -104,8 +105,15 @@ public class MetaFile implements IMetaListOwner
 	}
 
 	@Override
-	public String getMetaFilename()
+	public void setUplink(IInfoLayer uplink)
 	{
-		return filename;
+	}
+
+	@Override
+	public void addExceptionInfoTo(PrismException e)
+	{
+		e.user.addInfo("file", filename);
+		// ----
+		e.code.addInfo("MetaFile", filename);
 	}
 }

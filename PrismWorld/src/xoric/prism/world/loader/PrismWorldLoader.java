@@ -22,7 +22,7 @@ public abstract class PrismWorldLoader
 	{
 		MetaFile f = Prism.global.loadMetaFile(FileIndex.ANIM_D);
 		MetaList metaList = f.getMetaList();
-		MetaBlock metaBlock = metaList.findMetaBlock(MetaType.ANIM_D);
+		MetaBlock metaBlock = metaList.claimMetaBlock(MetaType.ANIM_D);
 
 		boolean isOK = AnimationIndex.loadDevInfoAll(metaBlock);
 		if (!isOK)
@@ -31,10 +31,9 @@ public abstract class PrismWorldLoader
 			// ----
 			e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
 			// ----
-			e.code.setText("an error occured while loading animation descriptions");
-			e.code.addInfo("metaBlock", MetaType.ANIM_D.toString());
+			e.code.setText("error while loading animation descriptions");
 			// ----
-			e.addInfo("file", f.getMetaFilename());
+			metaBlock.addExceptionInfoTo(e);
 			// ----
 			throw e;
 		}

@@ -53,4 +53,9 @@ class ModelResult
 	{
 		return animations.size() > 0;
 	}
+
+	public Integer getAnimationCount()
+	{
+		return animations.size();
+	}
 }

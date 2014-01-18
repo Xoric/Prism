@@ -33,7 +33,7 @@ public class FileTable
 		MetaFile f = new MetaFile(dataPath, filename);
 		f.load();
 		MetaList metaList = f.getMetaList();
-		MetaBlock metaBlock = metaList.findMetaBlock(MetaType.TOC);
+		MetaBlock metaBlock = metaList.claimMetaBlock(MetaType.TOC);
 
 		for (MetaLine l : metaBlock.getMetaLines())
 		{

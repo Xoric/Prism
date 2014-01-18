@@ -6,16 +6,21 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import xoric.prism.data.exceptions.IInfoLayer;
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.types.Heap;
 import xoric.prism.data.types.IPackable;
 import xoric.prism.data.types.IntPacker;
 
-public class MetaBlock implements IPackable
+public class MetaBlock implements IPackable, IInfoLayer
 {
 	private MetaType metaType;
 	private int version;
 	private final List<MetaLine> list;
 	private final IntPacker intPacker;
+
+	private IInfoLayer uplink;
 
 	public MetaBlock()
 	{
@@ -56,6 +61,13 @@ public class MetaBlock implements IPackable
 	public void addMetaLine(MetaLine metaLine)
 	{
 		this.list.add(metaLine);
+		metaLine.setUplink(this);
+	}
+
+	public void insertMetaLine(int index, MetaLine metaLine)
+	{
+		this.list.add(index, metaLine);
+		metaLine.setUplink(this);
 	}
 
 	public int findNextIndex(MetaKey key, int startIndex)
@@ -77,13 +89,22 @@ public class MetaBlock implements IPackable
 		return list;
 	}
 
-	public Heap findKey(MetaKey key)
+	public Heap findKey(MetaKey key) throws PrismException
 	{
 		for (MetaLine l : list)
 			if (l.getKey() == key)
 				return l.getHeap();
 
-		return null;
+		PrismException e = new PrismException();
+		// ----
+		e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
+		// ----
+		e.code.setText("non-existing MetaLine requested");
+		addExceptionInfoTo(e);
+		e.code.addInfo("missing MetaLine", key.toString());
+		// ----
+		// ----
+		throw e;
 	}
 
 	public List<MetaLine> findLines(MetaKey key)
@@ -125,7 +146,7 @@ public class MetaBlock implements IPackable
 	}
 
 	@Override
-	public void unpack(InputStream stream) throws IOException
+	public void unpack(InputStream stream) throws IOException, PrismException
 	{
 		// read metaType
 		intPacker.unpack(stream);
@@ -140,26 +161,24 @@ public class MetaBlock implements IPackable
 		for (int i = 0; i < value; ++i)
 		{
 			MetaLine l = new MetaLine();
+			l.setUplink(this);
 			l.unpack(stream);
 			list.add(l);
 		}
 	}
 
-	//	@Override
-	//	public int getPackedSize()
-	//	{
-	//		// metaType
-	//		intPacker.setValue(metaType.ordinal());
-	//		int size = intPacker.getPackedSize();
-	//
-	//		// number of lines
-	//		intPacker.setValue(list.size());
-	//		size += intPacker.getPackedSize();
-	//
-	//		// lines
-	//		for (MetaLine l : list)
-	//			size += l.getPackedSize();
-	//
-	//		return size;
-	//	}
+	@Override
+	public void setUplink(IInfoLayer uplink)
+	{
+		this.uplink = uplink;
+	}
+
+	@Override
+	public void addExceptionInfoTo(PrismException e)
+	{
+		if (uplink != null)
+			uplink.addExceptionInfoTo(e);
+
+		e.code.addInfo("MetaBlock", metaType.toString());
+	}
 }
