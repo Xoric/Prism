@@ -29,13 +29,13 @@ public class SpriteControl extends ControlLayer
 		super(model, busyControl);
 	}
 
-	private int findHighestIndex(IPath_r path, AnimationIndex a, ViewAngle v)
+	private int findHighestIndex(IPath_r path, AnimationIndex a, int variation, ViewAngle v)
 	{
 		int n = 0;
 		boolean b;
 		do
 		{
-			String filename = SpriteNames.getFilename(a, v, n);
+			String filename = SpriteNames.getFilename(a, variation, v, n);
 			File file = path.getFile(filename);
 			b = file.exists();
 			if (b)
@@ -45,11 +45,11 @@ public class SpriteControl extends ControlLayer
 		return n - 1;
 	}
 
-	public void cloneSprite(AnimationIndex a, ViewAngle v, int index)
+	public void cloneSprite(AnimationIndex a, int variation, ViewAngle v, int index)
 	{
 		// load sprite image
 		IPath_r path = model.getPath();
-		File file = path.getFile(SpriteNames.getFilename(a, v, index));
+		File file = path.getFile(SpriteNames.getFilename(a, variation, v, index));
 		BufferedImage bi = null;
 		try
 		{
@@ -65,12 +65,12 @@ public class SpriteControl extends ControlLayer
 		}
 
 		// find highest existing index
-		int n = findHighestIndex(path, a, v);
+		int n = findHighestIndex(path, a, variation, v);
 
 		// increase all indices equal or greater than the given parameter by one
 		try
 		{
-			renameFiles(path, a, v, n, index);
+			renameFiles(path, a, variation, v, n, index);
 		}
 		catch (PrismException e)
 		{
@@ -81,7 +81,7 @@ public class SpriteControl extends ControlLayer
 		// insert sprite
 		try
 		{
-			writeImage(path, a, v, index, bi);
+			writeImage(path, a, variation, v, index, bi);
 		}
 		catch (PrismException e)
 		{
@@ -89,16 +89,16 @@ public class SpriteControl extends ControlLayer
 		}
 	}
 
-	public void insertSprite(AnimationIndex a, ViewAngle v, int index)
+	public void insertSprite(AnimationIndex a, int variation, ViewAngle v, int index)
 	{
 		// find highest existing index
 		IPath_r path = model.getPath();
-		int n = findHighestIndex(path, a, v);
+		int n = findHighestIndex(path, a, variation, v);
 
 		// increase all indices equal or greater than the given parameter by one
 		try
 		{
-			renameFiles(path, a, v, n, index);
+			renameFiles(path, a, variation, v, n, index);
 		}
 		catch (PrismException e)
 		{
@@ -109,7 +109,7 @@ public class SpriteControl extends ControlLayer
 		// create new sprite
 		try
 		{
-			createSprite(path, a, v, index);
+			createSprite(path, a, variation, v, index);
 		}
 		catch (PrismException e)
 		{
@@ -117,7 +117,7 @@ public class SpriteControl extends ControlLayer
 		}
 	}
 
-	public void insertSpriteFromClipboard(AnimationIndex a, ViewAngle v, int index)
+	public void insertSpriteFromClipboard(AnimationIndex a, int variation, ViewAngle v, int index)
 	{
 		// get image from clipboard
 		Image clipboardImage = null;
@@ -142,12 +142,12 @@ public class SpriteControl extends ControlLayer
 
 		// find highest existing index
 		IPath_r path = model.getPath();
-		int n = findHighestIndex(path, a, v);
+		int n = findHighestIndex(path, a, variation, v);
 
 		// increase all indices equal or greater than the given parameter by one
 		try
 		{
-			renameFiles(path, a, v, n, index);
+			renameFiles(path, a, variation, v, n, index);
 		}
 		catch (PrismException e)
 		{
@@ -159,7 +159,7 @@ public class SpriteControl extends ControlLayer
 		try
 		{
 			BufferedImage bi = embedClipboard(clipboardImage);
-			writeImage(path, a, v, index, bi);
+			writeImage(path, a, variation, v, index, bi);
 		}
 		catch (PrismException e)
 		{
@@ -199,7 +199,7 @@ public class SpriteControl extends ControlLayer
 					bi.setRGB(x, y, 0);
 	}
 
-	private void renameFiles(IPath_r path, AnimationIndex a, ViewAngle v, int highest, int lowest) throws PrismException
+	private void renameFiles(IPath_r path, AnimationIndex a, int variation, ViewAngle v, int highest, int lowest) throws PrismException
 	{
 		File f1 = null;
 		File f2 = null;
@@ -207,8 +207,8 @@ public class SpriteControl extends ControlLayer
 		{
 			for (int i = highest; i >= lowest; --i)
 			{
-				f1 = path.getFile(SpriteNames.getFilename(a, v, i));
-				f2 = path.getFile(SpriteNames.getFilename(a, v, i + 1));
+				f1 = path.getFile(SpriteNames.getFilename(a, variation, v, i));
+				f2 = path.getFile(SpriteNames.getFilename(a, variation, v, i + 1));
 				f1.renameTo(f2);
 			}
 		}
@@ -226,16 +226,16 @@ public class SpriteControl extends ControlLayer
 		}
 	}
 
-	private void createSprite(IPath_r path, AnimationIndex a, ViewAngle v, int index) throws PrismException
+	private void createSprite(IPath_r path, AnimationIndex a, int variation, ViewAngle v, int index) throws PrismException
 	{
 		IPoint_r spriteSize = model.getSpriteSize();
 		BufferedImage img = new BufferedImage(spriteSize.getX(), spriteSize.getY(), BufferedImage.TYPE_INT_ARGB);
-		writeImage(path, a, v, index, img);
+		writeImage(path, a, variation, v, index, img);
 	}
 
-	private void writeImage(IPath_r path, AnimationIndex a, ViewAngle v, int index, BufferedImage bi) throws PrismException
+	private void writeImage(IPath_r path, AnimationIndex a, int variation, ViewAngle v, int index, BufferedImage bi) throws PrismException
 	{
-		File file = path.getFile(SpriteNames.getFilename(a, v, index));
+		File file = path.getFile(SpriteNames.getFilename(a, variation, v, index));
 		writeImage(file, bi);
 	}
 
@@ -257,7 +257,7 @@ public class SpriteControl extends ControlLayer
 		}
 	}
 
-	public void deleteSprites(AnimationIndex a, ViewAngle v, List<Integer> indices)
+	public void deleteSprites(AnimationIndex a, int variation, ViewAngle v, List<Integer> indices)
 	{
 		int r = JOptionPane.showConfirmDialog(null, "Please confirm deleting the selected sprite(s).", "Delete sprites",
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -273,7 +273,7 @@ public class SpriteControl extends ControlLayer
 
 		do
 		{
-			String filename = SpriteNames.getFilename(a, v, i);
+			String filename = SpriteNames.getFilename(a, variation, v, i);
 			file = path.getFile(filename);
 			b = file.exists();
 			if (b)
@@ -302,7 +302,7 @@ public class SpriteControl extends ControlLayer
 					// keep this sprite, check if there is a gap to close
 					if (gap > 0)
 					{
-						File file2 = path.getFile(SpriteNames.getFilename(a, v, i - gap));
+						File file2 = path.getFile(SpriteNames.getFilename(a, variation, v, i - gap));
 
 						try
 						{
@@ -330,9 +330,9 @@ public class SpriteControl extends ControlLayer
 		externalEditor.execute(file);
 	}
 
-	public void copySpriteToClipboard(IPath_r path, AnimationIndex a, ViewAngle v, int index)
+	public void copySpriteToClipboard(IPath_r path, AnimationIndex a, int variation, ViewAngle v, int index)
 	{
-		String filename = SpriteNames.getFilename(a, v, index);
+		String filename = SpriteNames.getFilename(a, variation, v, index);
 		File file = path.getFile(filename);
 		try
 		{
@@ -369,21 +369,31 @@ public class SpriteControl extends ControlLayer
 		{
 			for (ViewAngle v : ViewAngle.values())
 			{
-				boolean b;
-				int i = 0;
+				boolean foundOne;
+				int variation = 0;
 				do
 				{
-					String filename = SpriteNames.getFilename(a, v, i);
-					File file = path.getFile(filename);
-					b = file.exists();
-
-					if (b)
+					foundOne = false;
+					boolean b;
+					int i = 0;
+					do
 					{
-						resizeSprite(file, newSize);
-						++i;
+						String filename = SpriteNames.getFilename(a, variation, v, i);
+						File file = path.getFile(filename);
+						b = file.exists();
+
+						if (b)
+						{
+							foundOne = true;
+							resizeSprite(file, newSize);
+							++i;
+						}
 					}
+					while (b);
+
+					++variation;
 				}
-				while (b);
+				while (foundOne);
 			}
 		}
 	}
@@ -415,11 +425,11 @@ public class SpriteControl extends ControlLayer
 		}
 	}
 
-	public void makeSpritesTransparent(AnimationIndex a, ViewAngle v, List<Integer> indices)
+	public void makeSpritesTransparent(AnimationIndex a, int variation, ViewAngle v, List<Integer> indices)
 	{
 		try
 		{
-			tryMakeSpritesTransparent(a, v, indices);
+			tryMakeSpritesTransparent(a, variation, v, indices);
 		}
 		catch (PrismException e)
 		{
@@ -427,7 +437,7 @@ public class SpriteControl extends ControlLayer
 		}
 	}
 
-	private void tryMakeSpritesTransparent(AnimationIndex a, ViewAngle v, List<Integer> indices) throws PrismException
+	private void tryMakeSpritesTransparent(AnimationIndex a, int variation, ViewAngle v, List<Integer> indices) throws PrismException
 	{
 		IPath_r path = model.getPath();
 		File file = null;
@@ -436,7 +446,7 @@ public class SpriteControl extends ControlLayer
 
 		do
 		{
-			String filename = SpriteNames.getFilename(a, v, i);
+			String filename = SpriteNames.getFilename(a, variation, v, i);
 			file = path.getFile(filename);
 			b = file.exists();
 			if (b)

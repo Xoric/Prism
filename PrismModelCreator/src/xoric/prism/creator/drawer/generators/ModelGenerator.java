@@ -66,13 +66,14 @@ public class ModelGenerator
 		sb.append(p1 + "Portrait: " + p2 + (result.hasPortrait() ? "yes" : "no") + p3);
 		sb.append(p1 + "Animations: " + p2);
 
-		List<AnimationIndex> addedAnimations = result.getAddedAnimations();
+		List<AnimationResult> addedAnimations = result.getAddedAnimations();
 		for (int i = 0; i < addedAnimations.size(); ++i)
 		{
 			if (i > 0)
 				sb.append(", ");
 
-			sb.append(addedAnimations.get(i).toString());
+			AnimationResult r = addedAnimations.get(i);
+			sb.append(r.toString());
 		}
 		sb.append(p3);
 		sb.append("</table>");
@@ -109,13 +110,11 @@ public class ModelGenerator
 		addSpriteSize(modelBlock);
 
 		// add portrait if any
-		boolean hasPortrait = addPortrait(path, devBlock, modelBlock);
-		result.setPortrait(hasPortrait);
+		addPortrait(path, devBlock, modelBlock, result);
 
 		// add all available animations
 		for (AnimationIndex a : AnimationIndex.values())
-			if (addAnimation(path, a, devBlock, modelBlock))
-				result.addAnimation(a);
+			addAnimation(path, a, devBlock, modelBlock, result);
 
 		// cancel if no animations were found
 		if (!result.hasAnimations())
@@ -147,9 +146,8 @@ public class ModelGenerator
 		return result;
 	}
 
-	private boolean addPortrait(IPath_r path, MetaBlock devBlock, MetaBlock modelBlock)
+	private void addPortrait(IPath_r path, MetaBlock devBlock, MetaBlock modelBlock, ModelResult result)
 	{
-		boolean hasPortrait = false;
 		final String filename = "portrait.png";
 		File portraitFile = path.getFile(filename);
 
@@ -163,10 +161,7 @@ public class ModelGenerator
 			MetaLine attachLine = new MetaLine(MetaKey.ATTACH);
 			attachLine.getHeap().texts.add(new Text(filename));
 			devBlock.addMetaLine(attachLine);
-
-			hasPortrait = true;
 		}
-		return hasPortrait;
 	}
 
 	private void addSpriteSize(MetaBlock modelBlock)
@@ -177,10 +172,29 @@ public class ModelGenerator
 		modelBlock.insertMetaLine(0, sizeLine);
 	}
 
-	private boolean addAnimation(IPath_r path, AnimationIndex a, MetaBlock devBlock, MetaBlock modelBlock) throws PrismException
+	private void addAnimation(IPath_r path, AnimationIndex a, MetaBlock devBlock, MetaBlock modelBlock, ModelResult result)
+			throws PrismException
+	{
+		int variation = 0;
+		boolean b;
+
+		do
+		{
+			b = addVariation(path, a, variation, devBlock, modelBlock);
+			if (b)
+			{
+				result.addAnimation(a);
+				++variation;
+			}
+		}
+		while (b);
+	}
+
+	private boolean addVariation(IPath_r path, AnimationIndex a, int variation, MetaBlock devBlock, MetaBlock modelBlock)
+			throws PrismException
 	{
 		// generate filenames
-		String filename = a.toString().toLowerCase() + ".png";
+		String filename = a.toString().toLowerCase() + variation + ".png";
 		File file = path.getFile(filename);
 		boolean wasFound = file.exists();
 
@@ -192,7 +206,7 @@ public class ModelGenerator
 			modelBlock.addMetaLine(animLine);
 
 			// load animation meta and add all angles
-			AnimationMeta meta = loadAnimationMeta(path, a);
+			AnimationMeta meta = loadVariationMeta(path, a, variation);
 			for (int i = 0; i < meta.getCount(); ++i)
 			{
 				MetaLine angleLine = new MetaLine(MetaKey.SUB);
@@ -209,10 +223,10 @@ public class ModelGenerator
 		return wasFound;
 	}
 
-	private AnimationMeta loadAnimationMeta(IPath_r path, AnimationIndex a) throws PrismException
+	private AnimationMeta loadVariationMeta(IPath_r path, AnimationIndex a, int variation) throws PrismException
 	{
 		AnimationMeta meta = null;
-		String filename = a.toString().toLowerCase() + ".meta";
+		String filename = a.toString().toLowerCase() + variation + ".meta";
 		try
 		{
 			File file = path.getFile(filename);
@@ -227,6 +241,7 @@ public class ModelGenerator
 			PrismException e = new PrismException(e0);
 			e.setText("There was a problem while trying to load the meta file for an animation.");
 			e.addInfo("animation", a.toString());
+			e.addInfo("variation", variation);
 			e.addInfo("meta file", filename);
 			throw e;
 		}

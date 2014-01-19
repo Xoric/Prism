@@ -151,6 +151,12 @@ public class ModelControl extends ControlLayer
 				e.setText("An error occured while trying to load a model from the specified directory.");
 				e.user.showMessage();
 			}
+			catch (PrismException e)
+			{
+				openedModel = null;
+
+				e.user.showMessage();
+			}
 			busyControl.setBusy(false);
 		}
 		return openedModel;

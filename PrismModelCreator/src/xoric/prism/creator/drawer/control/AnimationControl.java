@@ -2,6 +2,7 @@ package xoric.prism.creator.drawer.control;
 
 import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.model.DrawerModel;
+import xoric.prism.creator.drawer.model.VariationList;
 import xoric.prism.world.animations.AnimationIndex;
 
 public class AnimationControl extends ControlLayer
@@ -11,13 +12,6 @@ public class AnimationControl extends ControlLayer
 		super(model, busyControl);
 	}
 
-	public void addAnimation(AnimationIndex animation)
-	{
-		System.out.println("requestAddAnimation(" + animation + ")");
-
-		//		view.displayAnimation(animation, true);
-	}
-
 	public void deleteAnimation(AnimationIndex animation)
 	{
 		System.out.println("requestDeleteAnimation(" + animation + ")");
@@ -25,14 +19,15 @@ public class AnimationControl extends ControlLayer
 		//		view.displayAnimation(animation, false);
 	}
 
-	public void setDuration(AnimationIndex a, int ms)
+	public void setDuration(AnimationIndex a, int variation, int ms)
 	{
 		if (ms < 100)
 			ms = 100;
 		else if (ms > 10000)
 			ms = 10000;
 
-		AnimationModel m = model.getAnimation(a);
+		VariationList l = model.getAnimation(a);
+		AnimationModel m = l.getVariation(variation);
 		m.setDurationMs(ms);
 	}
 }

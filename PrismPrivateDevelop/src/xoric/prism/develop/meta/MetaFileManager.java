@@ -193,6 +193,7 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 				}
 			}
 			createMetaFile(path, true);
+			metaContentPanel.showContent(new Path(resPath.getFile(path)));
 		}
 	}
 

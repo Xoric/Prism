@@ -17,7 +17,7 @@ import javax.swing.JSeparator;
 import javax.swing.ScrollPaneConstants;
 
 import xoric.prism.creator.drawer.control.IDrawerControl;
-import xoric.prism.creator.drawer.model.AnimationModel;
+import xoric.prism.creator.drawer.model.VariationList;
 import xoric.prism.swing.PrismPanel;
 import xoric.prism.world.animations.AnimationIndex;
 
@@ -191,38 +191,38 @@ public class AnimationList extends PrismPanel implements IAnimationList
 	}
 
 	@Override
-	public void displayAnimationInList(AnimationModel m)
+	public void displayAnimationInList(VariationList list)
 	{
-		int i = getListIndex(m.getAnimationIndex());
-		AnimationCellWithControls c = list.get(i);
-		c.displayAnimationModel(m);
+		int i = getListIndex(list.getAnimationIndex());
+		AnimationCellWithControls c = this.list.get(i);
+		c.displayAnimation(list);
 		sortList();
 	}
 
 	@Override
-	public void displayAnimationsInList(AnimationModel[] ms)
+	public void displayAnimationsInList(VariationList[] list)
 	{
-		if (ms == null)
+		if (list == null)
 		{
 			for (AnimationIndex a : AnimationIndex.values())
 			{
 				int i = getListIndex(a);
 				if (i >= 0)
 				{
-					AnimationCellWithControls c = list.get(i);
-					c.displayAnimationModel(null);
+					AnimationCellWithControls c = this.list.get(i);
+					c.displayAnimationIndex(null);
 				}
 			}
 		}
 		else
 		{
-			for (AnimationModel m : ms)
+			for (VariationList l : list)
 			{
-				int i = getListIndex(m.getAnimationIndex());
+				int i = getListIndex(l.getAnimationIndex());
 				if (i >= 0)
 				{
-					AnimationCellWithControls l = list.get(i);
-					l.displayAnimationModel(m);
+					AnimationCellWithControls c = this.list.get(i);
+					c.displayAnimation(l);
 				}
 			}
 		}

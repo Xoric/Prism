@@ -24,7 +24,7 @@ class AnimationListSummary
 			AnimationSummary as = new AnimationSummary(a);
 			as.load(path);
 
-			if (as.hasSprites())
+			if (as.hasVariations())
 				animations.add(as);
 		}
 	}

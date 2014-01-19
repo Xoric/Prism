@@ -1,8 +1,0 @@
-package xoric.prism.swing.multithread;
-
-import javax.swing.JPanel;
-
-public class PrismWatcher extends JPanel
-{
-
-}

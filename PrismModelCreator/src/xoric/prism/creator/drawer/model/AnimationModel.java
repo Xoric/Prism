@@ -13,27 +13,28 @@ import xoric.prism.world.entities.ViewAngle;
 
 public class AnimationModel implements IPackable
 {
-	private static final int CURRENT_VERSION = 0;
-
 	private IPath_r path;
 	private AnimationIndex animationIndex;
-	private AnimationAngleModel[] angles;
+	private int variation;
+	private AngleModel[] angles;
 	private boolean isUnlocked;
 
 	// saved and loaded:
 	private int durationMs;
 
-	public AnimationModel(IPath_r path, AnimationIndex a)
+	public AnimationModel(IPath_r path, AnimationIndex a, int variation)
 	{
 		this.path = path;
 		this.animationIndex = a;
+		this.variation = variation;
 		this.durationMs = 1000;
 		this.isUnlocked = false;
 
 		int n = ViewAngle.values().length;
-		this.angles = new AnimationAngleModel[n];
+		this.angles = new AngleModel[n];
+
 		for (ViewAngle v : ViewAngle.values())
-			angles[v.ordinal()] = new AnimationAngleModel(path, a, v);
+			angles[v.ordinal()] = new AngleModel(path, a, variation, v);
 	}
 
 	public IPath_r getPath()
@@ -46,6 +47,11 @@ public class AnimationModel implements IPackable
 		return animationIndex;
 	}
 
+	public int getVariation()
+	{
+		return variation;
+	}
+
 	public void unlock()
 	{
 		this.isUnlocked = true;
@@ -56,7 +62,7 @@ public class AnimationModel implements IPackable
 		boolean b = isUnlocked;
 
 		if (!b)
-			for (AnimationAngleModel m : angles)
+			for (AngleModel m : angles)
 				b |= m.isUsed();
 
 		return b;
@@ -64,7 +70,7 @@ public class AnimationModel implements IPackable
 
 	public void loadSpriteCount()
 	{
-		for (AnimationAngleModel a : angles)
+		for (AngleModel a : angles)
 			a.load();
 	}
 
@@ -75,7 +81,7 @@ public class AnimationModel implements IPackable
 
 	public String getFilename(ViewAngle v, int index)
 	{
-		return SpriteNames.getFilename(animationIndex, v, index);
+		return SpriteNames.getFilename(animationIndex, variation, v, index);
 	}
 
 	public void setDurationMs(int ms)
@@ -91,23 +97,12 @@ public class AnimationModel implements IPackable
 	@Override
 	public void pack(OutputStream stream) throws IOException
 	{
-		IntPacker.pack_s(stream, CURRENT_VERSION);
 		IntPacker.pack_s(stream, durationMs);
 	}
 
 	@Override
 	public void unpack(InputStream stream) throws IOException
 	{
-		int version = IntPacker.unpack_s(stream);
 		durationMs = IntPacker.unpack_s(stream);
 	}
-
-	//	@Override
-	//	public int getPackedSize()
-	//	{
-	//		int size = IntPacker.getPackedSize_s(CURRENT_VERSION);
-	//		size += IntPacker.getPackedSize_s(durationMs);
-	//
-	//		return size;
-	//	}
 }

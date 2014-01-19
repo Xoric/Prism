@@ -4,5 +4,5 @@ import xoric.prism.world.animations.AnimationIndex;
 
 public interface IAnimationCell
 {
-	public void displayAnimation(AnimationIndex a);
+	public void displayAnimationIndex(AnimationIndex a);
 }

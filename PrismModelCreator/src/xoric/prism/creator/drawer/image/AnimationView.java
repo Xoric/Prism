@@ -16,6 +16,7 @@ import javax.swing.JSeparator;
 
 import xoric.prism.creator.drawer.control.IDrawerControl;
 import xoric.prism.creator.drawer.model.AnimationModel;
+import xoric.prism.creator.drawer.model.VariationList;
 import xoric.prism.creator.drawer.view.AnimationCell;
 import xoric.prism.creator.drawer.view.IAnimationCell;
 import xoric.prism.creator.drawer.view.IAnimationEditor;
@@ -41,17 +42,21 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 	private final IAnimationEditor mainView;
 
 	private final IAnimationCell animationCell;
+	private final IVariationSelector variationSelector;
 	private final IIntInput durationInput;
 	private IAngleSelector angleSelector;
 	private ISpriteList spriteList;
 
-	private AnimationModel animationModel;
+	private VariationList variationlist;
 
 	public AnimationView(IAnimationEditor animationEditor)
 	{
 		super(new GridBagLayout());
 
 		this.mainView = animationEditor;
+
+		VariationSelector vs = new VariationSelector();
+		variationSelector = vs;
 
 		AnimationCell animCell = new AnimationCell(AnimationIndex.IDLE);
 		animCell.setEnabled(true);
@@ -75,25 +80,26 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 		Insets insets = new Insets(15, 15, 15, 15);
 
 		// add controls
-		//		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, insets,
-		//				0, 0);
 		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.VERTICAL, insets,
 				0, 0);
 		add(backButton, c);
 
-		c = new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
+		c = new GridBagConstraints(1, 0, 1, 1, 0.7, 0.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(animCell, c);
 
-		c = new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.VERTICAL, insets, 0, 0);
+		c = new GridBagConstraints(2, 0, 1, 1, 0.3, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0);
+		add(vs, c);
+
+		c = new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.VERTICAL, insets, 0, 0);
 		add(durInput, c);
 
-		c = new GridBagConstraints(0, 1, 3, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
+		c = new GridBagConstraints(0, 1, 4, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
 		add(new JSeparator(), c);
 
 		c = new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
 		add(angleSel, c);
 
-		c = new GridBagConstraints(1, 2, 2, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
+		c = new GridBagConstraints(1, 2, 3, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(f, c);
 	}
 
@@ -141,37 +147,41 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 	}
 
 	@Override
-	public void displayAnimation(AnimationModel m)
+	public void displayAnimation(VariationList list)
 	{
-		animationModel = m;
-		animationCell.displayAnimation(m.getAnimationIndex());
-		durationInput.setValue(animationModel.getDurationMs());
-		spriteList.loadFrames(animationModel, angleSelector.getAngle());
+		variationlist = list;
+		int variation = variationSelector.getCurrentVariation();
+		AnimationModel m = list.getVariation(variation);
+		animationCell.displayAnimationIndex(m.getAnimationIndex());
+		durationInput.setValue(m.getDurationMs());
+		spriteList.loadFrames(variationlist, variationSelector.getCurrentVariation(), angleSelector.getAngle());
 	}
 
 	@Override
 	public void displayCurrentAnimationDuration()
 	{
-		durationInput.setValue(animationModel.getDurationMs());
+		int variation = variationSelector.getCurrentVariation();
+		AnimationModel m = variationlist.getVariation(variation);
+		durationInput.setValue(m.getDurationMs());
 	}
 
 	@Override
 	public void changedAngle(ViewAngle v)
 	{
-		spriteList.loadFrames(animationModel, v);
+		spriteList.loadFrames(variationlist, variationSelector.getCurrentVariation(), v);
 	}
 
 	@Override
 	public void setControl(IDrawerControl control)
 	{
 		this.control = control;
-		spriteList.setControl(control);
+		this.spriteList.setControl(control);
 	}
 
 	@Override
 	public void reloadCurrentAnimationFrames()
 	{
-		spriteList.loadFrames(animationModel, angleSelector.getAngle());
+		spriteList.loadFrames(variationlist, variationSelector.getCurrentVariation(), angleSelector.getAngle());
 	}
 
 	@Override
@@ -180,7 +190,8 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 		if (input == durationInput)
 		{
 			int ms = durationInput.getValue();
-			control.requestSetAnimationDuration(animationModel.getAnimationIndex(), ms);
+			int variation = variationSelector.getCurrentVariation();
+			control.requestSetAnimationDuration(variationlist.getAnimationIndex(), variation, ms);
 		}
 	}
 }

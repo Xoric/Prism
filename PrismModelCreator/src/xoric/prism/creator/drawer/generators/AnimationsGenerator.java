@@ -75,22 +75,30 @@ public class AnimationsGenerator
 		for (int i = 0; i < als.getAnimationCount(); ++i)
 		{
 			AnimationSummary as = als.getAnimation(i);
-			File f = generateAnimation(as);
-			files.add(f);
+			generateAnimation(as, files);
 		}
 		return files;
 	}
 
-	private File generateAnimation(AnimationSummary as) throws PrismException
+	private void generateAnimation(AnimationSummary as, List<File> files) throws PrismException
+	{
+		for (VariationSummary vs : as.getVariations())
+		{
+			File f = generateVariation(vs);
+			files.add(f);
+		}
+	}
+
+	private File generateVariation(VariationSummary vs) throws PrismException
 	{
 		// get animation name
-		AnimationIndex a = as.getAnimationIndex();
-		String name = a.toString().toLowerCase();
+		AnimationIndex a = vs.getAnimationIndex();
+		String variatioName = a.toString().toLowerCase() + vs.getVariation();
 		AnimationMeta meta = new AnimationMeta();
 
 		// calculate required width and height 
-		int rows = as.getAngleCount();
-		int columns = as.countMaxColumns();
+		int rows = vs.getAngleCount();
+		int columns = vs.countMaxColumns();
 		int width = columns * spriteWidth;
 		int height = rows * spriteHeight;
 		int spriteX = 0;
@@ -100,9 +108,9 @@ public class AnimationsGenerator
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics graphics = image.getGraphics();
 
-		for (int i = 0; i < as.getAngleCount(); ++i)
+		for (int i = 0; i < vs.getAngleCount(); ++i)
 		{
-			AngleSummary an = as.getAngle(i);
+			AngleSummary an = vs.getAngle(i);
 			ViewAngle v = an.getAngle();
 			int n = an.getSpriteCount();
 			meta.addAngle(v, n);
@@ -133,7 +141,7 @@ public class AnimationsGenerator
 		graphics.dispose();
 
 		// write meta file
-		File metaFile = model.getPath().getFile(name + ".meta");
+		File metaFile = model.getPath().getFile(variatioName + ".meta");
 		try
 		{
 			FileOutputStream stream = new FileOutputStream(metaFile);
@@ -149,7 +157,7 @@ public class AnimationsGenerator
 		}
 
 		// save image	
-		File imageFile = model.getPath().getFile(name + ".png");
+		File imageFile = model.getPath().getFile(variatioName + ".png");
 		try
 		{
 			ImageIO.write(image, "png", imageFile);

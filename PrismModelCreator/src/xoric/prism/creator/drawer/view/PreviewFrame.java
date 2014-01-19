@@ -140,13 +140,13 @@ public class PreviewFrame extends PrismFrame implements ActionListener, WindowLi
 		return b;
 	}
 
-	public void loadAndPlay(AnimationModel m, ViewAngle v, IPoint_r spriteSize)
+	public void loadAndPlay(AnimationModel m, int variation, ViewAngle v, IPoint_r spriteSize)
 	{
 		try
 		{
 			titleLabel.setText("<html><b>" + m.getAnimationIndex().toString() + "</b>." + v.toString().toLowerCase() + "</html>");
 
-			loadImages(m, v, spriteSize);
+			loadImages(m, variation, v, spriteSize);
 			int interval = calcInterval(m.getDurationMs(), images.size());
 			showImage(0);
 			currentIndex = 0;
@@ -178,7 +178,7 @@ public class PreviewFrame extends PrismFrame implements ActionListener, WindowLi
 		return interval;
 	}
 
-	private void loadImages(AnimationModel m, ViewAngle v, IPoint_r spriteSize) throws PrismException
+	private void loadImages(AnimationModel m, int variation, ViewAngle v, IPoint_r spriteSize) throws PrismException
 	{
 		IPath_r path = m.getPath();
 		AnimationIndex a = m.getAnimationIndex();
@@ -191,7 +191,7 @@ public class PreviewFrame extends PrismFrame implements ActionListener, WindowLi
 		boolean b;
 		do
 		{
-			String filename = SpriteNames.getFilename(a, v, n);
+			String filename = SpriteNames.getFilename(a, variation, v, n);
 			File file = path.getFile(filename);
 			b = file.exists();
 			if (b)

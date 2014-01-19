@@ -5,6 +5,7 @@ import java.util.List;
 
 import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.model.DrawerModel;
+import xoric.prism.creator.drawer.model.VariationList;
 import xoric.prism.creator.drawer.settings.WorkingDirs;
 import xoric.prism.creator.drawer.view.IDrawerView;
 import xoric.prism.data.types.IPath_r;
@@ -180,24 +181,24 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 	@Override
 	public void requestAddAnimation(AnimationIndex a)
 	{
-		AnimationModel m = model.getAnimation(a);
-		m.unlock();
-		view.displayAnimationInList(m);
+		VariationList l = model.getAnimation(a);
+		l.unlock();
+		view.displayAnimationInList(l);
 	}
 
 	@Override
-	public void requestDeleteAnimation(AnimationIndex a)
+	public void requestDeleteAnimation(AnimationIndex a, int variation)
 	{
-		System.out.println("requestDeleteAnimation(" + a + ")");
+		System.out.println("requestDeleteAnimation(" + a + ", variation=" + variation + ")");
 
 		//		view.displayAnimation(animation, false);
 	}
 
 	@Override
-	public void requestSetAnimationDuration(AnimationIndex a, int ms)
+	public void requestSetAnimationDuration(AnimationIndex a, int variation, int ms)
 	{
 		// TODO: move to ModelControl?
-		animationControl.setDuration(a, ms);
+		animationControl.setDuration(a, variation, ms);
 		view.displayCurrentAnimationDuration();
 		modelControl.saveModel(true);
 	}
@@ -205,62 +206,63 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 	/* *********** sprite control ****************** */
 
 	@Override
-	public void requestCloneSprite(AnimationIndex a, ViewAngle v, int index)
+	public void requestCloneSprite(AnimationIndex a, int variation, ViewAngle v, int index)
 	{
 		// add a sprite
-		spriteControl.cloneSprite(a, v, index);
+		spriteControl.cloneSprite(a, variation, v, index);
 
 		// reload animation list and sprites
-		AnimationModel m = model.getAnimation(a);
+		VariationList l = model.getAnimation(a);
+		AnimationModel m = l.getVariation(variation);
 		m.loadSpriteCount();
-		view.displayAnimationInList(m);
+		view.displayAnimationInList(l);
+		view.reloadCurrentAnimationFrames();
+	}
+
+	private void reloadAnimation(AnimationIndex a, int variation)
+	{
+		VariationList l = model.getAnimation(a);
+		AnimationModel m = l.getVariation(variation);
+		m.loadSpriteCount();
+		view.displayAnimationInList(l);
 		view.reloadCurrentAnimationFrames();
 	}
 
 	@Override
-	public void requestInsertSprite(AnimationIndex a, ViewAngle v, int index)
+	public void requestInsertSprite(AnimationIndex a, int variation, ViewAngle v, int index)
 	{
 		// add a sprite
-		spriteControl.insertSprite(a, v, index);
+		spriteControl.insertSprite(a, variation, v, index);
 
 		// reload animation list and sprites
-		AnimationModel m = model.getAnimation(a);
-		m.loadSpriteCount();
-		view.displayAnimationInList(m);
-		view.reloadCurrentAnimationFrames();
+		reloadAnimation(a, variation);
 	}
 
 	@Override
-	public void requestInsertSpriteFromClipboard(AnimationIndex a, ViewAngle v, int index)
+	public void requestInsertSpriteFromClipboard(AnimationIndex a, int variation, ViewAngle v, int index)
 	{
 		// insert sprite
-		spriteControl.insertSpriteFromClipboard(a, v, index);
+		spriteControl.insertSpriteFromClipboard(a, variation, v, index);
 
 		// reload animation list and sprites
-		AnimationModel m = model.getAnimation(a);
-		m.loadSpriteCount();
-		view.displayAnimationInList(m);
-		view.reloadCurrentAnimationFrames();
+		reloadAnimation(a, variation);
 	}
 
 	@Override
-	public void requestCopySpriteToClipboard(AnimationIndex a, ViewAngle v, int index)
+	public void requestCopySpriteToClipboard(AnimationIndex a, int variation, ViewAngle v, int index)
 	{
 		// copy sprite image to clipboard
-		spriteControl.copySpriteToClipboard(model.getPath(), a, v, index);
+		spriteControl.copySpriteToClipboard(model.getPath(), a, variation, v, index);
 	}
 
 	@Override
-	public void requestDeleteSprites(AnimationIndex a, ViewAngle v, List<Integer> indices)
+	public void requestDeleteSprites(AnimationIndex a, int variation, ViewAngle v, List<Integer> indices)
 	{
 		// delete sprites
-		spriteControl.deleteSprites(a, v, indices);
+		spriteControl.deleteSprites(a, variation, v, indices);
 
 		// reload animation list and sprites
-		AnimationModel m = model.getAnimation(a);
-		m.loadSpriteCount();
-		view.displayAnimationInList(m);
-		view.reloadCurrentAnimationFrames();
+		reloadAnimation(a, variation);
 	}
 
 	@Override
@@ -270,9 +272,9 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 	}
 
 	@Override
-	public void requestMakeSpritesTransparent(AnimationIndex a, ViewAngle v, List<Integer> indices)
+	public void requestMakeSpritesTransparent(AnimationIndex a, int variation, ViewAngle v, List<Integer> indices)
 	{
-		spriteControl.makeSpritesTransparent(a, v, indices);
+		spriteControl.makeSpritesTransparent(a, variation, v, indices);
 
 		// reload animation sprites
 		view.reloadCurrentAnimationFrames();

@@ -5,8 +5,8 @@ import xoric.prism.world.entities.ViewAngle;
 
 public class SpriteNames
 {
-	public static String getFilename(AnimationIndex a, ViewAngle v, int index)
+	public static String getFilename(AnimationIndex a, int variation, ViewAngle v, int index)
 	{
-		return a.toString().toLowerCase() + "." + v.toString().toLowerCase() + "." + index + ".png";
+		return a.toString().toLowerCase() + ".var" + variation + "." + v.toString().toLowerCase() + "." + index + ".png";
 	}
 }

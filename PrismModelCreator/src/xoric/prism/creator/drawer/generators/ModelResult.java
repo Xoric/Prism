@@ -10,13 +10,13 @@ class ModelResult
 {
 	private File targetFile;
 	private boolean hasPortait;
-	private final List<AnimationIndex> animations;
+	private final List<AnimationResult> animations;
 
 	public ModelResult()
 	{
 		this.targetFile = null;
 		this.hasPortait = false;
-		this.animations = new ArrayList<AnimationIndex>();
+		this.animations = new ArrayList<AnimationResult>();
 	}
 
 	public void setTargetFile(File targetFile)
@@ -31,7 +31,16 @@ class ModelResult
 
 	public void addAnimation(AnimationIndex a)
 	{
-		animations.add(a);
+		for (AnimationResult r : animations)
+		{
+			if (r.getAnimationIndex() == a)
+			{
+				r.addVariation();
+				return;
+			}
+		}
+		AnimationResult r = new AnimationResult(a);
+		animations.add(r);
 	}
 
 	public File getTargetFile()
@@ -44,7 +53,7 @@ class ModelResult
 		return hasPortait;
 	}
 
-	public List<AnimationIndex> getAddedAnimations()
+	public List<AnimationResult> getAddedAnimations()
 	{
 		return animations;
 	}

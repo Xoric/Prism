@@ -46,14 +46,17 @@ public class AnimationCell extends JPanel implements IAnimationCell
 	}
 
 	@Override
-	public void displayAnimation(AnimationIndex a)
+	public void displayAnimationIndex(AnimationIndex a)
 	{
-		// set basic animation info
-		animationIndex = a;
+		if (a != null)
+		{
+			// set basic animation info
+			animationIndex = a;
 
-		// display basic animation info
-		nameLabel.setText(a.toString());
-		descriptionLabel.setText(animationIndex.getDescription().toLowerCase());
+			// display basic animation info
+			nameLabel.setText(a.toString());
+			descriptionLabel.setText(animationIndex.getDescription().toLowerCase());
+		}
 	}
 
 	public void setControl(IDrawerControl control)

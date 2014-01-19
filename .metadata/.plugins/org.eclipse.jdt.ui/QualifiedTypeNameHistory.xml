@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="xoric.prism.creator.drawer.model.AnimationModel"/>
-<fullyQualifiedTypeName name="xoric.prism.creator.drawer.image.IAnimationView"/>
 <fullyQualifiedTypeName name="javax.swing.JFileChooser"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.model.DrawerModel"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.model.SpriteNames"/>
@@ -28,7 +26,6 @@
 <fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="xoric.prism.data.meta.MetaLine"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="xoric.prism.data.exceptions.IExceptionHost"/>
 <fullyQualifiedTypeName name="xoric.prism.world.entities.ViewAngle"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.Point"/>
@@ -60,4 +57,7 @@
 <fullyQualifiedTypeName name="javax.swing.JScrollBar"/>
 <fullyQualifiedTypeName name="java.awt.BorderLayout"/>
 <fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="xoric.prism.creator.drawer.model.VariationList"/>
+<fullyQualifiedTypeName name="xoric.prism.creator.drawer.model.AnimationModel"/>
 </qualifiedTypeNameHistroy>

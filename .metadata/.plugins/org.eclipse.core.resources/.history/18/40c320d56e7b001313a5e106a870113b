@@ -1,9 +1,0 @@
-package xoric.prism.creator.drawer.generator;
-
-class AnimationSummary
-{
-	public AnimationSummary(AnimationIndex a, IPath_r path)
-	{
-		
-	}
-}

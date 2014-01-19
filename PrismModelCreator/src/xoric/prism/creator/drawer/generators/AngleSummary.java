@@ -12,12 +12,14 @@ import xoric.prism.world.entities.ViewAngle;
 class AngleSummary
 {
 	private final AnimationIndex animationIndex;
+	private final int variation;
 	private final ViewAngle viewAngle;
 	private final List<File> files;
 
-	public AngleSummary(AnimationIndex a, ViewAngle v)
+	public AngleSummary(AnimationIndex a, int variation, ViewAngle v)
 	{
 		this.animationIndex = a;
+		this.variation = variation;
 		this.viewAngle = v;
 		this.files = new ArrayList<File>();
 	}
@@ -31,7 +33,7 @@ class AngleSummary
 
 		do
 		{
-			String filename = SpriteNames.getFilename(animationIndex, viewAngle, n);
+			String filename = SpriteNames.getFilename(animationIndex, variation, viewAngle, n);
 			File file = path.getFile(filename);
 			b = file.exists();
 

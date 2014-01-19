@@ -1,8 +1,0 @@
-package xoric.prism.swing.multithread;
-
-import xoric.prism.swing.PrismFrame;
-
-public class PrismWatcher extends PrismFrame
-{
-
-}

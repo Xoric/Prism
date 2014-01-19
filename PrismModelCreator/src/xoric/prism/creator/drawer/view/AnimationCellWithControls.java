@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import xoric.prism.creator.drawer.model.AnimationModel;
+import xoric.prism.creator.drawer.model.VariationList;
 import xoric.prism.swing.tooltips.ToolTipFormatter;
 import xoric.prism.world.animations.AnimationIndex;
 
@@ -59,6 +59,7 @@ public class AnimationCellWithControls extends AnimationCell implements ActionLi
 		float f = 0.85f;
 		float g = f * getBackground().getRGB() + (1.0f - f) * Color.blue.getRGB();
 		this.setBackground(new Color((int) g));
+		updateColor();
 	}
 
 	public boolean isUsed()
@@ -68,12 +69,7 @@ public class AnimationCellWithControls extends AnimationCell implements ActionLi
 
 	private void updateColor()
 	{
-		if (isUsed)
-		{
-			setOpaque(true);
-		}
-		else
-			setOpaque(false);
+		setOpaque(isUsed);
 	}
 
 	@Override
@@ -92,12 +88,12 @@ public class AnimationCellWithControls extends AnimationCell implements ActionLi
 	}
 
 	@Override
-	public void displayAnimationModel(AnimationModel m)
+	public void displayAnimation(VariationList list)
 	{
-		if (m != null)
-			super.displayAnimation(m.getAnimationIndex());
+		if (list != null)
+			super.displayAnimationIndex(list.getAnimationIndex());
 
-		isUsed = m == null ? false : m.isUsed();
+		isUsed = list == null ? false : list.isUsed();
 
 		updateColor();
 
@@ -117,7 +113,7 @@ public class AnimationCellWithControls extends AnimationCell implements ActionLi
 		else if (o == editButton)
 			mainView.requestEditAnimation(animationIndex);
 		else if (o == deleteButton)
-			control.requestDeleteAnimation(animationIndex);
+			control.requestDeleteAnimation(animationIndex, -1);
 	}
 
 	private JButton createButton(String s, String icon, String tooltip)

@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 import xoric.prism.creator.drawer.control.IDrawerControl;
 import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.model.SpriteNames;
+import xoric.prism.creator.drawer.model.VariationList;
 import xoric.prism.creator.drawer.view.PreviewFrame;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
@@ -46,9 +47,10 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 	private final SpriteMenu menu;
 	private IDrawerControl control;
 
-	private AnimationModel animationModel;
-	private ViewAngle viewAngle;
 	private IPoint_r spriteSize;
+	private AnimationModel animationModel;
+	private int variation;
+	private ViewAngle viewAngle;
 
 	public SpriteList()
 	{
@@ -91,9 +93,10 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 	}
 
 	@Override
-	public void loadFrames(AnimationModel m, ViewAngle v)
+	public void loadFrames(VariationList list, int variation, ViewAngle v)
 	{
-		this.animationModel = m;
+		this.animationModel = list.getVariation(variation);
+		this.variation = variation;
 		this.viewAngle = v;
 
 		requestReloadSprite();
@@ -144,7 +147,7 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 	{
 		int index = list.getSelectedIndex();
 		if (isValidIndex(index))
-			control.requestCloneSprite(animationModel.getAnimationIndex(), viewAngle, index);
+			control.requestCloneSprite(animationModel.getAnimationIndex(), variation, viewAngle, index);
 	}
 
 	@Override
@@ -152,7 +155,7 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 	{
 		int index = list.getSelectedIndex();
 		if (isValidIndex(index))
-			control.requestInsertSprite(animationModel.getAnimationIndex(), viewAngle, index);
+			control.requestInsertSprite(animationModel.getAnimationIndex(), variation, viewAngle, index);
 	}
 
 	@Override
@@ -160,7 +163,7 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 	{
 		int index = list.getSelectedIndex();
 		if (isValidIndex(index))
-			control.requestInsertSpriteFromClipboard(animationModel.getAnimationIndex(), viewAngle, index);
+			control.requestInsertSpriteFromClipboard(animationModel.getAnimationIndex(), variation, viewAngle, index);
 	}
 
 	@Override
@@ -169,7 +172,7 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 		int index = list.getSelectedIndex();
 		if (isValidIndex(index))
 		{
-			String filename = SpriteNames.getFilename(animationModel.getAnimationIndex(), viewAngle, index);
+			String filename = SpriteNames.getFilename(animationModel.getAnimationIndex(), variation, viewAngle, index);
 			File file = animationModel.getPath().getFile(filename);
 			control.requestEditSprite(file);
 		}
@@ -180,7 +183,7 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 	{
 		List<Integer> indices = getValidSelectedIndices();
 		if (indices.size() > 0)
-			control.requestDeleteSprites(animationModel.getAnimationIndex(), viewAngle, indices);
+			control.requestDeleteSprites(animationModel.getAnimationIndex(), variation, viewAngle, indices);
 	}
 
 	@Override
@@ -223,7 +226,7 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 	{
 		int index = list.getSelectedIndex();
 		if (isValidIndex(index))
-			control.requestCopySpriteToClipboard(animationModel.getAnimationIndex(), viewAngle, index);
+			control.requestCopySpriteToClipboard(animationModel.getAnimationIndex(), variation, viewAngle, index);
 	}
 
 	@Override
@@ -232,7 +235,7 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 		int index = list.getSelectedIndex();
 		if (isValidIndex(index))
 		{
-			String filename = SpriteNames.getFilename(animationModel.getAnimationIndex(), viewAngle, index);
+			String filename = SpriteNames.getFilename(animationModel.getAnimationIndex(), variation, viewAngle, index);
 			File file = animationModel.getPath().getFile(filename);
 			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(file.toString()), null);
 		}
@@ -243,7 +246,7 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 	{
 		List<Integer> indices = getValidSelectedIndices();
 		if (indices.size() > 0)
-			control.requestMakeSpritesTransparent(animationModel.getAnimationIndex(), viewAngle, indices);
+			control.requestMakeSpritesTransparent(animationModel.getAnimationIndex(), variation, viewAngle, indices);
 	}
 
 	/* *************** MouseListener ************** */
@@ -284,7 +287,7 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 
 		if (o == previewButton)
 		{
-			previewFrame.loadAndPlay(animationModel, viewAngle, spriteSize);
+			previewFrame.loadAndPlay(animationModel, variation, viewAngle, spriteSize);
 		}
 	}
 }

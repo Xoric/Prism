@@ -5,68 +5,87 @@ import java.util.List;
 
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.world.animations.AnimationIndex;
-import xoric.prism.world.entities.ViewAngle;
 
 class AnimationSummary
 {
 	private final AnimationIndex animationIndex;
-	private final List<AngleSummary> angles;
+	private final List<VariationSummary> variations;
 
 	public AnimationSummary(AnimationIndex a)
 	{
 		this.animationIndex = a;
-		this.angles = new ArrayList<AngleSummary>();
+		this.variations = new ArrayList<VariationSummary>();
 	}
 
 	public void load(IPath_r path)
 	{
-		angles.clear();
+		variations.clear();
 
-		for (ViewAngle v : ViewAngle.values())
+		int variation = 0;
+		boolean b;
+		do
 		{
-			AngleSummary an = new AngleSummary(animationIndex, v);
-			an.load(path);
+			VariationSummary vs = new VariationSummary(animationIndex, variation);
+			vs.load(path);
+			b = vs.hasSprites();
 
-			if (an.hasSprites())
-				angles.add(an);
+			++variation;
+			if (b)
+				variations.add(vs);
 		}
+		while (b);
 	}
 
 	public int countRows()
 	{
-		return angles.size();
+		int n = 0;
+
+		for (VariationSummary vs : variations)
+			n += vs.countRows();
+
+		return n;
+	}
+
+	public int getVariationCount()
+	{
+		return variations.size();
 	}
 
 	public int countMaxColumns()
 	{
 		int max = 0;
 
-		for (AngleSummary as : angles)
+		for (VariationSummary vs : variations)
 		{
-			int n = as.getSpriteCount();
+			int n = vs.countMaxColumns();
 			if (n > max)
 				max = n;
 		}
 		return max;
 	}
 
-	public boolean hasSprites()
+	public boolean isUsed()
 	{
-		return angles.size() > 0;
+		return variations.size() > 0;
 	}
 
-	public int getAngleCount()
+	public VariationSummary getVariation(int index)
 	{
-		return angles.size();
-	}
-
-	public AngleSummary getAngle(int index)
-	{
-		return angles.get(index);
+		return variations.get(index);
 	}
 
 	public AnimationIndex getAnimationIndex()
 	{
 		return animationIndex;
+	}
+
+	public List<VariationSummary> getVariations()
+	{
+		return variations;
+	}
+
+	public boolean hasVariations()
+	{
+		return variations.size() > 0;
 	}
 }

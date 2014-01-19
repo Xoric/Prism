@@ -1,0 +1,11 @@
+package xoric.prism.creator.drawer.model;
+
+public class VariationList
+{
+	private List<AnimationModel> variations;
+
+	public VariationList()
+	{
+
+	}
+}

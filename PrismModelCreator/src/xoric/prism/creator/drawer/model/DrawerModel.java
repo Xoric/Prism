@@ -30,7 +30,7 @@ public class DrawerModel implements IPackable
 	private Path path;
 	private Point spriteSize;
 	private boolean hasChanges;
-	private AnimationModel[] animations;
+	private VariationList[] list;
 
 	public DrawerModel()
 	{
@@ -38,7 +38,7 @@ public class DrawerModel implements IPackable
 		path = new Path("");
 		spriteSize = new Point();
 		hasChanges = false;
-		animations = new AnimationModel[AnimationIndex.values().length];
+		list = new VariationList[AnimationIndex.values().length];
 		init();
 	}
 
@@ -48,24 +48,27 @@ public class DrawerModel implements IPackable
 		path = data.getPath();
 		spriteSize = data.getTileSize();
 		hasChanges = false;
-		animations = new AnimationModel[AnimationIndex.values().length];
+		list = new VariationList[AnimationIndex.values().length];
 		init();
 	}
 
 	public void init()
 	{
-		for (int i = 0; i < animations.length; ++i)
-			animations[i] = new AnimationModel(path, AnimationIndex.valueOf(i));
+		for (int i = 0; i < list.length; ++i)
+		{
+			list[i] = new VariationList(path, AnimationIndex.valueOf(i));
+			//			list[i] = new AnimationModel(path, AnimationIndex.valueOf(i));
+		}
 	}
 
-	public AnimationModel getAnimation(AnimationIndex a)
+	public VariationList getAnimation(AnimationIndex a)
 	{
-		return animations[a.ordinal()];
+		return list[a.ordinal()];
 	}
 
-	public AnimationModel[] getAnimations()
+	public VariationList[] getAnimationList()
 	{
-		return animations;
+		return list;
 	}
 
 	public IPath_r getPath()
@@ -101,7 +104,7 @@ public class DrawerModel implements IPackable
 		return spriteSize;
 	}
 
-	public void load(IPath_r path) throws IOException
+	public void load(IPath_r path) throws IOException, PrismException
 	{
 		this.path = new Path(path);
 
@@ -109,12 +112,13 @@ public class DrawerModel implements IPackable
 		File file = path.getFile("m.meta");
 		FileInputStream stream = new FileInputStream(file);
 		unpack(stream);
+
 		for (AnimationIndex a : AnimationIndex.values())
 		{
-			AnimationModel m = new AnimationModel(path, a);
-			m.loadSpriteCount();
-			m.unpack(stream);
-			animations[a.ordinal()] = m;
+			VariationList l = new VariationList(path, a);
+			l.load();
+			l.unpack(stream);
+			list[a.ordinal()] = l;
 		}
 		stream.close();
 
@@ -129,7 +133,7 @@ public class DrawerModel implements IPackable
 			FileOutputStream stream = new FileOutputStream(file);
 			pack(stream);
 			for (AnimationIndex a : AnimationIndex.values())
-				animations[a.ordinal()].pack(stream);
+				list[a.ordinal()].pack(stream);
 			stream.close();
 
 			this.hasChanges = false;
