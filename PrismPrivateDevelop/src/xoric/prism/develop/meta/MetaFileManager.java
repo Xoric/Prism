@@ -1,7 +1,9 @@
 package xoric.prism.develop.meta;
 
-import java.awt.BorderLayout;
 import java.awt.Cursor;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -14,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
@@ -25,7 +29,7 @@ import xoric.prism.data.types.Path;
 import xoric.prism.global.PrismGlobal;
 import xoric.prism.swing.PrismFrame;
 
-public class MetaFileManager extends PrismFrame implements MouseListener, ActionListener
+public class MetaFileManager extends PrismFrame implements MouseListener, ActionListener, TreeSelectionListener
 {
 	private static final long serialVersionUID = 1L;
 	private final static IPath_r resPath = new Path("E:/Prism/resource");
@@ -34,11 +38,14 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 	private final DefaultMutableTreeNode root;
 
 	private JToolBar toolBar;
+	private JToolBar toolBar2;
 	private JButton reloadButton;
 	private JButton expandButton;
 	private JButton collapseButton;
 	private JButton createButton;
 	private JButton createAllButton;
+
+	private MetaContentPanel metaContentPanel;
 
 	public MetaFileManager()
 	{
@@ -52,21 +59,39 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 		toolBar.add(expandButton = createButton("Expand all"));
 		toolBar.addSeparator();
 		toolBar.add(collapseButton = createButton("Collapse all"));
-		toolBar.addSeparator();
-		toolBar.add(createButton = createButton("Create selected"));
-		toolBar.addSeparator();
-		toolBar.add(createAllButton = createButton("Create all"));
+
+		toolBar2 = new JToolBar();
+		toolBar2.setFloatable(false);
+		toolBar2.add(createButton = createButton("Create selected"));
+		toolBar2.addSeparator();
+		toolBar2.add(createAllButton = createButton("Create all"));
+
+		// MetaContentPanel
+		metaContentPanel = new MetaContentPanel();
 
 		// tree
 		root = new DefaultMutableTreeNode("Resources");
 		tree = new JTree(root);
 		tree.addMouseListener(this);
+		tree.addTreeSelectionListener(this);
 		JScrollPane scroll = new JScrollPane(tree);
 
 		// content panel
-		JPanel p = new JPanel(new BorderLayout());
-		p.add(BorderLayout.NORTH, toolBar);
-		p.add(BorderLayout.CENTER, scroll);
+		JPanel p = new JPanel(new GridBagLayout());
+
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 0.6, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+				new Insets(0, 0, 0, 0), 0, 0);
+		p.add(toolBar, c);
+
+		c = new GridBagConstraints(0, 1, 1, 1, 0.6, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0,
+				0);
+		p.add(toolBar2, c);
+
+		c = new GridBagConstraints(0, 2, 1, 1, 0.6, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+		p.add(scroll, c);
+
+		c = new GridBagConstraints(1, 0, 1, 3, 0.4, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+		p.add(metaContentPanel, c);
 
 		this.setContentPane(p);
 	}
@@ -253,6 +278,38 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 			onCreateAll();
 	}
 
+	@Override
+	public void valueChanged(TreeSelectionEvent e)
+	{
+		TreePath[] paths = tree.getSelectionPaths();
+		int n = paths != null ? paths.length : 0;
+
+		if (n > 0)
+		{
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) paths[paths.length - 1].getLastPathComponent();
+			int childCount = node.getChildCount();
+
+			if (childCount == 0)
+			{
+				String p = "";
+
+				for (int i = 0; i < paths.length; ++i)
+				{
+					int count = paths[i].getPathCount();
+					for (int j = 1; j < count; ++j)
+					{
+						node = (DefaultMutableTreeNode) paths[i].getPathComponent(j);
+						p = p + node.toString();
+						if (j < count - 1)
+							p = p + '/';
+					}
+				}
+				Path resPath = new Path(this.resPath.getFile(p).toString());
+				metaContentPanel.showContent(resPath);
+			}
+		}
+	}
+
 	public static void main(String[] args)
 	{
 		try
@@ -280,4 +337,5 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 			e.printStackTrace();
 		}
 	}
+
 }

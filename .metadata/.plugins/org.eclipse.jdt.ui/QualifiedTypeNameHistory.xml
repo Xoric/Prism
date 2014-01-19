@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="javax.swing.JSeparator"/>
-<fullyQualifiedTypeName name="xoric.prism.creator.drawer.control.IDrawerControl"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.model.AnimationModel"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.image.IAnimationView"/>
 <fullyQualifiedTypeName name="javax.swing.JFileChooser"/>
@@ -12,7 +10,6 @@
 <fullyQualifiedTypeName name="xoric.prism.data.types.Text"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.TextPacker"/>
 <fullyQualifiedTypeName name="xoric.prism.world.entities.AnimationIndex"/>
-<fullyQualifiedTypeName name="xoric.prism.data.meta.MetaKey"/>
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
 <fullyQualifiedTypeName name="xoric.prism.develop.meta.MetaFileCreator"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.generator.ModelGenerator"/>
@@ -29,7 +26,6 @@
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.settings.WorkingDirs"/>
 <fullyQualifiedTypeName name="javax.swing.BorderFactory"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
-<fullyQualifiedTypeName name="xoric.prism.data.meta.MetaBlock"/>
 <fullyQualifiedTypeName name="xoric.prism.data.meta.MetaLine"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.util.List"/>
@@ -47,17 +43,21 @@
 <fullyQualifiedTypeName name="xoric.prism.global.PrismGlobal"/>
 <fullyQualifiedTypeName name="xoric.prism.data.PrismDataLoader"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.IPath_r"/>
-<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
-<fullyQualifiedTypeName name="xoric.prism.data.global.Prism"/>
 <fullyQualifiedTypeName name="xoric.prism.data.meta.AttachmentLoader"/>
 <fullyQualifiedTypeName name="xoric.prism.scene.shaders.IShader2"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.Heap"/>
-<fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.Path"/>
 <fullyQualifiedTypeName name="xoric.prism.data.global.ShaderIndex"/>
-<fullyQualifiedTypeName name="xoric.prism.data.meta.MetaList"/>
-<fullyQualifiedTypeName name="xoric.prism.data.meta.MetaType"/>
 <fullyQualifiedTypeName name="xoric.prism.scene.shaders.AllShaders"/>
 <fullyQualifiedTypeName name="xoric.prism.scene.PrismSceneLoader"/>
+<fullyQualifiedTypeName name="xoric.prism.data.meta.MetaList"/>
+<fullyQualifiedTypeName name="xoric.prism.data.meta.MetaType"/>
+<fullyQualifiedTypeName name="xoric.prism.data.meta.MetaBlock"/>
+<fullyQualifiedTypeName name="xoric.prism.data.meta.MetaKey"/>
+<fullyQualifiedTypeName name="xoric.prism.data.global.Prism"/>
+<fullyQualifiedTypeName name="xoric.prism.swing.tooltips.ToolTipFormatter"/>
+<fullyQualifiedTypeName name="javax.swing.JScrollBar"/>
+<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
+<fullyQualifiedTypeName name="java.io.File"/>
 </qualifiedTypeNameHistroy>

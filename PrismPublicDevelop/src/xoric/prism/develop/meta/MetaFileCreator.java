@@ -55,7 +55,7 @@ public class MetaFileCreator
 		this.infusedMetaList = metaList;
 	}
 
-	private MetaBlock createMetaBlock(String line) throws PrismException
+	private static MetaBlock createMetaBlock(String line) throws PrismException
 	{
 		// split line
 		line = line.substring(1);
@@ -83,7 +83,7 @@ public class MetaFileCreator
 		return block;
 	}
 
-	private MetaTextLine createMetaTextLine(String line) throws PrismException
+	private static MetaTextLine createMetaTextLine(String line) throws PrismException
 	{
 		// split line
 		String[] s = line.split(CHAR_KEY_SPLIT);
@@ -396,7 +396,7 @@ public class MetaFileCreator
 		return targetFilename;
 	}
 
-	private MetaList loadLocalMetaList(File textFile) throws PrismException
+	public static MetaList loadLocalMetaList(File textFile) throws PrismException
 	{
 		// check if text file exists
 		if (!textFile.exists())

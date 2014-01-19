@@ -1,8 +1,0 @@
-package xoric.prism.creator.drawer.control;
-
-import xoric.prism.world.entities.AnimationIndex;
-import xoric.prism.world.entities.ViewAngle;
-
-public interface IDrawerControl extends IModelControl, IAnimationControl, ISpriteControl
-{
-}

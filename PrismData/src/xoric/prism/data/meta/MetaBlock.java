@@ -89,6 +89,7 @@ public class MetaBlock implements IPackable, IInfoLayer
 		return list;
 	}
 
+	@Deprecated
 	public Heap findKey(MetaKey key) throws PrismException
 	{
 		for (MetaLine l : list)
@@ -103,6 +104,23 @@ public class MetaBlock implements IPackable, IInfoLayer
 		addExceptionInfoTo(e);
 		e.code.addInfo("missing MetaLine", key.toString());
 		// ----
+		// ----
+		throw e;
+	}
+
+	public MetaLine claimLine(MetaKey key) throws PrismException
+	{
+		for (MetaLine l : list)
+			if (l.getKey() == key)
+				return l;
+
+		PrismException e = new PrismException();
+		// ----
+		e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
+		// ----
+		e.code.setText("non-existing MetaLine requested");
+		addExceptionInfoTo(e);
+		e.code.addInfo("missing MetaLine", key.toString());
 		// ----
 		throw e;
 	}

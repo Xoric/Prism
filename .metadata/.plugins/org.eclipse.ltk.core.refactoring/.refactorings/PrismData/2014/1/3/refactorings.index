@@ -40,3 +40,5 @@
 1390053017340	Delete element
 1390054480152	Rename type 'FileDirectory'
 1390054541364	Rename type 'FileTableDirectory'
+1390061157549	Rename method 'findMetaLine'
+1390061161463	Rename method 'findLine'
