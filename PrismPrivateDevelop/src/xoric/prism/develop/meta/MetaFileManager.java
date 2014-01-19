@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -32,7 +33,7 @@ import xoric.prism.swing.PrismFrame;
 public class MetaFileManager extends PrismFrame implements MouseListener, ActionListener, TreeSelectionListener
 {
 	private static final long serialVersionUID = 1L;
-	private final static IPath_r resPath = new Path("E:/Prism/resource");
+	private static IPath_r resPath;
 
 	private final JTree tree;
 	private final DefaultMutableTreeNode root;
@@ -314,6 +315,16 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 	{
 		try
 		{
+			Properties prop = System.getProperties();
+			String os = prop.getProperty("os.name");
+
+			String s;
+			if (os.equals("Linux"))
+				s = "/home/xoric/workspace/resource";
+			else
+				s = "E:/Prism/resource";
+			resPath = new Path(s);
+
 			// global initialization
 			PrismGlobal.setLookAndFeel();
 			PrismGlobal global = new PrismGlobal();
