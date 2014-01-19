@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="14" version="2.0">
+<workbench progressCount="17" version="2.0">
 <workbenchAdvisor/>
 <window height="453" maximized="true" width="641" x="49" y="147">
 <fastViewData fastViewLocation="1024">
@@ -22,7 +22,7 @@
 <coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="124" y="30"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="232" y="30"/>
+<coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="108" y="30"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
@@ -82,9 +82,6 @@
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<expanded>
-<category IMemento.internal.id="Warnings (30 items)"/>
-</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -132,7 +129,7 @@
 <view id="org.eclipse.jdt.ui.SourceView" partName="Declaration"/>
 <view id="org.eclipse.jdt.ui.JavadocView" partName="Javadoc"/>
 </views>
-<perspectives activePart="org.eclipse.jdt.ui.CompilationUnitEditor" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
+<perspectives activePart="org.eclipse.jdt.ui.PackageExplorer" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.jdt.internal.ui.JavaPerspectiveFactory" id="org.eclipse.jdt.ui.JavaPerspective" label="Java"/>
 <alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
@@ -179,12 +176,12 @@
 <new_wizard_action id="org.eclipse.ui.wizards.new.file"/>
 <perspective_action id="org.eclipse.debug.ui.DebugPerspective"/>
 <perspective_action id="org.eclipse.jdt.ui.JavaBrowsingPerspective"/>
-<hide_toolbar_item_id id="org.eclipse.ui.navigate.backwardHistory"/>
 <hide_toolbar_item_id id="org.eclipse.ui.workbench.navigate"/>
+<hide_toolbar_item_id id="org.eclipse.ui.navigate.backwardHistory"/>
 <hide_toolbar_item_id id="org.eclipse.ui.navigate.previous"/>
 <hide_toolbar_item_id id="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
-<hide_toolbar_item_id id="org.eclipse.ui.navigate.forwardHistory"/>
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
+<hide_toolbar_item_id id="org.eclipse.ui.navigate.forwardHistory"/>
 <hide_toolbar_item_id id="org.eclipse.ui.navigate.next"/>
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.gotoLastEditPosition"/>
 <view id="org.eclipse.jdt.ui.PackageExplorer"/>
@@ -347,19 +344,9 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismGlobal/src/xoric/prism/global/PrismGlobal.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MetaFilePrinter/src/xoric/prism/develop/li/MetaFilePrinter.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismPrivateDevelop/src/xoric/prism/develop/meta/MetaFileManager.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/PrismPrivateDevelop/src/xoric/prism/develop/meta/MetaFileViewer.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Test/src/Test.java"/>
 </editors>
-<item historyLabel="NewModelDialog.java" index="0">
-<position info="not_deleted" x="1556" y="0"/>
-</item>
-<item historyLabel="NewModelDialog.java" index="0">
-<position info="not_deleted" x="1588" y="0"/>
-</item>
-<item historyLabel="NewModelDialog.java" index="0">
-<position/>
-</item>
-<item historyLabel="NewModelDialog.java" index="0">
-<position/>
-</item>
 <item historyLabel="NewModelDialog.java" index="0">
 <position info="not_deleted" x="5064" y="0"/>
 </item>
@@ -493,8 +480,20 @@
 <item historyLabel="PrismGlobal.java" index="15">
 <position info="not_deleted" x="510" y="85"/>
 </item>
-<item active="true" historyLabel="MetaFileManager.java" index="17">
+<item historyLabel="MetaFileManager.java" index="17">
 <position info="not_deleted" x="7789" y="0"/>
+</item>
+<item historyLabel="MetaFileViewer.java" index="18">
+<position info="not_deleted" x="685" y="0"/>
+</item>
+<item historyLabel="MetaFileManager.java" index="17">
+<position info="not_deleted" x="7760" y="0"/>
+</item>
+<item historyLabel="Test.java" index="19">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item active="true" historyLabel="MetaFileManager.java" index="17">
+<position info="not_deleted" x="7760" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -502,9 +501,6 @@
 <workbenchWindowAdvisor/>
 <actionBarAdvisor/>
 <trimLayout>
-<trimArea IMemento.internal.id="16384">
-<trimItem IMemento.internal.id="org.eclipse.ui.internal.ViewStack@119f96b"/>
-</trimArea>
 <trimArea IMemento.internal.id="128">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
 </trimArea>
@@ -517,6 +513,12 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Test.java" tooltip="Test/src/Test.java">
+<persistable path="/Test/src/Test.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MetaFileViewer.java" tooltip="PrismPrivateDevelop/src/xoric/prism/develop/meta/MetaFileViewer.java">
+<persistable path="/PrismPrivateDevelop/src/xoric/prism/develop/meta/MetaFileViewer.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="MetaFileManager.java" tooltip="PrismPrivateDevelop/src/xoric/prism/develop/meta/MetaFileManager.java">
 <persistable path="/PrismPrivateDevelop/src/xoric/prism/develop/meta/MetaFileManager.java"/>
 </file>
@@ -555,12 +557,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FrameView.java" tooltip="PrismCreator/src/xoric/prism/creator/drawer/image/FrameView.java">
 <persistable path="/PrismCreator/src/xoric/prism/creator/drawer/image/FrameView.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="FramesView.java" tooltip="PrismCreator/src/xoric/prism/creator/drawer/image/FramesView.java">
-<persistable path="/PrismCreator/src/xoric/prism/creator/drawer/image/FramesView.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="ModelTable.java" tooltip="PrismCreator/src/xoric/prism/creator/drawer/view/ModelTable.java">
-<persistable path="/PrismCreator/src/xoric/prism/creator/drawer/view/ModelTable.java"/>
 </file>
 </mruList>
 </workbench>

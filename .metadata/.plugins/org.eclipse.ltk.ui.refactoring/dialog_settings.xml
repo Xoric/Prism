@@ -12,9 +12,9 @@
 	<section name="org.eclipse.ltk.ui.refactoring.settings">
 		<item value="false" key="deleteSubPackages"/>
 		<item value="true" key="CreateTopLevel"/>
-		<item value="false" key="CreateSetters"/>
-		<item value="false" key="CreateGetters"/>
 		<item value="*" key="patterns"/>
+		<item value="false" key="CreateGetters"/>
+		<item value="false" key="CreateSetters"/>
 		<item value="false" key="moveWizard.updateQualifiedNames"/>
 	</section>
 	<section name="InferTypeArguments">
