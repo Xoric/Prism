@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;xoric.prism.data.meta.TimeStamp&apos; to &apos;MetaTimeStamp&apos;&#x0D;&#x0A;- Original project: &apos;PrismData&apos;&#x0D;&#x0A;- Original element: &apos;xoric.prism.data.meta.TimeStamp&apos;&#x0D;&#x0A;- Renamed element: &apos;xoric.prism.data.meta.MetaTimeStamp&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;TimeStamp&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;xoric.prism.data.meta{TimeStamp.java[TimeStamp" matchStrategy="1" name="MetaTimeStamp" qualified="false" references="true" similarDeclarations="false" stamp="1390245694249" textual="false" version="1.0"/>
+</session>

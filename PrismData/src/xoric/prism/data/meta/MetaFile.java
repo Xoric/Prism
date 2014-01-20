@@ -15,7 +15,7 @@ public class MetaFile implements IInfoLayer
 	private final IPath_r path;
 	private final String filename;
 	private int localFileVersion;
-	private TimeStamp timeStamp;
+	private MetaTimeStamp timeStamp;
 	private MetaList metaList;
 	private AttachmentLoader attachmentLoader;
 
@@ -25,7 +25,7 @@ public class MetaFile implements IInfoLayer
 		this.path = path;
 		this.file = path.getFile(filename);
 		this.localFileVersion = 0;
-		this.timeStamp = new TimeStamp();
+		this.timeStamp = new MetaTimeStamp();
 		this.metaList = new MetaList();
 		this.metaList.setUplink(this);
 	}
@@ -38,6 +38,16 @@ public class MetaFile implements IInfoLayer
 
 	public void load() throws PrismException
 	{
+		if (!file.exists())
+		{
+			PrismException e = new PrismException();
+			// ----
+			e.setText(UserErrorText.LOCAL_GAME_FILE_MISSING);
+			addExceptionInfoTo(e);
+			// ----
+			// ----
+			throw e;
+		}
 		try
 		{
 			// open file as stream
@@ -45,7 +55,7 @@ public class MetaFile implements IInfoLayer
 
 			// unpack version and TimeStamp
 			localFileVersion = IntPacker.unpack_s(stream); // 1)
-			timeStamp = new TimeStamp();
+			timeStamp = new MetaTimeStamp();
 			timeStamp.unpack(stream); // 2)
 
 			// MetaList and number of attachments
@@ -78,7 +88,7 @@ public class MetaFile implements IInfoLayer
 		this.localFileVersion = version;
 	}
 
-	public TimeStamp getTimeStamp()
+	public MetaTimeStamp getTimeStamp()
 	{
 		return timeStamp;
 	}
@@ -112,8 +122,6 @@ public class MetaFile implements IInfoLayer
 	@Override
 	public void addExceptionInfoTo(PrismException e)
 	{
-		e.user.addInfo("file", filename);
-		// ----
-		e.code.addInfo("MetaFile", filename);
+		e.addInfo("file", file.toString());
 	}
 }

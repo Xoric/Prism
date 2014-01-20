@@ -43,6 +43,12 @@ public class PrismFrame extends JFrame
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	public void centerOnScreen()
+	{
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+	}
+
 	private void centerOnParent(int x, int y, int width, int height)
 	{
 		setLocation(x + (width - this.getWidth()) / 2, y + (height - this.getWidth()) / 2);

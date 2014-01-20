@@ -17,7 +17,7 @@ import xoric.prism.data.meta.MetaKey;
 import xoric.prism.data.meta.MetaLine;
 import xoric.prism.data.meta.MetaList;
 import xoric.prism.data.meta.MetaType;
-import xoric.prism.data.meta.TimeStamp;
+import xoric.prism.data.meta.MetaTimeStamp;
 import xoric.prism.data.tools.Common;
 import xoric.prism.data.types.Heap;
 import xoric.prism.data.types.IPath_r;
@@ -234,7 +234,7 @@ public class MetaFileCreator
 		metaList.dropMetaBlock(devBlock);
 
 		// write file
-		TimeStamp timeStamp = new TimeStamp();
+		MetaTimeStamp timeStamp = new MetaTimeStamp();
 		try
 		{
 			// open target file

@@ -1,6 +1,6 @@
 package xoric.prism.data.exceptions;
 
-public class PrismException extends Throwable implements IInfoContainer
+public class PrismException extends Exception implements IInfoContainer
 {
 	private static final long serialVersionUID = 1L;
 

@@ -23,6 +23,21 @@ public class CodeLevel extends InfoContainer
 	public void print()
 	{
 		System.out.println(toString());
+
+		if (originalException != null)
+			originalException.printStackTrace();
+		else
+			throwable.printStackTrace();
+	}
+
+	public void extractStackTrace(StringWriter sw)
+	{
+		PrintWriter pw = new PrintWriter(sw);
+
+		if (originalException != null)
+			originalException.printStackTrace(pw);
+		else
+			throwable.printStackTrace(pw);
 	}
 
 	@Override
@@ -34,33 +49,17 @@ public class CodeLevel extends InfoContainer
 		if (text != null)
 			sb.append(text);
 		else
-			sb.append("An error occured.");
+			sb.append("An unknown error occured.");
 		sb.append('\n');
+
+		// add original exception
+		if (originalException != null)
+			sb.append("origin: " + originalException.toString() + '\n');
 
 		// add additional information
 		this.extractInfoAsText(sb);
 
-		// add stack trace
-		sb.append('\n');
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		if (originalException != null)
-			originalException.printStackTrace(pw);
-		else
-			throwable.printStackTrace(pw);
-		sb.append(sw.toString());
-
-		// add original exception
-		if (originalException != null)
-		{
-			sb.append("\n\nsource: " + originalException.toString() + '\n');
-
-			StringWriter sw2 = new StringWriter();
-			PrintWriter pw2 = new PrintWriter(sw2);
-			originalException.printStackTrace(pw2);
-			sb.append(sw2.toString());
-		}
-
+		// return text
 		return sb.toString();
 	}
 }

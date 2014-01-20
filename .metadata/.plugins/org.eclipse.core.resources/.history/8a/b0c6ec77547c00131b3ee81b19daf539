@@ -1,9 +1,0 @@
-package xoric.prism.creator.drawer.image;
-
-public abstract class IconLoader
-{
-public static ImageIcon loadIcon(File file)
-{
-	
-}
-}

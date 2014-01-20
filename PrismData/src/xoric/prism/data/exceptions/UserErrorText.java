@@ -3,6 +3,7 @@ package xoric.prism.data.exceptions;
 public enum UserErrorText
 {
 	LOCAL_GAME_FILE_CAUSED_PROBLEM("A local game file has caused a problem."),
+	LOCAL_GAME_FILE_MISSING("A local game file is missing."),
 	DEVELOP_FILE_CAUSED_PROBLEM("A development file has caused a problem."),
 	INTERNAL_PROBLEM("An internal error occured."),
 	WRITE_ERROR("An error occurred while trying to write a file."),

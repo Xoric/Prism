@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_wJFyoHyxEeOc-ogAtD0ZFg" elementId="org.eclipse.e4.legacy.ide.application" contributorURI="platform:/plugin/org.eclipse.platform" selectedElement="_wJFyoXyxEeOc-ogAtD0ZFg" bindingContexts="_wJLSPXyxEeOc-ogAtD0ZFg">
-  <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;workbench>&#xD;&#xA;&lt;mruList>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;AnimationResult.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/generators/AnimationResult.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/generators/AnimationResult.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;ModelGenerator.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/generators/ModelGenerator.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/generators/ModelGenerator.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;ModelResult.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/generators/ModelResult.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/generators/ModelResult.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;VariationList.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/model/VariationList.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/model/VariationList.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;AnimationCellWithControls.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/view/AnimationCellWithControls.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/view/AnimationCellWithControls.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;MetaFile.java&quot; tooltip=&quot;PrismData/src/xoric/prism/data/meta/MetaFile.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismData/src/xoric/prism/data/meta/MetaFile.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;AnimationCell.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/view/AnimationCell.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/view/AnimationCell.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;AnimationListSummary.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/generators/AnimationListSummary.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/generators/AnimationListSummary.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;VariationSummary.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/generators/VariationSummary.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/generators/VariationSummary.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;AnimationSummary.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/generators/AnimationSummary.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/generators/AnimationSummary.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;AnimationsGenerator.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/generators/AnimationsGenerator.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/generators/AnimationsGenerator.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;ISpriteList.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/image/ISpriteList.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/image/ISpriteList.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;AngleSummary.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/generators/AngleSummary.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/generators/AngleSummary.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;ModelControl.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/control/ModelControl.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/control/ModelControl.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;IAnimationView.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/image/IAnimationView.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/image/IAnimationView.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;/mruList>&#xD;&#xA;&lt;/workbench>"/>
+  <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;workbench>&#xD;&#xA;&lt;mruList>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;ServerView.java&quot; tooltip=&quot;PrismServer/src/xoric/prism/server/view/ServerView.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismServer/src/xoric/prism/server/view/ServerView.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PrismServerBootstrap.java&quot; tooltip=&quot;PrismServerBootstrap/src/xoric/prism/server/bootstrap/PrismServerBootstrap.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismServerBootstrap/src/xoric/prism/server/bootstrap/PrismServerBootstrap.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;ServerNet.java&quot; tooltip=&quot;PrismServer/src/xoric/prism/server/net/ServerNet.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismServer/src/xoric/prism/server/net/ServerNet.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;MetaFile.java&quot; tooltip=&quot;PrismData/src/xoric/prism/data/meta/MetaFile.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismData/src/xoric/prism/data/meta/MetaFile.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;Doorman.java&quot; tooltip=&quot;PrismServer/src/xoric/prism/server/control/Doorman.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismServer/src/xoric/prism/server/control/Doorman.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PrismException.java&quot; tooltip=&quot;PrismData/src/xoric/prism/data/exceptions/PrismException.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismData/src/xoric/prism/data/exceptions/PrismException.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;TimeStamp.java&quot; tooltip=&quot;PrismData/src/xoric/prism/data/meta/TimeStamp.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismData/src/xoric/prism/data/meta/TimeStamp.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;MetaFileCreator.java&quot; tooltip=&quot;PrismPublicDevelop/src/xoric/prism/develop/meta/MetaFileCreator.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismPublicDevelop/src/xoric/prism/develop/meta/MetaFileCreator.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;AnimationResult.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/generators/AnimationResult.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/generators/AnimationResult.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;ModelGenerator.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/generators/ModelGenerator.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/generators/ModelGenerator.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;ModelResult.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/generators/ModelResult.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/generators/ModelResult.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;VariationList.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/model/VariationList.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/model/VariationList.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;AnimationCellWithControls.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/view/AnimationCellWithControls.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/view/AnimationCellWithControls.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;AnimationCell.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/view/AnimationCell.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/view/AnimationCell.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;AnimationListSummary.java&quot; tooltip=&quot;PrismModelCreator/src/xoric/prism/creator/drawer/generators/AnimationListSummary.java&quot;>&#xD;&#xA;&lt;persistable path=&quot;/PrismModelCreator/src/xoric/prism/creator/drawer/generators/AnimationListSummary.java&quot;/>&#xD;&#xA;&lt;/file>&#xD;&#xA;&lt;/mruList>&#xD;&#xA;&lt;/workbench>"/>
   <tags>activeSchemeId:org.eclipse.ui.defaultAcceleratorConfiguration</tags>
   <children xsi:type="basic:TrimmedWindow" xmi:id="_wJFyoXyxEeOc-ogAtD0ZFg" elementId="IDEWindow" contributorURI="platform:/plugin/org.eclipse.platform" selectedElement="_wJFyonyxEeOc-ogAtD0ZFg" label="%trimmedwindow.label.eclipseSDK" x="0" y="0" width="798" height="530">
     <persistedState key="coolBarVisible" value="true"/>
@@ -8,7 +8,7 @@
     <persistedState key="workingSets" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;workingSets/>"/>
     <persistedState key="aggregateWorkingSetId" value="Aggregate for window 1383840853558"/>
     <tags>topLevel</tags>
-    <tags>shellMaximized</tags>
+    <tags>shellMinimized</tags>
     <children xsi:type="basic:PartSashContainer" xmi:id="_wJFyonyxEeOc-ogAtD0ZFg" selectedElement="_wJFyo3yxEeOc-ogAtD0ZFg" horizontal="true">
       <children xsi:type="advanced:PerspectiveStack" xmi:id="_wJFyo3yxEeOc-ogAtD0ZFg" elementId="PerspectiveStack" containerData="7500" selectedElement="_wJFypHyxEeOc-ogAtD0ZFg">
         <children xsi:type="advanced:Perspective" xmi:id="_wJFypHyxEeOc-ogAtD0ZFg" elementId="org.eclipse.jdt.ui.JavaPerspective" selectedElement="_wJGZsHyxEeOc-ogAtD0ZFg" label="Java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/eview16/jperspective.gif">
@@ -64,7 +64,7 @@
           <tags>persp.showIn:org.eclipse.ui.views.ResourceNavigator</tags>
           <tags>persp.showIn:org.eclipse.ui.navigator.ProjectExplorer</tags>
           <tags>persp.actionSet:org.eclipse.wb.core.ui.actionset</tags>
-          <children xsi:type="basic:PartSashContainer" xmi:id="_wJGZsHyxEeOc-ogAtD0ZFg" selectedElement="_wJGZunyxEeOc-ogAtD0ZFg" horizontal="true">
+          <children xsi:type="basic:PartSashContainer" xmi:id="_wJGZsHyxEeOc-ogAtD0ZFg" selectedElement="_wJGZsXyxEeOc-ogAtD0ZFg" horizontal="true">
             <children xsi:type="basic:PartSashContainer" xmi:id="_wJGZsXyxEeOc-ogAtD0ZFg" containerData="2651" selectedElement="_wJGZsnyxEeOc-ogAtD0ZFg">
               <children xsi:type="basic:PartStack" xmi:id="_wJGZsnyxEeOc-ogAtD0ZFg" elementId="left" containerData="6000" selectedElement="_wJGZs3yxEeOc-ogAtD0ZFg">
                 <tags>newtablook</tags>
@@ -82,7 +82,7 @@
             </children>
             <children xsi:type="basic:PartSashContainer" xmi:id="_wJGZunyxEeOc-ogAtD0ZFg" containerData="7349" selectedElement="_wJGZu3yxEeOc-ogAtD0ZFg">
               <children xsi:type="basic:PartSashContainer" xmi:id="_wJGZu3yxEeOc-ogAtD0ZFg" containerData="5637" selectedElement="_z6GAAH_bEeOHLYljvPANUQ" horizontal="true">
-                <children xsi:type="basic:PartSashContainer" xmi:id="_z6GAAH_bEeOHLYljvPANUQ" containerData="10000" selectedElement="_wJGZvnyxEeOc-ogAtD0ZFg">
+                <children xsi:type="basic:PartSashContainer" xmi:id="_z6GAAH_bEeOHLYljvPANUQ" containerData="10000" selectedElement="_wJGZvXyxEeOc-ogAtD0ZFg">
                   <children xsi:type="advanced:Placeholder" xmi:id="_wJGZvXyxEeOc-ogAtD0ZFg" elementId="org.eclipse.ui.editorss" containerData="4776" ref="_wJGas3yxEeOc-ogAtD0ZFg">
                     <tags>Maximized</tags>
                   </children>
@@ -218,7 +218,7 @@
       <tags>categoryTag:Help</tags>
     </sharedElements>
     <sharedElements xsi:type="advanced:Area" xmi:id="_wJGas3yxEeOc-ogAtD0ZFg" elementId="org.eclipse.ui.editorss" selectedElement="_wJGatHyxEeOc-ogAtD0ZFg">
-      <children xsi:type="basic:PartStack" xmi:id="_wJGatHyxEeOc-ogAtD0ZFg" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_rczIcIEsEeOZi9Yv0sftwg">
+      <children xsi:type="basic:PartStack" xmi:id="_wJGatHyxEeOc-ogAtD0ZFg" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_ayXzoIIKEeO2zrN907K9Kw">
         <tags>newtablook</tags>
         <tags>org.eclipse.e4.primaryDataStack</tags>
         <tags>EditorStack</tags>
@@ -235,7 +235,7 @@
           <tags>removeOnHide</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_QHmHUIErEeOZi9Yv0sftwg" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="MetaFile.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.gif" tooltip="PrismData/src/xoric/prism/data/meta/MetaFile.java" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/PrismData/src/xoric/prism/data/meta/MetaFile.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;1091&quot; selectionTopPixel=&quot;465&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/PrismData/src/xoric/prism/data/meta/MetaFile.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;2206&quot; selectionTopPixel=&quot;968&quot;/>&#xD;&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
           <tags>removeOnHide</tags>
@@ -263,7 +263,48 @@
           <tags>Editor</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
           <tags>removeOnHide</tags>
-          <tags>activeOnClose</tags>
+        </children>
+        <children xsi:type="basic:Part" xmi:id="_B0FcAIIIEeO2zrN907K9Kw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="MetaFileCreator.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.gif" tooltip="PrismPublicDevelop/src/xoric/prism/develop/meta/MetaFileCreator.java" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/PrismPublicDevelop/src/xoric/prism/develop/meta/MetaFileCreator.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;1218&quot; selectionTopPixel=&quot;1530&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <tags>Editor</tags>
+          <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
+          <tags>removeOnHide</tags>
+        </children>
+        <children xsi:type="basic:Part" xmi:id="_D0kGAIIIEeO2zrN907K9Kw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="MetaTimeStamp.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.gif" tooltip="PrismData/src/xoric/prism/data/meta/MetaTimeStamp.java" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/PrismData/src/xoric/prism/data/meta/MetaTimeStamp.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;429&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <tags>Editor</tags>
+          <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
+          <tags>removeOnHide</tags>
+        </children>
+        <children xsi:type="basic:Part" xmi:id="_GU-NQIIIEeO2zrN907K9Kw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="PrismException.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.gif" tooltip="PrismData/src/xoric/prism/data/exceptions/PrismException.java" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/PrismData/src/xoric/prism/data/exceptions/PrismException.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;540&quot; selectionTopPixel=&quot;8&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <tags>Editor</tags>
+          <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
+          <tags>removeOnHide</tags>
+        </children>
+        <children xsi:type="basic:Part" xmi:id="_5F-KcIIJEeO2zrN907K9Kw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Doorman.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.gif" tooltip="PrismServer/src/xoric/prism/server/control/Doorman.java" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/PrismServer/src/xoric/prism/server/control/Doorman.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;405&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <tags>Editor</tags>
+          <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
+          <tags>removeOnHide</tags>
+        </children>
+        <children xsi:type="basic:Part" xmi:id="_SNTbQIIKEeO2zrN907K9Kw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="ServerNet.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.gif" tooltip="PrismServer/src/xoric/prism/server/net/ServerNet.java" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/PrismServer/src/xoric/prism/server/net/ServerNet.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;0&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <tags>Editor</tags>
+          <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
+          <tags>removeOnHide</tags>
+        </children>
+        <children xsi:type="basic:Part" xmi:id="_ayXzoIIKEeO2zrN907K9Kw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="PrismServerBootstrap.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.gif" tooltip="PrismServerBootstrap/src/xoric/prism/server/bootstrap/PrismServerBootstrap.java" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/PrismServerBootstrap/src/xoric/prism/server/bootstrap/PrismServerBootstrap.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;817&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <tags>Editor</tags>
+          <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
+          <tags>removeOnHide</tags>
+        </children>
+        <children xsi:type="basic:Part" xmi:id="_kLA-AIIKEeO2zrN907K9Kw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="ServerView.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.gif" tooltip="PrismServer/src/xoric/prism/server/view/ServerView.java" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/PrismServer/src/xoric/prism/server/view/ServerView.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;940&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <tags>Editor</tags>
+          <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
+          <tags>removeOnHide</tags>
         </children>
       </children>
     </sharedElements>
@@ -271,6 +312,7 @@
       <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;view group_libraries=&quot;1&quot; layout=&quot;2&quot; linkWithEditor=&quot;0&quot; rootMode=&quot;1&quot; workingSetName=&quot;Aggregate for window 1383840853558&quot;>&#xD;&#xA;&lt;customFilters userDefinedPatternsEnabled=&quot;false&quot;>&#xD;&#xA;&lt;xmlDefinedFilters>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer.LibraryFilter&quot; isEnabled=&quot;false&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer.LocalTypesFilter&quot; isEnabled=&quot;false&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer.StaticsFilter&quot; isEnabled=&quot;false&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer.ClosedProjectsFilter&quot; isEnabled=&quot;false&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer.NonSharedProjectsFilter&quot; isEnabled=&quot;false&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.pde.ui.ExternalPluginLibrariesFilter1&quot; isEnabled=&quot;true&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer.NonJavaElementFilter&quot; isEnabled=&quot;false&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer.ContainedLibraryFilter&quot; isEnabled=&quot;false&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer.CuAndClassFileFilter&quot; isEnabled=&quot;false&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer.NonJavaProjectsFilter&quot; isEnabled=&quot;false&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.internal.ui.PackageExplorer.EmptyInnerPackageFilter&quot; isEnabled=&quot;true&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer.PackageDeclarationFilter&quot; isEnabled=&quot;true&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.internal.ui.PackageExplorer.EmptyPackageFilter&quot; isEnabled=&quot;false&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer.ImportDeclarationFilter&quot; isEnabled=&quot;true&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer.FieldsFilter&quot; isEnabled=&quot;false&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.internal.ui.PackageExplorer.HideInnerClassFilesFilter&quot; isEnabled=&quot;true&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer.NonPublicFilter&quot; isEnabled=&quot;false&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer_patternFilterId_.*&quot; isEnabled=&quot;true&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer.EmptyLibraryContainerFilter&quot; isEnabled=&quot;true&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.pde.ui.BinaryProjectFilter1&quot; isEnabled=&quot;false&quot;/>&#xD;&#xA;&lt;child filterId=&quot;org.eclipse.jdt.ui.PackageExplorer.SyntheticMembersFilter&quot; isEnabled=&quot;true&quot;/>&#xD;&#xA;&lt;/xmlDefinedFilters>&#xD;&#xA;&lt;/customFilters>&#xD;&#xA;&lt;/view>"/>
       <tags>View</tags>
       <tags>categoryTag:Java</tags>
+      <tags>activeOnClose</tags>
       <menus xmi:id="_wJHAzHyxEeOc-ogAtD0ZFg" elementId="org.eclipse.jdt.ui.PackageExplorer">
         <tags>ViewMenu</tags>
         <tags>menuContribution:menu</tags>
@@ -513,19 +555,19 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_wJHoQHyxEeOc-ogAtD0ZFg" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_QYAIDdEeOZi9Yv0sftwg" elementId="new.group"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_Q_EIDdEeOZi9Yv0sftwg" elementId="newWizardDropDown"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_Q_EYDdEeOZi9Yv0sftwg" elementId="new.ext" visible="false"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_Q_EoDdEeOZi9Yv0sftwg" elementId="save.group" visible="false"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_Q_E4DdEeOZi9Yv0sftwg" elementId="save"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_Q_FIDdEeOZi9Yv0sftwg" elementId="saveAll"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_Q_FYDdEeOZi9Yv0sftwg" elementId="save.ext" visible="false"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_m_RmIIDdEeOZi9Yv0sftwg" elementId="print" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.gif" tooltip="Print" command="_wJfbQHyxEeOc-ogAtD0ZFg"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_VQgIDdEeOZi9Yv0sftwg" elementId="print.ext" visible="false"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_V3kIDdEeOZi9Yv0sftwg" elementId="build.group"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_V3kYDdEeOZi9Yv0sftwg" elementId="build.ext" visible="false"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_V3koDdEeOZi9Yv0sftwg" elementId="additions"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nA-2UIDdEeOZi9Yv0sftwg" elementId="org.eclipse.wb.core.wizards.actions.NewDesignerTypeDropDownAction"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_931o4IIHEeO2zrN907K9Kw" elementId="new.group"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_932P8IIHEeO2zrN907K9Kw" elementId="newWizardDropDown"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_932P8YIHEeO2zrN907K9Kw" elementId="new.ext" visible="false"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_932P8oIHEeO2zrN907K9Kw" elementId="save.group" visible="false"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_932P84IHEeO2zrN907K9Kw" elementId="save"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_932P9IIHEeO2zrN907K9Kw" elementId="saveAll"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_932P9YIHEeO2zrN907K9Kw" elementId="save.ext" visible="false"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_9323AIIHEeO2zrN907K9Kw" elementId="print" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.gif" tooltip="Print" enabled="false" command="_wJfbQHyxEeOc-ogAtD0ZFg"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_9356UIIHEeO2zrN907K9Kw" elementId="print.ext" visible="false"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_936hYIIHEeO2zrN907K9Kw" elementId="build.group"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_936hYYIHEeO2zrN907K9Kw" elementId="build.ext" visible="false"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_936hYoIHEeO2zrN907K9Kw" elementId="additions"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95dZgIIHEeO2zrN907K9Kw" elementId="org.eclipse.wb.core.wizards.actions.NewDesignerTypeDropDownAction"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_wJIO4nyxEeOc-ogAtD0ZFg" elementId="additions" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -533,37 +575,37 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_wJIO_nyxEeOc-ogAtD0ZFg" elementId="org.eclipse.debug.ui.breakpointActionSet">
         <tags>Draggable</tags>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nA-2UYDdEeOZi9Yv0sftwg" elementId="breakpointGroup"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nA_dYIDdEeOZi9Yv0sftwg" elementId="org.eclipse.debug.ui.actions.SkipAllBreakpoints"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95dZgYIHEeO2zrN907K9Kw" elementId="breakpointGroup"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95dZgoIHEeO2zrN907K9Kw" elementId="org.eclipse.debug.ui.actions.SkipAllBreakpoints"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_wJIPAXyxEeOc-ogAtD0ZFg" elementId="org.eclipse.debug.ui.launchActionSet">
         <tags>Draggable</tags>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nA_dYYDdEeOZi9Yv0sftwg" elementId="debug"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nA_dYoDdEeOZi9Yv0sftwg" elementId="org.eclipse.debug.internal.ui.actions.DebugDropDownAction"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nA_dY4DdEeOZi9Yv0sftwg" elementId="org.eclipse.debug.internal.ui.actions.RunDropDownAction"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nA_dZIDdEeOZi9Yv0sftwg" elementId="org.eclipse.ui.externaltools.ExternalToolMenuDelegateToolbar"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95eAkIIHEeO2zrN907K9Kw" elementId="debug"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95eAkYIHEeO2zrN907K9Kw" elementId="org.eclipse.debug.internal.ui.actions.DebugDropDownAction"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95eAkoIHEeO2zrN907K9Kw" elementId="org.eclipse.debug.internal.ui.actions.RunDropDownAction"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95eAk4IHEeO2zrN907K9Kw" elementId="org.eclipse.ui.externaltools.ExternalToolMenuDelegateToolbar"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_wJIPBnyxEeOc-ogAtD0ZFg" elementId="org.eclipse.jdt.ui.JavaElementCreationActionSet">
         <tags>Draggable</tags>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nA_dZYDdEeOZi9Yv0sftwg" elementId="JavaWizards"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nA_dZoDdEeOZi9Yv0sftwg" elementId="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nA_dZ4DdEeOZi9Yv0sftwg" elementId="org.eclipse.jdt.ui.actions.OpenPackageWizard"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nA_daIDdEeOZi9Yv0sftwg" elementId="org.eclipse.jdt.ui.actions.NewTypeDropDown"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95eAlIIHEeO2zrN907K9Kw" elementId="JavaWizards"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95eAlYIHEeO2zrN907K9Kw" elementId="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95eAloIHEeO2zrN907K9Kw" elementId="org.eclipse.jdt.ui.actions.OpenPackageWizard"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95eAl4IHEeO2zrN907K9Kw" elementId="org.eclipse.jdt.ui.actions.NewTypeDropDown"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_wJIPC3yxEeOc-ogAtD0ZFg" elementId="org.eclipse.search.searchActionSet">
         <tags>Draggable</tags>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nBAEcIDdEeOZi9Yv0sftwg" elementId="Search"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nBAEcYDdEeOZi9Yv0sftwg" elementId="openType"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nBAEcoDdEeOZi9Yv0sftwg" elementId="org.eclipse.search.OpenSearchDialogPage"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95enoIIHEeO2zrN907K9Kw" elementId="Search"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95enoYIHEeO2zrN907K9Kw" elementId="openType"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95enooIHEeO2zrN907K9Kw" elementId="org.eclipse.search.OpenSearchDialogPage"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_wJIPD3yxEeOc-ogAtD0ZFg" elementId="org.eclipse.ui.edit.text.actionSet.presentation">
         <tags>Draggable</tags>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nd_icIDdEeOZi9Yv0sftwg" elementId="Presentation"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_neAJgIDdEeOZi9Yv0sftwg" elementId="org.eclipse.jdt.ui.edit.text.java.toggleBreadcrumb"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_neAJgYDdEeOZi9Yv0sftwg" elementId="org.eclipse.jdt.ui.edit.text.java.toggleMarkOccurrences"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_neAJgoDdEeOZi9Yv0sftwg" elementId="org.eclipse.ui.edit.text.toggleBlockSelectionMode"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_neAJg4DdEeOZi9Yv0sftwg" elementId="org.eclipse.ui.edit.text.toggleShowWhitespaceCharacters"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_neAJhIDdEeOZi9Yv0sftwg" elementId="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_-PvLgIIHEeO2zrN907K9Kw" elementId="Presentation"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_-PvLgYIHEeO2zrN907K9Kw" elementId="org.eclipse.jdt.ui.edit.text.java.toggleBreadcrumb"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_-PvLgoIHEeO2zrN907K9Kw" elementId="org.eclipse.jdt.ui.edit.text.java.toggleMarkOccurrences"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_-PvLg4IHEeO2zrN907K9Kw" elementId="org.eclipse.ui.edit.text.toggleBlockSelectionMode"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_-PvLhIIHEeO2zrN907K9Kw" elementId="org.eclipse.ui.edit.text.toggleShowWhitespaceCharacters"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_-PvykIIHEeO2zrN907K9Kw" elementId="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_wJIPFnyxEeOc-ogAtD0ZFg" elementId="group.nav" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -571,15 +613,15 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_wJIPGHyxEeOc-ogAtD0ZFg" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_V3k4DdEeOZi9Yv0sftwg" elementId="history.group"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_V3lIDdEeOZi9Yv0sftwg" elementId="group.application" visible="false"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_V3lYDdEeOZi9Yv0sftwg" elementId="backardHistory"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_V3loDdEeOZi9Yv0sftwg" elementId="forwardHistory"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_V3l4DdEeOZi9Yv0sftwg" elementId="pin.group"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_m_WeoIDdEeOZi9Yv0sftwg" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.gif" tooltip="Pin Editor" enabled="false" command="_wJUcL3yxEeOc-ogAtD0ZFg"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nBAEc4DdEeOZi9Yv0sftwg" elementId="org.eclipse.ui.edit.text.gotoNextAnnotation"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nBAEdIDdEeOZi9Yv0sftwg" elementId="org.eclipse.ui.edit.text.gotoPreviousAnnotation"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_nBAEdYDdEeOZi9Yv0sftwg" elementId="org.eclipse.ui.edit.text.gotoLastEditPosition"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_936hY4IHEeO2zrN907K9Kw" elementId="history.group"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_936hZIIHEeO2zrN907K9Kw" elementId="group.application" visible="false"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_936hZYIHEeO2zrN907K9Kw" elementId="backardHistory"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_936hZoIHEeO2zrN907K9Kw" elementId="forwardHistory"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_936hZ4IHEeO2zrN907K9Kw" elementId="pin.group"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_937IcIIHEeO2zrN907K9Kw" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.gif" tooltip="Pin Editor" enabled="false" command="_wJUcL3yxEeOc-ogAtD0ZFg"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95eno4IHEeO2zrN907K9Kw" elementId="org.eclipse.ui.edit.text.gotoNextAnnotation"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95enpIIHEeO2zrN907K9Kw" elementId="org.eclipse.ui.edit.text.gotoPreviousAnnotation"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_95enpYIHEeO2zrN907K9Kw" elementId="org.eclipse.ui.edit.text.gotoLastEditPosition"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_wJIPI3yxEeOc-ogAtD0ZFg" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -591,8 +633,8 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_wJIPJ3yxEeOc-ogAtD0ZFg" elementId="org.eclipse.ui.workbench.help" visible="false">
         <tags>Draggable</tags>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_XFsIDdEeOZi9Yv0sftwg" elementId="group.help"/>
-        <children xsi:type="menu:OpaqueToolItem" xmi:id="_m_XFsYDdEeOZi9Yv0sftwg" elementId="group.application" visible="false"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_937vgIIHEeO2zrN907K9Kw" elementId="group.help"/>
+        <children xsi:type="menu:OpaqueToolItem" xmi:id="_937vgYIHEeO2zrN907K9Kw" elementId="group.application" visible="false"/>
       </children>
       <children xsi:type="menu:ToolControl" xmi:id="_wJIPKnyxEeOc-ogAtD0ZFg" elementId="PerspectiveSpacer" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.LayoutModifierToolControl">
         <tags>stretch</tags>
