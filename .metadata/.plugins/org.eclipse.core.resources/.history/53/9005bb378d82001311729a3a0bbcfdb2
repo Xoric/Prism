@@ -16,8 +16,8 @@ import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.meta.MetaKey;
 import xoric.prism.data.meta.MetaLine;
 import xoric.prism.data.meta.MetaList;
-import xoric.prism.data.meta.MetaTimeStamp;
 import xoric.prism.data.meta.MetaType;
+import xoric.prism.data.meta.MetaTimeStamp;
 import xoric.prism.data.tools.Common;
 import xoric.prism.data.types.Heap;
 import xoric.prism.data.types.IPath_r;
@@ -388,8 +388,7 @@ public class MetaFileCreator
 
 	private String obtainTargetFilename(MetaBlock devBlock) throws PrismException
 	{
-		MetaLine targetLine = devBlock.claimLine(MetaKey.TARGET);
-		Heap targetHeap = targetLine.getHeap();
+		Heap targetHeap = devBlock.claimLine(MetaKey.TARGET);
 		String targetFilename = null;
 		if (targetHeap != null && targetHeap.texts.size() == 1)
 			targetFilename = targetHeap.texts.get(0).toString().toLowerCase();

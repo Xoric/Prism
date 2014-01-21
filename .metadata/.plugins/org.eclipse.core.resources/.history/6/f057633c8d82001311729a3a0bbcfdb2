@@ -388,8 +388,7 @@ public class MetaFileCreator
 
 	private String obtainTargetFilename(MetaBlock devBlock) throws PrismException
 	{
-		MetaLine targetLine = devBlock.claimLine(MetaKey.TARGET);
-		Heap targetHeap = targetLine.getHeap();
+		Heap targetHeap = devBlock.claimLine(MetaKey.TARGET);
 		String targetFilename = null;
 		if (targetHeap != null && targetHeap.texts.size() == 1)
 			targetFilename = targetHeap.texts.get(0).toString().toLowerCase();
