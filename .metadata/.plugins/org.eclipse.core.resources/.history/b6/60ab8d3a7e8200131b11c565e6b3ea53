@@ -1,0 +1,38 @@
+package xoric.prism.server.net;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import xoric.prism.server.control.IDoorman;
+
+public class Receptionist extends Thread
+{
+	private final ServerSocket socket;
+	private final IDoorman doorman;
+
+	public Receptionist(ServerSocket socket, IDoorman doorman)
+	{
+		this.socket = socket;
+		this.doorman = doorman;
+	}
+
+	@Override
+	public void run()
+	{
+		System.out.println("receptionist started");
+		try
+		{
+			do
+			{
+				Socket client = socket.accept();
+				System.out.println("receptionist welcomes " + client.getInetAddress());
+			}
+			while (true);
+		}
+		catch (IOException e)
+		{
+			System.err.println("receptionist stopped");
+		}
+	}
+}

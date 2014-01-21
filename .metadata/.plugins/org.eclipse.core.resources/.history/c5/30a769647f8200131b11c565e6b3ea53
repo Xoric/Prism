@@ -1,0 +1,14 @@
+package xoric.prism.server.main;
+
+public class ServerLoop
+{
+	public static void run()
+	{
+		boolean resume = true;
+		do
+		{
+
+		}
+		while (resume);
+	}
+}

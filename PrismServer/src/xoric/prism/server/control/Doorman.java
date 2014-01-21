@@ -4,20 +4,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import xoric.prism.server.net.ClientCore;
 import xoric.prism.server.net.ClientLink0;
 
-public class Doorman
+public class Doorman implements IDoorman, ILoopListener
 {
-	private final List<ClientLink0> links;
+	private volatile List<ClientLink0> links;
 
 	public Doorman()
 	{
 		links = new ArrayList<ClientLink0>();
-	}
-
-	public void addClient(ClientLink0 client)
-	{
-		links.add(client);
 	}
 
 	private void kickClient(ClientLink0 client)
@@ -25,7 +21,7 @@ public class Doorman
 		try
 		{
 			client.kick();
-			System.out.println("doorman kicked " + client);
+			System.err.println("doorman kicked " + client);
 		}
 		catch (IOException e)
 		{
@@ -33,6 +29,7 @@ public class Doorman
 		}
 	}
 
+	@Override
 	public void update()
 	{
 		for (int i = links.size() - 1; i >= 0; --i)
@@ -44,5 +41,12 @@ public class Doorman
 				links.remove(i);
 			}
 		}
+	}
+
+	@Override
+	public void passClient(ClientCore client)
+	{
+		ClientLink0 c = new ClientLink0(client);
+		links.add(c);
 	}
 }

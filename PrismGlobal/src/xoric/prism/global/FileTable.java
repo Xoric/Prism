@@ -22,6 +22,7 @@ public class FileTable
 
 	private final IPath_r dataPath;
 	private final List<FileTableDirectory> list;
+	private Heap versionHeap;
 
 	public FileTable(IPath_r dataPath)
 	{
@@ -44,6 +45,26 @@ public class FileTable
 		{
 			currentDir = interpretLine(currentDir, l);
 		}
+	}
+
+	public void createVersionHeap() throws PrismException
+	{
+		versionHeap = new Heap();
+
+		for (FileTableDirectory d : list)
+		{
+			for (FileTableEntry e : d.getEntries())
+			{
+				MetaFile f = e.loadMetaFile();
+				int v = f.getLocalFileVersion();
+				versionHeap.ints.add(v);
+			}
+		}
+	}
+
+	public Heap getVersionHeap()
+	{
+		return versionHeap;
 	}
 
 	public FileTableDirectory interpretLine(FileTableDirectory currentDir, MetaLine metaLine) throws PrismException

@@ -26,6 +26,6 @@ public class ClientCore
 	@Override
 	public String toString()
 	{
-		return socket == null ? "null-socket" : socket.toString();
+		return socket == null ? "null-socket" : socket.getInetAddress().toString();
 	}
 }

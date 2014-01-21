@@ -8,6 +8,7 @@ import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.FileTableDirectoryIndex;
 import xoric.prism.data.global.IPrismGlobal;
 import xoric.prism.data.meta.MetaFile;
+import xoric.prism.data.types.Heap;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Path;
 
@@ -33,6 +34,7 @@ public class PrismGlobal implements IPrismGlobal
 		// create and load FileTable
 		fileTable = new FileTable(dataPath);
 		fileTable.load("common/toc.meta");
+		fileTable.createVersionHeap();
 	}
 
 	public static void setLookAndFeel()
@@ -56,5 +58,11 @@ public class PrismGlobal implements IPrismGlobal
 	public IPath_r getDataPath()
 	{
 		return dataPath;
+	}
+
+	@Override
+	public Heap getVersionHeap()
+	{
+		return fileTable.getVersionHeap();
 	}
 }

@@ -1,0 +1,12 @@
+1390296415869	Rename local variable 'client'
+1390296440405	Rename local variable 'clientSocket'
+1390296474977	Rename local variable 'client'
+1390296890710	Rename type 'ServerMain'
+1390297104124	Delete element
+1390297108527	Rename type 'ServerModel'
+1390297389133	Rename type 'Server'
+1390297478302	Rename method 'requestStartNet'
+1390297962904	Delete element
+1390298102059	Rename method 'startLoop'
+1390298834965	Rename package 'xoric.prism.server.main'
+1390298839787	Move compilation unit

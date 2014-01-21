@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import xoric.prism.server.net.IControlNet;
+import xoric.prism.server.control.IServerControl;
 import xoric.prism.server.net.ServerNet;
 import xoric.prism.swing.PrismPanel;
 
@@ -20,7 +20,7 @@ public class NetView extends PrismPanel implements ActionListener, INetView
 	private static final long serialVersionUID = 1L;
 
 	private final ServerNet net;
-	private IControlNet control;
+	private IServerControl control;
 
 	private final JLabel portLabel;
 	private final JLabel stateLabel;
@@ -56,11 +56,14 @@ public class NetView extends PrismPanel implements ActionListener, INetView
 		c.gridx++;
 		c.weightx = 0.0;
 		c.weighty = 0.0;
+		c.fill = GridBagConstraints.NONE;
+		c.ipadx = 0;
+		c.ipady = 0;
 		p.add(startButton = createButton("", ""), c);
 	}
 
 	@Override
-	public void setControl(IControlNet control)
+	public void setControl(IServerControl control)
 	{
 		this.control = control;
 	}
@@ -104,7 +107,7 @@ public class NetView extends PrismPanel implements ActionListener, INetView
 
 	private void onStartButton()
 	{
-		control.requestStartNet(startButton.getText().equals("Start"));
+		control.requestStartServer(startButton.getText().equals("Start"));
 	}
 
 	@Override

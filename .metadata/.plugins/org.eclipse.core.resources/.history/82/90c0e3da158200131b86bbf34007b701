@@ -1,0 +1,54 @@
+import java.io.PrintStream;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+import javax.swing.Timer;
+import javax.swing.text.JTextComponent;
+
+public class Console
+{
+	public static int counter;
+
+	public static void main(String[] args) throws Exception
+	{
+		JTextComponent textComponent = new JTextPane();
+		JScrollPane scrollPane = new JScrollPane(textComponent);
+
+		JFrame.setDefaultLookAndFeelDecorated(true);
+		JFrame frame = new JFrame("Message Console");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().add(scrollPane);
+		frame.setSize(400, 120);
+		frame.setVisible(true);
+
+		PrintStream oldOut = System.out;
+		PrintStream printStream = new PrintStream(new OutputStream()
+		{
+			// override write methods to write to the JTextArea / JTextPane  
+		});
+		System.setOut(printStream);
+
+		Timer timer = new Timer(1000, new java.awt.event.ActionListener()
+		{
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e)
+			{
+				System.out.println(new java.util.Date().toString());
+			}
+		});
+		timer.start();
+
+		Thread.sleep(750);
+
+		Timer timer2 = new Timer(1000, new java.awt.event.ActionListener()
+		{
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e)
+			{
+				System.err.println("Error Message: " + ++counter);
+			}
+		});
+		timer2.start();
+	}
+}

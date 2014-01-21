@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 import xoric.prism.data.net.NetConstants;
+import xoric.prism.server.control.Doorman;
+import xoric.prism.server.control.ILoopListener;
 
-public class ServerNet implements IServerNet
+public class ServerNet implements IServerNet, ILoopListener
 {
 	private ServerSocket socket;
 	private Receptionist receptionist;
+	private Doorman doorman;
 
 	@Override
 	public void start() throws IOException
@@ -16,7 +19,8 @@ public class ServerNet implements IServerNet
 		stop();
 
 		socket = new ServerSocket(NetConstants.port);
-		receptionist = new Receptionist(socket);
+		doorman = new Doorman();
+		receptionist = new Receptionist(socket, doorman);
 		receptionist.start();
 	}
 
@@ -40,5 +44,11 @@ public class ServerNet implements IServerNet
 	public boolean isActive()
 	{
 		return socket != null && socket.isBound() && !socket.isClosed();
+	}
+
+	@Override
+	public void update()
+	{
+		doorman.update();
 	}
 }

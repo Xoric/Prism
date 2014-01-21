@@ -35,6 +35,11 @@ public class FileTableDirectory
 		list.add(e);
 	}
 
+	public List<FileTableEntry> getEntries()
+	{
+		return list;
+	}
+
 	public FileTableEntry get(int index)
 	{
 		return list.get(index);

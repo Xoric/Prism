@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Calendar;
 
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -12,74 +13,32 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+/**
+ * Modified version of MessageConsole by Rob Camick (November 8, 2008 at 12:10 pm).
+ */
 public class MessageConsole
 {
-	private JTextComponent textComponent;
-	private Document document;
-	private DocumentListener limitLinesListener;
+	private static final int maxLines = 80;
+	private static final Calendar calendar = Calendar.getInstance();
+	private static int currentDay = -1;
 
-	private final Calendar calendar;
+	private JTextComponent textComponent;
+	private DocumentListener limitLinesListener;
+	private Document document;
 
 	public MessageConsole(JTextComponent textComponent)
 	{
 		this.textComponent = textComponent;
+		this.textComponent.setEditable(false);
 		this.document = textComponent.getDocument();
-
-		calendar = Calendar.getInstance();
 	}
 
-	private String getTimePrefix()
+	public void redirectAll()
 	{
-		int h = calendar.get(Calendar.HOUR_OF_DAY);
-		int m = calendar.get(Calendar.MINUTE);
-		int s = calendar.get(Calendar.SECOND);
-
-		String sh = String.valueOf(h);
-		String sm = (m < 10 ? "0" : "") + m;
-		String ss = (m < 10 ? "0" : "") + s;
-
-		return "[" + sh + ":" + sm + ":" + ss + "] ";
-	}
-
-	/*
-	 *  Redirect the output from the standard output to the console
-	 *  using the default text color and null PrintStream
-	 */
-	public void redirectOut()
-	{
-		redirectOut(null, null);
-	}
-
-	/*
-	 *  Redirect the output from the standard output to the console
-	 *  using the specified color and PrintStream. When a PrintStream
-	 *  is specified the message will be added to the Document before
-	 *  it is also written to the PrintStream.
-	 */
-	public void redirectOut(Color textColor, PrintStream printStream)
-	{
-		ConsoleOutputStream cos = new ConsoleOutputStream(textColor, printStream);
+		ConsoleOutputStream cos = new ConsoleOutputStream(null, null);
 		System.setOut(new PrintStream(cos, true));
-	}
 
-	/*
-	 *  Redirect the output from the standard error to the console
-	 *  using the default text color and null PrintStream
-	 */
-	public void redirectErr()
-	{
-		redirectErr(null, null);
-	}
-
-	/*
-	 *  Redirect the output from the standard error to the console
-	 *  using the specified color and PrintStream. When a PrintStream
-	 *  is specified the message will be added to the Document before
-	 *  it is also written to the PrintStream.
-	 */
-	public void redirectErr(Color textColor, PrintStream printStream)
-	{
-		ConsoleOutputStream cos = new ConsoleOutputStream(textColor, printStream);
+		cos = new ConsoleOutputStream(Color.RED, null);
 		System.setErr(new PrintStream(cos, true));
 	}
 
@@ -108,9 +67,9 @@ public class MessageConsole
 	class ConsoleOutputStream extends ByteArrayOutputStream
 	{
 		private final String EOL = System.getProperty("line.separator");
+		private StringBuffer buffer = new StringBuffer(maxLines);
 		private SimpleAttributeSet attributes;
 		private PrintStream printStream;
-		private StringBuffer buffer = new StringBuffer(80);
 		private boolean isFirstLine;
 
 		/*
@@ -123,10 +82,10 @@ public class MessageConsole
 				attributes = new SimpleAttributeSet();
 				StyleConstants.setForeground(attributes, textColor);
 			}
-
 			this.printStream = printStream;
-
-			isFirstLine = true;
+			this.isFirstLine = true;
+			//			this.calendar = Calendar.getInstance();
+			//			this.currentDay = -1;
 		}
 
 		/*
@@ -152,23 +111,62 @@ public class MessageConsole
 			reset();
 		}
 
-		/*
-		 *	We don't want to have blank lines in the Document. The first line
-		 *  added will simply be the message. For additional lines it will be:
-		 *
-		 *  newLine + message
-		 */
-		private void handleAppend(String message)
+		private String getTimePrefix()
 		{
-			if (EOL.equals(message))
+			int h = calendar.get(Calendar.HOUR_OF_DAY);
+			int m = calendar.get(Calendar.MINUTE);
+			int s = calendar.get(Calendar.SECOND);
+
+			String sh = String.valueOf(h);
+			String sm = (m < 10 ? "0" : "") + m;
+			String ss = (s < 10 ? "0" : "") + s;
+
+			return "[" + sh + ":" + sm + ":" + ss + "] ";
+		}
+
+		private String getDayString()
+		{
+			int d = calendar.get(Calendar.DAY_OF_MONTH);
+			int m = calendar.get(Calendar.MONTH) + 1;
+			int y = calendar.get(Calendar.YEAR);
+
+			String sd = (d < 10 ? "0" : "") + d;
+			String sm = (m < 10 ? "0" : "") + m;
+			String sy = (y < 10 ? "0" : "") + y;
+
+			return sd + "." + sm + "." + sy;
+		}
+
+		private void handleAppend(final String message)
+		{
+			int d = calendar.get(Calendar.DAY_OF_YEAR);
+			final String dd;
+			if (d != currentDay)
 			{
-				buffer.append(message);
+				currentDay = d;
+				dd = '\n' + getDayString() + '\n';
 			}
 			else
+				dd = "";
+
+			final String prefix = getTimePrefix();
+
+			SwingUtilities.invokeLater(new Runnable()
 			{
-				buffer.append(getTimePrefix() + message);
-				clearBuffer();
-			}
+				@Override
+				public void run()
+				{
+					if (EOL.equals(message))
+					{
+						buffer.append(message);
+					}
+					else
+					{
+						buffer.append(dd + prefix + message);
+						clearBuffer();
+					}
+				}
+			});
 		}
 
 		/*
@@ -185,7 +183,6 @@ public class MessageConsole
 			{
 				buffer.insert(0, "\n");
 			}
-
 			isFirstLine = false;
 			String line = buffer.toString();
 
@@ -203,7 +200,6 @@ public class MessageConsole
 			{
 				printStream.print(line);
 			}
-
 			buffer.setLength(0);
 		}
 	}
