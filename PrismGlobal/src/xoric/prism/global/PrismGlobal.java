@@ -24,7 +24,7 @@ public class PrismGlobal implements IPrismGlobal
 
 		String s;
 		if (os.equals("Linux"))
-			s = "/home/xoric/workspace/data";
+			s = "/home/xoric/Projects/Data";
 		else
 			s = "E:/Prism/data";
 
