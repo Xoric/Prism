@@ -16,9 +16,9 @@ import javax.swing.text.StyleConstants;
 /**
  * Modified version of MessageConsole by Rob Camick (November 8, 2008 at 12:10 pm).
  */
-public class MessageConsole
+class MessageConsole
 {
-	private static final int maxLines = 80;
+	private static final int maxLines = 200;
 	private static final Calendar calendar = Calendar.getInstance();
 	private static int currentDay = -1;
 

@@ -10,3 +10,4 @@
 1390298102059	Rename method 'startLoop'
 1390298834965	Rename package 'xoric.prism.server.main'
 1390298839787	Move compilation unit
+1390300250723	Rename method 'displayVersions'

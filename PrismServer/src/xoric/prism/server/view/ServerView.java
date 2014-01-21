@@ -6,6 +6,7 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 
+import xoric.prism.data.global.Prism;
 import xoric.prism.server.control.IServerControl;
 import xoric.prism.server.model.ServerModel;
 import xoric.prism.swing.PrismFrame;
@@ -51,6 +52,32 @@ public class ServerView extends PrismFrame implements IServerView
 	{
 		this.control = control;
 		this.netView.setControl(control);
+	}
+
+	private void printFileVersions()
+	{
+		boolean isFirst = true;
+		StringBuilder sb = new StringBuilder();
+		sb.append("registered file versions (" + Prism.global.getVersionHeap().ints.size() + "): ");
+
+		for (int v : Prism.global.getVersionHeap().ints)
+		{
+			if (isFirst)
+				isFirst = false;
+			else
+				sb.append(";");
+
+			sb.append(String.valueOf(v));
+		}
+		System.out.println(sb.toString());
+	}
+
+	@Override
+	public void printWelcome()
+	{
+		System.out.println("server application started");
+		printFileVersions();
+		System.out.println();
 	}
 
 	@Override

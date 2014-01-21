@@ -39,6 +39,7 @@ public class PrismServerBootstrap
 				public void run()
 				{
 					view.setControl(control);
+					view.printWelcome();
 					view.displayAll();
 					view.setVisible(true);
 				}
