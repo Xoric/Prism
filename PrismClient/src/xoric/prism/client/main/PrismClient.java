@@ -1,8 +1,11 @@
 package xoric.prism.client.main;
 
+import java.net.Socket;
+
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.net.NetConstants;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.Path;
@@ -60,6 +63,18 @@ public class PrismClient implements ISceneListener
 		temp = new FloatPoint();
 		temp2 = new FloatPoint();
 		cam = new Camera(0.0f, 0.0f, 800.0f, 480.0f);
+	}
+
+	public void testConnect()
+	{
+		try
+		{
+			Socket s = new Socket("127.0.0.1", NetConstants.port);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private void testModelMeta()

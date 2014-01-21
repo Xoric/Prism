@@ -33,6 +33,7 @@ public class PrismClientBootstrap
 
 			// start client
 			client.start();
+			client.testConnect();
 		}
 		catch (PrismException e)
 		{
