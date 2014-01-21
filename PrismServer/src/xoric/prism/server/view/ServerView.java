@@ -58,7 +58,7 @@ public class ServerView extends PrismFrame implements IServerView
 	{
 		boolean isFirst = true;
 		StringBuilder sb = new StringBuilder();
-		sb.append("registered file versions (" + Prism.global.getVersionHeap().ints.size() + "): ");
+		sb.append("registered file table (" + Prism.global.getVersionHeap().ints.size() + " files): ");
 
 		for (int v : Prism.global.getVersionHeap().ints)
 		{

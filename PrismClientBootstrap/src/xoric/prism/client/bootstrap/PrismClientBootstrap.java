@@ -23,7 +23,6 @@ public class PrismClientBootstrap
 			PrismGlobal global = new PrismGlobal();
 			global.load();
 			Prism.global = global;
-
 			PrismDataLoader.loadAll();
 			PrismWorldLoader.loadAll(false);
 
@@ -32,8 +31,8 @@ public class PrismClientBootstrap
 			client = new PrismClient(scene);
 
 			// start client
-			client.start();
 			client.testConnect();
+			client.start();
 		}
 		catch (PrismException e)
 		{

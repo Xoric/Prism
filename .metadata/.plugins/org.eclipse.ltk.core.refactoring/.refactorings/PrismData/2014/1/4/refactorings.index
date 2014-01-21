@@ -1,1 +1,6 @@
 1390245694249	Rename type 'TimeStamp'
+1390302993116	Rename type 'IMetaBlockReader'
+1390303359767	Rename method 'finishInterpretation'
+1390303421607	Delete element
+1390303627342	Rename method 'interpret'
+1390303894098	Delete element

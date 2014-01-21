@@ -1,0 +1,12 @@
+package xoric.prism.data.meta;
+
+import xoric.prism.data.exceptions.PrismException;
+
+public interface IMetaBlockInterpreter
+{
+	public void startInterpretation();
+
+	public void interpretLine(MetaLine metaLine) throws PrismException;
+
+	public void finishInterpretation() throws PrismException;
+}
