@@ -14,6 +14,12 @@ public enum Token
 	private Minima clientMinima;
 	private Minima serverMinima;
 	private int floatDecimals;
+	private int urgency;
+
+	private Token()
+	{
+		urgency = 3;
+	}
 
 	private void enableForClient(int intMin, int floatMin, int textMin)
 	{
@@ -28,6 +34,16 @@ public enum Token
 	private void setFloatDecimals(int floatDecimals)
 	{
 		this.floatDecimals = floatDecimals;
+	}
+
+	private void setUrgency(int u)
+	{
+		urgency = u;
+	}
+
+	public int getUrgency()
+	{
+		return urgency;
 	}
 
 	public Minima getClientMinima()
