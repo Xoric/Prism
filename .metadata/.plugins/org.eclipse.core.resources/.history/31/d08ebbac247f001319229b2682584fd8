@@ -1,6 +1,0 @@
-package xoric.prism.data.exceptions;
-
-public interface IMetaOwner
-{
-	public void addExceptionInfo(PrismException e);
-}

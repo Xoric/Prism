@@ -1,8 +1,0 @@
-package xoric.prism.scene.shaders;
-
-public interface IShader2
-{
-	public void activate();
-
-	public void setTexture();
-}

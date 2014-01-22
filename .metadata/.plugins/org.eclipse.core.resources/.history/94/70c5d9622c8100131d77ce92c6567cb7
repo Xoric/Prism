@@ -1,9 +1,0 @@
-package xoric.prism.creator.drawer.generators;
-
-class AnimationResult
-{
-private final AnimationIndex animationIndex;
-private int variations;
-
-public AnimationResult(AnimationIndex animationIndex){this.animationIndex=animationIndex;}
-}

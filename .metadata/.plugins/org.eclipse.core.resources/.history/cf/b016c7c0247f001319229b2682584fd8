@@ -1,8 +1,0 @@
-package xoric.prism.data.meta;
-
-import xoric.prism.data.exceptions.IExceptionHost;
-
-public interface IMetaEstate extends IExceptionHost
-{
-	public IExceptionHost getOwner();
-}

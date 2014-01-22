@@ -1,6 +1,0 @@
-package xoric.prism.scene.textures;
-
-public interface ITexture
-{
-	public int getTextureObject();
-}

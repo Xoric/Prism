@@ -1,6 +1,0 @@
-package xoric.prism.server.control;
-
-public interface ILoginHandler
-{
-public void login(IText_r acc,IText_r pw, List<Integer> versions);
-}
