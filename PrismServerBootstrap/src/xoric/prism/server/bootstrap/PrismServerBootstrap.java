@@ -4,13 +4,14 @@ import javax.swing.SwingUtilities;
 
 import xoric.prism.com.Message;
 import xoric.prism.com.Perspective;
+import xoric.prism.com.PrismCommunicationLoader;
 import xoric.prism.data.PrismDataLoader;
 import xoric.prism.data.global.Prism;
 import xoric.prism.global.PrismGlobal;
 import xoric.prism.server.control.ServerControl;
 import xoric.prism.server.model.ServerModel;
 import xoric.prism.server.view.ServerView;
-import xoric.prism.world.loader.PrismWorldLoader;
+import xoric.prism.world.PrismWorldLoader;
 
 public class PrismServerBootstrap
 {
@@ -30,6 +31,7 @@ public class PrismServerBootstrap
 			// initialize
 			PrismDataLoader.loadAll();
 			PrismWorldLoader.loadAll(false);
+			PrismCommunicationLoader.loadAll();
 
 			// create scene and client
 			final ServerModel model = new ServerModel();

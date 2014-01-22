@@ -3,13 +3,14 @@ package xoric.prism.client.bootstrap;
 import xoric.prism.client.main.PrismClient;
 import xoric.prism.com.Message;
 import xoric.prism.com.Perspective;
+import xoric.prism.com.PrismCommunicationLoader;
 import xoric.prism.data.PrismDataLoader;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.Prism;
 import xoric.prism.global.PrismGlobal;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.lwjgl.PrismSceneLWJGL;
-import xoric.prism.world.loader.PrismWorldLoader;
+import xoric.prism.world.PrismWorldLoader;
 
 public class PrismClientBootstrap
 {
@@ -25,8 +26,11 @@ public class PrismClientBootstrap
 			PrismGlobal global = new PrismGlobal();
 			global.load();
 			Prism.global = global;
+
+			// initialize
 			PrismDataLoader.loadAll();
 			PrismWorldLoader.loadAll(false);
+			PrismCommunicationLoader.loadAll();
 
 			// set message perspective
 			Message.perspective = Perspective.CLIENT;

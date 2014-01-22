@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MessageDispatcher
 {
-	private static final int[] thresholds = { 0, 150, 400 };
+	public static final int[] thresholds = { 0, 35, 500 };
 
 	private class MessageEntry
 	{

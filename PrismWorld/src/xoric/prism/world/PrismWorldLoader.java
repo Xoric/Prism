@@ -1,4 +1,4 @@
-package xoric.prism.world.loader;
+package xoric.prism.world;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;

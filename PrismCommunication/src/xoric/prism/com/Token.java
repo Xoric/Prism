@@ -6,7 +6,8 @@ public enum Token
 
 	static
 	{
-		LOGIN.enableForClient(1, 0, 1);
+		LOGIN.setClientMinima(1, 0, 1);
+		LOGIN.setUrgency(3);
 	}
 
 	private static Token[] VALUES = values();
@@ -18,15 +19,15 @@ public enum Token
 
 	private Token()
 	{
-		urgency = 3;
+		urgency = 2;
 	}
 
-	private void enableForClient(int intMin, int floatMin, int textMin)
+	private void setClientMinima(int intMin, int floatMin, int textMin)
 	{
 		clientMinima = new Minima(intMin, floatMin, textMin);
 	}
 
-	private void enableForServer(int intMin, int floatMin, int textMin)
+	private void SetServerMinima(int intMin, int floatMin, int textMin)
 	{
 		serverMinima = new Minima(intMin, floatMin, textMin);
 	}

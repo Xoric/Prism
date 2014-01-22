@@ -8,7 +8,7 @@ import xoric.prism.data.global.Prism;
 import xoric.prism.global.PrismGlobal;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.lwjgl.PrismSceneLWJGL;
-import xoric.prism.world.loader.PrismWorldLoader;
+import xoric.prism.world.PrismWorldLoader;
 
 public class PrismCreatorBootstrap
 {

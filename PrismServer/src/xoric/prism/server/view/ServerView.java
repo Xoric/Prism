@@ -6,7 +6,9 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 
+import xoric.prism.com.MessageDispatcher;
 import xoric.prism.data.global.Prism;
+import xoric.prism.data.tools.Common;
 import xoric.prism.server.control.IServerControl;
 import xoric.prism.server.model.ServerModel;
 import xoric.prism.swing.PrismFrame;
@@ -58,7 +60,7 @@ public class ServerView extends PrismFrame implements IServerView
 	{
 		boolean isFirst = true;
 		StringBuilder sb = new StringBuilder();
-		sb.append("registered file table (" + Prism.global.getVersionHeap().ints.size() + " files): ");
+		sb.append("initialized file table: ");
 
 		for (int v : Prism.global.getVersionHeap().ints)
 		{
@@ -72,11 +74,33 @@ public class ServerView extends PrismFrame implements IServerView
 		System.out.println(sb.toString());
 	}
 
+	private void printUrgency()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("initialized message urgency: ");
+
+		for (int i = 0; i < MessageDispatcher.thresholds.length; ++i)
+			sb.append((i > 0 ? ";" : "") + MessageDispatcher.thresholds[i]);
+
+		System.out.println(sb.toString());
+	}
+
+	private void printMemory()
+	{
+		long maxMemory = Runtime.getRuntime().maxMemory();
+		String s = maxMemory == Long.MAX_VALUE ? "" : " (max. " + Common.getFileSize(maxMemory) + ")";
+		System.out.println("JVM memory: " + Common.getFileSize(Runtime.getRuntime().totalMemory()) + " of "
+				+ Common.getFileSize(Runtime.getRuntime().totalMemory()) + s);
+	}
+
 	@Override
 	public void printWelcome()
 	{
 		System.out.println("server application started");
+		System.out.println("available processor cores: " + Runtime.getRuntime().availableProcessors());
+		printMemory();
 		printFileVersions();
+		printUrgency();
 		System.out.println();
 	}
 
