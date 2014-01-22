@@ -1,7 +1,7 @@
 package xoric.prism.com;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +29,11 @@ public class MessageDispatcher
 	}
 
 	private final List<MessageEntry> list;
-	private final OutputStream stream;
+	private final BufferedOutputStream stream;
 
 	public MessageDispatcher(Socket socket) throws IOException
 	{
-		this.stream = socket.getOutputStream();
+		this.stream = new BufferedOutputStream(socket.getOutputStream());
 		this.list = new ArrayList<MessageEntry>();
 	}
 
