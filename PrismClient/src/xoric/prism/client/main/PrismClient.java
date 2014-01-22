@@ -2,6 +2,9 @@ package xoric.prism.client.main;
 
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
+import xoric.prism.com.ClientLoginMessage;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.meta.MetaList;
@@ -9,6 +12,7 @@ import xoric.prism.data.net.NetConstants;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.Path;
+import xoric.prism.data.types.Text;
 import xoric.prism.scene.IRenderer;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
@@ -69,8 +73,36 @@ public class PrismClient implements ISceneListener
 	{
 		try
 		{
-			Socket s = new Socket("127.0.0.1", NetConstants.port);
+			Socket socket = new Socket("127.0.0.1", NetConstants.port);
+
+			Thread.sleep(1500);
+			//			String s = "Can you read this?";
+			//			socket.getOutputStream().write(s.getBytes());
+			//
+			//			Thread.sleep(200);
+			//			s = "And this?";
+			//			socket.getOutputStream().write(s.getBytes());
+			//
+			//			Thread.sleep(1000);
+			//			s = "How about...";
+			//			socket.getOutputStream().write(s.getBytes());
+			//			s = "This...";
+			//			socket.getOutputStream().write(s.getBytes());
+			//			s = "That...";
+			//			socket.getOutputStream().write(s.getBytes());
+			//			s = "...and finally this?";
+			//			socket.getOutputStream().write(s.getBytes());
+
+			ClientLoginMessage m = new ClientLoginMessage();
+			m.setPassword(new Text("JOHN'S PASSWORD!"));
+			m.getHeap().ints.add(17);
+			m.getHeap().texts.add(new Text("JOHN"));
+			m.pack(socket.getOutputStream());
+
+			//			socket.getOutputStream()
+
 		}
+
 		catch (Exception e)
 		{
 			e.printStackTrace();

@@ -10,7 +10,9 @@ public enum UserErrorText
 	READ_ERROR("An error occurred while trying to read from a file."),
 	COULD_NOT_CREATE_DIRECTORY("Directory could not be created."),
 	SHADER_PROBLEM("There was a problem with a shader."),
-	FILE_NOT_FOUND("File not found.");
+	FILE_NOT_FOUND("File not found."),
+	COMMUNICATION_ERROR("There was a problem with the communication between client and server."),
+	PASSWORD_HASH("There was an error trying to encrypt your password. Your login attempt was therefore aborted.");
 
 	private final String text;
 

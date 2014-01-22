@@ -1,6 +1,8 @@
 package xoric.prism.client.bootstrap;
 
 import xoric.prism.client.main.PrismClient;
+import xoric.prism.com.Message;
+import xoric.prism.com.Perspective;
 import xoric.prism.data.PrismDataLoader;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.Prism;
@@ -25,6 +27,9 @@ public class PrismClientBootstrap
 			Prism.global = global;
 			PrismDataLoader.loadAll();
 			PrismWorldLoader.loadAll(false);
+
+			// set message perspective
+			Message.perspective = Perspective.CLIENT;
 
 			// create scene and client
 			scene = new PrismSceneLWJGL();

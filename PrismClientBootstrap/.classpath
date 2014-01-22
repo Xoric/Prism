@@ -8,5 +8,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismData"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismGlobal"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismWorld"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PrismCommunication"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

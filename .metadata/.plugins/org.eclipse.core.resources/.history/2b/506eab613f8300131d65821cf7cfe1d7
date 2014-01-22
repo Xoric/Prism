@@ -1,0 +1,73 @@
+package xoric.prism.server.net;
+
+import java.io.IOException;
+import java.net.Socket;
+
+import xoric.prism.com.ClientLoginMessage;
+import xoric.prism.com.ISocketListener;
+import xoric.prism.com.Message;
+import xoric.prism.com.MessagePipe;
+
+public class ClientCore implements ISocketListener
+{
+	private final Socket socket;
+	private final String name;
+	private final MessagePipe messagePipe;
+
+	private volatile boolean hasCrashed;
+	private volatile Exception exception;
+
+	public ClientCore(Socket socket) throws IOException
+	{
+		this.socket = socket;
+		this.messagePipe = new MessagePipe();
+
+		String s = socket.getInetAddress().toString();
+		if (s.length() > 0 && s.charAt(0) == '/')
+			s = s.substring(1);
+		name = s;
+	}
+
+	public void kick()
+	{
+		try
+		{
+			socket.close();
+		}
+		catch (Exception e)
+		{
+		}
+	}
+
+	public Socket getSocket()
+	{
+		return socket;
+	}
+
+	@Override
+	public String toString()
+	{
+		return socket == null ? "null-socket" : name;
+	}
+
+	@Override
+	public void onSocketListenerCrashing(Exception e)
+	{
+		hasCrashed = true;
+		exception = e;
+	}
+
+	@Override
+	public void receiveClientLoginMessage(ClientLoginMessage m)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void receiveCommonnMessage(Message m)
+	{
+		// TODO Auto-generated method stub
+
+	}
+}

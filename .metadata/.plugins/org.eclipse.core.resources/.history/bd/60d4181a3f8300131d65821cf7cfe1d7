@@ -1,0 +1,43 @@
+package xoric.prism.server.net;
+
+import java.io.IOException;
+import java.net.Socket;
+
+public class ClientCore
+{
+	private final Socket socket;
+	private final String name;
+	private final MessageList messageList;
+
+	public ClientCore(Socket socket) throws IOException
+	{
+		this.socket = socket;
+
+		String s = socket.getInetAddress().toString();
+		if (s.length() > 0 && s.charAt(0) == '/')
+			s = s.substring(1);
+		name = s;
+	}
+
+	public void kick()
+	{
+		try
+		{
+			socket.close();
+		}
+		catch (Exception e)
+		{
+		}
+	}
+
+	public Socket getSocket()
+	{
+		return socket;
+	}
+
+	@Override
+	public String toString()
+	{
+		return socket == null ? "null-socket" : name;
+	}
+}

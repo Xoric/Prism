@@ -1,0 +1,14 @@
+package xoric.prism.server.control;
+
+import java.util.List;
+
+import xoric.prism.com.Message;
+import xoric.prism.data.types.IText_r;
+import xoric.prism.server.net.ClientLink0;
+
+public interface IClient0Handler
+{
+	public void login(ClientLink0 client0, IText_r acc, byte[] pw, List<Integer> versions);
+
+	public void receivedUnexpectedMessage(ClientLink0 client0, Message m);
+}

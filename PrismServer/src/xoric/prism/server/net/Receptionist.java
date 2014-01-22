@@ -26,7 +26,7 @@ public class Receptionist extends Thread
 			do
 			{
 				Socket clientSocket = socket.accept();
-				ClientCore client = new ClientCore(clientSocket);
+				ClientCore client = ClientCore.createAndListen(clientSocket);
 
 				System.out.println("receptionist welcomes " + client.toString());
 

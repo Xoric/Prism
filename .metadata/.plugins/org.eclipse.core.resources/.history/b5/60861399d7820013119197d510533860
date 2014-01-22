@@ -1,0 +1,18 @@
+
+public enum Token
+{
+	LOGIN
+	
+	;
+	
+	private Token()
+	{
+		
+	}
+	
+	public void setCS(int intMin, int floatMin, int textMin)
+	{
+	}	public void setCS(int intMin, int floatMin, int textMin)
+	{
+	}
+}

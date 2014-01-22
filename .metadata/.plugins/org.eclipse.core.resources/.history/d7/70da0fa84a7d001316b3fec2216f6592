@@ -1,6 +1,0 @@
-package xoric.prism.creator.drawer.control;
-
-import xoric.prism.creator.drawer.settings.WorkingDirs;
-
-public interface IDrawerControl extends IModelControl, IAnimationControl, ISpriteControl
-{

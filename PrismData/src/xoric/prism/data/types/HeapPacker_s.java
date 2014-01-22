@@ -10,7 +10,7 @@ public abstract class HeapPacker_s
 
 	public static synchronized void pack_s(OutputStream stream, Heap heap, int floatDecimals) throws IOException
 	{
-		int mode = calcMode(heap);
+		int mode = calcMode_s(heap);
 		int i = heap.getIntCount();
 		int f = heap.getFloatCount();
 		int t = heap.getTextCount();
@@ -58,8 +58,14 @@ public abstract class HeapPacker_s
 			TextPacker.pack_s(stream, heap.texts.get(j));
 	}
 
-	public static synchronized Heap unpack_s(InputStream stream, int floatDecimals) throws IOException
+	public static synchronized void unpack_s(InputStream stream, int floatDecimals, Heap heap) throws IOException
 	{
+		// reset heap
+		heap.ints.clear();
+		heap.floats.clear();
+		heap.texts.clear();
+
+		// read number of ints, floats and texts
 		int k0 = 0xFF & stream.read();
 		int mode = 0x1 & k0;
 		int i, f, t;
@@ -100,9 +106,6 @@ public abstract class HeapPacker_s
 			}
 		}
 
-		// create heap
-		Heap heap = new Heap(i, f, t);
-
 		// unpack ints
 		for (int j = 0; j < i; ++j)
 			heap.ints.add(IntPacker.unpack_s(stream));
@@ -114,35 +117,41 @@ public abstract class HeapPacker_s
 		// pack texts	
 		for (int j = 0; j < t; ++j)
 			heap.texts.add(TextPacker.unpack_s(stream));
+	}
 
+	@Deprecated
+	public static synchronized Heap unpack_s(InputStream stream, int floatDecimals) throws IOException
+	{
+		Heap heap = new Heap();
+		unpack_s(stream, floatDecimals, heap);
 		return heap;
 	}
 
-	//	public static/*synchronized*/int getPackedSize_s(Heap heap, int floatDecimals)
-	//	{
-	//		int mode = calcMode(heap);
-	//		int bytes;
-	//
-	//		if (mode == 0)
-	//			bytes = 1;
-	//		else if (mode == 1)
-	//			bytes = 3;
-	//		else
-	//			bytes = 9;
-	//
-	//		for (int i = 0; i < heap.ints.size(); ++i)
-	//			bytes += IntPacker.getPackedSize_s(heap.ints.get(i));
-	//
-	//		for (int i = 0; i < heap.floats.size(); ++i)
-	//			bytes += FloatPacker.getPackedSize_s(heap.floats.get(i), floatDecimals);
-	//
-	//		for (int i = 0; i < heap.texts.size(); ++i)
-	//			bytes += TextPacker.getPackedSize_s(heap.texts.get(i));
-	//
-	//		return bytes;
-	//	}
+	public static int calcPackedSize_s(Heap heap, int floatDecimals)
+	{
+		int mode = calcMode_s(heap);
+		int bytes;
 
-	private static int calcMode(Heap heap)
+		if (mode == 0)
+			bytes = 1;
+		else if (mode == 1)
+			bytes = 3;
+		else
+			bytes = 9;
+
+		for (int i = 0; i < heap.ints.size(); ++i)
+			bytes += IntPacker.calcPackedSize_s(heap.ints.get(i));
+
+		for (int i = 0; i < heap.floats.size(); ++i)
+			bytes += FloatPacker.calcPackedSize_s(heap.floats.get(i), floatDecimals);
+
+		for (int i = 0; i < heap.texts.size(); ++i)
+			bytes += TextPacker.calcPackedSize_s(heap.texts.get(i));
+
+		return bytes;
+	}
+
+	private static int calcMode_s(Heap heap)
 	{
 		int mode;
 		int i = heap.getIntCount();

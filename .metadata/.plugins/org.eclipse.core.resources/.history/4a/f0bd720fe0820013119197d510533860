@@ -1,0 +1,17 @@
+package xoric.prism.com;
+
+import xoric.prism.data.types.IText_r;
+
+public class ClientLoginMessage extends Message
+{
+	public ClientLoginMessage()
+	{
+		super(Token.LOGIN);
+	}
+
+	public void setPassword(IText_r pw)
+	{
+
+	}
+
+}

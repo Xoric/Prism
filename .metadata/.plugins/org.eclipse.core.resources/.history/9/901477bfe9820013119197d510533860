@@ -1,0 +1,8 @@
+package xoric.prism.server.control;
+
+import xoric.prism.com.SocketCore;
+
+public interface IDoorman
+{
+	public void passClient(SocketCore client);
+}

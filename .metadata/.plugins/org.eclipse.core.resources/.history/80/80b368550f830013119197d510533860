@@ -1,0 +1,13 @@
+package xoric.prism.server.control;
+
+import java.util.List;
+
+import xoric.prism.data.types.IText_r;
+import xoric.prism.server.net.ClientLink0;
+
+public interface IClient0Handler
+{
+	public void login(IText_r acc,  byte[] pw, List<Integer> versions);
+
+	public void clientCrashed(ClientLink0 client, Exception e);
+}

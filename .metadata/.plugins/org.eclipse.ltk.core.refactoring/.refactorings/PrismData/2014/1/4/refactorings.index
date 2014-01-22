@@ -4,3 +4,6 @@
 1390303421607	Delete element
 1390303627342	Rename method 'interpret'
 1390303894098	Delete element
+1390343605909	Rename method 'getPackedSize'
+1390343676016	Rename method 'calcMode'
+1390343875572	Rename method 'calcSize_s'

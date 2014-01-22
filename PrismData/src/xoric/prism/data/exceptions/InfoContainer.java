@@ -65,4 +65,9 @@ class InfoContainer implements IInfoContainer
 			}
 		}
 	}
+
+	public String getText()
+	{
+		return text;
+	}
 }

@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="xoric.prism.data.types.IPoint_r"/>
-<fullyQualifiedTypeName name="javax.swing.filechooser.FileFilter"/>
-<fullyQualifiedTypeName name="xoric.prism.data.types.Text"/>
-<fullyQualifiedTypeName name="xoric.prism.data.types.TextPacker"/>
-<fullyQualifiedTypeName name="xoric.prism.world.entities.AnimationIndex"/>
-<fullyQualifiedTypeName name="java.io.FileInputStream"/>
-<fullyQualifiedTypeName name="xoric.prism.develop.meta.MetaFileCreator"/>
-<fullyQualifiedTypeName name="xoric.prism.creator.drawer.generator.ModelGenerator"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.generator.ModelFilter"/>
 <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.image.IconLoader"/>
@@ -27,7 +19,6 @@
 <fullyQualifiedTypeName name="xoric.prism.world.entities.ViewAngle"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.Point"/>
 <fullyQualifiedTypeName name="java.awt.Font"/>
-<fullyQualifiedTypeName name="xoric.prism.data.exceptions.PrismException"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.IntPacker"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL13"/>
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL20"/>
@@ -37,10 +28,8 @@
 <fullyQualifiedTypeName name="xoric.prism.global.PrismGlobal"/>
 <fullyQualifiedTypeName name="xoric.prism.data.PrismDataLoader"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.IPath_r"/>
-<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 <fullyQualifiedTypeName name="xoric.prism.data.meta.AttachmentLoader"/>
 <fullyQualifiedTypeName name="xoric.prism.scene.shaders.IShader2"/>
-<fullyQualifiedTypeName name="xoric.prism.data.types.Heap"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.Path"/>
 <fullyQualifiedTypeName name="xoric.prism.data.global.ShaderIndex"/>
 <fullyQualifiedTypeName name="xoric.prism.scene.shaders.AllShaders"/>
@@ -54,10 +43,21 @@
 <fullyQualifiedTypeName name="javax.swing.JScrollBar"/>
 <fullyQualifiedTypeName name="java.awt.BorderLayout"/>
 <fullyQualifiedTypeName name="java.io.File"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.model.VariationList"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.drawer.model.AnimationModel"/>
 <fullyQualifiedTypeName name="xoric.prism.data.net.NetConstants"/>
 <fullyQualifiedTypeName name="java.net.Socket"/>
 <fullyQualifiedTypeName name="javax.swing.Timer"/>
+<fullyQualifiedTypeName name="xoric.prism.data.types.Heap"/>
+<fullyQualifiedTypeName name="xoric.prism.data.types.HeapPacker_s"/>
+<fullyQualifiedTypeName name="java.io.OutputStream"/>
+<fullyQualifiedTypeName name="xoric.prism.data.exceptions.PrismException"/>
+<fullyQualifiedTypeName name="xoric.prism.server.control.ILoopListener"/>
+<fullyQualifiedTypeName name="xoric.prism.com.Token"/>
+<fullyQualifiedTypeName name="xoric.prism.server.control.IClient0Handler"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="xoric.prism.com.Message"/>
+<fullyQualifiedTypeName name="xoric.prism.com.Perspective"/>
+<fullyQualifiedTypeName name="java.io.ByteArrayOutputStream"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 </qualifiedTypeNameHistroy>

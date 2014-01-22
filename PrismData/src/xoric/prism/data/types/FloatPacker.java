@@ -121,7 +121,7 @@ public class FloatPacker implements IPackable
 		value += preComma;
 	}
 
-	private int calcPackedSize()
+	public int calcPackedSize()
 	{
 		int v = (int) value;
 		for (int i = 0; i < 4; ++i)
@@ -147,10 +147,10 @@ public class FloatPacker implements IPackable
 		return instance.getValue();
 	}
 
-	//	public static synchronized int getPackedSize_s(float value, int decimalPlaces)
-	//	{
-	//		instance.setDecimalPlaces(decimalPlaces);
-	//		instance.setValue(value);
-	//		return instance.getPackedSize();
-	//	}
+	public static synchronized int calcPackedSize_s(float value, int decimalPlaces)
+	{
+		instance.setDecimalPlaces(decimalPlaces);
+		instance.setValue(value);
+		return instance.calcPackedSize();
+	}
 }

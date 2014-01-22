@@ -19,8 +19,8 @@ import javax.swing.text.StyleConstants;
 class MessageConsole
 {
 	private static final int maxLines = 200;
-	private static final Calendar calendar = Calendar.getInstance();
-	private static int currentDay = -1;
+	//	private static final Calendar calendar = Calendar.getInstance();
+	private static volatile int currentDay = -1;
 
 	private JTextComponent textComponent;
 	private DocumentListener limitLinesListener;
@@ -111,7 +111,7 @@ class MessageConsole
 			reset();
 		}
 
-		private String getTimePrefix()
+		private String getTimePrefix(Calendar calendar)
 		{
 			int h = calendar.get(Calendar.HOUR_OF_DAY);
 			int m = calendar.get(Calendar.MINUTE);
@@ -124,7 +124,7 @@ class MessageConsole
 			return "[" + sh + ":" + sm + ":" + ss + "] ";
 		}
 
-		private String getDayString()
+		private String getDayString(Calendar calendar)
 		{
 			int d = calendar.get(Calendar.DAY_OF_MONTH);
 			int m = calendar.get(Calendar.MONTH) + 1;
@@ -139,17 +139,18 @@ class MessageConsole
 
 		private void handleAppend(final String message)
 		{
+			Calendar calendar = Calendar.getInstance();
 			int d = calendar.get(Calendar.DAY_OF_YEAR);
 			final String dd;
 			if (d != currentDay)
 			{
 				currentDay = d;
-				dd = '\n' + getDayString() + '\n';
+				dd = '\n' + getDayString(calendar) + '\n';
 			}
 			else
 				dd = "";
 
-			final String prefix = getTimePrefix();
+			final String prefix = getTimePrefix(calendar);
 
 			SwingUtilities.invokeLater(new Runnable()
 			{

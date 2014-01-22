@@ -1,0 +1,23 @@
+public enum Token
+{
+	LOGIN
+
+	;
+
+	private Minima csMinima;
+	private Minima scMinima;
+
+	private Token()
+	{
+	}
+
+	private void setCS(int intMin, int floatMin, int textMin)
+	{
+		cs = new Minima(intMin, floatMin, textMin);
+	}
+
+	private void setSC(int intMin, int floatMin, int textMin)
+	{
+		sc = new Minima(intMin, floatMin, textMin);
+	}
+}
