@@ -22,6 +22,7 @@ public class RecentMenu extends JMenu implements ActionListener
 	{
 		super("Recent");
 		workingDirs = new WorkingDirs(project);
+		workingDirs.load();
 		displayDirectories();
 	}
 
@@ -64,5 +65,10 @@ public class RecentMenu extends JMenu implements ActionListener
 
 		if (s != null && s.length() > 0)
 			control.requestOpenObject(new Path(s));
+	}
+
+	public void setMainMenuListener(IMainMenuListener mainMenuListener)
+	{
+		this.control = mainMenuListener;
 	}
 }

@@ -104,6 +104,7 @@ public class MainMenu extends JMenu implements ActionListener
 	public void setMainMenuListener(IMainMenuListener mainMenuListener)
 	{
 		this.listener = mainMenuListener;
+		this.recentMenu.setMainMenuListener(mainMenuListener);
 	}
 
 	protected void setDialogCreator(INewDialogCreator dialogCreator)
