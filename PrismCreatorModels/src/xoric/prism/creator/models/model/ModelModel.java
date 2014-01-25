@@ -127,7 +127,7 @@ public class ModelModel implements IPackable
 			// ----
 			e.user.setText(UserErrorText.WRITE_ERROR);
 			// ----
-			e.code.setText("error while saving DrawerModel");
+			e.code.setText("error while saving model");
 			// ----
 			e.addInfo("file", file.toString());
 			// ----

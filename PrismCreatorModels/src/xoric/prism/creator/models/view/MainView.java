@@ -23,7 +23,6 @@ import xoric.prism.world.animations.AnimationIndex;
 public class MainView extends PrismCreatorCommonView implements IMainView, IAnimationEditor, INewDialogCreator
 {
 	private static final long serialVersionUID = 1L;
-	private static final String title = "Prism Drawer";
 
 	private ModelModel model;
 	//	private IMainControl control;
@@ -82,7 +81,7 @@ public class MainView extends PrismCreatorCommonView implements IMainView, IAnim
 		showAnimationControls(false);
 	}
 
-	/* *********** IDrawerView ********************** */
+	/* *********** IMainView ********************** */
 
 	@Override
 	public void setModel(ModelModel model)
