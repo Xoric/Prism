@@ -2,14 +2,14 @@ package xoric.prism.creator.models.view;
 
 import xoric.prism.creator.common.WorkingDirs;
 import xoric.prism.creator.models.image.IAnimationPanel;
-import xoric.prism.creator.models.model.DrawerModel;
+import xoric.prism.creator.models.model.ModelModel;
 import xoric.prism.data.types.IPath_r;
 
 public interface IDrawerView extends IModelTable, IPortraitView, IAnimationList, IAnimationPanel
 {
-	public void setModel(DrawerModel model);
+	public void setModel(ModelModel model);
 
-	public void displayAll(DrawerModel model);
+	public void displayAll(ModelModel model);
 
 	public void displayPath(IPath_r path);
 

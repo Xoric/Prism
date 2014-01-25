@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-import xoric.prism.creator.models.control.IDrawerControl;
+import xoric.prism.creator.models.control.IMainControl;
 import xoric.prism.creator.models.model.AnimationModel;
 import xoric.prism.creator.models.model.VariationList;
 import xoric.prism.creator.models.view.AnimationCell;
@@ -37,7 +37,7 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 	private final JButton backButton;
 	//	private final JLabel nameLabel;
 
-	private IDrawerControl control;
+	private IMainControl control;
 
 	private final IAnimationEditor mainView;
 
@@ -172,7 +172,7 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 	}
 
 	@Override
-	public void setControl(IDrawerControl control)
+	public void setControl(IMainControl control)
 	{
 		this.control = control;
 		this.spriteList.setControl(control);

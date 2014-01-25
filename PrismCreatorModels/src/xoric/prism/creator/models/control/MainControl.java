@@ -5,7 +5,7 @@ import java.util.List;
 
 import xoric.prism.creator.common.WorkingDirs;
 import xoric.prism.creator.models.model.AnimationModel;
-import xoric.prism.creator.models.model.DrawerModel;
+import xoric.prism.creator.models.model.ModelModel;
 import xoric.prism.creator.models.model.VariationList;
 import xoric.prism.creator.models.view.IDrawerView;
 import xoric.prism.data.types.IPath_r;
@@ -14,10 +14,10 @@ import xoric.prism.data.types.IText_r;
 import xoric.prism.world.animations.AnimationIndex;
 import xoric.prism.world.entities.ViewAngle;
 
-public class DrawerControl implements IDrawerControl, IBusyControl
+public class MainControl implements IMainControl, IBusyControl
 {
 	private IDrawerView view;
-	private DrawerModel model;
+	private ModelModel model;
 
 	private final ExternalImageEditor externalEditor;
 	private final WorkingDirs workingDirs;
@@ -26,7 +26,7 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 	private AnimationControl animationControl;
 	private SpriteControl spriteControl;
 
-	public DrawerControl(IDrawerView view)
+	public MainControl(IDrawerView view)
 	{
 		this.view = view;
 		//		this.model = new DrawerModel();
@@ -47,7 +47,7 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 		view.setHourglass(b);
 	}
 
-	private void acceptModel(DrawerModel m, boolean acceptNull)
+	private void acceptModel(ModelModel m, boolean acceptNull)
 	{
 		if (m != null || acceptNull)
 		{
@@ -67,7 +67,7 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 	@Override
 	public void requestNewModel()
 	{
-		DrawerModel m = modelControl.createNewModel();
+		ModelModel m = modelControl.createNewModel();
 		acceptModel(m, false);
 
 		if (m != null)
@@ -80,7 +80,7 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 	@Override
 	public void requestOpenModel()
 	{
-		DrawerModel m = modelControl.openModel();
+		ModelModel m = modelControl.openModel();
 		acceptModel(m, false);
 
 		if (m != null)
@@ -93,7 +93,7 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 	@Override
 	public void requestOpenRecent(IPath_r path)
 	{
-		DrawerModel m = modelControl.openModel(path);
+		ModelModel m = modelControl.openModel(path);
 		acceptModel(m, false);
 
 		if (m != null)

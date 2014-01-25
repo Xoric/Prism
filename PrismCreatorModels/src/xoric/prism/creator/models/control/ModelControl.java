@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import xoric.prism.creator.models.generators.AnimationsGenerator;
 import xoric.prism.creator.models.generators.ModelFilter;
 import xoric.prism.creator.models.generators.ModelGenerator;
-import xoric.prism.creator.models.model.DrawerModel;
+import xoric.prism.creator.models.model.ModelModel;
 import xoric.prism.creator.models.view.NewModelData;
 import xoric.prism.creator.models.view.NewModelDialog;
 import xoric.prism.data.exceptions.PrismException;
@@ -25,7 +25,7 @@ import xoric.prism.swing.input.PrismFileDialog;
 
 public class ModelControl extends ControlLayer
 {
-	public ModelControl(DrawerModel model, IBusyControl busyControl)
+	public ModelControl(ModelModel model, IBusyControl busyControl)
 	{
 		super(model, busyControl);
 	}
@@ -74,9 +74,9 @@ public class ModelControl extends ControlLayer
 		return isOK;
 	}
 
-	public DrawerModel createNewModel()
+	public ModelModel createNewModel()
 	{
-		DrawerModel newModel = null;
+		ModelModel newModel = null;
 
 		if (askSaveChanges())
 		{
@@ -90,7 +90,7 @@ public class ModelControl extends ControlLayer
 				try
 				{
 					NewModelData data = d.getResult();
-					newModel = new DrawerModel(data);
+					newModel = new ModelModel(data);
 					newModel.preparePath();
 				}
 				catch (PrismException e)
@@ -105,13 +105,13 @@ public class ModelControl extends ControlLayer
 		return newModel;
 	}
 
-	public DrawerModel openModel()
+	public ModelModel openModel()
 	{
 		OpenPathDialog d = new OpenPathDialog("Open Model", "Please enter the working directory of the model you want to open.");
 		boolean b = d.show();
 		Path path = b ? d.getResult() : null;
 
-		DrawerModel openedModel = null;
+		ModelModel openedModel = null;
 
 		if (path != null)
 			openedModel = openModel(path);
@@ -121,24 +121,24 @@ public class ModelControl extends ControlLayer
 		return openedModel;
 	}
 
-	public DrawerModel openModel(IPath_r path)
+	public ModelModel openModel(IPath_r path)
 	{
-		DrawerModel openedModel = null;
+		ModelModel openedModel = null;
 
-		File f = path.getFile(DrawerModel.mainFilename);
+		File f = path.getFile(ModelModel.mainFilename);
 
 		if (!f.exists())
 		{
 			PrismException e = new PrismException();
 			e.setText("No model could be found in the specified directory.");
-			e.addInfo("missing file", DrawerModel.mainFilename);
+			e.addInfo("missing file", ModelModel.mainFilename);
 			e.user.showMessage();
 		}
 		else
 		{
 			busyControl.setBusy(true);
 
-			openedModel = new DrawerModel();
+			openedModel = new ModelModel();
 			try
 			{
 				openedModel.load(path);
@@ -225,20 +225,20 @@ public class ModelControl extends ControlLayer
 		saveModel(false);
 	}
 
-	public void generateAnimations(DrawerModel model)
+	public void generateAnimations(ModelModel model)
 	{
 		AnimationsGenerator g = new AnimationsGenerator(model);
 		g.generateAll();
 	}
 
-	public void exportModel(DrawerModel model)
+	public void exportModel(ModelModel model)
 	{
 		String targetFilename = model.getName().toString().toLowerCase() + ModelFilter.dotExtension;
 		ModelGenerator g = new ModelGenerator(model);
 		g.generateModel(targetFilename);
 	}
 
-	public void createNewPortrait(DrawerModel model)
+	public void createNewPortrait(ModelModel model)
 	{
 		Point size = PointInput.showInputMessage("Create portrait", "Please enter the desired size for the portrait.", "Width", "Height",
 				100, 80);
@@ -261,7 +261,7 @@ public class ModelControl extends ControlLayer
 		}
 	}
 
-	public void importPortrait(DrawerModel model)
+	public void importPortrait(ModelModel model)
 	{
 		PrismFileDialog p = new PrismFileDialog("Import portrait", "Select an image that you want to use as portrait.");
 		boolean b = p.showOpenDialog();
@@ -286,13 +286,13 @@ public class ModelControl extends ControlLayer
 		}
 	}
 
-	public void editPortrait(DrawerModel model, ExternalImageEditor externalEditor)
+	public void editPortrait(ModelModel model, ExternalImageEditor externalEditor)
 	{
 		File portraitFile = model.getPath().getFile("portrait.png");
 		externalEditor.execute(portraitFile);
 	}
 
-	public void deletePortrait(DrawerModel model)
+	public void deletePortrait(ModelModel model)
 	{
 		File portraitFile = model.getPath().getFile("portrait.png");
 		if (portraitFile.exists())

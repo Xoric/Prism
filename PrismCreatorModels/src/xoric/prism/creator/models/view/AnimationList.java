@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.ScrollPaneConstants;
 
-import xoric.prism.creator.models.control.IDrawerControl;
+import xoric.prism.creator.models.control.IMainControl;
 import xoric.prism.creator.models.model.VariationList;
 import xoric.prism.swing.PrismPanel;
 import xoric.prism.world.animations.AnimationIndex;
@@ -168,7 +168,7 @@ public class AnimationList extends PrismPanel implements IAnimationList
 				0, 0);
 	}
 
-	public void setControl(IDrawerControl control)
+	public void setControl(IMainControl control)
 	{
 		for (AnimationCell l : list)
 			l.setControl(control);

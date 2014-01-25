@@ -8,7 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-import xoric.prism.creator.models.control.IDrawerControl;
+import xoric.prism.creator.models.control.IMainControl;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Point;
@@ -24,7 +24,7 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 {
 	private static final long serialVersionUID = 1L;
 
-	private IDrawerControl control;
+	private IMainControl control;
 
 	private TextInput nameInput;
 	private PointInput spriteSizeInput;
@@ -65,7 +65,7 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 		setContent(contentPane);
 	}
 
-	public void setControl(IDrawerControl control)
+	public void setControl(IMainControl control)
 	{
 		this.control = control;
 	}

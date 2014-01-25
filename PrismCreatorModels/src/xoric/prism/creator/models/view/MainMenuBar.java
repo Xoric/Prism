@@ -10,8 +10,8 @@ import javax.swing.JMenuItem;
 
 import xoric.prism.creator.common.RecentMenu;
 import xoric.prism.creator.common.WorkingDirs;
-import xoric.prism.creator.models.control.IDrawerControl;
-import xoric.prism.creator.models.model.DrawerModel;
+import xoric.prism.creator.models.control.IMainControl;
+import xoric.prism.creator.models.model.ModelModel;
 
 public class MainMenuBar extends JMenuBar implements ActionListener
 {
@@ -19,7 +19,7 @@ public class MainMenuBar extends JMenuBar implements ActionListener
 
 	private static final String modelExtension = ".md";
 
-	private IDrawerControl control;
+	private IMainControl control;
 
 	private JMenu menuModel;
 	private JMenuItem menuItemNewModel;
@@ -67,7 +67,7 @@ public class MainMenuBar extends JMenuBar implements ActionListener
 		recentMenu.displayDirectories(dirs);
 	}
 
-	public void setControl(IDrawerControl control)
+	public void setControl(IMainControl control)
 	{
 		this.control = control;
 
@@ -116,7 +116,7 @@ public class MainMenuBar extends JMenuBar implements ActionListener
 			control.requestExit();
 	}
 
-	public void setModel(DrawerModel model)
+	public void setModel(ModelModel model)
 	{
 		boolean b = model != null;
 		menuItemCloseModel.setEnabled(b);

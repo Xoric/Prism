@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import xoric.prism.creator.models.image.IconLoader;
-import xoric.prism.creator.models.model.DrawerModel;
+import xoric.prism.creator.models.model.ModelModel;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.meta.MetaBlock;
 import xoric.prism.data.meta.MetaKey;
@@ -23,9 +23,9 @@ import xoric.prism.world.animations.AnimationIndex;
 
 public class ModelGenerator
 {
-	private final DrawerModel model;
+	private final ModelModel model;
 
-	public ModelGenerator(DrawerModel model)
+	public ModelGenerator(ModelModel model)
 	{
 		this.model = model;
 	}

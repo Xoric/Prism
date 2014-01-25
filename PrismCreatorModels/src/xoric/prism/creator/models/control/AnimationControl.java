@@ -1,13 +1,13 @@
 package xoric.prism.creator.models.control;
 
 import xoric.prism.creator.models.model.AnimationModel;
-import xoric.prism.creator.models.model.DrawerModel;
+import xoric.prism.creator.models.model.ModelModel;
 import xoric.prism.creator.models.model.VariationList;
 import xoric.prism.world.animations.AnimationIndex;
 
 public class AnimationControl extends ControlLayer
 {
-	public AnimationControl(DrawerModel model, IBusyControl busyControl)
+	public AnimationControl(ModelModel model, IBusyControl busyControl)
 	{
 		super(model, busyControl);
 	}

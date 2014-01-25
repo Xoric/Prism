@@ -8,14 +8,14 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import xoric.prism.creator.models.control.IDrawerControl;
+import xoric.prism.creator.models.control.IMainControl;
 import xoric.prism.world.animations.AnimationIndex;
 
 public class AnimationCell extends JPanel implements IAnimationCell
 {
 	private static final long serialVersionUID = 1L;
 
-	protected IDrawerControl control;
+	protected IMainControl control;
 
 	protected AnimationIndex animationIndex;
 
@@ -59,7 +59,7 @@ public class AnimationCell extends JPanel implements IAnimationCell
 		}
 	}
 
-	public void setControl(IDrawerControl control)
+	public void setControl(IMainControl control)
 	{
 		this.control = control;
 	}

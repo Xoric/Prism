@@ -14,7 +14,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import xoric.prism.creator.models.model.DrawerModel;
+import xoric.prism.creator.models.model.ModelModel;
 import xoric.prism.creator.models.model.SpriteNames;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IPath_r;
@@ -24,7 +24,7 @@ import xoric.prism.world.entities.ViewAngle;
 
 public class SpriteControl extends ControlLayer
 {
-	public SpriteControl(DrawerModel model, IBusyControl busyControl)
+	public SpriteControl(ModelModel model, IBusyControl busyControl)
 	{
 		super(model, busyControl);
 	}

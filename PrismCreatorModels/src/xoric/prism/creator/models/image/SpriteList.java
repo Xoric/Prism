@@ -22,7 +22,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import xoric.prism.creator.models.control.IDrawerControl;
+import xoric.prism.creator.models.control.IMainControl;
 import xoric.prism.creator.models.model.AnimationModel;
 import xoric.prism.creator.models.model.SpriteNames;
 import xoric.prism.creator.models.model.VariationList;
@@ -45,7 +45,7 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 	private final JList<SpriteCell> list;
 
 	private final SpriteMenu menu;
-	private IDrawerControl control;
+	private IMainControl control;
 
 	private IPoint_r spriteSize;
 	private AnimationModel animationModel;
@@ -121,7 +121,7 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 	/* *************** ISpriteList ************** */
 
 	@Override
-	public void setControl(IDrawerControl control)
+	public void setControl(IMainControl control)
 	{
 		this.control = control;
 	}

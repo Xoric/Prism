@@ -8,10 +8,10 @@ import java.awt.Insets;
 import javax.swing.JPanel;
 
 import xoric.prism.creator.common.WorkingDirs;
-import xoric.prism.creator.models.control.IDrawerControl;
+import xoric.prism.creator.models.control.IMainControl;
 import xoric.prism.creator.models.image.AnimationView;
 import xoric.prism.creator.models.image.IAnimationView;
-import xoric.prism.creator.models.model.DrawerModel;
+import xoric.prism.creator.models.model.ModelModel;
 import xoric.prism.creator.models.model.VariationList;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
@@ -20,14 +20,14 @@ import xoric.prism.scene.IScene;
 import xoric.prism.swing.PrismFrame;
 import xoric.prism.world.animations.AnimationIndex;
 
-public class DrawerView extends PrismFrame implements IDrawerView, IAnimationEditor
+public class MainView extends PrismFrame implements IDrawerView, IAnimationEditor
 {
 	private static final long serialVersionUID = 1L;
 	private static final String title = "Prism Drawer";
 
 	private IScene scene;
-	private DrawerModel model;
-	private IDrawerControl control;
+	private ModelModel model;
+	private IMainControl control;
 
 	private ModelTable modelTable;
 	private PortraitPanel portraitPanel;
@@ -36,7 +36,7 @@ public class DrawerView extends PrismFrame implements IDrawerView, IAnimationEdi
 	private JPanel animationViewPanel;
 	private final MainMenuBar mainMenuBar;
 
-	public DrawerView(IScene scene)
+	public MainView(IScene scene)
 	{
 		super(title, 640, 480, true);
 
@@ -87,14 +87,14 @@ public class DrawerView extends PrismFrame implements IDrawerView, IAnimationEdi
 	/* *********** IDrawerView ********************** */
 
 	@Override
-	public void setModel(DrawerModel model)
+	public void setModel(ModelModel model)
 	{
 		this.model = model;
 		mainMenuBar.setModel(model);
 	}
 
 	@Override
-	public void displayAll(DrawerModel model)
+	public void displayAll(ModelModel model)
 	{
 		displayName(model == null ? null : model.getName());
 		displaySpriteSize(model == null ? null : model.getSpriteSize());
@@ -199,7 +199,7 @@ public class DrawerView extends PrismFrame implements IDrawerView, IAnimationEdi
 		animationViewPanel.setVisible(showAnimationView);
 	}
 
-	public void setControl(IDrawerControl control)
+	public void setControl(IMainControl control)
 	{
 		this.control = control;
 

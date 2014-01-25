@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import xoric.prism.creator.models.control.IDrawerControl;
+import xoric.prism.creator.models.control.IMainControl;
 import xoric.prism.creator.models.image.IconLoader;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.swing.PrismPanel;
@@ -22,7 +22,7 @@ public class PortraitPanel extends PrismPanel implements ActionListener, IPortra
 {
 	private static final long serialVersionUID = 1L;
 
-	private IDrawerControl control;
+	private IMainControl control;
 
 	private IPath_r path;
 
@@ -63,7 +63,7 @@ public class PortraitPanel extends PrismPanel implements ActionListener, IPortra
 		displayPortrait(null);
 	}
 
-	public void setControl(IDrawerControl control)
+	public void setControl(IMainControl control)
 	{
 		this.control = control;
 	}

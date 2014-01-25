@@ -21,7 +21,7 @@ import xoric.prism.data.types.Text;
 import xoric.prism.data.types.TextPacker;
 import xoric.prism.world.animations.AnimationIndex;
 
-public class DrawerModel implements IPackable
+public class ModelModel implements IPackable
 {
 	public static final String mainFilename = "m.meta";
 	private static final int CURRENT_VERSION = 1;
@@ -32,7 +32,7 @@ public class DrawerModel implements IPackable
 	private boolean hasChanges;
 	private VariationList[] list;
 
-	public DrawerModel()
+	public ModelModel()
 	{
 		name = new Text("");
 		path = new Path("");
@@ -42,7 +42,7 @@ public class DrawerModel implements IPackable
 		init();
 	}
 
-	public DrawerModel(NewModelData data)
+	public ModelModel(NewModelData data)
 	{
 		name = data.getName();
 		path = data.getPath();

@@ -10,7 +10,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import xoric.prism.creator.models.model.DrawerModel;
+import xoric.prism.creator.models.model.ModelModel;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.tools.Common;
 import xoric.prism.data.types.IPath_r;
@@ -19,11 +19,11 @@ import xoric.prism.world.entities.ViewAngle;
 
 public class AnimationsGenerator
 {
-	private final DrawerModel model;
+	private final ModelModel model;
 	private final int spriteWidth;
 	private final int spriteHeight;
 
-	public AnimationsGenerator(DrawerModel model)
+	public AnimationsGenerator(ModelModel model)
 	{
 		this.model = model;
 		this.spriteWidth = model.getSpriteSize().getX();
