@@ -1,16 +1,14 @@
 package xoric.prism.creator.drawer.control;
 
-import xoric.prism.data.types.IPath_r;
+import xoric.prism.creator.common.IRecentMenuListener;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 
-public interface IModelControl
+public interface IModelControl extends IRecentMenuListener
 {
 	public void requestNewModel();
 
 	public void requestOpenModel();
-
-	public void requestOpenRecent(IPath_r path);
 
 	public void requestCloseModel();
 

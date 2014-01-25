@@ -8,9 +8,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import xoric.prism.creator.common.RecentMenu;
+import xoric.prism.creator.common.WorkingDirs;
 import xoric.prism.creator.drawer.control.IDrawerControl;
 import xoric.prism.creator.drawer.model.DrawerModel;
-import xoric.prism.creator.drawer.settings.WorkingDirs;
 
 public class MainMenuBar extends JMenuBar implements ActionListener
 {

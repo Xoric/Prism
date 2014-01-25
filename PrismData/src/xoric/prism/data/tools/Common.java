@@ -2,6 +2,8 @@ package xoric.prism.data.tools;
 
 public abstract class Common
 {
+	public static final String GAME_NAME = "Prism";
+
 	public static String getFileSize(long bytes)
 	{
 		String s;

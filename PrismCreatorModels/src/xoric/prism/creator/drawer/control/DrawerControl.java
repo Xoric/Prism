@@ -3,10 +3,10 @@ package xoric.prism.creator.drawer.control;
 import java.io.File;
 import java.util.List;
 
+import xoric.prism.creator.common.WorkingDirs;
 import xoric.prism.creator.drawer.model.AnimationModel;
 import xoric.prism.creator.drawer.model.DrawerModel;
 import xoric.prism.creator.drawer.model.VariationList;
-import xoric.prism.creator.drawer.settings.WorkingDirs;
 import xoric.prism.creator.drawer.view.IDrawerView;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
@@ -36,7 +36,7 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 		spriteControl = new SpriteControl(model, this);
 
 		externalEditor = new ExternalImageEditor();
-		workingDirs = new WorkingDirs();
+		workingDirs = new WorkingDirs("models");
 
 		acceptModel(null, true);
 	}

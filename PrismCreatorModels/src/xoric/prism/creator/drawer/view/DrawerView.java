@@ -7,12 +7,12 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 
+import xoric.prism.creator.common.WorkingDirs;
 import xoric.prism.creator.drawer.control.IDrawerControl;
 import xoric.prism.creator.drawer.image.AnimationView;
 import xoric.prism.creator.drawer.image.IAnimationView;
 import xoric.prism.creator.drawer.model.DrawerModel;
 import xoric.prism.creator.drawer.model.VariationList;
-import xoric.prism.creator.drawer.settings.WorkingDirs;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;

@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
-import xoric.prism.creator.drawer.settings.TempFile;
+import xoric.prism.creator.common.TempFile;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.swing.input.PrismFileDialog;
 
