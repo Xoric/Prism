@@ -1,0 +1,75 @@
+package xoric.prism.com;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class MessageList
+{
+	private class MessageNode
+	{
+		private final Message message;
+		private volatile MessageNode next;
+
+		public MessageNode(Message m)
+		{
+			this.message = m;
+			this.next = null;
+		}
+	}
+
+	// head of the queue: consume data here
+	private MessageNode head;
+	private AtomicBoolean consumerLock;
+
+	// tail of the queue: produce data here
+	private MessageNode tail;
+	private AtomicBoolean producerLock;
+
+	public MessageList()
+	{
+		head = tail = new MessageNode(null);
+		producerLock = new AtomicBoolean(false);
+		consumerLock = new AtomicBoolean(false);
+	}
+
+	public void produce(final Message m)
+	{
+		// create new node
+		MessageNode tmp = new MessageNode(m);
+
+		// wait until queue is available
+		while (!producerLock.compareAndSet(false, true))
+		{
+		}
+
+		// create and append new node 
+		tail.next = tmp;
+		tail = tmp;
+
+		// release lock
+		producerLock.getAndSet(false);
+	}
+
+	public Message consume()
+	{
+		// wait until queue is available
+		while (!consumerLock.compareAndSet(false, true))
+		{
+		}
+		
+		// get next node
+		MessageNode nextNode = head.next;
+		if (nextNode != null)
+		{
+			// Entnimm das erste Element, sofern vorhanden
+			Message m = nextNode.message;
+			nextNode.message = null;
+			head = nextNode;
+			// Sperre wieder freigeben
+			consumerLock.getAndSet(false);
+			return m;
+		}
+		consumerLock.getAndSet(false);
+		// Schlange war leer...
+		return null;
+	}
+}

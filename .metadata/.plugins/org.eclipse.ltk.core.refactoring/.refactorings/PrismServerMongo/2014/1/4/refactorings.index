@@ -1,0 +1,6 @@
+1390577055018	Rename package 'xoric.prism.mongodb'
+1390577060586	Rename package 'xoric.prism.db.mongo'
+1390578427115	Rename local variable 'd'
+1390579284910	Rename type 'AccCollection'
+1390579805830	Delete element
+1390643060915	Rename field 'accColl'

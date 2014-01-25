@@ -1,0 +1,6 @@
+package xoric.prism.server.control;
+
+public interface IClient0Handler
+{
+public void login(ClientLink0 client0, IText_r acc, byte[] pw, List<Integer> versions);
+}

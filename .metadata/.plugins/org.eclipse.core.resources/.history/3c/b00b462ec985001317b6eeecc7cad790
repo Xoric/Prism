@@ -1,0 +1,10 @@
+package xoric.prism.creator.common.view;
+
+import xoric.prism.data.types.Path;
+
+public interface INewDialog
+{
+	public boolean showDialog();
+
+	public Path getResult();
+}

@@ -1,0 +1,16 @@
+package xoric.prism.server.main;
+
+public class ServerLoop
+{
+	private static PrismClock clock;
+	
+	public static void run()
+	{
+		boolean resume = true;
+		do
+		{
+			
+		}
+		while (resume);
+	}
+}

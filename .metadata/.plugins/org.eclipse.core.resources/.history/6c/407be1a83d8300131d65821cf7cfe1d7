@@ -1,0 +1,69 @@
+package xoric.prism.com;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class MessageList
+{
+	private class MessageNode
+	{
+		private final Message message;
+		private volatile MessageNode  next;
+		
+		public MessageNode(Message m)
+		{
+			this.message = m;
+			this.next = null;
+		}
+	}
+
+	// Kopf der Schlange: hier werden Daten entnommen (Verbraucher)
+	private MessageNode head;
+	private AtomicBoolean consumerLock;
+	// Ende der Schlange: hier werden Daten angehängt (Hersteller)
+	private MessageNode ende;
+	private AtomicBoolean herstellersperre;
+
+	public GeneralizedConcurrentQueue()
+	{
+		head = ende = new MessageNode(null);
+		herstellersperre = new AtomicBoolean(false);
+		consumerLock = new AtomicBoolean(false);
+	}
+
+	public void Hersteller(final T t)
+	{
+		MessageNode tmp = new MessageNode(t);
+		// Warte solange, bis der Wert von 
+		// false auf true gewechselt werden konnte.
+		while (!herstellersperre.compareAndSet(false, true))
+		{
+		}
+		// Neuen Knoten anhängen
+		ende.naechster = tmp;
+		ende = tmp;
+		// Sperre wieder freigeben
+		herstellersperre.getAndSet(false);
+	}
+
+	public T Verbraucher()
+	{
+		// Warte solange, bis der Wert von 
+		// false auf true gewechselt werden konnte.
+		while (!consumerLock.compareAndSet(false, true))
+		{
+		}
+		Node derNaechste = head.naechster;
+		if (derNaechste != null)
+		{
+			// Entnimm das erste Element, sofern vorhanden
+			T val = derNaechste.wert;
+			derNaechste.wert = null;
+			head = derNaechste;
+			// Sperre wieder freigeben
+			consumerLock.getAndSet(false);
+			return val;
+		}
+		consumerLock.getAndSet(false);
+		// Schlange war leer...
+		return null;
+	}

@@ -1,0 +1,18 @@
+package xoric.prism.server.main;
+
+import xoric.prism.data.time.PrismClock;
+
+public class ServerLoop
+{
+	public static void run()
+	{
+		PrismClock clock = new PrismClock();
+
+		boolean resume = true;
+		do
+		{
+			int startMs = clock.getTimeMs();
+		}
+		while (resume);
+	}
+}

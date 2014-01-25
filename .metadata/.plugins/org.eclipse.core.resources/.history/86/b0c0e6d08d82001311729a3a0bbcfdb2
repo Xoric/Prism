@@ -1,0 +1,8 @@
+package xoric.prism.data.meta;
+
+public interface IMetaBlockInterpreter
+{
+	public void startInterpretation();
+
+	public void interpretLine(MetaLine metaLine);
+}

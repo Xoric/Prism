@@ -1,0 +1,64 @@
+package xoric.prism.com;
+
+public class GeneralizedConcurrentQueue<T> {
+private class Knoten {
+public Knoten(T wert) {
+this.wert = wert;
+this.naechster = null;
+}
+private T wert = null;
+// Wichtig: Ordnung der Zugriffe auf den Zeiger sicherstellen
+// --> Happens-Before Relation!
+private volatile Knoten naechster;
+}
+// Kopf der Schlange: hier werden Daten entnommen (Verbraucher)
+private Knoten kopf;
+private AtomicBoolean verbrauchersperre;
+// Ende der Schlange: hier werden Daten angehängt (Hersteller)
+private Knoten ende;
+private AtomicBoolean herstellersperre;
+
+
+
+
+public GeneralizedConcurrentQueue() {
+kopf = ende = new Knoten(null);
+herstellersperre = new AtomicBoolean(false); 
+verbrauchersperre = new AtomicBoolean(false);
+}
+public void Hersteller(final T t) {
+Knoten tmp = new Knoten(t);
+// Warte solange, bis der Wert von 
+// false auf true gewechselt werden konnte.
+while (!herstellersperre.compareAndSet(false, true)) { }
+// Neuen Knoten anhängen
+ende.naechster = tmp;
+ende = tmp;
+// Sperre wieder freigeben
+herstellersperre.getAndSet(false);
+}
+
+
+
+
+
+
+public T Verbraucher() {
+	// Warte solange, bis der Wert von 
+	// false auf true gewechselt werden konnte.
+	while (!verbrauchersperre.compareAndSet(false, true)) { } 
+	Node derNaechste = kopf.naechster;
+	if (derNaechste != null) { 
+	// Entnimm das erste Element, sofern vorhanden
+	T val = derNaechste.wert;
+	derNaechste.wert = null;
+	kopf = derNaechste;
+	// Sperre wieder freigeben
+	verbrauchersperre.getAndSet(false);
+	return val;
+	}
+	verbrauchersperre.getAndSet(false);
+	// Schlange war leer...
+	return null;
+	}
+	}

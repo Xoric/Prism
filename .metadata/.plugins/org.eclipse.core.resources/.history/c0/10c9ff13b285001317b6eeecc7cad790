@@ -1,0 +1,18 @@
+package xoric.prism.creator.custom.view;
+
+import xoric.prism.swing.PrismFrame;
+
+public class CustomView extends PrismFrame
+{
+	private static final long serialVersionUID = 1L;
+
+	public CustomView()
+	{
+		super("Sprite Collections", 640, 400, true);
+	}
+
+	public static void main(String[] args)
+	{
+
+	}
+}

@@ -1,0 +1,10 @@
+package xoric.prism.swing.input;
+
+import xoric.prism.data.types.Path;
+
+public interface IOpenPathDialog
+{
+	public void showOpenPathDialog();
+
+	public Path getResult();
+}

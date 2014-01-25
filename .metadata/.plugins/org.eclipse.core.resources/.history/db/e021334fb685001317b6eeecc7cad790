@@ -1,0 +1,6 @@
+package xoric.prism.creator.common.control;
+
+public interface IMainMenuListener
+{
+public void requestNewObject();
+}

@@ -1,0 +1,10 @@
+package xoric.prism.server.control;
+
+import java.util.List;
+
+import xoric.prism.data.types.IText_r;
+
+public interface ILoginHandler
+{
+	public void login(IText_r acc, IText_r pw, List<Integer> versions);
+}

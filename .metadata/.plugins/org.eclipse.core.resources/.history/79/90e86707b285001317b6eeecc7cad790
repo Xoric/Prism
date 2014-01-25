@@ -1,0 +1,8 @@
+package xoric.prism.creator.custom.view;
+
+import xoric.prism.swing.PrismFrame;
+
+public class CustomView extends PrismFrame
+{
+
+}

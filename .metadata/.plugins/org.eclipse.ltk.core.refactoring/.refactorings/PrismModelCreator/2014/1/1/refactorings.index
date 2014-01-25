@@ -1,0 +1,46 @@
+1388592552625	Rename type 'CustomInput'
+1388592570066	Delete element
+1388592589504	Rename type 'ValueInput'
+1388592632107	Delete element
+1388618110809	Rename method 'updateDisplay'
+1388618914920	Rename method 'askForChanges'
+1388624657833	Rename field 'nameButton'
+1388628062918	Rename field 'width'
+1388676608088	Rename type 'IModelTable'
+1388681719695	Rename method 'enableControls'
+1388682791548	Rename local variable 'c'
+1388685503596	Rename field 'directionsLabel'
+1388712201629	Rename field 'directory'
+1388760573243	Rename local variable 'm'
+1388761011121	Rename type 'NewModelDialog'
+1388761090551	Rename type 'ModelDialogs'
+1388761098358	Rename type 'ModelControl'
+1388761115258	Rename type 'PrismDrawer'
+1388761128447	Rename type 'DrawerModelControl'
+1388761136914	Rename type 'DrawerModelView'
+1388761223163	Rename method 'askSaveChanges'
+1388761348222	Rename method 'askSaveChangesIfAny'
+1388761837077	Rename local variable 'f'
+1388761850048	Rename local variable 'out'
+1388763117660	Rename field 'listener'
+1388767091928	Move compilation unit
+1388767100720	Move compilation units
+1388767124471	Rename package 'xoric.prism.drawer.view'
+1388767132031	Move compilation unit
+1388767142081	Move compilation unit
+1388767155691	Move compilation unit
+1388767170431	Delete element
+1388775642733	Copy package
+1388775649386	Delete element
+1388796114040	Delete element
+1388798051323	Delete element
+1388817605135	Rename method 'updateSaveButton'
+1388817609335	Rename method 'updateSaveState'
+1388817715679	Rename local variable 'model'
+1388817962310	Rename local variable 'model'
+1388818022542	Delete element
+1388818027672	Move compilation unit
+1388818030922	Delete element
+1388818056074	Delete element
+1388820144259	Rename method 'initPath'
+1388820727884	Delete element

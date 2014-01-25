@@ -1,0 +1,15 @@
+1387257588946	Rename local variable 'buf'
+1387301253107	Rename local variable 'shader'
+1387301256153	Rename local variable 'shaderId'
+1387312416720	Rename local variable 'shaderType'
+1387312619504	Rename local variable 'c'
+1387313165377	Rename local variable 'errorCode'
+1387313170416	Rename local variable 'errorCode'
+1387406548897	Copy compilation unit
+1387411208037	Delete element
+1387411213678	Copy compilation unit
+1387495498470	Delete element
+1387495556920	Copy compilation unit
+1387627957410	Introduce Parameter Object
+1387627962762	Rename local variable 'program'
+1387628201334	Delete element

@@ -1,0 +1,32 @@
+package xoric.prism.com;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MessageDispatcher
+{
+	private class MessageEntry
+	{
+		public final Message message;
+		public final int urgency;
+		public int ageMs;
+
+		public MessageEntry(Message message)
+		{
+			this.message = message;
+			this.urgency = message.getToken().getUrgency();
+		}
+	}
+
+	private List<MessageEntry> list;
+
+	public MessageDispatcher()
+	{
+		list = new ArrayList<MessageEntry>();
+	}
+
+	public void update(int ms)
+	{
+		for (MessageEntry e : list)
+	}
+}

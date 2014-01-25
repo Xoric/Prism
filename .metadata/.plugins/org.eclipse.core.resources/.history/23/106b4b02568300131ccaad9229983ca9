@@ -1,0 +1,13 @@
+package xoric.prism.data.meta;
+
+public enum MetaType
+{
+	COMMON,
+	TOC /* file table */,
+	SHADER,
+	DEVELOP /* contains attachments and targetFile */,
+	ANIM_D /* animation-names for ModelCreator etc. */,
+	MODEL_G,
+	SETTINGS_G /* global settings (message urgency etc.) */
+	// max index: 255
+}

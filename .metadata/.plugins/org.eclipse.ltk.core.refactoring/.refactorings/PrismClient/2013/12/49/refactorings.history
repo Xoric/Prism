@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;clientTimer&apos; in &apos;xoric.prism.client.main.PrismClient&apos; to &apos;timer&apos;&#x0D;&#x0A;- Original project: &apos;PrismClient&apos;&#x0D;&#x0A;- Original element: &apos;xoric.prism.client.main.PrismClient.clientTimer&apos;&#x0D;&#x0A;- Renamed element: &apos;xoric.prism.client.main.PrismClient.timer&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;clientTimer&apos;" flags="589826" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src&lt;xoric.prism.client.main{PrismClient.java[PrismClient^clientTimer" name="timer" references="true" setter="false" stamp="1386436027268" textual="false" version="1.0"/>
+</session>

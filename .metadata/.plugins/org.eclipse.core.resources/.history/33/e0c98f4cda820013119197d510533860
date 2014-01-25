@@ -1,0 +1,34 @@
+public enum Token
+{
+	LOGIN
+
+	;
+
+	static
+	{
+		LOGIN.setClient(1, 0, 2);
+	}
+
+	private Minima cs;
+	private Minima sc;
+
+	private void setClient(int intMin, int floatMin, int textMin)
+	{
+		cs = new Minima(intMin, floatMin, textMin);
+	}
+
+	private void setServer(int intMin, int floatMin, int textMin)
+	{
+		sc = new Minima(intMin, floatMin, textMin);
+	}
+
+	public Minima getCS()
+	{
+		return cs;
+	}
+
+	public Minima getSC()
+	{
+		return sc;
+	}
+}

@@ -1,0 +1,19 @@
+package xoric.prism.creator.common.view;
+
+import javax.swing.JMenuBar;
+
+import xoric.prism.creator.common.control.IMainMenuListener;
+
+public class MainMenuBar extends JMenuBar
+{
+	private static final long serialVersionUID = 1L;
+
+	private MainMenu mainMenu;
+	private MainMenu toolsMenu;
+
+	public MainMenuBar(IMainMenuListener mainMenuListener, IToolsMenuListener toolsMenuListener)
+	{
+		mainMenu = new MainMenu();
+		toolsMenu = new ToolsMenu();
+	}
+}

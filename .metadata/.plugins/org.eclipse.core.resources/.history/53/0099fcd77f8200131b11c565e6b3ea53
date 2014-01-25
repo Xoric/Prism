@@ -1,0 +1,26 @@
+package xoric.prism.server.main;
+
+import xoric.prism.data.time.PrismClock;
+import xoric.prism.server.net.ServerNet;
+
+public class Server
+{
+	public final ServerNet net;
+
+	public Server()
+	{
+		net = new ServerNet();
+	}
+
+	public void run()
+	{
+		PrismClock clock = new PrismClock();
+
+		boolean resume = true;
+		do
+		{
+			int startMs = clock.getTimeMs();
+		}
+		while (resume);
+	}
+}

@@ -1,0 +1,40 @@
+package xoric.prism.server.main;
+
+import xoric.prism.data.time.PrismClock;
+
+public class ServerLoop extends Thread
+{
+	private static ServerLoop instance;
+	private  volatile boolean isStopRequested;
+	
+	public static void run(ServerModel model)
+	{
+		if (instance != null)
+			instance.requestStop();
+	}
+
+	public static void run(ServerModel model)
+	{
+		System.out.println("starting server loop");
+
+		isStopRequested = false;
+		PrismClock clock = new PrismClock();
+
+		boolean resume = true;
+		do
+		{
+			//			int startMs = clock.getTimeMs();
+
+			model.net.update();
+
+		}
+		while (!isStopRequested);
+
+		System.out.println("server loop stopped");
+	}
+
+	public  void requestStop()
+	{
+		isStopRequested = true;
+	}
+}

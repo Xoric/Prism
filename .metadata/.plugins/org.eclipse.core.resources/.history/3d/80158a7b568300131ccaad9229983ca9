@@ -1,0 +1,9 @@
+package xoric.prism.com;
+
+public abstract class PrismCommunicationLoader
+{
+	public static void loadAll()
+	{
+
+	}
+}

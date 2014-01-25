@@ -1,0 +1,22 @@
+1390646200838	Delete element
+1390646208320	Rename package 'xoric.prism.creator.drawer.settings'
+1390649811178	Move compilation unit
+1390649825607	Move compilation units
+1390649827857	Move compilation unit
+1390649908243	Rename field 'menuItemNewModel'
+1390649910834	Rename field 'menuItemOpenModel'
+1390649913917	Rename field 'menuItemCloseModel'
+1390649919902	Rename field 'menuGenerate'
+1390650380518	Rename method 'requestNew'
+1390650564319	Copy compilation unit
+1390650585388	Rename field 'menuItemNew'
+1390650652132	Copy compilation unit
+1390651590946	Delete element
+1390653264943	Delete element
+1390653403249	Rename method 'requestNewObject'
+1390653954999	Rename method 'openModel'
+1390653962939	Rename method 'onOpenModel'
+1390658643905	Move compilation unit
+1390658824253	Rename local variable 'project'
+1390660945885	Rename method 'enableCloseMenuItem'
+1390660953391	Rename local variable 'b'

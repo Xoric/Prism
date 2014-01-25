@@ -1,0 +1,18 @@
+package xoric.prism.creator.common.view;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+
+public class MainMenuBar extends JMenuBar
+{
+	private static final long serialVersionUID = 1L;
+
+	private MainMenu mainMenu;
+	private MainMenu toolsMenu;
+
+	public MainMenuBar()
+	{
+		menuTools = new JMenu("Tools");
+		menuItemExternalEditor = createMenuItem(menuTools, "External image editor");
+	}
+}

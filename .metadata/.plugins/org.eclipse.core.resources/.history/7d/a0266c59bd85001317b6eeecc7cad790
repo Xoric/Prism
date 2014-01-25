@@ -1,0 +1,12 @@
+package xoric.prism.creator.common.control;
+
+public interface IMainMenuListener
+{
+	public void requestCreateNewObject(IPath_r path);
+
+	public void requestOpenObject(IPath_r path);
+
+	public void requestCloseObject();
+
+	public void requestExit();
+}

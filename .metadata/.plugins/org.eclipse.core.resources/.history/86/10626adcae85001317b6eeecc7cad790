@@ -1,0 +1,9 @@
+package xoric.prism.creator.common;
+
+import xoric.prism.data.types.Path;
+
+public interface IRecentMenuListener
+{
+	public void 
+	requestOpenRecent(IPath_r path);
+}

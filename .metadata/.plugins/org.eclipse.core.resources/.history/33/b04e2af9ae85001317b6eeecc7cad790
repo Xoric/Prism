@@ -1,0 +1,8 @@
+package xoric.prism.creator.drawer.control;
+
+import xoric.prism.creator.common.IRecentMenuListener;
+
+public interface IDrawerControl extends IModelControl, IAnimationControl, ISpriteControl, IRecentMenuListener
+{
+	public void initialize();
+}

@@ -1,0 +1,21 @@
+1390646092893	Copy compilation unit
+1390646192385	Rename local variable 'directoryName'
+1390646197639	Move package
+1390647147438	Move compilation unit
+1390648221835	Rename package 'xoric.prism.creator.drawer.control'
+1390648225886	Rename package 'xoric.prism.creator.drawer.generators'
+1390648229287	Rename package 'xoric.prism.creator.drawer.image'
+1390648232825	Rename package 'xoric.prism.creator.drawer.model'
+1390648236420	Rename package 'xoric.prism.creator.drawer.view'
+1390648387058	Rename type 'DrawerView'
+1390648396622	Rename type 'DrawerModel'
+1390648444081	Rename type 'IDrawerControl'
+1390648449958	Rename type 'DrawerControl'
+1390651111468	Move compilation unit
+1390652943631	Rename type 'IDrawerView'
+1390660509042	Rename type 'MainMenuBar'
+1390660556993	Rename field 'menuItemGenerateAnimations'
+1390660560835	Rename field 'menuItemGenerateModel'
+1390660785277	Rename method 'requestGenerateAnimations'
+1390660788537	Rename method 'requestExportModel'
+1390661010349	Rename local variable 'b'

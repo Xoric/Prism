@@ -1,0 +1,19 @@
+1388428765195	Rename package 'xoric.prism.swing.valueinput'
+1388428767883	Move compilation unit
+1388429930497	Rename method 'receiveInput'
+1388430171136	Rename type 'StringInput'
+1388430402757	Rename field 'label'
+1388430408617	Rename method 'updateDisplay'
+1388430415462	Rename method 'updateValue'
+1388431180062	Rename local variable 'b'
+1388431508891	Rename field 'valueLabel'
+1388431728323	Rename local variable 'nameBorder'
+1388431938871	Copy compilation unit
+1388432011688	Rename local variable 'name'
+1388432017215	Rename local variable 'widthInput'
+1388432021217	Rename local variable 'vorname'
+1388449304065	Rename type 'SizeInput'
+1388450064744	Copy compilation unit
+1388459120691	Rename field 'size'
+1388460050853	Rename local variable 'max'
+1388490280359	Rename field 'unit'

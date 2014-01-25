@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;PrismCreator&apos; to &apos;PrismModelCreator&apos;" description="Rename resource &apos;PrismCreator&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/PrismCreator" name="PrismModelCreator" stamp="1389455287368" updateReferences="true"/>
+</session>
