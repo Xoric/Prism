@@ -7,7 +7,9 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 
-import xoric.prism.creator.common.WorkingDirs;
+import xoric.prism.creator.common.view.INewDialog;
+import xoric.prism.creator.common.view.INewDialogCreator;
+import xoric.prism.creator.common.view.PrismCreatorCommonView;
 import xoric.prism.creator.models.control.IMainControl;
 import xoric.prism.creator.models.image.AnimationView;
 import xoric.prism.creator.models.image.IAnimationView;
@@ -16,37 +18,33 @@ import xoric.prism.creator.models.model.VariationList;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
-import xoric.prism.scene.IScene;
-import xoric.prism.swing.PrismFrame;
 import xoric.prism.world.animations.AnimationIndex;
 
-public class MainView extends PrismFrame implements IDrawerView, IAnimationEditor
+public class MainView extends PrismCreatorCommonView implements IMainView, IAnimationEditor, INewDialogCreator
 {
 	private static final long serialVersionUID = 1L;
 	private static final String title = "Prism Drawer";
 
-	private IScene scene;
 	private ModelModel model;
-	private IMainControl control;
+	//	private IMainControl control;
 
 	private ModelTable modelTable;
 	private PortraitPanel portraitPanel;
 	private AnimationList animationList;
 	private IAnimationView animationView;
 	private JPanel animationViewPanel;
-	private final MainMenuBar mainMenuBar;
+	private final ModelMenuBar mainMenuBar;
 
-	public MainView(IScene scene)
+	public MainView()
 	{
-		super(title, 640, 480, true);
+		super("model");
+		super.setDialogCreator(this);
 
 		GridBagLayout layout = new GridBagLayout();
 		this.setLayout(layout);
 
-		this.scene = scene;
-
 		// main menu
-		mainMenuBar = new MainMenuBar();
+		mainMenuBar = new ModelMenuBar();
 		setJMenuBar(mainMenuBar);
 
 		// model table
@@ -90,7 +88,7 @@ public class MainView extends PrismFrame implements IDrawerView, IAnimationEdito
 	public void setModel(ModelModel model)
 	{
 		this.model = model;
-		mainMenuBar.setModel(model);
+		this.mainMenuBar.setModel(model);
 	}
 
 	@Override
@@ -127,10 +125,7 @@ public class MainView extends PrismFrame implements IDrawerView, IAnimationEdito
 	@Override
 	public void displayPath(IPath_r path)
 	{
-		if (path != null)
-			this.setTitle(title + " - " + path.toString());
-		else
-			this.setTitle(title);
+		super.setExtendedTitle(path == null ? null : path.toString());
 	}
 
 	@Override
@@ -201,7 +196,7 @@ public class MainView extends PrismFrame implements IDrawerView, IAnimationEdito
 
 	public void setControl(IMainControl control)
 	{
-		this.control = control;
+		//		this.control = control;
 
 		// pass control to sub classes
 		this.modelTable.setControl(control);
@@ -209,18 +204,17 @@ public class MainView extends PrismFrame implements IDrawerView, IAnimationEdito
 		this.animationList.setControl(control);
 		this.animationView.setControl(control);
 		this.mainMenuBar.setControl(control);
+		this.setMainMenuListener(control);
 	}
 
 	public void start()
 	{
 		setVisible(true);
-
-		control.initialize();
 	}
 
 	@Override
-	public void displayRecentDirectories(WorkingDirs dirs)
+	public INewDialog createDialog()
 	{
-		mainMenuBar.displayRecentDirectories(dirs);
+		return new NewModelDialog();
 	}
 }

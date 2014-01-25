@@ -1,10 +1,11 @@
 package xoric.prism.creator.models.view;
 
+import xoric.prism.creator.common.view.INewDialogResult;
 import xoric.prism.data.types.Path;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
 
-public class NewModelData
+public class NewModelData implements INewDialogResult
 {
 	private final Text name;
 	private final Path path;
@@ -22,6 +23,7 @@ public class NewModelData
 		return name;
 	}
 
+	@Override
 	public Path getPath()
 	{
 		return path;

@@ -3,11 +3,13 @@ package xoric.prism.creator.models.control;
 import java.io.File;
 import java.util.List;
 
-import xoric.prism.creator.common.WorkingDirs;
+import javax.swing.JOptionPane;
+
 import xoric.prism.creator.models.model.AnimationModel;
 import xoric.prism.creator.models.model.ModelModel;
 import xoric.prism.creator.models.model.VariationList;
-import xoric.prism.creator.models.view.IDrawerView;
+import xoric.prism.creator.models.view.IMainView;
+import xoric.prism.creator.models.view.NewModelData;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
@@ -16,27 +18,20 @@ import xoric.prism.world.entities.ViewAngle;
 
 public class MainControl implements IMainControl, IBusyControl
 {
-	private IDrawerView view;
+	private IMainView view;
 	private ModelModel model;
-
-	private final ExternalImageEditor externalEditor;
-	private final WorkingDirs workingDirs;
 
 	private ModelControl modelControl;
 	private AnimationControl animationControl;
 	private SpriteControl spriteControl;
 
-	public MainControl(IDrawerView view)
+	public MainControl(IMainView view)
 	{
 		this.view = view;
-		//		this.model = new DrawerModel();
 
 		modelControl = new ModelControl(model, this);
 		animationControl = new AnimationControl(model, this);
 		spriteControl = new SpriteControl(model, this);
-
-		externalEditor = new ExternalImageEditor();
-		workingDirs = new WorkingDirs("models");
 
 		acceptModel(null, true);
 	}
@@ -65,49 +60,24 @@ public class MainControl implements IMainControl, IBusyControl
 	/* *********** model control ****************** */
 
 	@Override
-	public void requestNewModel()
+	public void requestCreateNewObject(Object data)
 	{
-		ModelModel m = modelControl.createNewModel();
+		NewModelData d = (NewModelData) data;
+		ModelModel m = modelControl.createNewModel(d);
 		acceptModel(m, false);
-
-		if (m != null)
-		{
-			workingDirs.addWorkingDirectory(m.getPath());
-			view.displayRecentDirectories(workingDirs);
-		}
 	}
 
 	@Override
-	public void requestOpenModel()
-	{
-		ModelModel m = modelControl.openModel();
-		acceptModel(m, false);
-
-		if (m != null)
-		{
-			workingDirs.addWorkingDirectory(m.getPath());
-			view.displayRecentDirectories(workingDirs);
-		}
-	}
-
-	@Override
-	public void requestOpenRecent(IPath_r path)
+	public void requestOpenObject(IPath_r path)
 	{
 		ModelModel m = modelControl.openModel(path);
 		acceptModel(m, false);
-
-		if (m != null)
-		{
-			workingDirs.addWorkingDirectory(m.getPath());
-			view.displayRecentDirectories(workingDirs);
-		}
 	}
 
 	@Override
-	public void requestCloseModel()
+	public void requestCloseObject()
 	{
-		if (modelControl.closeModel())
-			acceptModel(null, true);
+		acceptModel(null, true);
 	}
 
 	@Override
@@ -137,13 +107,13 @@ public class MainControl implements IMainControl, IBusyControl
 	}
 
 	@Override
-	public void requestGenerateAnimations()
+	public void requestCreateAnimations()
 	{
 		modelControl.generateAnimations(model);
 	}
 
 	@Override
-	public void requestExportModel()
+	public void requestCreateModel()
 	{
 		modelControl.exportModel(model);
 	}
@@ -165,7 +135,7 @@ public class MainControl implements IMainControl, IBusyControl
 	@Override
 	public void requestEditPortrait()
 	{
-		modelControl.editPortrait(model, externalEditor);
+		modelControl.editPortrait(model);
 		view.displayPortrait(model.getPath());
 	}
 
@@ -174,6 +144,12 @@ public class MainControl implements IMainControl, IBusyControl
 	{
 		modelControl.deletePortrait(model);
 		view.displayPortrait(model.getPath());
+	}
+
+	@Override
+	public void requestExit()
+	{
+		System.exit(0);
 	}
 
 	/* *********** animation control ****************** */
@@ -190,6 +166,9 @@ public class MainControl implements IMainControl, IBusyControl
 	public void requestDeleteAnimation(AnimationIndex a, int variation)
 	{
 		System.out.println("requestDeleteAnimation(" + a + ", variation=" + variation + ")");
+		JOptionPane.showConfirmDialog(null, "not yet implemented");
+		// TODO 
+		// implement
 
 		//		view.displayAnimation(animation, false);
 	}
@@ -200,7 +179,7 @@ public class MainControl implements IMainControl, IBusyControl
 		// TODO: move to ModelControl?
 		animationControl.setDuration(a, variation, ms);
 		view.displayCurrentAnimationDuration();
-		modelControl.saveModel(true);
+		modelControl.saveModel();
 	}
 
 	/* *********** sprite control ****************** */
@@ -268,7 +247,7 @@ public class MainControl implements IMainControl, IBusyControl
 	@Override
 	public void requestEditSprite(File file)
 	{
-		spriteControl.editSprite(file, externalEditor);
+		spriteControl.editSprite(file);
 	}
 
 	@Override
@@ -278,25 +257,5 @@ public class MainControl implements IMainControl, IBusyControl
 
 		// reload animation sprites
 		view.reloadCurrentAnimationFrames();
-	}
-
-	@Override
-	public void requestInputExternalImageEditor()
-	{
-		externalEditor.showInput();
-	}
-
-	@Override
-	public void initialize()
-	{
-		workingDirs.load();
-		view.displayRecentDirectories(workingDirs);
-	}
-
-	@Override
-	public void requestExit()
-	{
-		if (modelControl.closeModel())
-			System.exit(0);
 	}
 }

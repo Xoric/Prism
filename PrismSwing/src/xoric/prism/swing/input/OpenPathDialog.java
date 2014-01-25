@@ -44,14 +44,7 @@ public class OpenPathDialog implements ActionListener
 	public Path getResult()
 	{
 		Path path = new Path(pathField.getText());
-
 		return path;
-	}
-
-	public boolean show()
-	{
-		int n = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-		return n == JOptionPane.OK_OPTION;
 	}
 
 	@Override
@@ -65,5 +58,11 @@ public class OpenPathDialog implements ActionListener
 			if (path != null)
 				pathField.setText(path.toString());
 		}
+	}
+
+	public boolean showOpenPathDialog()
+	{
+		int n = JOptionPane.showConfirmDialog(null, message, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+		return n == JOptionPane.OK_OPTION;
 	}
 }

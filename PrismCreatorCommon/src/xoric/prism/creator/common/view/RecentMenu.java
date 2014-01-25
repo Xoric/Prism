@@ -7,8 +7,7 @@ import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import xoric.prism.creator.common.control.IRecentMenuListener;
-import xoric.prism.creator.common.tools.WorkingDirs;
+import xoric.prism.creator.common.control.IMainMenuListener;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Path;
 
@@ -16,26 +15,35 @@ public class RecentMenu extends JMenu implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 
-	private IRecentMenuListener control;
+	private final WorkingDirs workingDirs;
+	private IMainMenuListener control;
 
-	public RecentMenu()
+	public RecentMenu(String project)
 	{
 		super("Recent");
+		workingDirs = new WorkingDirs(project);
+		displayDirectories();
 	}
 
-	public void setControl(IRecentMenuListener control)
+	public void setControl(IMainMenuListener control)
 	{
 		this.control = control;
 	}
 
-	public void displayDirectories(WorkingDirs workingDirs)
+	public void addPath(IPath_r path)
+	{
+		workingDirs.addWorkingDirectory(path);
+		displayDirectories();
+	}
+
+	private void displayDirectories()
 	{
 		this.removeAll();
 
 		List<IPath_r> dirs = workingDirs.getDirectories();
 		int n = dirs.size();
-		if (n > 5)
-			n = 5;
+		if (n > 6)
+			n = 6;
 
 		for (int i = 0; i < n; ++i)
 		{
@@ -46,6 +54,7 @@ public class RecentMenu extends JMenu implements ActionListener
 			m.setActionCommand(s);
 			m.addActionListener(this);
 		}
+		this.setEnabled(n > 0);
 	}
 
 	@Override
@@ -54,6 +63,6 @@ public class RecentMenu extends JMenu implements ActionListener
 		String s = e.getActionCommand();
 
 		if (s != null && s.length() > 0)
-			control.requestOpenRecent(new Path(s));
+			control.requestOpenObject(new Path(s));
 	}
 }

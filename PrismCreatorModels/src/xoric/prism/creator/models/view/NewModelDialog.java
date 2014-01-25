@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import xoric.prism.creator.common.view.INewDialog;
 import xoric.prism.data.types.Path;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
@@ -26,7 +27,7 @@ import xoric.prism.swing.input.fields.PrismIntField;
 import xoric.prism.swing.input.fields.PrismTextField;
 import xoric.prism.swing.tooltips.ToolTipFormatter;
 
-public class NewModelDialog implements ActionListener, IInputListener
+public class NewModelDialog implements ActionListener, IInputListener, INewDialog
 {
 	private final JLabel nameLabel;
 	private final PrismTextField nameField;
@@ -137,6 +138,7 @@ public class NewModelDialog implements ActionListener, IInputListener
 		setPreview(tileSizeX, tileSizeY);
 	}
 
+	@Override
 	public NewModelData getResult()
 	{
 		Text name = new Text(nameField.getText());
@@ -160,12 +162,6 @@ public class NewModelDialog implements ActionListener, IInputListener
 		previewLabel.setPreferredSize(d);
 	}
 
-	public boolean show()
-	{
-		int n = JOptionPane.showConfirmDialog(null, message, "New Model", JOptionPane.OK_CANCEL_OPTION);
-		return n == JOptionPane.OK_OPTION;
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
@@ -186,5 +182,12 @@ public class NewModelDialog implements ActionListener, IInputListener
 		{
 			setPreview(widthField.getInt(), heightField.getInt());
 		}
+	}
+
+	@Override
+	public boolean showDialog()
+	{
+		int n = JOptionPane.showConfirmDialog(null, message, "New Model", JOptionPane.OK_CANCEL_OPTION);
+		return n == JOptionPane.OK_OPTION;
 	}
 }

@@ -29,7 +29,6 @@ public class ModelModel implements IPackable
 	private Text name;
 	private Path path;
 	private Point spriteSize;
-	private boolean hasChanges;
 	private VariationList[] list;
 
 	public ModelModel()
@@ -37,7 +36,6 @@ public class ModelModel implements IPackable
 		name = new Text("");
 		path = new Path("");
 		spriteSize = new Point();
-		hasChanges = false;
 		list = new VariationList[AnimationIndex.values().length];
 		init();
 	}
@@ -47,7 +45,6 @@ public class ModelModel implements IPackable
 		name = data.getName();
 		path = data.getPath();
 		spriteSize = data.getTileSize();
-		hasChanges = false;
 		list = new VariationList[AnimationIndex.values().length];
 		init();
 	}
@@ -55,10 +52,7 @@ public class ModelModel implements IPackable
 	public void init()
 	{
 		for (int i = 0; i < list.length; ++i)
-		{
 			list[i] = new VariationList(path, AnimationIndex.valueOf(i));
-			//			list[i] = new AnimationModel(path, AnimationIndex.valueOf(i));
-		}
 	}
 
 	public VariationList getAnimation(AnimationIndex a)
@@ -76,11 +70,6 @@ public class ModelModel implements IPackable
 		return path;
 	}
 
-	public boolean hasChanges()
-	{
-		return hasChanges;
-	}
-
 	public IText_r getName()
 	{
 		return name;
@@ -88,13 +77,11 @@ public class ModelModel implements IPackable
 
 	public void setName(IText_r name)
 	{
-		this.hasChanges = true;
 		this.name.set(name);
 	}
 
 	public void setSpriteSize(IPoint_r spriteSize)
 	{
-		this.hasChanges = true;
 		this.spriteSize.x = spriteSize.getX();
 		this.spriteSize.y = spriteSize.getY();
 	}
@@ -121,8 +108,6 @@ public class ModelModel implements IPackable
 			list[a.ordinal()] = l;
 		}
 		stream.close();
-
-		this.hasChanges = false;
 	}
 
 	public void save() throws PrismException
@@ -135,8 +120,6 @@ public class ModelModel implements IPackable
 			for (AnimationIndex a : AnimationIndex.values())
 				list[a.ordinal()].pack(stream);
 			stream.close();
-
-			this.hasChanges = false;
 		}
 		catch (Exception e0)
 		{

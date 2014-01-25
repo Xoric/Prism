@@ -14,6 +14,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import xoric.prism.creator.common.control.ExternalImageEditor;
 import xoric.prism.creator.models.model.ModelModel;
 import xoric.prism.creator.models.model.SpriteNames;
 import xoric.prism.data.exceptions.PrismException;
@@ -325,11 +326,6 @@ public class SpriteControl extends ControlLayer
 		while (b);
 	}
 
-	public void editSprite(File file, ExternalImageEditor externalEditor)
-	{
-		externalEditor.execute(file);
-	}
-
 	public void copySpriteToClipboard(IPath_r path, AnimationIndex a, int variation, ViewAngle v, int index)
 	{
 		String filename = SpriteNames.getFilename(a, variation, v, index);
@@ -471,5 +467,10 @@ public class SpriteControl extends ControlLayer
 			++i;
 		}
 		while (b);
+	}
+
+	public void editSprite(File file)
+	{
+		ExternalImageEditor.getInstance().execute(file);
 	}
 }

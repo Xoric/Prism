@@ -1,4 +1,4 @@
-package xoric.prism.creator.common.tools;
+package xoric.prism.creator.common.view;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,17 +8,18 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import xoric.prism.creator.common.tools.TempFile;
 import xoric.prism.data.tools.Common;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Path;
 
-public class WorkingDirs extends TempFile
+class WorkingDirs extends TempFile
 {
 	private final List<IPath_r> workingDirs;
 
-	public WorkingDirs(String project)
+	public WorkingDirs(String dataName)
 	{
-		super(Common.GAME_NAME.toLowerCase() + ".creator." + project.toLowerCase() + ".tmp");
+		super(Common.GAME_NAME.toLowerCase() + ".creator." + dataName.toLowerCase() + ".tmp");
 
 		workingDirs = new ArrayList<IPath_r>();
 	}

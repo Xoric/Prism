@@ -7,12 +7,12 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import xoric.prism.creator.common.control.ExternalImageEditor;
 import xoric.prism.creator.models.generators.AnimationsGenerator;
 import xoric.prism.creator.models.generators.ModelFilter;
 import xoric.prism.creator.models.generators.ModelGenerator;
 import xoric.prism.creator.models.model.ModelModel;
 import xoric.prism.creator.models.view.NewModelData;
-import xoric.prism.creator.models.view.NewModelDialog;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
@@ -30,85 +30,53 @@ public class ModelControl extends ControlLayer
 		super(model, busyControl);
 	}
 
-	private boolean askSaveChanges()
+	public boolean saveModel()
 	{
-		boolean isOK = model == null || !model.hasChanges();
+		boolean isOK;
+		busyControl.setBusy(true);
 
-		if (!isOK)
+		try
 		{
-			int result = JOptionPane.showConfirmDialog(null,
-					"The current model has unsaved changes. Would you like to save before closing?", "Save changes",
-					JOptionPane.YES_NO_CANCEL_OPTION);
-
-			if (result == 0) // 0: Yes, save changes
-			{
-				saveModel(false);
-			}
-			else
-			{
-				isOK = result == 1; // 1: No, discard | 2: Cancel
-			}
+			model.save();
+			isOK = true;
 		}
+		catch (PrismException e)
+		{
+			e.user.showMessage();
+			isOK = false;
+		}
+
+		busyControl.setBusy(false);
+
 		return isOK;
 	}
 
-	public boolean saveModel(boolean force)
-	{
-		boolean isOK = !model.hasChanges();
-
-		if (!isOK || force)
-		{
-			busyControl.setBusy(true);
-			try
-			{
-				model.save();
-				isOK = true;
-			}
-			catch (PrismException e)
-			{
-				e.user.showMessage();
-				isOK = false;
-			}
-			busyControl.setBusy(false);
-		}
-		return isOK;
-	}
-
-	public ModelModel createNewModel()
+	public ModelModel createNewModel(NewModelData data)
 	{
 		ModelModel newModel = null;
 
-		if (askSaveChanges())
+		busyControl.setBusy(true);
+
+		try
 		{
-			NewModelDialog d = new NewModelDialog();
-			boolean isOK = d.show();
-
-			if (isOK)
-			{
-				busyControl.setBusy(true);
-
-				try
-				{
-					NewModelData data = d.getResult();
-					newModel = new ModelModel(data);
-					newModel.preparePath();
-				}
-				catch (PrismException e)
-				{
-					newModel = null;
-					e.user.showMessage();
-				}
-
-				busyControl.setBusy(false);
-			}
+			newModel = new ModelModel(data);
+			newModel.preparePath();
 		}
+		catch (PrismException e)
+		{
+			newModel = null;
+			e.user.showMessage();
+		}
+
+		busyControl.setBusy(false);
+
 		return newModel;
 	}
 
 	public ModelModel openModel()
 	{
 		OpenPathDialog d = new OpenPathDialog("Open Model", "Please enter the working directory of the model you want to open.");
-		boolean b = d.show();
+		boolean b = d.showOpenPathDialog();
 		Path path = b ? d.getResult() : null;
 
 		ModelModel openedModel = null;
@@ -162,18 +130,13 @@ public class ModelControl extends ControlLayer
 		return openedModel;
 	}
 
-	public boolean closeModel()
-	{
-		return askSaveChanges();
-	}
-
 	public void setName(IText_r name)
 	{
 		boolean b = !model.getName().equals(name);
 		if (b)
 		{
 			model.setName(name);
-			saveModel(false);
+			saveModel();
 		}
 	}
 
@@ -222,7 +185,7 @@ public class ModelControl extends ControlLayer
 	public void setSpriteSize(IPoint_r spriteSize)
 	{
 		model.setSpriteSize(spriteSize);
-		saveModel(false);
+		saveModel();
 	}
 
 	public void generateAnimations(ModelModel model)
@@ -286,10 +249,10 @@ public class ModelControl extends ControlLayer
 		}
 	}
 
-	public void editPortrait(ModelModel model, ExternalImageEditor externalEditor)
+	public void editPortrait(ModelModel model)
 	{
 		File portraitFile = model.getPath().getFile("portrait.png");
-		externalEditor.execute(portraitFile);
+		ExternalImageEditor.getInstance().execute(portraitFile);
 	}
 
 	public void deletePortrait(ModelModel model)
