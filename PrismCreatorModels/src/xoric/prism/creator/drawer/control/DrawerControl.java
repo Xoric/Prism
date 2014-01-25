@@ -292,4 +292,11 @@ public class DrawerControl implements IDrawerControl, IBusyControl
 		workingDirs.load();
 		view.displayRecentDirectories(workingDirs);
 	}
+
+	@Override
+	public void requestExit()
+	{
+		if (modelControl.closeModel())
+			System.exit(0);
+	}
 }

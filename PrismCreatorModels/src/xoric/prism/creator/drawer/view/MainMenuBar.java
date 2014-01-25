@@ -111,6 +111,9 @@ public class MainMenuBar extends JMenuBar implements ActionListener
 
 		else if (o == menuItemExternalEditor)
 			control.requestInputExternalImageEditor();
+
+		else if (o == menuItemExit)
+			control.requestExit();
 	}
 
 	public void setModel(DrawerModel model)
