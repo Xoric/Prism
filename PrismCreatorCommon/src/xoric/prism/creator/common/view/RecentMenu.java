@@ -1,4 +1,4 @@
-package xoric.prism.creator.common;
+package xoric.prism.creator.common.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +7,8 @@ import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import xoric.prism.creator.common.control.IRecentMenuListener;
+import xoric.prism.creator.common.tools.WorkingDirs;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Path;
 

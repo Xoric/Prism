@@ -1,4 +1,4 @@
-package xoric.prism.creator.common;
+package xoric.prism.creator.common.tools;
 
 import java.io.File;
 import java.io.FileInputStream;

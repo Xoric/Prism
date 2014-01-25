@@ -1,4 +1,4 @@
-package xoric.prism.creator.common;
+package xoric.prism.creator.common.control;
 
 import xoric.prism.data.types.IPath_r;
 
