@@ -72,7 +72,7 @@ public class ExternalImageEditor extends TempFile
 	{
 		loadFileIfNotYetDone();
 
-		PrismFileDialog d = new PrismFileDialog("Select program", "Select an external image editing program in order to edit sprites.");
+		PrismFileDialog d = new PrismFileDialog("Select program", "Select an external image editor for editing sprites.");
 		d.setDefaultFile(programFile);
 		boolean b = d.showOpenDialog();
 

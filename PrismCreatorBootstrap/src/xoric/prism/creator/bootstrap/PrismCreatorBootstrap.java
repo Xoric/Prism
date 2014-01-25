@@ -27,7 +27,7 @@ public class PrismCreatorBootstrap
 			PrismDataLoader.loadAll();
 			PrismWorldLoader.loadAll(true);
 
-			// setup Drawer
+			// setup ModelCreator
 			view = new MainView();
 			control = new MainControl(view);
 			view.setControl(control);
