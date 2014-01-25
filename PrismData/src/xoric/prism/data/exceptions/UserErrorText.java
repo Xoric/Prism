@@ -12,7 +12,10 @@ public enum UserErrorText
 	SHADER_PROBLEM("There was a problem with a shader."),
 	FILE_NOT_FOUND("File not found."),
 	COMMUNICATION_ERROR("There was a problem with the communication between client and server."),
-	PASSWORD_HASH("There was an error trying to encrypt your password. Your login attempt was therefore aborted.");
+	PASSWORD_HASH("There was an error trying to encrypt your password. Your login attempt was therefore aborted."),
+	ACCOUNT_COULD_NOT_BE_CREATED("Account could not be created."),
+	ACCOUNT_ALREADY_EXISTS("This account name already exists."),
+	ACCOUNT_LOGIN_FAILED("Login failed.");
 
 	private final String text;
 
