@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import xoric.prism.creator.common.control.ExternalImageEditor;
+import xoric.prism.creator.common.tools.ExternalImageEditor;
 
 public class ToolsMenu extends JMenu implements ActionListener
 {

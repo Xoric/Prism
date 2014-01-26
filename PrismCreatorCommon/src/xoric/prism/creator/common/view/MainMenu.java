@@ -11,7 +11,7 @@ import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Path;
 import xoric.prism.swing.input.OpenPathDialog;
 
-public class MainMenu extends JMenu implements ActionListener
+public class MainMenu extends JMenu implements ActionListener, INewDialogCreator
 {
 	private static final long serialVersionUID = 1L;
 
@@ -30,6 +30,7 @@ public class MainMenu extends JMenu implements ActionListener
 	{
 		super(dataName.substring(0, 1).toUpperCase() + dataName.substring(1));
 		this.dataName = dataName;
+		this.dialogCreator = this;
 
 		menuItemNew = createMenuItem("New");
 		addSeparator();
@@ -116,5 +117,11 @@ public class MainMenu extends JMenu implements ActionListener
 	{
 		menuCreate.setEnabled(!isModelObjectNull);
 		menuItemClose.setEnabled(!isModelObjectNull);
+	}
+
+	@Override
+	public INewDialog createDialog()
+	{
+		return new DefaultNewDialog(dataName);
 	}
 }

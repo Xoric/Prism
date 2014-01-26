@@ -1,4 +1,4 @@
-package xoric.prism.creator.common.control;
+package xoric.prism.creator.common.tools;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
-import xoric.prism.creator.common.tools.TempFile;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.tools.Common;
 import xoric.prism.swing.input.PrismFileDialog;
@@ -72,9 +71,9 @@ public class ExternalImageEditor extends TempFile
 	{
 		loadFileIfNotYetDone();
 
-		PrismFileDialog d = new PrismFileDialog("Select program", "Select an external image editor for editing sprites.");
+		PrismFileDialog d = new PrismFileDialog("Choose Image Editor", "Please choose an external image editor for editing sprites.");
 		d.setDefaultFile(programFile);
-		boolean b = d.showOpenDialog();
+		boolean b = d.showOpenDialog("Choose");
 
 		if (b)
 		{
