@@ -19,8 +19,8 @@ import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.meta.MetaKey;
 import xoric.prism.data.meta.MetaLine;
 import xoric.prism.data.meta.MetaList;
-import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.meta.MetaTimeStamp;
+import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.tools.Common;
 import xoric.prism.data.types.IPath_r;
 
@@ -62,7 +62,6 @@ class MetaContentPanel extends JPanel
 			label2.setText(e.code.toString());
 			list.removeAll();
 		}
-
 	}
 
 	private static String extractTargetFilename(IPath_r resPath) throws PrismException

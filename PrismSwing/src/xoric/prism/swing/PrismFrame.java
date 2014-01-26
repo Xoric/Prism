@@ -32,10 +32,8 @@ public class PrismFrame extends JFrame
 
 	private void init(String title, int width, int height, boolean exitOnClose)
 	{
-		// set frame title
+		// initialize frame
 		this.setTitle(title);
-
-		// set frame size
 		this.setSize(width, height);
 
 		// set default close operation
@@ -46,7 +44,7 @@ public class PrismFrame extends JFrame
 	public void centerOnScreen()
 	{
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 + 30);
 	}
 
 	private void centerOnParent(int x, int y, int width, int height)

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="xoric.prism.data.meta.MetaLine"/>
 <fullyQualifiedTypeName name="xoric.prism.data.exceptions.IExceptionHost"/>
 <fullyQualifiedTypeName name="xoric.prism.world.entities.ViewAngle"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.Point"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.custom.control.ISpriteCollectionControl"/>
 <fullyQualifiedTypeName name="xoric.prism.global.PrismGlobal"/>
+<fullyQualifiedTypeName name="xoric.prism.develop.meta.MetaFileCreator"/>
 </qualifiedTypeNameHistroy>
