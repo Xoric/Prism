@@ -1,0 +1,13 @@
+package xoric.prism.creator.custom.model;
+
+import java.util.ArrayList;
+
+public class SpriteCollectionModel
+{
+	private final List<SpriteModel> list;
+
+	public SpriteCollectionModel()
+	{
+		list = new ArrayList<SpriteModel>();
+	}
+}

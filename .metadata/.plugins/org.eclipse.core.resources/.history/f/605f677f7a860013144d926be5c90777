@@ -1,0 +1,8 @@
+package xoric.prism.creator.common.view;
+
+import xoric.prism.swing.input.OpenPathDialog;
+
+public class DefaultNewDialog extends OpenPathDialog implements INewDialog
+{
+
+}

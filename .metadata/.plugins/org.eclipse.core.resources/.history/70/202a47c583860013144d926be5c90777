@@ -1,0 +1,11 @@
+package xoric.prism.creator.custom.model;
+
+public class SpriteModel
+{
+	private String filename;
+
+	public String getFilename()
+	{
+		return filename;
+	}
+}

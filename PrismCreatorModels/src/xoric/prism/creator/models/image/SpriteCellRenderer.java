@@ -44,11 +44,12 @@ class SpriteCellRenderer extends JPanel implements ListCellRenderer<SpriteCell>
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList list, SpriteCell cell, int index, boolean isSelected, boolean hasFocus)
+	public Component getListCellRendererComponent(@SuppressWarnings("rawtypes") JList list, SpriteCell cell, int index, boolean isSelected,
+			boolean hasFocus)
 	{
 		iconLabel.setIcon(cell.getIcon());
 		nameLabel.setText(cell.getFrameName());
-		fileLabel.setText(cell.getFileName());
+		fileLabel.setText(cell.getFilename());
 
 		setBackground(isSelected ? Color.lightGray : list.getBackground());
 

@@ -1,0 +1,27 @@
+package xoric.prism.creator.common.view;
+
+import xoric.prism.data.types.IPath_r;
+import xoric.prism.swing.input.OpenPathDialog;
+
+public class DefaultNewDialog implements INewDialog
+{
+	private final OpenPathDialog dialog;
+
+	public DefaultNewDialog(String title, String caption)
+	{
+		dialog = new OpenPathDialog(title, caption);
+	}
+
+	@Override
+	public boolean showDialog()
+	{
+		return dialog.showOpenPathDialog();
+	}
+
+	@Override
+	public INewDialogResult getResult()
+	{
+		IPath_r path = dialog.getResult();
+		return new INewDialogResult(public IPath getPath());
+	}
+}

@@ -27,7 +27,7 @@ public abstract class SpriteCell
 		return icon;
 	}
 
-	public String getFileName()
+	public String getFilename()
 	{
 		return filename;
 	}

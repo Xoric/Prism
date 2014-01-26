@@ -1,0 +1,33 @@
+package xoric.prism.creator.custom.view;
+
+import java.awt.GridBagLayout;
+
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+
+import xoric.prism.creator.common.view.PrismCreatorCommonView;
+
+public class CustomView extends PrismCreatorCommonView implements INewDialogCreator
+{
+	private static final long serialVersionUID = 1L;
+
+	private final JLabel imageLabel;
+	private final JScrollPane scroll;
+
+	public CustomView()
+	{
+		super("SpriteCollection");
+		setLayout(new GridBagLayout());
+
+		imageLabel = new JLabel("Test");
+		scroll = new JScrollPane(imageLabel);
+
+		add(scroll);
+	}
+
+	public static void main(String[] args)
+	{
+		CustomView v = new CustomView();
+		v.setVisible(true);
+	}
+}

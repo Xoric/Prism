@@ -1,0 +1,28 @@
+package xoric.prism.creator.custom.view;
+
+import java.awt.GridBagLayout;
+
+import xoric.prism.creator.common.view.PrismCreatorCommonView;
+
+public class SpriteCollectionView extends PrismCreatorCommonView implements ISpriteCollectionView
+{
+	private static final long serialVersionUID = 1L;
+
+	private final SpriteList list;
+
+	public SpriteCollectionView()
+	{
+		super("SpriteCollection");
+		super.setLayout(new GridBagLayout());
+
+		list = new SpriteList();
+
+		add(list);
+	}
+
+	public static void main(String[] args)
+	{
+		SpriteCollectionView v = new SpriteCollectionView();
+		v.setVisible(true);
+	}
+}

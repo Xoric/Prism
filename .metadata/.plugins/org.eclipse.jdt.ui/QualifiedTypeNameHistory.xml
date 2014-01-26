@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="xoric.prism.data.meta.MetaLine"/>
 <fullyQualifiedTypeName name="xoric.prism.data.exceptions.IExceptionHost"/>
 <fullyQualifiedTypeName name="xoric.prism.world.entities.ViewAngle"/>
@@ -11,7 +10,6 @@
 <fullyQualifiedTypeName name="org.lwjgl.opengl.GL20"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.PrismColor"/>
 <fullyQualifiedTypeName name="org.lwjgl.BufferUtils"/>
-<fullyQualifiedTypeName name="xoric.prism.global.PrismGlobal"/>
 <fullyQualifiedTypeName name="xoric.prism.data.PrismDataLoader"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.IPath_r"/>
 <fullyQualifiedTypeName name="xoric.prism.data.meta.AttachmentLoader"/>
@@ -45,7 +43,6 @@
 <fullyQualifiedTypeName name="xoric.prism.com.PrismCommunicationLoader"/>
 <fullyQualifiedTypeName name="xoric.prism.data.meta.MetaKey"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.Heap"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="com.mongodb.MongoClient"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.IText_r"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
@@ -60,4 +57,7 @@
 <fullyQualifiedTypeName name="xoric.prism.data.types.Path"/>
 <fullyQualifiedTypeName name="xoric.prism.data.tools.Common"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="xoric.prism.creator.custom.control.ISpriteCollectionControl"/>
+<fullyQualifiedTypeName name="xoric.prism.global.PrismGlobal"/>
 </qualifiedTypeNameHistroy>

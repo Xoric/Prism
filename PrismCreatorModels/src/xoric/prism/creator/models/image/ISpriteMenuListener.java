@@ -18,5 +18,5 @@ public interface ISpriteMenuListener
 
 	public void requestMakeTransparent();
 
-	public void requestReloadSprite();
+	public void requestReloadSprites();
 }

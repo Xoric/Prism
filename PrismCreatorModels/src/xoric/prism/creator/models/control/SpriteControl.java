@@ -14,7 +14,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import xoric.prism.creator.common.control.ExternalImageEditor;
+import xoric.prism.creator.common.tools.ExternalImageEditor;
 import xoric.prism.creator.models.model.ModelModel;
 import xoric.prism.creator.models.model.SpriteNames;
 import xoric.prism.data.exceptions.PrismException;

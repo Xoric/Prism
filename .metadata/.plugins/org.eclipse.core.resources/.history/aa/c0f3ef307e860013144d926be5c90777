@@ -1,0 +1,6 @@
+package xoric.prism.creator.custom.control;
+
+public class SpriteCollectionControl implements IMainMenuListener
+{
+
+}

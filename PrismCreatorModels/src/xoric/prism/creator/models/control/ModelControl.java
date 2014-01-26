@@ -7,7 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import xoric.prism.creator.common.control.ExternalImageEditor;
+import xoric.prism.creator.common.tools.ExternalImageEditor;
 import xoric.prism.creator.models.generators.AnimationsGenerator;
 import xoric.prism.creator.models.generators.ModelFilter;
 import xoric.prism.creator.models.generators.ModelGenerator;
@@ -226,8 +226,8 @@ public class ModelControl extends ControlLayer
 
 	public void importPortrait(ModelModel model)
 	{
-		PrismFileDialog p = new PrismFileDialog("Import portrait", "Select an image that you want to use as portrait.");
-		boolean b = p.showOpenDialog();
+		PrismFileDialog p = new PrismFileDialog("Import Portrait", "Select an image that you want to use as portrait.");
+		boolean b = p.showOpenDialog("Import");
 
 		if (b)
 		{

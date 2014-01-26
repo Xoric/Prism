@@ -60,21 +60,21 @@ public class PrismFileDialog implements ActionListener
 		fileChooser.setFileFilter(filter);
 	}
 
-	public boolean showOpenDialog()
+	public boolean showSaveDialog(String buttonCaption)
 	{
-		isSaveDialog = false;
-		return show();
+		this.isSaveDialog = true;
+		return showDialog(buttonCaption);
 	}
 
-	public boolean showSaveDialog()
+	public boolean showOpenDialog(String buttonCaption)
 	{
-		isSaveDialog = true;
-		return show();
+		this.isSaveDialog = false;
+		return showDialog(buttonCaption);
 	}
 
-	private boolean show()
+	private boolean showDialog(String buttonCaption)
 	{
-		options[0] = isSaveDialog ? "Save" : "Open";
+		options[0] = buttonCaption;
 
 		int n = JOptionPane.showOptionDialog(null, message, title, JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
 				options, options[0]);

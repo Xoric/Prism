@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="res/icons.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismPublicDevelop"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismCreatorCommon"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PrismGlobal"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -99,7 +99,7 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 		this.variation = variation;
 		this.viewAngle = v;
 
-		requestReloadSprite();
+		requestReloadSprites();
 	}
 
 	private List<Integer> getValidSelectedIndices()
@@ -187,7 +187,7 @@ public class SpriteList extends JPanel implements MouseListener, ActionListener,
 	}
 
 	@Override
-	public void requestReloadSprite()
+	public void requestReloadSprites()
 	{
 		if (animationModel == null)
 			return;

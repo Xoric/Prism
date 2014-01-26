@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import xoric.prism.creator.common.view.INewDialogResult;
 import xoric.prism.creator.models.model.AnimationModel;
 import xoric.prism.creator.models.model.ModelModel;
 import xoric.prism.creator.models.model.VariationList;
@@ -60,9 +61,9 @@ public class MainControl implements IMainControl, IBusyControl
 	/* *********** model control ****************** */
 
 	@Override
-	public void requestCreateNewObject(Object data)
+	public void requestCreateNewObject(INewDialogResult result)
 	{
-		NewModelData d = (NewModelData) data;
+		NewModelData d = (NewModelData) result;
 		ModelModel m = modelControl.createNewModel(d);
 		acceptModel(m, false);
 	}

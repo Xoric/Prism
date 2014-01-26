@@ -1,0 +1,40 @@
+package xoric.prism.creator.custom.model;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import xoric.prism.data.types.IPath_r;
+
+public class SpriteCollectionModel
+{
+	private final IPath_r path;
+	private final List<SpriteModel> list;
+
+	public SpriteCollectionModel(IPath_r path)
+	{
+		this.path = path;
+		this.list = new ArrayList<SpriteModel>();
+	}
+
+	public void load()
+	{
+		list.clear();
+
+		int i = 0;
+		boolean b;
+		do
+		{
+			String filename = "sprite." + i + ".png";
+			File f = path.getFile(filename);
+			b = f.exists();
+
+			if (b)
+			{
+				SpriteModel m = new SpriteModel(filename);
+				list.add(m);
+			}
+		}
+		while (b);
+	}
+}

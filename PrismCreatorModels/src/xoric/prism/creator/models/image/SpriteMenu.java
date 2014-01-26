@@ -82,6 +82,6 @@ public class SpriteMenu extends JPopupMenu implements ActionListener
 		else if (o == makeTransparentItem)
 			listener.requestMakeTransparent();
 		else if (o == reloadItem)
-			listener.requestReloadSprite();
+			listener.requestReloadSprites();
 	}
 }
