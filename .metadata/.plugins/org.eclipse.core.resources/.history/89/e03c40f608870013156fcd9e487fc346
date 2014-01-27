@@ -1,0 +1,19 @@
+package xoric.prism.creator.common.spritelist.control;
+
+public class SimpleSpriteNameGenerator implements ISpriteNameGenerator
+{
+	private final String prefix;
+	private final String suffix;
+
+	public SimpleSpriteNameGenerator(String prefix, String suffix)
+	{
+		this.prefix = prefix;
+		this.suffix = suffix;
+	}
+
+	@Override
+	public String getFilename(int index)
+	{
+		return prefix + index + suffix + ".png";
+	}
+}

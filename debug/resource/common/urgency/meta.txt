@@ -1,0 +1,10 @@
+#URGENCY#0
+% urgency of messages
+item:0;35;400
+
+
+#DEVELOP#0
+target:common/urgency.meta
+
+
+

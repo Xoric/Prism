@@ -91,4 +91,9 @@ public class VariationList implements IPackable
 	{
 		this.isUnlocked = true;
 	}
+
+	public IPath_r getPath()
+	{
+		return path;
+	}
 }

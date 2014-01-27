@@ -1,0 +1,13 @@
+package xoric.prism.creator.custom.control;
+
+import xoric.prism.creator.common.view.INewDialogResult;
+import xoric.prism.creator.custom.model.SpriteCollectionModel;
+
+public abstract class ModelController
+{
+	public static SpriteCollectionModel createNewModel(INewDialogResult result)
+	{
+		SpriteCollectionModel model = new SpriteCollectionModel(result.getPath());
+		model.load();
+	}
+}

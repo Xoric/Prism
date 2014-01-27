@@ -1,0 +1,14 @@
+package xoric.prism.creator.models.model;
+
+import xoric.prism.creator.common.spritelist.control.DefaultSpriteNameGenerator;
+import xoric.prism.data.types.IPath_r;
+import xoric.prism.world.animations.AnimationIndex;
+import xoric.prism.world.entities.ViewAngle;
+
+public class AnimationSpriteNameGenerator extends DefaultSpriteNameGenerator
+{
+	private final String prefix;
+	{
+		super(path,a.toString().toLowerCase() + ".var" + variation + "." + v.toString().toLowerCase() + ".",".png");
+	}
+}

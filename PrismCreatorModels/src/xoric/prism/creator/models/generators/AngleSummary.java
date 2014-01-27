@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import xoric.prism.creator.models.model.SpriteNames;
+import xoric.prism.creator.models.image.AnimationSpriteNameGenerator;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.world.animations.AnimationIndex;
 import xoric.prism.world.entities.ViewAngle;
@@ -33,7 +33,7 @@ class AngleSummary
 
 		do
 		{
-			String filename = SpriteNames.getFilename(animationIndex, variation, viewAngle, n);
+			String filename = AnimationSpriteNameGenerator.getFilename(animationIndex, variation, viewAngle, n);
 			File file = path.getFile(filename);
 			b = file.exists();
 

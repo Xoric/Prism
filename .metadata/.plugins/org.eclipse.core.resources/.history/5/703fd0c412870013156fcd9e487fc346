@@ -1,0 +1,12 @@
+package xoric.prism.creator.custom.control;
+
+public abstract class ObjectControl
+{
+public void addObject()
+{
+	
+}public void deleteObject()
+{
+	
+}
+}

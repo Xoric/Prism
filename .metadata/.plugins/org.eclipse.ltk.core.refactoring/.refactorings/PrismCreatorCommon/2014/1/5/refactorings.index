@@ -1,0 +1,25 @@
+1390795772631	Rename type 'SpriteNameGenerator'
+1390795878122	Rename type 'SimpleSpriteNameGenerator'
+1390795882666	Delete element
+1390796221465	Delete element
+1390796226006	Delete element
+1390796289657	Rename method 'setSpriteSize'
+1390796293437	Rename local variable 'spriteSize'
+1390796296251	Rename field 'spriteSize'
+1390800025115	Move compilation unit
+1390803415002	Rename method 'cloneSprite'
+1390803524913	Rename local variable 'file'
+1390803692165	Rename method 'requestInsertSprite'
+1390803793027	Rename method 'createSprite'
+1390803993034	Rename field 'iconSize'
+1390803998041	Rename field 'spriteSize'
+1390804003915	Rename method 'setIconSize'
+1390804748829	Rename local variable 'lowest'
+1390804916239	Rename local variable 'file'
+1390805646750	Rename type 'SpriteNameGenerator'
+1390805650122	Rename type 'SimpleSpriteNameGenerator'
+1390805654263	Rename type 'AbstractSpriteNameGenerator'
+1390806244482	Delete element
+1390809938824	Rename field 'iconSize'
+1390809942496	Rename field 'spriteSize'
+1390809990951	Rename local variable 'iconSize'

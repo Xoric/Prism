@@ -1,0 +1,11 @@
+package xoric.prism.creator.common.spritelist.view;
+
+import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
+import xoric.prism.data.types.IPoint_r;
+
+public interface ISpriteList
+{
+	public void setIconSize(IPoint_r tileSize);
+
+	public void loadAndDisplaySprites(SpriteNameGenerator spriteNameGenerator);
+}

@@ -1,0 +1,9 @@
+package xoric.prism.swing;
+
+public abstract class PrismSwing
+{
+public static JScrollPane createScrollPane()
+{
+	JScrollPane s = new JScrollPane();
+}
+}

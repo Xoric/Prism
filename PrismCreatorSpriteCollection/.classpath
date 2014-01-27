@@ -6,5 +6,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismSwing"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismData"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismGlobal"/>
+	<classpathentry kind="lib" path="/PrismCreatorCommon/res/icons.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

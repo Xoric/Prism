@@ -1,0 +1,10 @@
+package xoric.prism.creator.custom.control;
+
+import java.util.List;
+
+public interface IObjectControl
+{
+	public void requestAddObject();
+
+	public void requestDeleteObjects(List<Integer> );
+}

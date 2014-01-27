@@ -9,5 +9,9 @@ public interface ISpriteCollectionView
 
 	public void setModel(SpriteCollectionModel model);
 
-	public void displaySprites();
+	public void displayAll();
+
+	public void displayObjects();
+
+	public void displayObject();
 }

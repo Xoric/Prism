@@ -43,7 +43,7 @@ public class MainView extends PrismCreatorCommonView implements IMainView, IAnim
 		this.setLayout(layout);
 
 		// main menu
-		mainMenuBar = new ModelMenuBar();
+		mainMenuBar = new ModelMenuBar(this);
 		setJMenuBar(mainMenuBar);
 
 		// model table

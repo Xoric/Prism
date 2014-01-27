@@ -1,0 +1,22 @@
+package xoric.prism.creator.custom.control;
+
+import xoric.prism.creator.custom.model.ObjectModel;
+import xoric.prism.swing.input.PrismTextDialog;
+
+public abstract class ObjectControl
+{
+	public static ObjectModel addObject()
+	{
+		Text name = PrismTextDialog.getInstance().showDialog("New Object", "Object name (optional)", "NEW OBJECT");
+		
+		if (name = null)
+		{
+			
+		}
+	}
+
+	public static void deleteObject(int[] indices)
+	{
+
+	}
+}

@@ -1,0 +1,5 @@
+package xoric.prism.creator.common.spritelist.control;
+
+public interface ISpriteListControl
+{
+}

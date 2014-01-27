@@ -1,0 +1,14 @@
+package xoric.prism.swing;
+
+import javax.swing.JScrollPane;
+
+public abstract class PrismSwing
+{
+	public static JScrollPane createScrollPane()
+	{
+		JScrollPane s = new JScrollPane();
+		s.getVerticalScrollBar().setUnitIncrement(16);
+		s.getHorizontalScrollBar().setUnitIncrement(16);
+		return s;
+	}
+}

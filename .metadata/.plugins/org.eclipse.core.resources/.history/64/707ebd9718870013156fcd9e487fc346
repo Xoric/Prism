@@ -1,0 +1,159 @@
+package xoric.prism.creator.custom.view;
+
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import xoric.prism.creator.custom.control.IObjectControl;
+import xoric.prism.creator.custom.model.ObjectModel;
+import xoric.prism.creator.custom.model.SpriteCollectionModel;
+import xoric.prism.data.types.IText_r;
+import xoric.prism.swing.tooltips.ToolTipFormatter;
+
+public class ObjectList extends JPanel implements ActionListener, IObjectList, ListSelectionListener
+{
+	private static final long serialVersionUID = 1L;
+
+	private IObjectControl control;
+	private SpriteCollectionModel model;
+
+	private final JList<IText_r> list;
+	private final JButton addButton;
+	private final JButton deleteButton;
+
+	public ObjectList()
+	{
+		super(new GridBagLayout());
+
+		list = new JList<IText_r>();
+		list.addListSelectionListener(this);
+		JScrollPane scroll = new JScrollPane(list);
+
+		addButton = createButton("Add", "icons/add.png", "Click here to add this animation.");
+		deleteButton = createButton("Delete", "icons/del.png", "Click here to delete this animation.");
+
+		JPanel buttonPanel = new JPanel(new FlowLayout());
+		buttonPanel.add(addButton);
+		buttonPanel.add(deleteButton);
+
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(
+				0, 0, 0, 0), 0, 0);
+		add(scroll, c);
+		c = new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+		add(buttonPanel, c);
+
+		enableDeleteButton();
+	}
+
+	private void enableDeleteButton()
+	{
+		int n = list.getSelectedIndices().length;
+		deleteButton.setEnabled(n > 0);
+	}
+
+	private JButton createButton(String s, String icon, String tooltip)
+	{
+		JButton b = new JButton();
+		b.addActionListener(this);
+		boolean hasIcon = false;
+		try
+		{
+			if (icon != null && icon.length() > 0)
+			{
+				Image img = ImageIO.read(ClassLoader.getSystemResource(icon));
+				ImageIcon icn = new ImageIcon(img);
+				b.setIcon(icn);
+				Dimension d = new Dimension(icn.getIconWidth() + 8, icn.getIconHeight() + 8);
+				b.setPreferredSize(d);
+				b.setMinimumSize(d);
+				b.setMaximumSize(d);
+				b.setToolTipText(ToolTipFormatter.split(tooltip));
+				hasIcon = true;
+			}
+		}
+		catch (Exception e)
+		{
+		}
+		if (!hasIcon)
+			b.setText(s);
+
+		return b;
+	}
+
+	private List<Integer> getValidSelectedIndices()
+	{
+		List<Integer> indices = new ArrayList<Integer>();
+
+		for (int i : list.getSelectedIndices())
+			if (i >= 0 && i < list.getModel().getSize() - 1)
+				indices.add(i);
+
+		return indices;
+	}
+
+	private boolean isValidIndex(int index)
+	{
+		return index >= 0 && index < list.getModel().getSize();
+	}
+
+	@Override
+	public void setControl(IObjectControl control)
+	{
+		this.control = control;
+	}
+
+	@Override
+	public void setModel(SpriteCollectionModel model)
+	{
+		this.model = model;
+	}
+
+	@Override
+	public void displayObjects()
+	{
+		DefaultListModel<IText_r> model = new DefaultListModel<IText_r>();
+
+		if (this.model != null)
+			for (ObjectModel m : this.model.getObjects())
+				model.addElement(m.getName());
+
+		list.setModel(model);
+		enableDeleteButton();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		Object o = e.getSource();
+
+		if (o == addButton)
+			control.requestAddObject();
+		else
+			control.requestDeleteObjects(getValidSelectedIndices());
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e)
+	{
+		System.out.print(e.getValueIsAdjusting() + " .. ");
+		int index = e.getFirstIndex();
+		System.out.println(index);
+	}
+}

@@ -1,0 +1,92 @@
+package xoric.prism.creator.custom.model;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.types.IPackable;
+import xoric.prism.data.types.IPath_r;
+import xoric.prism.data.types.IntPacker;
+
+public class SpriteCollectionModel implements IPackable
+{
+	private final IPath_r path;
+	private final List<ObjectModel> objects;
+
+	public SpriteCollectionModel(IPath_r path)
+	{
+		this.path = path;
+		this.objects = new ArrayList<ObjectModel>();
+	}
+
+	public void load() throws IOException, PrismException
+	{
+		FileInputStream stream = new FileInputStream(path.getFile("objects.meta"));
+		unpack(stream);
+		stream.close();
+	}
+
+	public void save() throws IOException
+	{
+		FileOutputStream stream = new FileOutputStream(path.getFile("objects.meta"));
+		pack(stream);
+		stream.close();
+	}
+
+	public void addObject(ObjectModel m)
+	{
+		for (ObjectModel o : objects)
+			if (o.getName().equals(m.getName()))return;
+		
+		objects.add(m);
+	}
+
+	public IPath_r getPath()
+	{
+		return path;
+	}
+
+	public int getCount()
+	{
+		return objects.size();
+	}
+
+	public ObjectModel getModel(int index)
+	{
+		return objects.get(index);
+	}
+
+	public List<ObjectModel> getModels()
+	{
+		return objects;
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException, PrismException
+	{
+		int n = IntPacker.unpack_s(stream);
+
+		objects.clear();
+		for (int i = 0; i < n; ++i)
+		{
+			ObjectModel m = new ObjectModel();
+			m.unpack(stream);
+			objects.add(m);
+		}
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException
+	{
+		int n = objects.size();
+		IntPacker.pack_s(stream, n);
+
+		for (ObjectModel m : objects)
+			m.pack(stream);
+	}
+}

@@ -47,6 +47,8 @@ public class PrismFileDialog implements ActionListener
 		filePanel.add(BorderLayout.CENTER, fileField);
 		filePanel.add(BorderLayout.EAST, fileButton);
 
+		fileField.addAncestorListener(new RequestFocusListener());
+
 		message = new Object[] { null, null, filePanel0, filePanel };
 	}
 

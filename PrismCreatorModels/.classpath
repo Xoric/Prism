@@ -6,9 +6,9 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismSceneBase"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismSwing"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismWorld"/>
-	<classpathentry kind="lib" path="res/icons.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismPublicDevelop"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismCreatorCommon"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismGlobal"/>
+	<classpathentry kind="lib" path="/PrismCreatorCommon/res/icons.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

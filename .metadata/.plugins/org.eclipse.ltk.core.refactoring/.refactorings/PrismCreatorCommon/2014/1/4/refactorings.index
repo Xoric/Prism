@@ -21,3 +21,6 @@
 1390660945885	Rename method 'enableCloseMenuItem'
 1390660953391	Rename local variable 'b'
 1390735518663	Move compilation unit
+1390758183730	Rename type 'ISpriteHost'
+1390759155453	Rename type 'ISpriteListControl'
+1390759566487	Delete element

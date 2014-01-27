@@ -1,0 +1,13 @@
+package xoric.prism.creator.models.model;
+
+import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
+import xoric.prism.world.animations.AnimationIndex;
+import xoric.prism.world.entities.ViewAngle;
+
+public class AnimationSpriteNameGenerator extends SpriteNameGenerator
+{
+	public static String getFilename(AnimationIndex a, int variation, ViewAngle v, int index)
+	{
+		return a.toString().toLowerCase() + ".var" + variation + "." + v.toString().toLowerCase() + "." + index + ".png";
+	}
+}

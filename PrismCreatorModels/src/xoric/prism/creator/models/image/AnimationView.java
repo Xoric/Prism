@@ -14,12 +14,16 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
+import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
+import xoric.prism.creator.common.spritelist.view.ISpriteList;
+import xoric.prism.creator.common.spritelist.view.SpriteList;
 import xoric.prism.creator.models.control.IMainControl;
 import xoric.prism.creator.models.model.AnimationModel;
 import xoric.prism.creator.models.model.VariationList;
 import xoric.prism.creator.models.view.AnimationCell;
 import xoric.prism.creator.models.view.IAnimationCell;
 import xoric.prism.creator.models.view.IAnimationEditor;
+import xoric.prism.creator.models.view.PreviewFrame;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.swing.input.IIntInput;
 import xoric.prism.swing.input.IValueInputListener;
@@ -37,6 +41,8 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 	private final JButton backButton;
 	//	private final JLabel nameLabel;
 
+	private final PreviewFrame previewFrame;
+
 	private IMainControl control;
 
 	private final IAnimationEditor mainView;
@@ -46,14 +52,19 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 	private final IIntInput durationInput;
 	private IAngleSelector angleSelector;
 	private ISpriteList spriteList;
+	private JButton previewButton;
 
-	private VariationList variationlist;
+	private VariationList variationList;
+
+	private IPoint_r spriteSize;
 
 	public AnimationView(IAnimationEditor animationEditor)
 	{
 		super(new GridBagLayout());
 
 		this.mainView = animationEditor;
+
+		this.previewFrame = new PreviewFrame();
 
 		VariationSelector vs = new VariationSelector();
 		variationSelector = vs;
@@ -73,6 +84,8 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 
 		SpriteList f = new SpriteList();
 		spriteList = f;
+
+		previewButton = createButton("Preview", null);
 
 		//		backButton = createButton("Back", null);
 		backButton = createButton("<", null);
@@ -101,6 +114,9 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 
 		c = new GridBagConstraints(1, 2, 3, 1, 1.0, 1.0, GridBagConstraints.WEST, GridBagConstraints.BOTH, insets, 0, 0);
 		add(f, c);
+
+		c = new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, insets, 0, 0);
+		add(previewButton, c);
 	}
 
 	private JButton createButton(String s, String icon)
@@ -132,9 +148,17 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 	}
 
 	@Override
-	public void setTileSize(IPoint_r tileSize)
+	public void setTileSize(IPoint_r spriteSize)
 	{
-		spriteList.setSpriteSize(tileSize);
+		this.spriteSize = spriteSize;
+		this.spriteList.setSpriteSize(spriteSize);
+	}
+
+	private void onPreviewButton()
+	{
+		int variation = variationSelector.getCurrentVariation();
+		AnimationModel m = variationList.getVariation(variation);
+		previewFrame.loadAndPlay(m, variation, angleSelector.getAngle(), spriteSize);
 	}
 
 	@Override
@@ -144,44 +168,53 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 
 		if (o == backButton)
 			mainView.requestCloseAnimationEditor();
+		else if (o == previewButton)
+			onPreviewButton();
 	}
 
 	@Override
 	public void displayAnimation(VariationList list)
 	{
-		variationlist = list;
+		variationList = list;
 		int variation = variationSelector.getCurrentVariation();
 		AnimationModel m = list.getVariation(variation);
 		animationCell.displayAnimationIndex(m.getAnimationIndex());
 		durationInput.setValue(m.getDurationMs());
-		spriteList.loadFrames(variationlist, variationSelector.getCurrentVariation(), angleSelector.getAngle());
+
+		SpriteNameGenerator spriteNameGenerator = new AnimationSpriteNameGenerator(list.getPath(), m.getAnimationIndex(), variationSelector
+				.getCurrentVariation(), angleSelector.getAngle());
+		spriteList.loadAndDisplaySprites(spriteNameGenerator);
 	}
 
 	@Override
 	public void displayCurrentAnimationDuration()
 	{
 		int variation = variationSelector.getCurrentVariation();
-		AnimationModel m = variationlist.getVariation(variation);
+		AnimationModel m = variationList.getVariation(variation);
 		durationInput.setValue(m.getDurationMs());
 	}
 
 	@Override
 	public void changedAngle(ViewAngle v)
 	{
-		spriteList.loadFrames(variationlist, variationSelector.getCurrentVariation(), v);
+		SpriteNameGenerator spriteNameGenerator = new AnimationSpriteNameGenerator(variationList.getPath(), variationList
+				.getAnimationIndex(), variationSelector.getCurrentVariation(), v);
+		spriteList.loadAndDisplaySprites(spriteNameGenerator);
 	}
 
 	@Override
 	public void setControl(IMainControl control)
 	{
 		this.control = control;
-		this.spriteList.setControl(control);
+		//		this.spriteList.setControl(control);
 	}
 
 	@Override
 	public void reloadCurrentAnimationFrames()
 	{
-		spriteList.loadFrames(variationlist, variationSelector.getCurrentVariation(), angleSelector.getAngle());
+		SpriteNameGenerator spriteNameGenerator = new AnimationSpriteNameGenerator(variationList.getPath(), variationList
+				.getAnimationIndex(), variationSelector.getCurrentVariation(), angleSelector.getAngle());
+		spriteList.loadAndDisplaySprites(spriteNameGenerator);
 	}
 
 	@Override
@@ -191,7 +224,7 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 		{
 			int ms = durationInput.getValue();
 			int variation = variationSelector.getCurrentVariation();
-			control.requestSetAnimationDuration(variationlist.getAnimationIndex(), variation, ms);
+			control.requestSetAnimationDuration(variationList.getAnimationIndex(), variation, ms);
 		}
 	}
 }

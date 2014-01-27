@@ -1,0 +1,10 @@
+package xoric.prism.creator.custom.view;
+
+import xoric.prism.creator.custom.model.SpriteCollectionModel;
+
+public interface IObjectList
+{
+	public void setModel(SpriteCollectionModel model);
+
+	public void displayObjects();
+}

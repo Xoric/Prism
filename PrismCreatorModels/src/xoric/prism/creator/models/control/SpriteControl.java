@@ -15,8 +15,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import xoric.prism.creator.common.tools.ExternalImageEditor;
+import xoric.prism.creator.models.image.AnimationSpriteNameGenerator;
 import xoric.prism.creator.models.model.ModelModel;
-import xoric.prism.creator.models.model.SpriteNames;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
@@ -36,7 +36,7 @@ public class SpriteControl extends ControlLayer
 		boolean b;
 		do
 		{
-			String filename = SpriteNames.getFilename(a, variation, v, n);
+			String filename = AnimationSpriteNameGenerator.getFilename(a, variation, v, n);
 			File file = path.getFile(filename);
 			b = file.exists();
 			if (b)
@@ -50,7 +50,7 @@ public class SpriteControl extends ControlLayer
 	{
 		// load sprite image
 		IPath_r path = model.getPath();
-		File file = path.getFile(SpriteNames.getFilename(a, variation, v, index));
+		File file = path.getFile(AnimationSpriteNameGenerator.getFilename(a, variation, v, index));
 		BufferedImage bi = null;
 		try
 		{
@@ -208,8 +208,8 @@ public class SpriteControl extends ControlLayer
 		{
 			for (int i = highest; i >= lowest; --i)
 			{
-				f1 = path.getFile(SpriteNames.getFilename(a, variation, v, i));
-				f2 = path.getFile(SpriteNames.getFilename(a, variation, v, i + 1));
+				f1 = path.getFile(AnimationSpriteNameGenerator.getFilename(a, variation, v, i));
+				f2 = path.getFile(AnimationSpriteNameGenerator.getFilename(a, variation, v, i + 1));
 				f1.renameTo(f2);
 			}
 		}
@@ -236,7 +236,7 @@ public class SpriteControl extends ControlLayer
 
 	private void writeImage(IPath_r path, AnimationIndex a, int variation, ViewAngle v, int index, BufferedImage bi) throws PrismException
 	{
-		File file = path.getFile(SpriteNames.getFilename(a, variation, v, index));
+		File file = path.getFile(AnimationSpriteNameGenerator.getFilename(a, variation, v, index));
 		writeImage(file, bi);
 	}
 
@@ -274,7 +274,7 @@ public class SpriteControl extends ControlLayer
 
 		do
 		{
-			String filename = SpriteNames.getFilename(a, variation, v, i);
+			String filename = AnimationSpriteNameGenerator.getFilename(a, variation, v, i);
 			file = path.getFile(filename);
 			b = file.exists();
 			if (b)
@@ -303,7 +303,7 @@ public class SpriteControl extends ControlLayer
 					// keep this sprite, check if there is a gap to close
 					if (gap > 0)
 					{
-						File file2 = path.getFile(SpriteNames.getFilename(a, variation, v, i - gap));
+						File file2 = path.getFile(AnimationSpriteNameGenerator.getFilename(a, variation, v, i - gap));
 
 						try
 						{
@@ -328,7 +328,7 @@ public class SpriteControl extends ControlLayer
 
 	public void copySpriteToClipboard(IPath_r path, AnimationIndex a, int variation, ViewAngle v, int index)
 	{
-		String filename = SpriteNames.getFilename(a, variation, v, index);
+		String filename = AnimationSpriteNameGenerator.getFilename(a, variation, v, index);
 		File file = path.getFile(filename);
 		try
 		{
@@ -374,7 +374,7 @@ public class SpriteControl extends ControlLayer
 					int i = 0;
 					do
 					{
-						String filename = SpriteNames.getFilename(a, variation, v, i);
+						String filename = AnimationSpriteNameGenerator.getFilename(a, variation, v, i);
 						File file = path.getFile(filename);
 						b = file.exists();
 
@@ -442,7 +442,7 @@ public class SpriteControl extends ControlLayer
 
 		do
 		{
-			String filename = SpriteNames.getFilename(a, variation, v, i);
+			String filename = AnimationSpriteNameGenerator.getFilename(a, variation, v, i);
 			file = path.getFile(filename);
 			b = file.exists();
 			if (b)

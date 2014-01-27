@@ -2,6 +2,7 @@ package xoric.prism.creator.models.model;
 
 import java.io.File;
 
+import xoric.prism.creator.models.image.AnimationSpriteNameGenerator;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.world.animations.AnimationIndex;
 import xoric.prism.world.entities.ViewAngle;
@@ -45,7 +46,7 @@ public class AngleModel
 
 	private String getFilename(int index)
 	{
-		return SpriteNames.getFilename(animationIndex, variation, viewAngle, index);
+		return AnimationSpriteNameGenerator.getFilename(animationIndex, variation, viewAngle, index);
 	}
 
 	private File getFile(int index)

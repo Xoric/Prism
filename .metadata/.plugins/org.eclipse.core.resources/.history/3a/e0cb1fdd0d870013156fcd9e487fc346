@@ -1,0 +1,16 @@
+package xoric.prism.creator.custom.model;
+
+public class ObjectModel
+{
+	private String name;
+
+	public ObjectModel(String name)
+	{
+		this.name = name;
+	}
+
+	public String getFilename()
+	{
+		return name;
+	}
+}

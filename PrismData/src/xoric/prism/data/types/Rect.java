@@ -1,6 +1,12 @@
 package xoric.prism.data.types;
 
-public class Rect implements IRect_r, IStackable
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import xoric.prism.data.exceptions.PrismException;
+
+public class Rect implements IRect_r, IStackable, IPackable
 {
 	private final Point position;
 	private final Point size;
@@ -21,6 +27,12 @@ public class Rect implements IRect_r, IStackable
 	{
 		this.position = new Point(x, y);
 		this.size = new Point(width, height);
+	}
+
+	@Override
+	public String toString()
+	{
+		return "x=" + position.x + ", y=" + position.y + ", w=" + size.x + ", h=" + size.y;
 	}
 
 	public void setPosition(int x, int y)
@@ -111,5 +123,19 @@ public class Rect implements IRect_r, IStackable
 	public float calcDistance(IPoint_r target)
 	{
 		return position.calcDistance(target);
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException, PrismException
+	{
+		position.unpack(stream);
+		size.unpack(stream);
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException
+	{
+		position.pack(stream);
+		size.pack(stream);
 	}
 }

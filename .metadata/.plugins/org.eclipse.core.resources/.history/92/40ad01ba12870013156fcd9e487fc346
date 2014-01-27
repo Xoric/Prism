@@ -1,0 +1,8 @@
+package xoric.prism.creator.common.control;
+
+public interface IObjectControl
+{
+	public void requestAddObject();
+
+	public void requestDeleteObject();
+}

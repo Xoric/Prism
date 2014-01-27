@@ -1,0 +1,6 @@
+package xoric.prism.creator.common.spritelist.control;
+
+public interface ISpriteListListener
+{
+	void requestCloneSprite(ISpriteIdentifier spriteIdentifier, int index);
+}

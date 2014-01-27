@@ -12,9 +12,9 @@ public class MainMenuBar extends JMenuBar
 	private final MainMenu mainMenu;
 	private final ToolsMenu toolsMenu;
 
-	public MainMenuBar(String dataName)
+	public MainMenuBar(String dataName, INewDialogCreator d)
 	{
-		add(mainMenu = new MainMenu(dataName));
+		add(mainMenu = new MainMenu(dataName, d));
 		add(toolsMenu = new ToolsMenu());
 	}
 

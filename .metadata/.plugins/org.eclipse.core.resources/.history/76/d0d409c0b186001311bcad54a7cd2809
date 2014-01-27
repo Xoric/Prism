@@ -1,0 +1,13 @@
+package xoric.prism.creator.common.spritelist.view;
+
+import xoric.prism.creator.common.spritelist.control.ISpriteListControl;
+import xoric.prism.data.types.IPoint_r;
+
+public interface ISpriteList
+{
+	public void setControl(ISpriteListControl control);
+
+	public void setSpriteSize(IPoint_r tileSize);
+	
+	public void setFilenamePattern(String prefix, String suffix);
+}

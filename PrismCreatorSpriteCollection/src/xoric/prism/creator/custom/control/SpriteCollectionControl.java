@@ -15,21 +15,30 @@ public class SpriteCollectionControl implements ISpriteCollectionControl
 		this.view = view;
 	}
 
+	/* -------------- IMainMenuListener ------------ */
+
 	@Override
 	public void requestCreateNewObject(INewDialogResult result)
 	{
-		model = new SpriteCollectionModel(result.getPath());
-		model.load();
+		model = ModelControl.createNewModel(result);
 
-		view.setModel(model);
-		view.displaySprites();
+		if (model != null)
+		{
+			view.setModel(model);
+			view.displayAll();
+		}
 	}
 
 	@Override
 	public void requestOpenObject(IPath_r path)
 	{
-		// TODO Auto-generated method stub
+		model = ModelControl.openModel(path);
 
+		if (model != null)
+		{
+			view.setModel(model);
+			view.displayAll();
+		}
 	}
 
 	@Override
@@ -43,5 +52,29 @@ public class SpriteCollectionControl implements ISpriteCollectionControl
 	public void requestExit()
 	{
 		System.exit(0);
+	}
+
+	/* -------------- IObjectControl ------------ */
+
+	@Override
+	public void requestAddObject()
+	{
+		if (model != null)
+		{
+			ObjectControl.addObject(model);
+
+			view.displayObjects();
+		}
+	}
+
+	@Override
+	public void requestDeleteObject(int index)
+	{
+		if (model != null)
+		{
+			ObjectControl.deleteObject(index);
+
+			view.displayObjects();
+		}
 	}
 }

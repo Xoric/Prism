@@ -1,0 +1,18 @@
+package xoric.prism.creator.custom.control;
+
+import xoric.prism.creator.custom.model.SpriteCollectionModel;
+
+class ControlLayer
+{
+	protected SpriteCollectionModel model;
+
+	public ControlLayer(SpriteCollectionModel model)
+	{
+		this.model = model;
+	}
+
+	public void setModel(SpriteCollectionModel model)
+	{
+		this.model = model;
+	}
+}

@@ -14,11 +14,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.ScrollPaneConstants;
 
 import xoric.prism.creator.models.control.IMainControl;
 import xoric.prism.creator.models.model.VariationList;
 import xoric.prism.swing.PrismPanel;
+import xoric.prism.swing.PrismSwing;
 import xoric.prism.world.animations.AnimationIndex;
 
 public class AnimationList extends PrismPanel implements IAnimationList
@@ -48,11 +48,12 @@ public class AnimationList extends PrismPanel implements IAnimationList
 			}
 		}
 
-		JScrollPane scroll = new JScrollPane(pane, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-		scroll.getVerticalScrollBar().setUnitIncrement(16);
-		scroll.getHorizontalScrollBar().setUnitIncrement(16);
+		JScrollPane scroll = PrismSwing.createScrollPane(pane);
+		//		JScrollPane scroll = new JScrollPane(pane, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		//				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		//
+		//		scroll.getVerticalScrollBar().setUnitIncrement(16);
+		//		scroll.getHorizontalScrollBar().setUnitIncrement(16);
 
 		setContent(scroll);
 		sortList();

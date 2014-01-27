@@ -22,6 +22,7 @@ import xoric.prism.data.types.Path;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
 import xoric.prism.swing.input.PathInput;
+import xoric.prism.swing.input.RequestFocusListener;
 import xoric.prism.swing.input.fields.IInputListener;
 import xoric.prism.swing.input.fields.PrismIntField;
 import xoric.prism.swing.input.fields.PrismTextField;
@@ -63,6 +64,7 @@ public class NewModelDialog implements ActionListener, IInputListener, INewDialo
 		// model name
 		nameLabel = new JLabel("Name");
 		nameField = new PrismTextField("NEW MODEL");
+		nameField.addAncestorListener(new RequestFocusListener());
 
 		// working directory
 		JLabel pathLabel = new JLabel("Working directory");

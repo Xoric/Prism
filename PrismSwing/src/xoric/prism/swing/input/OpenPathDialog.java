@@ -38,6 +38,8 @@ public class OpenPathDialog implements ActionListener
 		pathPanel.add(BorderLayout.CENTER, pathField);
 		pathPanel.add(BorderLayout.EAST, pathButton);
 
+		pathField.addAncestorListener(new RequestFocusListener());
+
 		message = new Object[] { null, null, pathPanel0, pathPanel };
 	}
 

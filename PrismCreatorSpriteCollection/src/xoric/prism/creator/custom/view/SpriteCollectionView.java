@@ -3,30 +3,49 @@ package xoric.prism.creator.custom.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.List;
 
+import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
+import xoric.prism.creator.common.spritelist.view.ISpriteList;
+import xoric.prism.creator.common.spritelist.view.SpriteList;
 import xoric.prism.creator.common.view.PrismCreatorCommonView;
 import xoric.prism.creator.custom.control.ISpriteCollectionControl;
+import xoric.prism.creator.custom.model.ObjectModel;
 import xoric.prism.creator.custom.model.SpriteCollectionModel;
-import xoric.prism.creator.custom.model.SpriteModel;
 
-public class SpriteCollectionView extends PrismCreatorCommonView implements ISpriteCollectionView
+public class SpriteCollectionView extends PrismCreatorCommonView implements ISpriteCollectionView, IObjectListListener
 {
 	private static final long serialVersionUID = 1L;
 
 	private SpriteCollectionModel model;
 
-	private final SpriteList list;
+	private final IObjectList objectList;
+	private final ISpriteList spriteList;
+	private final IRectView rectView;
 
 	public SpriteCollectionView()
 	{
 		super("SpriteCollection");
 		super.setLayout(new GridBagLayout());
 
-		list = new SpriteList();
-		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(
-				0, 0, 0, 0), 0, 0);
-		add(list, c);
+		ObjectList o = new ObjectList(this);
+		objectList = o;
+		Insets insets = new Insets(30, 30, 30, 30);
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 2, 0.4, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0,
+				0);
+		add(o, c);
+
+		SpriteList s = new SpriteList();
+		spriteList = s;
+		insets = new Insets(30, 0, 30, 30);
+		c = new GridBagConstraints(1, 1, 1, 1, 0.6, 0.4, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
+		add(s, c);
+
+		RectView r = new RectView();
+		rectView = r;
+		c = new GridBagConstraints(1, 0, 1, 1, 0.6, 0.6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
+		add(r, c);
+
+		setModel(null);
 	}
 
 	public void start()
@@ -38,20 +57,65 @@ public class SpriteCollectionView extends PrismCreatorCommonView implements ISpr
 	public void setControl(ISpriteCollectionControl control)
 	{
 		super.setMainMenuListener(control);
+		this.objectList.setControl(control);
 	}
 
 	@Override
 	public void setModel(SpriteCollectionModel model)
 	{
 		this.model = model;
+		this.objectList.setModel(model);
+
+		boolean b = model != null;
+		objectList.setEnabled(b);
+		spriteList.setEnabled(b);
+		rectView.setEnabled(b);
 	}
 
 	@Override
-	public void displaySprites()
+	public void displayAll()
 	{
-		List<SpriteModel> models = model.getModels();
-		list.display(model.getPath(), models);
+		displayObjects();
+		displayObject();
+	}
+
+	@Override
+	public void displayObjects()
+	{
+		objectList.displayObjects();
+	}
+
+	private void displaySprites(SpriteNameGenerator spriteNameGenerator)
+	{
+		spriteList.loadAndDisplaySprites(spriteNameGenerator);
 		revalidate();
 		repaint();
+	}
+
+	private void displayRects(ObjectModel model, SpriteNameGenerator spriteNameGenerator)
+	{
+		rectView.displayObject(model, spriteNameGenerator);
+	}
+
+	@Override
+	public void displayObject()
+	{
+		int index = objectList.getSelectedIndex();
+
+		if (index >= 0 && index < this.model.getCount())
+		{
+			ObjectModel model = this.model.getModel(index);
+			SpriteNameGenerator spriteNameGenerator = new SpriteNameGenerator(this.model.getPath(), model.getName().toString()
+					.toLowerCase()
+					+ ".var", ".png");
+
+			displaySprites(spriteNameGenerator);
+			displayRects(model, spriteNameGenerator);
+		}
+		else
+		{
+			spriteList.clear();
+			rectView.clear();
+		}
 	}
 }

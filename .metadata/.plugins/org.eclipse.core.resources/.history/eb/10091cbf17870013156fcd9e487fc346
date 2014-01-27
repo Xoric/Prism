@@ -1,0 +1,29 @@
+package xoric.prism.creator.custom.control;
+
+import java.util.List;
+
+import xoric.prism.creator.custom.model.ObjectModel;
+import xoric.prism.creator.custom.model.SpriteCollectionModel;
+import xoric.prism.data.types.Text;
+import xoric.prism.swing.input.PrismTextDialog;
+
+public abstract class ObjectControl
+{
+	public static ObjectModel addObject(SpriteCollectionModel model)
+	{
+		ObjectModel m = null;
+		Text name = PrismTextDialog.getInstance().showDialog("New Object", "Object name (optional)", "NEW OBJECT");
+
+		if (name != null)
+		{
+			m = new ObjectModel(name);
+			model.addObject(m);
+			model.save();
+		}
+	}
+
+	public static void deleteObject(List<Integer> indices)
+	{
+
+	}
+}

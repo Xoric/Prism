@@ -1,0 +1,22 @@
+package xoric.prism.creator.common.spritelist.control;
+
+import xoric.prism.data.types.IPath_r;
+
+public class DefaultSpriteNameGenerator extends AbstractSpriteNameGenerator
+{
+	private final String prefix;
+	private final String suffix;
+
+	public DefaultSpriteNameGenerator(IPath_r path, String prefix, String suffix)
+	{
+		super(path);
+		this.prefix = prefix;
+		this.suffix = suffix;
+	}
+
+	@Override
+	public String getFilename(int index)
+	{
+		return prefix + index + suffix;
+	}
+}

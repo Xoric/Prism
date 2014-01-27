@@ -1,0 +1,8 @@
+package xoric.prism.creator.custom.control;
+
+import xoric.prism.creator.common.control.IMainMenuListener;
+import xoric.prism.creator.common.control.IObjectControl;
+
+public interface ISpriteCollectionControl extends IMainMenuListener, IObjectControl
+{
+}

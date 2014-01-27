@@ -26,8 +26,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import xoric.prism.creator.models.image.AnimationSpriteNameGenerator;
 import xoric.prism.creator.models.model.AnimationModel;
-import xoric.prism.creator.models.model.SpriteNames;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
@@ -191,7 +191,7 @@ public class PreviewFrame extends PrismFrame implements ActionListener, WindowLi
 		boolean b;
 		do
 		{
-			String filename = SpriteNames.getFilename(a, variation, v, n);
+			String filename = AnimationSpriteNameGenerator.getFilename(a, variation, v, n);
 			File file = path.getFile(filename);
 			b = file.exists();
 			if (b)

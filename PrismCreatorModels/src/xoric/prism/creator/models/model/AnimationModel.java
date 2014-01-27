@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import xoric.prism.creator.models.image.AnimationSpriteNameGenerator;
 import xoric.prism.data.types.IPackable;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IntPacker;
@@ -81,7 +82,7 @@ public class AnimationModel implements IPackable
 
 	public String getFilename(ViewAngle v, int index)
 	{
-		return SpriteNames.getFilename(animationIndex, variation, v, index);
+		return AnimationSpriteNameGenerator.getFilename(animationIndex, variation, v, index);
 	}
 
 	public void setDurationMs(int ms)

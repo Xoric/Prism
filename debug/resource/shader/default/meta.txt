@@ -1,0 +1,9 @@
+#SHADER#0
+
+#DEVELOP#0
+attach:shader.vert
+attach:shader.frag
+target:shader/default.sh
+
+
+

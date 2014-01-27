@@ -1,0 +1,18 @@
+package xoric.prism.creator.custom.model;
+
+import xoric.prism.data.types.Text;
+
+public class ObjectModel
+{
+	private Text name;
+
+	public ObjectModel(Text name)
+	{
+		this.name = name;
+	}
+
+	public IText_r getName()
+	{
+		return name;
+	}
+}

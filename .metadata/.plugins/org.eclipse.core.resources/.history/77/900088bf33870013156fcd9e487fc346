@@ -1,0 +1,10 @@
+package xoric.prism.creator.custom.view;
+
+import xoric.prism.creator.custom.model.ObjectModel;
+
+public interface IRectView
+{
+	public void displayObject(ObjectModel m);
+
+	public void clear();
+}

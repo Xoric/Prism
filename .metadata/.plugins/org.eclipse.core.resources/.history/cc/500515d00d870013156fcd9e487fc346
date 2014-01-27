@@ -1,0 +1,80 @@
+package xoric.prism.creator.custom.model;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.types.IPackable;
+import xoric.prism.data.types.IPath_r;
+
+public class SpriteCollectionModel implements IPackable
+{
+	private final IPath_r path;
+	private final List<ObjectModel> objects;
+
+	public SpriteCollectionModel(IPath_r path)
+	{
+		this.path = path;
+		this.objects = new ArrayList<ObjectModel>();
+	}
+
+	public void load()
+	{
+		objects.clear();
+
+		int i = 0;
+		boolean b;
+		do
+		{
+			String filename = "sprite." + i + ".png";
+			File f = path.getFile(filename);
+			b = f.exists();
+
+			if (b)
+			{
+				ObjectModel m = new ObjectModel(filename);
+				objects.add(m);
+			}
+			++i;
+		}
+		while (b);
+	}
+
+	public IPath_r getPath()
+	{
+		return path;
+	}
+
+	public int getCount()
+	{
+		return objects.size();
+	}
+
+	public ObjectModel getModel(int index)
+	{
+		return objects.get(index);
+	}
+
+	public List<ObjectModel> getModels()
+	{
+		return objects;
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException, PrismException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+}

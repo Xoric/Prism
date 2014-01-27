@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
+import xoric.prism.creator.common.view.INewDialogCreator;
 import xoric.prism.creator.common.view.MainMenuBar;
 import xoric.prism.creator.models.control.IMainControl;
 import xoric.prism.creator.models.model.ModelModel;
@@ -19,9 +20,9 @@ public class ModelMenuBar extends MainMenuBar implements ActionListener
 	private JMenuItem menuItemCreateAnimations;
 	private JMenuItem menuItemCreateModel;
 
-	public ModelMenuBar()
+	public ModelMenuBar(INewDialogCreator d)
 	{
-		super("model");
+		super("model", d);
 
 		menuItemCreateAnimations = createMenuItem("Create animations (.png)");
 		menuItemCreateModel = createMenuItem("Create model (" + modelExtension + ")");
