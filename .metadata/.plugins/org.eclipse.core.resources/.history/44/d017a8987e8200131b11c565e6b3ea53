@@ -1,8 +1,0 @@
-package xoric.prism.server.control;
-
-import java.net.Socket;
-
-public interface IDoorman
-{
-	public void passClient(Socket client);
-}

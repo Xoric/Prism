@@ -1,0 +1,8 @@
+package xoric.prism.creator.custom.creators;
+
+public interface ICreatorFrame
+{
+	public void setAction(String action);
+
+	public void setProgress(float p);
+}

@@ -33,11 +33,7 @@ public class AccManager implements IAccManager
 	@Override
 	public void initializeDatabase()
 	{
-		collection.createIndex(new BasicDBObject(pwField, 1));
-		collection.createIndex(new BasicDBObject(emailField, 1));
-		collection.createIndex(new BasicDBObject(createdField, 1));
-		collection.createIndex(new BasicDBObject(lastSeenField, 1));
-		collection.createIndex(new BasicDBObject(loginsField, 1));
+		collection.createIndex(new BasicDBObject(accField, 1));
 	}
 
 	@Override

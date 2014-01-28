@@ -66,7 +66,7 @@ public class SpriteCollectionModel implements IPackable
 		return objects.size();
 	}
 
-	public ObjectModel getModel(int index)
+	public ObjectModel getObjectModel(int index)
 	{
 		return objects.get(index);
 	}
@@ -102,5 +102,16 @@ public class SpriteCollectionModel implements IPackable
 	public List<ObjectModel> getObjects()
 	{
 		return objects;
+	}
+
+	public void deleteObject(int index)
+	{
+		objects.remove(index);
+
+	}
+
+	public int getObjectCount()
+	{
+		return objects.size();
 	}
 }

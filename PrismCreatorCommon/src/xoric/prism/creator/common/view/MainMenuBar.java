@@ -28,7 +28,7 @@ public class MainMenuBar extends JMenuBar
 		mainMenu.setDialogCreator(dialogCreator);
 	}
 
-	protected void addCreationItem(JMenuItem item)
+	public void addCreationItem(JMenuItem item)
 	{
 		mainMenu.addCreationItem(item);
 	}

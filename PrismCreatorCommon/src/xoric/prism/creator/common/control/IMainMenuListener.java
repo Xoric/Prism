@@ -5,11 +5,11 @@ import xoric.prism.data.types.IPath_r;
 
 public interface IMainMenuListener
 {
-	public void requestCreateNewObject(INewDialogResult result);
+	public void requestCreateNewProject(INewDialogResult result);
 
-	public void requestOpenObject(IPath_r path);
+	public void requestOpenProject(IPath_r path);
 
-	public void requestCloseObject();
+	public void requestCloseProject();
 
 	public void requestExit();
 }

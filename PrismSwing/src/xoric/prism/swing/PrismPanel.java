@@ -36,7 +36,7 @@ public class PrismPanel extends JPanel
 		//		titleLabel.setEnabled(enabled);
 	}
 
-	protected void setContent(JComponent comp)
+	public void setContent(JComponent comp)
 	{
 		add(BorderLayout.CENTER, comp);
 	}

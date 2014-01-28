@@ -70,7 +70,7 @@ public class MainMenu extends JMenu implements ActionListener
 			INewDialogResult result = d.getResult();
 			IPath_r path = result.getPath();
 			recentMenu.addPath(path);
-			listener.requestCreateNewObject(result);
+			listener.requestCreateNewProject(result);
 		}
 	}
 
@@ -83,7 +83,7 @@ public class MainMenu extends JMenu implements ActionListener
 		if (path != null)
 		{
 			recentMenu.addPath(path);
-			listener.requestOpenObject(path);
+			listener.requestOpenProject(path);
 		}
 	}
 
@@ -97,7 +97,7 @@ public class MainMenu extends JMenu implements ActionListener
 		else if (o == menuItemOpen)
 			onOpenObject();
 		else if (o == menuItemClose)
-			listener.requestCloseObject();
+			listener.requestCloseProject();
 		else if (o == menuItemExit)
 			listener.requestExit();
 	}

@@ -1,0 +1,7 @@
+package xoric.prism.creator.custom.control;
+
+import xoric.prism.creator.common.control.IMainMenuListener;
+
+public interface IMainControl extends IMainMenuListener, IObjectControl,IRectControl
+{
+}

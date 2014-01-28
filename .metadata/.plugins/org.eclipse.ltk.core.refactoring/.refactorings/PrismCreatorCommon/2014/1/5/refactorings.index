@@ -23,3 +23,6 @@
 1390809938824	Rename field 'iconSize'
 1390809942496	Rename field 'spriteSize'
 1390809990951	Rename local variable 'iconSize'
+1390906128643	Rename method 'requestCloseObject'
+1390906144848	Rename method 'requestOpenObject'
+1390906170766	Rename method 'requestCreateNewObject'

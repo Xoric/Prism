@@ -64,7 +64,7 @@ public class RecentMenu extends JMenu implements ActionListener
 		String s = e.getActionCommand();
 
 		if (s != null && s.length() > 0)
-			control.requestOpenObject(new Path(s));
+			control.requestOpenProject(new Path(s));
 	}
 
 	public void setMainMenuListener(IMainMenuListener mainMenuListener)

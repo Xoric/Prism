@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
-<fullyQualifiedTypeName name="xoric.prism.creator.drawer.model.VariationList"/>
-<fullyQualifiedTypeName name="xoric.prism.creator.drawer.model.AnimationModel"/>
-<fullyQualifiedTypeName name="xoric.prism.data.net.NetConstants"/>
-<fullyQualifiedTypeName name="java.net.Socket"/>
-<fullyQualifiedTypeName name="javax.swing.Timer"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.HeapPacker_s"/>
-<fullyQualifiedTypeName name="xoric.prism.data.exceptions.PrismException"/>
 <fullyQualifiedTypeName name="xoric.prism.server.control.ILoopListener"/>
 <fullyQualifiedTypeName name="xoric.prism.com.Token"/>
 <fullyQualifiedTypeName name="xoric.prism.server.control.IClient0Handler"/>
@@ -38,7 +31,6 @@
 <fullyQualifiedTypeName name="xoric.prism.creator.common.spritelist.view.SpriteList"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.TextPacker"/>
 <fullyQualifiedTypeName name="java.io.File"/>
-<fullyQualifiedTypeName name="xoric.prism.data.types.IText_r"/>
 <fullyQualifiedTypeName name="xoric.prism.swing.input.PrismTextDialog"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.Text"/>
 <fullyQualifiedTypeName name="javax.swing.JDialog"/>
@@ -50,14 +42,22 @@
 <fullyQualifiedTypeName name="xoric.prism.creator.common.spritelist.view.ISpriteList"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.models.model.SpriteNames"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.models.model.AnimationSpriteNameGenerator"/>
-<fullyQualifiedTypeName name="xoric.prism.creator.common.spritelist.control.SpriteNameGenerator"/>
 <fullyQualifiedTypeName name="xoric.prism.creator.models.image.AnimationSpriteNameGenerator"/>
 <fullyQualifiedTypeName name="java.awt.Component"/>
-<fullyQualifiedTypeName name="xoric.prism.data.types.Point"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.IntPacker"/>
 <fullyQualifiedTypeName name="xoric.prism.data.types.Rect"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
-<fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="xoric.prism.swing.PrismSwing"/>
+<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
+<fullyQualifiedTypeName name="xoric.prism.creator.common.factory.Factory"/>
+<fullyQualifiedTypeName name="xoric.prism.creator.common.buttonpanel.IButtonPanel"/>
+<fullyQualifiedTypeName name="xoric.prism.creator.custom.view.IRectControl"/>
+<fullyQualifiedTypeName name="xoric.prism.data.types.IText_r"/>
+<fullyQualifiedTypeName name="xoric.prism.creator.custom.creators.TextureCreator"/>
+<fullyQualifiedTypeName name="xoric.prism.data.types.Point"/>
+<fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
+<fullyQualifiedTypeName name="xoric.prism.data.exceptions.PrismException"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="javax.swing.SwingUtilities"/>
+<fullyQualifiedTypeName name="xoric.prism.creator.common.spritelist.control.SpriteNameGenerator"/>
 </qualifiedTypeNameHistroy>

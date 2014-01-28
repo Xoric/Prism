@@ -1,5 +1,6 @@
 package xoric.prism.creator.custom.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -25,16 +26,26 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import xoric.prism.creator.common.buttonpanel.ButtonPanel;
+import xoric.prism.creator.common.buttonpanel.IButtonPanel;
+import xoric.prism.creator.common.buttonpanel.IButtonPanelListener;
 import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
 import xoric.prism.creator.custom.model.ObjectModel;
 import xoric.prism.data.types.Rect;
+import xoric.prism.swing.PrismPanel;
 import xoric.prism.swing.PrismSwing;
 
-public class RectView extends JPanel implements IRectView, ListSelectionListener, ChangeListener, MouseListener, MouseMotionListener
+public class RectView extends JPanel implements ListSelectionListener, ChangeListener, MouseListener, MouseMotionListener, IRectView,
+		IButtonPanelListener
 {
 	private static final long serialVersionUID = 1L;
+	private static final int rgb0 = Color.black.getRGB();
+	private static final int rgb1 = Color.orange.getRGB();
+
+	private IRectControl control;
 
 	private ObjectModel model;
+	private DefaultListModel<String> listModel;
 
 	private final JLabel imageLabel;
 	private boolean isMouseDown;
@@ -44,6 +55,9 @@ public class RectView extends JPanel implements IRectView, ListSelectionListener
 	private JSlider slider;
 
 	private JList<String> rectList;
+	private IButtonPanel buttonPanel;
+
+	private boolean ignoreListSelections;
 
 	public RectView()
 	{
@@ -59,41 +73,81 @@ public class RectView extends JPanel implements IRectView, ListSelectionListener
 		JScrollPane scroll = PrismSwing.createScrollPane(p);
 
 		rectList = new JList<String>();
+		listModel = new DefaultListModel<String>();
+		rectList.setModel(listModel);
+		rectList.addListSelectionListener(this);
 		JScrollPane scroll2 = PrismSwing.createScrollPane(rectList);
+		PrismPanel p2 = new PrismPanel("Rectangles");
+		p2.setContent(scroll2);
 
-		slider = new JSlider();
+		ButtonPanel bp = new ButtonPanel(this, "rectangle", true, false, true);
+		buttonPanel = bp;
+
+		JPanel p3 = new JPanel(new BorderLayout());
+		p3.add(BorderLayout.CENTER, p2);
+		p3.add(BorderLayout.SOUTH, bp);
+
+		JPanel zoomPanel = new JPanel(new BorderLayout());
+		zoomPanel.add(BorderLayout.WEST, new JLabel("Zoom"));
+		zoomPanel.add(BorderLayout.CENTER, slider = new JSlider());
 		slider.setMinimum(1);
-		slider.setMaximum(10);
+		slider.setMaximum(15);
 		slider.addChangeListener(this);
 
 		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 2, 0.3, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(
 				0, 0, 0, 15), 0, 0);
-		add(scroll2, c);
+		add(p3, c);
 
 		c = new GridBagConstraints(1, 0, 1, 1, 0.7, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
 		add(scroll, c);
 
 		c.weighty = 0.0;
 		c.gridy = 1;
-		add(slider, c);
+		add(zoomPanel, c);
+
+		enableControls();
+	}
+
+	private void enableControls()
+	{
+		boolean b = this.isEnabled() && image != null;
+		slider.setEnabled(b);
+		enableButtons();
+	}
+
+	private void enableButtons()
+	{
+		int n = rectList.getSelectedIndices().length;
+		buttonPanel.setEnabled(this.isEnabled(), n > 0);
 	}
 
 	@Override
 	public void setEnabled(boolean b)
 	{
 		super.setEnabled(b);
-		slider.setEnabled(image != null && b);
+		enableControls();
+	}
+
+	@Override
+	public void setControl(IRectControl control)
+	{
+		this.control = control;
 	}
 
 	private void decorateImage()
 	{
 		decoratedImage = deepCopy();
 
-		int index = rectList.getSelectedIndex();
-		if (index >= 0 && index < rectList.getModel().getSize())
+		if (decoratedImage == null)
+			return;
+
+		int selectedIndex = rectList.getSelectedIndex();
+		final int n = model.getRectCount();
+
+		for (int i = 0; i < n; ++i)
 		{
-			Rect r = model.getRect(index);
-			int rgb = Color.orange.getRGB();
+			Rect r = model.getRect(i);
+			int rgb = selectedIndex == i ? rgb1 : rgb0;
 
 			if (r.getWidth() > 0 && r.getHeight() > 0)
 			{
@@ -103,8 +157,8 @@ public class RectView extends JPanel implements IRectView, ListSelectionListener
 				int sy = r.getY() * zoom;
 				int w = r.getWidth() * zoom;
 				int h = r.getHeight() * zoom;
-				int sx2 = sx + w + zoom;
-				int sy2 = sy + h + zoom;
+				int sx2 = sx + w + zoom - 1;
+				int sy2 = sy + h + zoom - 1;
 
 				for (int x = sx; x < sx + w + zoom; ++x)
 				{
@@ -123,32 +177,40 @@ public class RectView extends JPanel implements IRectView, ListSelectionListener
 	private void updateImage()
 	{
 		decorateImage();
-		ImageIcon icon = new ImageIcon(decoratedImage);
-		imageLabel.setIcon(icon);
-	}
 
-	private void updateListCaptions()
-	{
-		if (model != null && rectList.getModel() instanceof DefaultListModel)
+		if (decoratedImage != null)
 		{
-			DefaultListModel<String> m = (DefaultListModel<String>) rectList.getModel();
-
-			for (int i = 0; i < model.getRectCount(); ++i)
-				m.set(i, "Rect " + i + ": " + model.getRect(i).toString());
+			ImageIcon icon = new ImageIcon(decoratedImage);
+			imageLabel.setIcon(icon);
+			imageLabel.setText("");
 		}
+		else
+		{
+			imageLabel.setIcon(null);
+			imageLabel.setText("Error");
+		}
+		imageLabel.revalidate();
 	}
 
 	private BufferedImage deepCopy()
 	{
-		int zoom = slider.getValue();
-		int w = image.getWidth() * zoom;
-		int h = image.getHeight() * zoom;
+		BufferedImage bi;
 
-		BufferedImage b = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-		Graphics g = b.getGraphics();
-		g.drawImage(image, 0, 0, w, h, null);
-		g.dispose();
-		return b;
+		if (image != null)
+		{
+			int zoom = slider.getValue();
+			int w = image.getWidth() * zoom;
+			int h = image.getHeight() * zoom;
+
+			bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+			Graphics g = bi.getGraphics();
+			g.drawImage(image, 0, 0, w, h, null);
+			g.dispose();
+		}
+		else
+			bi = null;
+
+		return bi;
 	}
 
 	private void loadImage(File file)
@@ -165,39 +227,55 @@ public class RectView extends JPanel implements IRectView, ListSelectionListener
 		}
 	}
 
+	private void updateList()
+	{
+		if (model == null)
+		{
+			listModel.clear();
+		}
+		else
+		{
+			final int n = model.getRectCount();
+
+			for (int i = 0; i < n; ++i)
+			{
+				String s = "Rect " + i + ": " + model.getRect(i).toString();
+
+				if (i < listModel.size())
+					listModel.set(i, s);
+				else
+					listModel.addElement(s);
+			}
+
+			for (int i = n; i < listModel.size(); ++i)
+				listModel.remove(i);
+		}
+	}
+
 	@Override
 	public void displayObject(ObjectModel model, SpriteNameGenerator spriteNameGenerator)
 	{
 		this.model = model;
-		this.loadImage(spriteNameGenerator.getFile(0));
+		clear();
 
-		model.addRect(new Rect(0, 0, 10, 8));
+		loadImage(spriteNameGenerator.getFile(0));
 
-		DefaultListModel<String> m = new DefaultListModel<String>();
-
-		if (model != null)
-			for (int i = 0; i < model.getRectCount(); ++i)
-				m.addElement("");
-
-		rectList.setModel(m);
-		rectList.setSelectedIndex(0);
+		updateList();
 
 		updateImage();
-		updateListCaptions();
+		enableControls();
 	}
 
 	@Override
 	public void valueChanged(ListSelectionEvent e)
 	{
-		if (e.getValueIsAdjusting())
-			updateImage();
+		updateImage();
 	}
 
 	@Override
 	public void clear()
 	{
-		DefaultListModel<String> m = new DefaultListModel<String>();
-		rectList.setModel(m);
+		listModel.clear();
 		imageLabel.setIcon(null);
 		imageLabel.revalidate();
 	}
@@ -255,16 +333,18 @@ public class RectView extends JPanel implements IRectView, ListSelectionListener
 					r.setSize(w, h);
 
 					updateImage();
-					updateListCaptions();
+					updateList();
 				}
 			}
 		}
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent arg0)
+	public void mouseReleased(MouseEvent e)
 	{
 		isMouseDown = false;
+
+		control.requestSaveCollection();
 	}
 
 	@Override
@@ -288,19 +368,19 @@ public class RectView extends JPanel implements IRectView, ListSelectionListener
 				if (w < 0)
 					w = 0;
 				else if (r.getX() + w >= image.getWidth())
-					w = image.getWidth() - r.getX();
+					w = image.getWidth() - r.getX() - 1;
 
 				if (h < 0)
 					h = 0;
 				else if (r.getY() + h >= image.getHeight())
-					h = image.getHeight() - r.getY();
+					h = image.getHeight() - r.getY() - 1;
 
 				if (w != r.getWidth() || h != r.getHeight())
 				{
 					r.setSize(w, h);
 
 					updateImage();
-					updateListCaptions();
+					updateList();
 				}
 			}
 		}
@@ -309,5 +389,43 @@ public class RectView extends JPanel implements IRectView, ListSelectionListener
 	@Override
 	public void mouseMoved(MouseEvent e)
 	{
+	}
+
+	@Override
+	public void onAddButton()
+	{
+		if (model != null)
+		{
+			Rect r = new Rect();
+			model.addRect(r);
+			updateList();
+			rectList.setSelectedIndex(listModel.size() - 1);
+			updateImage();
+
+			control.requestSaveCollection();
+		}
+	}
+
+	@Override
+	public void onEditButton()
+	{
+	}
+
+	@Override
+	public void onDeleteButton()
+	{
+		if (model != null)
+		{
+			int index = rectList.getSelectedIndex();
+
+			if (index >= 0 && index < listModel.size())
+			{
+				listModel.remove(index);
+				updateList();
+				updateImage();
+
+				control.requestSaveCollection();
+			}
+		}
 	}
 }

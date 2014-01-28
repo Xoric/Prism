@@ -1,0 +1,118 @@
+package xoric.prism.creator.custom.view;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import xoric.prism.creator.common.buttonpanel.ButtonPanel;
+import xoric.prism.creator.common.buttonpanel.IButtonPanelListener;
+import xoric.prism.creator.custom.control.IObjectControl;
+import xoric.prism.creator.custom.model.ObjectModel;
+import xoric.prism.creator.custom.model.SpriteCollectionModel;
+import xoric.prism.data.types.IText_r;
+import xoric.prism.swing.PrismPanel;
+
+public class ObjectList extends PrismPanel implements ListSelectionListener, IObjectList, IButtonPanelListener
+{
+	private static final long serialVersionUID = 1L;
+
+	private IObjectControl control;
+	private SpriteCollectionModel model;
+	private final IObjectListListener listener;
+
+	private final JList<IText_r> list;
+	private final ButtonPanel buttonPanel;
+
+	public ObjectList(IObjectListListener listener)
+	{
+		super("Objects");
+
+		JPanel p = new JPanel(new BorderLayout());
+
+		this.listener = listener;
+
+		list = new JList<IText_r>();
+		list.addListSelectionListener(this);
+		JScrollPane scroll = new JScrollPane(list);
+
+		buttonPanel = new ButtonPanel(this, "object", true, false, true);
+
+		p.add(BorderLayout.CENTER, scroll);//, c);
+		p.add(BorderLayout.SOUTH, buttonPanel);//, c);
+
+		this.setContent(p);
+
+		enableDeleteButton();
+	}
+
+	@Override
+	public void setEnabled(boolean b)
+	{
+		super.setEnabled(b);
+		addButton.setEnabled(b);
+		enableDeleteButton();
+	}
+
+	private void enableDeleteButton()
+	{
+		int n = list.getSelectedIndices().length;
+		deleteButton.setEnabled(this.isEnabled() && n > 0);
+	}
+
+	@Override
+	public void setControl(IObjectControl control)
+	{
+		this.control = control;
+	}
+
+	@Override
+	public void setModel(SpriteCollectionModel model)
+	{
+		this.model = model;
+	}
+
+	@Override
+	public void displayObjects()
+	{
+		DefaultListModel<IText_r> model = new DefaultListModel<IText_r>();
+
+		if (this.model != null)
+			for (ObjectModel m : this.model.getObjects())
+				model.addElement(m.getName());
+
+		list.setModel(model);
+		enableDeleteButton();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		Object o = e.getSource();
+
+		if (o == addButton)
+			control.requestAddObject();
+		else
+			control.requestDeleteObject(list.getSelectedIndex());
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e)
+	{
+		enableDeleteButton();
+
+		if (e.getValueIsAdjusting())
+			listener.displayObject();
+	}
+
+	@Override
+	public int getSelectedIndex()
+	{
+		return list.getSelectedIndex();
+	}
+}

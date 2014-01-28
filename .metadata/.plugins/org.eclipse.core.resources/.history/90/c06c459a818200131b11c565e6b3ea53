@@ -1,6 +1,0 @@
-package xoric.prism.server.net;
-
-public interface IControlNet
-{
-
-}

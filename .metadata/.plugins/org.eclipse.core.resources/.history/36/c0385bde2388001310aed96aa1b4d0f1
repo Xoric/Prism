@@ -1,0 +1,23 @@
+package xoric.prism.creator.custom.creators;
+
+public class TextureCreatorView implements ICreatorFrame
+{
+	private final CreatorFrame frame;
+
+	public TextureCreatorView()
+	{
+		frame = new CreatorFrame();
+	}
+
+	@Override
+	public void setAction(String action)
+	{
+		frame.setAction(action);
+	}
+
+	@Override
+	public void setProgress(float p)
+	{
+frame.setProgress(p);
+	}
+}

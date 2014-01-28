@@ -61,7 +61,7 @@ public class MainControl implements IMainControl, IBusyControl
 	/* *********** model control ****************** */
 
 	@Override
-	public void requestCreateNewObject(INewDialogResult result)
+	public void requestCreateNewProject(INewDialogResult result)
 	{
 		NewModelData d = (NewModelData) result;
 		ModelModel m = modelControl.createNewModel(d);
@@ -69,14 +69,14 @@ public class MainControl implements IMainControl, IBusyControl
 	}
 
 	@Override
-	public void requestOpenObject(IPath_r path)
+	public void requestOpenProject(IPath_r path)
 	{
 		ModelModel m = modelControl.openModel(path);
 		acceptModel(m, false);
 	}
 
 	@Override
-	public void requestCloseObject()
+	public void requestCloseProject()
 	{
 		acceptModel(null, true);
 	}
