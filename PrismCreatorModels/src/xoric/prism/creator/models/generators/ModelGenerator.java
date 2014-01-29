@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-
-import xoric.prism.creator.models.image.IconLoader;
+import xoric.prism.creator.common.factory.SuccessMessage;
 import xoric.prism.creator.models.model.ModelModel;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.meta.MetaBlock;
@@ -15,7 +12,6 @@ import xoric.prism.data.meta.MetaKey;
 import xoric.prism.data.meta.MetaLine;
 import xoric.prism.data.meta.MetaList;
 import xoric.prism.data.meta.MetaType;
-import xoric.prism.data.tools.Common;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Text;
 import xoric.prism.develop.meta.MetaFileCreator;
@@ -47,26 +43,13 @@ public class ModelGenerator
 
 	private void showSuccess(ModelResult result)
 	{
-		// get filesize
-		File targetFile = result.getTargetFile();
-		String filename = targetFile.getName();
-		String fileSize = Common.getFileSize(targetFile.length());
+		SuccessMessage m = new SuccessMessage("model");
+		m.addFile(result.getTargetFile());
+		m.addInfo("Portrait", (result.hasPortrait() ? "yes" : "no"));
 
-		// generate message
 		StringBuilder sb = new StringBuilder();
-		sb.append("<html>Model created successfully.<br><br>");
-
-		final String p1 = "<tr><td>";
-		final String p2 = "</td><td><code>";
-		final String p3 = "</code></td></tr>";
-
-		sb.append("<table border=\"1\">");
-		sb.append(p1 + "File: " + p2 + filename + p3);
-		sb.append(p1 + "Size: " + p2 + fileSize + p3);
-		sb.append(p1 + "Portrait: " + p2 + (result.hasPortrait() ? "yes" : "no") + p3);
-		sb.append(p1 + "Animations: " + p2);
-
 		List<AnimationResult> addedAnimations = result.getAddedAnimations();
+
 		for (int i = 0; i < addedAnimations.size(); ++i)
 		{
 			if (i > 0)
@@ -75,26 +58,11 @@ public class ModelGenerator
 			AnimationResult r = addedAnimations.get(i);
 			sb.append(r.toString());
 		}
-		sb.append(p3);
-		sb.append("</table>");
-		sb.append("</html>");
 
-		// load the model's portrait as icon if any
-		ImageIcon icon = null;
-		File portraitFile = model.getPath().getFile("portrait.png");
-		try
-		{
-			// load portrait as icon
-			if (portraitFile.exists())
-				icon = IconLoader.loadIconFromFile(portraitFile, 140, 140);
-		}
-		catch (Exception e)
-		{
-			icon = null;
-		}
+		m.addInfo("Animations", sb.toString());
+		m.addIcon(model.getPath().getFile("portrait.png"));
 
-		// show success message with or without custom icon
-		JOptionPane.showMessageDialog(null, sb.toString(), "Generate model", JOptionPane.INFORMATION_MESSAGE, icon);
+		m.showMessage();
 	}
 
 	private ModelResult tryGenerate(String targetFilename) throws PrismException

@@ -12,8 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import xoric.prism.creator.common.factory.IconLoader;
 import xoric.prism.creator.models.control.IMainControl;
-import xoric.prism.creator.models.image.IconLoader;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.swing.PrismPanel;
 import xoric.prism.swing.tooltips.ToolTipFormatter;
