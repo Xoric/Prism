@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -48,6 +49,7 @@ public abstract class ValueInput extends JPanel implements ActionListener, IValu
 
 		valuePane = new JTextPane();
 		valuePane.setEditable(false);
+		valuePane.setBorder(BorderFactory.createEtchedBorder());
 
 		StyledDocument doc = valuePane.getStyledDocument();
 		SimpleAttributeSet center = new SimpleAttributeSet();
