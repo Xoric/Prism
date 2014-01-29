@@ -148,6 +148,13 @@ public class TextureGenerator implements Runnable
 		RectanglePacker<BufferedImage> packer = solution.getPacker();
 		Graphics2D g = out.createGraphics();
 
+		// update meta data: add size
+		MetaLine ml = new MetaLine(MetaKey.SIZE);
+		Heap h = ml.getHeap();
+		h.ints.add(size.getX());
+		h.ints.add(size.getY());
+		mb.addMetaLine(ml);
+
 		frame.setProgressMax(imageCount);
 		int p = 0;
 
@@ -166,8 +173,8 @@ public class TextureGenerator implements Runnable
 			}
 
 			// update meta data: add object
-			MetaLine ml = new MetaLine(MetaKey.ITEM);
-			Heap h = ml.getHeap();
+			ml = new MetaLine(MetaKey.ITEM);
+			h = ml.getHeap();
 			h.texts.add(m.getName());
 			h.ints.add(width);
 			h.ints.add(height);
