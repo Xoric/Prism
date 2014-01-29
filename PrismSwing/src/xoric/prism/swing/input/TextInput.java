@@ -1,7 +1,5 @@
 package xoric.prism.swing.input;
 
-import javax.swing.JOptionPane;
-
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
 
@@ -32,12 +30,9 @@ public class TextInput extends ValueInput
 	@Override
 	protected void requestEdit()
 	{
-		String s = JOptionPane.showInputDialog(null, prompt, value.toString());
-		Text t = new Text();
-		if (s != null)
-			t.set(s);
+		Text t = PrismTextDialog.getInstance().showDialog("Input", prompt, value.toString());
 
-		if (t.length() > 0)
+		if (t != null && t.length() > 0)
 		{
 			value = t;
 			valueChanged(true);
