@@ -14,6 +14,10 @@ import xoric.prism.creator.custom.control.SpriteCollectionSpriteNameGenerator;
 import xoric.prism.creator.custom.model.ObjectModel;
 import xoric.prism.creator.custom.model.SpriteCollectionModel;
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.meta.MetaKey;
+import xoric.prism.data.meta.MetaLine;
+import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.Rect;
 
@@ -23,8 +27,6 @@ public class TextureGenerator implements Runnable
 {
 	private SpriteCollectionModel model;
 	private ICreatorFrame frame;
-
-	//	private List<ObjectImages> objects;
 
 	private static Thread thread;
 
@@ -77,8 +79,8 @@ public class TextureGenerator implements Runnable
 	{
 		// create an object for each sprite-object
 		List<ObjectImages> objects = new ArrayList<ObjectImages>();
-		for (ObjectModel m : model.getObjects())
-			objects.add(new ObjectImages(new SpriteCollectionSpriteNameGenerator(model.getPath(), m.getName())));
+		for (ObjectModel m : model.getObjectModels())
+			objects.add(new ObjectImages(m, new SpriteCollectionSpriteNameGenerator(model.getPath(), m.getName())));
 
 		// calculate number of chapters
 		frame.setChapterMax(Optimizer.chapterCount + 2);
@@ -97,16 +99,21 @@ public class TextureGenerator implements Runnable
 
 		// create the texture
 		frame.increaseChapter();
-		BufferedImage bi = createTexture(bestSolution, objects, n);
+		MetaBlock mb = new MetaBlock(MetaType.COLLECTION, 0);
+		BufferedImage bi = createTexture(bestSolution, objects, n, mb);
 
 		// write the texture
 		frame.increaseChapter();
 		frame.setAction("Writing texture");
-		File targetFile = model.getPath().getFile("texture.png");
-		writeImage(targetFile, bi);
+		File textureFile = model.getPath().getFile("texture.png");
+		writeImage(textureFile, bi);
+
+		// write the MetaFile
+		File metaFile = model.getPath().getFile("texture.meta");
+		writeMeta(metaFile, mb);
 
 		// show success
-		showSuccess(targetFile, bi, n);
+		showSuccess(textureFile, bi, n);
 	}
 
 	private int countImages(List<ObjectImages> objects)
@@ -132,7 +139,8 @@ public class TextureGenerator implements Runnable
 		}
 	}
 
-	private BufferedImage createTexture(IOptimizerResults solution, List<ObjectImages> objects, int imageCount) throws PrismException
+	private BufferedImage createTexture(IOptimizerResults solution, List<ObjectImages> objects, int imageCount, MetaBlock mb)
+			throws PrismException
 	{
 		IPoint_r size = solution.getActualSize();
 		BufferedImage out = new BufferedImage(size.getX(), size.getY(), BufferedImage.TYPE_INT_ARGB);
@@ -144,6 +152,19 @@ public class TextureGenerator implements Runnable
 
 		for (ObjectImages o : objects)
 		{
+			ObjectModel m = o.getObjectModel();
+
+			// update meta data: add object
+			MetaLine ml = new MetaLine(MetaKey.ITEM);
+			ml.getHeap().texts.add(m.getName());
+			mb.addMetaLine(ml);
+
+			// update meta data: add rects
+			ml = new MetaLine(MetaKey.ALT);
+			for (int i = 0; i < m.getRectCount(); ++i)
+				m.getRect(i).appendTo(ml.getHeap());
+			mb.addMetaLine(ml);
+
 			for (BufferedImage bi : o.getImages())
 			{
 				frame.setAction("Placing sprites (" + (p + 1) + " of " + imageCount + ")");
@@ -156,6 +177,13 @@ public class TextureGenerator implements Runnable
 					e.code.setText("a sprite was not assigned to the texture");
 					throw e;
 				}
+
+				// update meta data: add variation
+				ml = new MetaLine(MetaKey.SUB);
+				r.appendTo(ml.getHeap());
+				mb.addMetaLine(ml);
+
+				// draw sprite to texture
 				g.drawImage(bi, r.getX(), r.getY(), null);
 
 				frame.setProgress(p++);
@@ -164,30 +192,47 @@ public class TextureGenerator implements Runnable
 		return out;
 	}
 
-	private void writeImage(File targetFile, BufferedImage bi) throws PrismException
+	private void writeImage(File textureFile, BufferedImage bi) throws PrismException
 	{
 		try
 		{
-			FileOutputStream stream = new FileOutputStream(targetFile);
+			FileOutputStream stream = new FileOutputStream(textureFile);
 			ImageIO.write(bi, "png", stream);
 		}
 		catch (Exception e0)
 		{
 			PrismException e = new PrismException(e0);
 			e.setText("There was a problem while writing the texture.");
-			e.addInfo("file", targetFile.toString());
+			e.addInfo("file", textureFile.toString());
 			throw e;
 		}
 	}
 
-	private void showSuccess(File targetFile, BufferedImage bi, int imageCount)
+	private void writeMeta(File metaFile, MetaBlock mb) throws PrismException
+	{
+		try
+		{
+			FileOutputStream stream = new FileOutputStream(metaFile);
+			mb.pack(stream);
+			stream.close();
+		}
+		catch (Exception e0)
+		{
+			PrismException e = new PrismException(e0);
+			e.setText("There was a problem writing information about the generated texture.");
+			e.addInfo("file", metaFile.toString());
+			throw e;
+		}
+	}
+
+	private void showSuccess(File textureFile, BufferedImage bi, int imageCount)
 	{
 		SuccessMessage m = new SuccessMessage("texture");
-		m.addFile(targetFile);
+		m.addFile(textureFile);
 
 		m.addInfo("Size", bi.getWidth() + " x " + bi.getHeight());
 		m.addInfo("Sprites", String.valueOf(imageCount));
-		m.addIcon(targetFile);
+		m.addIcon(textureFile);
 
 		m.showMessage();
 	}

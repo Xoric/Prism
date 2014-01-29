@@ -22,7 +22,7 @@ public abstract class ObjectControl
 		if (name != null)
 		{
 			m = new ObjectModel(name);
-			model.addObject(m);
+			model.addObjectModel(m);
 
 			try
 			{

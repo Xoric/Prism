@@ -47,7 +47,7 @@ public class SpriteCollectionModel implements IPackable
 		stream.close();
 	}
 
-	public void addObject(ObjectModel m)
+	public void addObjectModel(ObjectModel m)
 	{
 		for (ObjectModel o : objects)
 			if (o.getName().equals(m.getName()))
@@ -71,7 +71,7 @@ public class SpriteCollectionModel implements IPackable
 		return objects.get(index);
 	}
 
-	public List<ObjectModel> getModels()
+	public List<ObjectModel> getObjectModels()
 	{
 		return objects;
 	}
@@ -97,11 +97,6 @@ public class SpriteCollectionModel implements IPackable
 
 		for (ObjectModel m : objects)
 			m.pack(stream);
-	}
-
-	public List<ObjectModel> getObjects()
-	{
-		return objects;
 	}
 
 	public void deleteObject(int index)

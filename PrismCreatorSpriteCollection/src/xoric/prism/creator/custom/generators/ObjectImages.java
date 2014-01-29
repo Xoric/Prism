@@ -9,18 +9,26 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
+import xoric.prism.creator.custom.model.ObjectModel;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.Point;
 
 class ObjectImages
 {
+	private final ObjectModel model;
 	private final SpriteNameGenerator spriteNameGenerator;
 	private final List<BufferedImage> images;
 
-	public ObjectImages(SpriteNameGenerator spriteNameGenerator)
+	public ObjectImages(ObjectModel model, SpriteNameGenerator spriteNameGenerator)
 	{
+		this.model = model;
 		this.spriteNameGenerator = spriteNameGenerator;
 		this.images = new ArrayList<BufferedImage>();
+	}
+
+	public ObjectModel getObjectModel()
+	{
+		return model;
 	}
 
 	public List<BufferedImage> getImages()

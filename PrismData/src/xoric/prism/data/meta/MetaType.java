@@ -8,6 +8,7 @@ public enum MetaType
 	DEVELOP /* contains attachments and targetFile */,
 	ANIM_D /* animation-names for ModelCreator etc. */,
 	MODEL_G,
-	URGENCY /* message urgency */
+	URGENCY, /* message urgency */
+	COLLECTION /* sprite collection */
 	// max index: 255
 }
