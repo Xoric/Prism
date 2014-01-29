@@ -159,6 +159,7 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 		objectList.setEnabled(b);
 		spriteList.setEnabled(b);
 		rectView.enableControls();
+		nameInput.setEnabled(b);
 	}
 
 	@Override

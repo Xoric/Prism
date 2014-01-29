@@ -89,7 +89,7 @@ public abstract class ValueInput extends JPanel implements ActionListener, IValu
 	{
 		super.setEnabled(enabled);
 
-		nameLabel.setEnabled(enabled);
+		//		nameLabel.setEnabled(enabled);
 		valuePane.setEnabled(enabled);
 		editButton.setEnabled(enabled);
 	}
