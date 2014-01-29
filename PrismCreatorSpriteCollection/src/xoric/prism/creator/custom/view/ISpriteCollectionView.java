@@ -11,6 +11,8 @@ public interface ISpriteCollectionView
 
 	public void displayAll();
 
+	public void displayName();
+
 	public void displayObjects();
 
 	public void displayObject();

@@ -6,6 +6,7 @@ import xoric.prism.creator.custom.generators.texture.TextureGenerator;
 import xoric.prism.creator.custom.model.SpriteCollectionModel;
 import xoric.prism.creator.custom.view.ISpriteCollectionView;
 import xoric.prism.data.types.IPath_r;
+import xoric.prism.data.types.IText_r;
 
 public class MainControl implements IMainControl
 {
@@ -30,6 +31,17 @@ public class MainControl implements IMainControl
 	{
 		CollectionGenerator g = new CollectionGenerator(model);
 		g.generateModel();
+	}
+
+	@Override
+	public void requestSetName(IText_r name)
+	{
+		if (model != null)
+		{
+			model.setName(name);
+			view.displayName();
+			CollectionControl.saveModel(model);
+		}
 	}
 
 	/* -------------- IMainMenuListener ------------ */

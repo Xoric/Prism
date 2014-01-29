@@ -25,8 +25,14 @@ import xoric.prism.creator.custom.control.IMainControl;
 import xoric.prism.creator.custom.control.SpriteCollectionSpriteNameGenerator;
 import xoric.prism.creator.custom.model.ObjectModel;
 import xoric.prism.creator.custom.model.SpriteCollectionModel;
+import xoric.prism.data.types.Text;
+import xoric.prism.swing.input.IValueInputListener;
+import xoric.prism.swing.input.TextInput;
+import xoric.prism.swing.input.ValueInput;
+import xoric.prism.swing.tooltips.ToolTipFormatter;
 
-public class MainView extends PrismCreatorCommonView implements ActionListener, ISpriteCollectionView, IObjectListListener
+public class MainView extends PrismCreatorCommonView implements ActionListener, ISpriteCollectionView, IObjectListListener,
+		IValueInputListener
 {
 	private static final long serialVersionUID = 1L;
 
@@ -34,6 +40,7 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 
 	private SpriteCollectionModel model;
 
+	private final TextInput nameInput;
 	private final IObjectList objectList;
 	private final ISpriteList spriteList;
 	private final IRectView rectView;
@@ -46,12 +53,26 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 		super("SpriteCollection");
 		super.setLayout(new GridBagLayout());
 
+		nameInput = new TextInput("Name", this);
+		nameInput.setValue(new Text("NONE"));
+		nameInput.setPrompt("Enter a new name for this collection.");
+		nameInput.setToolTipText(ToolTipFormatter.split("Provide a name for this collection."));
+		Insets insets = new Insets(30, 30, 30, 30);
+		//		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 0.15, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0,
+		//				0);
+		//		add(nameInput, c);
+
 		ObjectList o = new ObjectList(this);
 		objectList = o;
-		Insets insets = new Insets(30, 30, 30, 30);
+		//		c = new GridBagConstraints(0, 1, 1, 1, 0.15, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
+		//		add(o, c);
+
+		JPanel p = new JPanel(new BorderLayout());
+		p.add(BorderLayout.NORTH, nameInput);
+		p.add(BorderLayout.CENTER, o);
 		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 2, 0.15, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0,
 				0);
-		add(o, c);
+		add(p, c);
 
 		SpriteList s = new SpriteList();
 		spriteList = s;
@@ -143,8 +164,15 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 	@Override
 	public void displayAll()
 	{
+		displayName();
 		displayObjects();
 		displayObject();
+	}
+
+	@Override
+	public void displayName()
+	{
+		nameInput.setValue(model == null ? new Text("") : model.getName());
 	}
 
 	@Override
@@ -194,5 +222,12 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 			control.requestCreateTexture();
 		else if (o == mnuItemCreateCollection)
 			control.requestCreateCollection();
+	}
+
+	@Override
+	public void notifyValueChanged(ValueInput input)
+	{
+		if (input == nameInput)
+			control.requestSetName(nameInput.getValue());
 	}
 }
