@@ -107,6 +107,13 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 		enableControls();
 	}
 
+	@Override
+	public void setEnabled(boolean b)
+	{
+		super.setEnabled(b);
+		enableControls();
+	}
+
 	private void enableControls()
 	{
 		boolean b = this.isEnabled() && image != null;
@@ -116,15 +123,7 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 
 	private void enableButtons()
 	{
-		int n = rectList.getSelectedIndices().length;
-		buttonPanel.setEnabled(this.isEnabled(), n > 0);
-	}
-
-	@Override
-	public void setEnabled(boolean b)
-	{
-		super.setEnabled(b);
-		enableControls();
+		buttonPanel.setEnabled(image != null, rectList.getSelectedIndex() >= 0);
 	}
 
 	@Override

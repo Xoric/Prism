@@ -126,7 +126,7 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 		boolean b = model != null;
 		objectList.setEnabled(b);
 		spriteList.setEnabled(b);
-		rectView.setEnabled(b);
+		rectView.setEnabled(b && objectList.getSelectedIndex() >= 0);
 	}
 
 	@Override
