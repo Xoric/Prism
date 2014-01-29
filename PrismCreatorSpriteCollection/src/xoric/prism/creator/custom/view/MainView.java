@@ -11,9 +11,10 @@ import javax.swing.JMenuItem;
 import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
 import xoric.prism.creator.common.spritelist.view.ISpriteList;
 import xoric.prism.creator.common.spritelist.view.SpriteList;
+import xoric.prism.creator.common.view.IMainMenuBar;
 import xoric.prism.creator.common.view.PrismCreatorCommonView;
-import xoric.prism.creator.custom.SpriteCollectionSpriteNameGenerator;
 import xoric.prism.creator.custom.control.IMainControl;
+import xoric.prism.creator.custom.control.SpriteCollectionSpriteNameGenerator;
 import xoric.prism.creator.custom.model.ObjectModel;
 import xoric.prism.creator.custom.model.SpriteCollectionModel;
 
@@ -39,28 +40,40 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 		ObjectList o = new ObjectList(this);
 		objectList = o;
 		Insets insets = new Insets(30, 30, 30, 30);
-		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 2, 0.4, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0,
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 2, 0.25, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0,
 				0);
 		add(o, c);
 
 		SpriteList s = new SpriteList();
 		spriteList = s;
 		insets = new Insets(30, 0, 30, 30);
-		c = new GridBagConstraints(1, 1, 1, 1, 0.6, 0.4, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
+		c = new GridBagConstraints(1, 1, 1, 1, 0.75, 0.4, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
 		add(s, c);
 
 		RectView r = new RectView();
 		rectView = r;
-		c = new GridBagConstraints(1, 0, 1, 1, 0.6, 0.6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
+		c = new GridBagConstraints(1, 0, 1, 1, 0.75, 0.6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
 		add(r, c);
 
 		mnuItemCreateTexture = new JMenuItem("Combined texture (.png)");
 
 		mnuItemCreateTexture.addActionListener(this);
 
-		super.getMainMenuBar().addCreationItem(mnuItemCreateTexture);
+		IMainMenuBar m = super.getMainMenuBar();
+		m.addCreationItem(mnuItemCreateTexture);
+
+		appendAboutInfo();
 
 		setModel(null);
+	}
+
+	private void appendAboutInfo()
+	{
+		IMainMenuBar m = super.getMainMenuBar();
+		m.appendHtmlLine("This program uses the <b>RectanglePacker</b> class developed by Ryan McNally.");
+		String s = "http://www.java2s.com/Code/Java/2D-Graphics-GUI/Triestopackrectanglesastightlyaspossible.htm";
+		m.appendHtmlLine("Source: <a href=" + s + ">" + s + "</a><br>");
+		m.appendHtmlLine("<p style=\"width:520pt;border: 1px solid #000000;\">Copyright (c) 2007, Ryan McNally All rights reserved. Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution. Neither the name of the ORGANIZATION nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>");
 	}
 
 	public void start()
@@ -71,7 +84,7 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 	@Override
 	public void setControl(IMainControl control)
 	{
-		super.setMainMenuListener(control);
+		super.getMainMenuBar().setMainMenuListener(control);
 		this.control = control;
 		this.objectList.setControl(control);
 		this.rectView.setControl(control);

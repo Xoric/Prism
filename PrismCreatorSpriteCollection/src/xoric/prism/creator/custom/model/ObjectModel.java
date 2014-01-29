@@ -80,4 +80,9 @@ public class ObjectModel implements IPackable
 		for (int i = 0; i < n; ++i)
 			rects.get(i).pack(stream);
 	}
+
+	public void removeRect(int index)
+	{
+		rects.remove(index);
+	}
 }

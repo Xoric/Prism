@@ -6,7 +6,6 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
-import xoric.prism.creator.custom.SpriteCollectionSpriteNameGenerator;
 import xoric.prism.creator.custom.model.ObjectModel;
 import xoric.prism.creator.custom.model.SpriteCollectionModel;
 import xoric.prism.data.types.IText_r;
