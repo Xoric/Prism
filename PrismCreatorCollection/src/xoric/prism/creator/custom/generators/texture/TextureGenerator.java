@@ -20,7 +20,6 @@ import xoric.prism.data.meta.MetaLine;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.Heap;
 import xoric.prism.data.types.IPoint_r;
-import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Rect;
 
 import com.ryanm.droid.rugl.util.RectanglePacker;
@@ -157,19 +156,21 @@ public class TextureGenerator implements Runnable
 			ObjectModel m = o.getObjectModel();
 
 			// get this objects width and height
-			Point objectSize = new Point();
+			int width = 0;
+			int height = 0;
 			if (o.getImageCount() > 0)
 			{
 				BufferedImage bi = o.getImage(0);
-				objectSize.x = bi.getWidth();
-				objectSize.y = bi.getHeight();
+				width = bi.getWidth();
+				height = bi.getHeight();
 			}
 
 			// update meta data: add object
 			MetaLine ml = new MetaLine(MetaKey.ITEM);
 			Heap h = ml.getHeap();
 			h.texts.add(m.getName());
-			objectSize.appendTo(h);
+			h.ints.add(width);
+			h.ints.add(height);
 			mb.addMetaLine(ml);
 
 			// update meta data: add rects
