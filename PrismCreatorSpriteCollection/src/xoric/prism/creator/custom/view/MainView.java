@@ -79,12 +79,13 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 		IMainMenuBar m = super.getMainMenuBar();
 
 		String s = "http://www.java2s.com/Code/Java/2D-Graphics-GUI/Triestopackrectanglesastightlyaspossible.htm";
-		JLabel l1 = new JLabel("<html>This program uses the <b>RectanglePacker</b> class developed by Ryan McNally.</html>");
+		JLabel l1 = new JLabel(
+				"<html><p style=\"width:440pt;\">This program uses the <b>RectanglePacker</b> class developed by Ryan McNally to pack multiple sprites into a common texture.</p></html>");
 
 		JTextPane e = new JTextPane();
 		e.setEditable(false);
 		e.setText(s);
-
+		e.setFont(e.getFont().deriveFont(9.0f));
 		JPanel p = new JPanel(new BorderLayout());
 		p.add(BorderLayout.WEST, new JLabel("Source: "));
 		p.add(BorderLayout.CENTER, e);
