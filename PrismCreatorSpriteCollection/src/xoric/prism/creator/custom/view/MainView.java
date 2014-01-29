@@ -19,6 +19,7 @@ import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
 import xoric.prism.creator.common.spritelist.view.ISpriteList;
 import xoric.prism.creator.common.spritelist.view.SpriteList;
 import xoric.prism.creator.common.view.IMainMenuBar;
+import xoric.prism.creator.common.view.INewDialog;
 import xoric.prism.creator.common.view.PrismCreatorCommonView;
 import xoric.prism.creator.custom.control.IMainControl;
 import xoric.prism.creator.custom.control.SpriteCollectionSpriteNameGenerator;
@@ -38,6 +39,7 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 	private final IRectView rectView;
 
 	private final JMenuItem mnuItemCreateTexture;
+	private final JMenuItem mnuItemCreateCollection;
 
 	public MainView()
 	{
@@ -63,11 +65,14 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 		add(r, c);
 
 		mnuItemCreateTexture = new JMenuItem("Combined texture (.png)");
-
 		mnuItemCreateTexture.addActionListener(this);
+
+		mnuItemCreateCollection = new JMenuItem("SpriteCollection (.sc)");
+		mnuItemCreateCollection.addActionListener(this);
 
 		IMainMenuBar m = super.getMainMenuBar();
 		m.addCreationItem(mnuItemCreateTexture);
+		m.addCreationItem(mnuItemCreateCollection);
 
 		appendAboutInfo();
 
@@ -102,6 +107,12 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 		m.appendAboutComponent(u);
 	}
 
+	@Override
+	public INewDialog createDialog()
+	{
+		return new NewCollectionDialog();
+	}
+
 	public void start()
 	{
 		setVisible(true);
@@ -127,7 +138,6 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 		objectList.setEnabled(b);
 		spriteList.setEnabled(b);
 		rectView.enableControls();
-		//		rectView.setEnabled(b && objectList.getSelectedIndex() >= 0);
 	}
 
 	@Override
@@ -182,5 +192,7 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 
 		if (o == mnuItemCreateTexture)
 			control.requestCreateTexture();
+		else if (o == mnuItemCreateCollection)
+			control.requestCreateCollection();
 	}
 }
