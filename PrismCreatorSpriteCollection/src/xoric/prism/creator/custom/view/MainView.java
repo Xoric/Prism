@@ -95,6 +95,7 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 	{
 		this.model = model;
 		this.objectList.setModel(model);
+		super.getMainMenuBar().setModelObjectIsNull(model == null);
 
 		boolean b = model != null;
 		objectList.setEnabled(b);
