@@ -11,14 +11,16 @@ import javax.imageio.ImageIO;
 
 import xoric.prism.creator.common.factory.SuccessMessage;
 import xoric.prism.creator.custom.control.CollectionSpriteNameGenerator;
-import xoric.prism.creator.custom.model.ObjectModel;
 import xoric.prism.creator.custom.model.CollectionModel;
+import xoric.prism.creator.custom.model.ObjectModel;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.meta.MetaBlock;
 import xoric.prism.data.meta.MetaKey;
 import xoric.prism.data.meta.MetaLine;
 import xoric.prism.data.meta.MetaType;
+import xoric.prism.data.types.Heap;
 import xoric.prism.data.types.IPoint_r;
+import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Rect;
 
 import com.ryanm.droid.rugl.util.RectanglePacker;
@@ -154,9 +156,20 @@ public class TextureGenerator implements Runnable
 		{
 			ObjectModel m = o.getObjectModel();
 
+			// get this objects width and height
+			Point objectSize = new Point();
+			if (o.getImageCount() > 0)
+			{
+				BufferedImage bi = o.getImage(0);
+				objectSize.x = bi.getWidth();
+				objectSize.y = bi.getHeight();
+			}
+
 			// update meta data: add object
 			MetaLine ml = new MetaLine(MetaKey.ITEM);
-			ml.getHeap().texts.add(m.getName());
+			Heap h = ml.getHeap();
+			h.texts.add(m.getName());
+			objectSize.appendTo(h);
 			mb.addMetaLine(ml);
 
 			// update meta data: add rects
@@ -180,7 +193,7 @@ public class TextureGenerator implements Runnable
 
 				// update meta data: add variation
 				ml = new MetaLine(MetaKey.SUB);
-				r.appendTo(ml.getHeap());
+				r.getPosition().appendTo(ml.getHeap());
 				mb.addMetaLine(ml);
 
 				// draw sprite to texture

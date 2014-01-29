@@ -31,6 +31,11 @@ class ObjectImages
 		return model;
 	}
 
+	public int getImageCount()
+	{
+		return images.size();
+	}
+
 	public List<BufferedImage> getImages()
 	{
 		return images;
@@ -101,5 +106,10 @@ class ObjectImages
 			if (bi.getHeight() > max.y)
 				max.y = bi.getHeight();
 		}
+	}
+
+	public BufferedImage getImage(int index)
+	{
+		return images.get(index);
 	}
 }
