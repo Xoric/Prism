@@ -53,7 +53,9 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 	private boolean isMouseDown;
 
 	private BufferedImage image;
+	private BufferedImage scaledImage;
 	private BufferedImage decoratedImage;
+	private JLabel zoomLabel;
 	private JSlider slider;
 
 	private JList<String> rectList;
@@ -87,15 +89,17 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 		p3.add(BorderLayout.CENTER, p2);
 		p3.add(BorderLayout.SOUTH, bp);
 
-		JPanel zoomPanel = new JPanel(new BorderLayout());
-		zoomPanel.add(BorderLayout.WEST, new JLabel("Zoom"));
-		zoomPanel.add(BorderLayout.CENTER, slider = new JSlider());
+		JPanel zoomPanel = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 0.3, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(
+				0, 0, 0, 0), 0, 0);
+		zoomPanel.add(zoomLabel = new JLabel("Zoom"), c);
+		c = new GridBagConstraints(1, 0, 1, 1, 0.7, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+		zoomPanel.add(slider = new JSlider(), c);
 		slider.setMinimum(1);
 		slider.setMaximum(15);
 		slider.addChangeListener(this);
 
-		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 15, 0.2, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-				new Insets(0, 0, 0, 15), 0, 0);
+		c = new GridBagConstraints(0, 0, 1, 1, 0.2, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 15), 0, 0);
 		add(p3, c);
 
 		c = new GridBagConstraints(1, 0, 1, 1, 0.85, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
@@ -115,6 +119,7 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 		enableControls();
 	}
 
+	@Override
 	public void enableControls()
 	{
 		boolean b = this.isEnabled() && image != null;
@@ -133,42 +138,79 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 		this.control = control;
 	}
 
-	private void decorateImage()
+	private void loadImage(File file)
 	{
-		decoratedImage = deepCopy();
+		scaledImage = null;
+		decoratedImage = null;
 
-		if (decoratedImage == null)
-			return;
-
-		int selectedIndex = rectList.getSelectedIndex();
-		final int n = model.getRectCount();
-		int zoom = slider.getValue();
-		Graphics g = decoratedImage.getGraphics();
-
-		for (int i = 0; i < n; ++i)
+		try
 		{
-			Rect r = model.getRect(i);
+			image = ImageIO.read(file);
+		}
+		catch (IOException e)
+		{
+			image = null;
+		}
+	}
 
-			if (r.getWidth() > 0 && r.getHeight() > 0)
+	private void scaleImage()
+	{
+		if (image == null)
+		{
+			scaledImage = null;
+		}
+		else
+		{
+			int zoom = slider.getValue();
+			int w = image.getWidth() * zoom;
+			int h = image.getHeight() * zoom;
+
+			scaledImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+			Graphics g = scaledImage.getGraphics();
+			g.drawImage(image, 0, 0, w, h, null);
+			g.dispose();
+		}
+	}
+
+	private void decorateScaledImage()
+	{
+		if (scaledImage == null)
+		{
+			decoratedImage = null;
+		}
+		else
+		{
+			decoratedImage = new BufferedImage(scaledImage.getWidth(), scaledImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
+			Graphics g = decoratedImage.getGraphics();
+			g.drawImage(scaledImage, 0, 0, scaledImage.getWidth(), scaledImage.getHeight(), null);
+
+			int selectedIndex = rectList.getSelectedIndex();
+			final int n = model.getRectCount();
+			int zoom = slider.getValue();
+
+			for (int i = 0; i < n; ++i)
 			{
-				int sx = r.getX() * zoom;
-				int sy = r.getY() * zoom;
-				int w = r.getWidth() * zoom - 1;
-				int h = r.getHeight() * zoom - 1;
+				Rect r = model.getRect(i);
 
-				boolean b = selectedIndex == i;
-				g.setColor(b ? fill1 : fill0);
-				g.fillRect(sx, sy, w, h);
-				g.setColor(b ? border1 : border0);
-				g.drawRect(sx, sy, w, h);
+				if (r.getWidth() > 0 && r.getHeight() > 0)
+				{
+					int sx = r.getX() * zoom;
+					int sy = r.getY() * zoom;
+					int w = r.getWidth() * zoom - 1;
+					int h = r.getHeight() * zoom - 1;
+
+					boolean b = selectedIndex == i;
+					g.setColor(b ? fill1 : fill0);
+					g.fillRect(sx, sy, w, h);
+					g.setColor(b ? border1 : border0);
+					g.drawRect(sx, sy, w, h);
+				}
 			}
 		}
 	}
 
-	private void updateImage()
+	private void showDecoratedImage()
 	{
-		decorateImage();
-
 		if (decoratedImage != null)
 		{
 			ImageIcon icon = new ImageIcon(decoratedImage);
@@ -181,41 +223,6 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 			imageLabel.setText("Error");
 		}
 		imageLabel.revalidate();
-	}
-
-	private BufferedImage deepCopy()
-	{
-		BufferedImage bi;
-
-		if (image != null)
-		{
-			int zoom = slider.getValue();
-			int w = image.getWidth() * zoom;
-			int h = image.getHeight() * zoom;
-
-			bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-			Graphics g = bi.getGraphics();
-			g.drawImage(image, 0, 0, w, h, null);
-			g.dispose();
-		}
-		else
-			bi = null;
-
-		return bi;
-	}
-
-	private void loadImage(File file)
-	{
-		try
-		{
-			image = ImageIO.read(file);
-			enableControls();
-		}
-		catch (IOException e)
-		{
-			image = null;
-			enableControls();
-		}
 	}
 
 	private void updateList()
@@ -263,14 +270,20 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 
 		updateList();
 
-		updateImage();
+		loadImage(spriteNameGenerator.getFile(0));
+		scaleImage();
+		decorateScaledImage();
+		showDecoratedImage();
+
 		enableControls();
 	}
 
 	@Override
 	public void valueChanged(ListSelectionEvent e)
 	{
-		updateImage();
+		decorateScaledImage();
+		showDecoratedImage();
+
 		buttonPanel.setEnabled(true, rectList.getSelectedIndex() >= 0);
 	}
 
@@ -280,13 +293,23 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 		listModel.clear();
 		imageLabel.setIcon(null);
 		imageLabel.revalidate();
+
+		image = null;
+		scaledImage = null;
+		decoratedImage = null;
 	}
 
 	@Override
 	public void stateChanged(ChangeEvent e)
 	{
 		if (e.getSource() == slider)
-			updateImage();
+		{
+			scaleImage();
+			decorateScaledImage();
+			showDecoratedImage();
+
+			zoomLabel.setText("Zoom " + slider.getValue() + "x");
+		}
 	}
 
 	@Override
@@ -334,7 +357,9 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 						h = 0;
 					r.setSize(w, h);
 
-					updateImage();
+					decorateScaledImage();
+					showDecoratedImage();
+
 					updateList();
 				}
 			}
@@ -381,7 +406,9 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 				{
 					r.setSize(w, h);
 
-					updateImage();
+					decorateScaledImage();
+					showDecoratedImage();
+
 					updateList();
 				}
 			}
@@ -402,7 +429,9 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 			model.addRect(r);
 			updateList();
 			rectList.setSelectedIndex(listModel.size() - 1);
-			updateImage();
+
+			decorateScaledImage();
+			showDecoratedImage();
 
 			control.requestSaveCollection();
 		}
@@ -423,8 +452,11 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 			if (index >= 0 && index < listModel.size())
 			{
 				model.removeRect(index);
+
 				updateList();
-				updateImage();
+
+				decorateScaledImage();
+				showDecoratedImage();
 
 				control.requestSaveCollection();
 			}
