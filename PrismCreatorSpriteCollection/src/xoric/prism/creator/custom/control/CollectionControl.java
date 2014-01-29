@@ -6,20 +6,24 @@ import javax.swing.JOptionPane;
 
 import xoric.prism.creator.common.view.INewDialogResult;
 import xoric.prism.creator.custom.model.SpriteCollectionModel;
+import xoric.prism.creator.custom.view.NewCollectionData;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IPath_r;
+import xoric.prism.data.types.Text;
 
 public abstract class CollectionControl
 {
 	public static SpriteCollectionModel createNewModel(INewDialogResult result)
 	{
+		NewCollectionData d = (NewCollectionData) result;
 		SpriteCollectionModel m = openModel(result.getPath());
+		m.setName(d.getName());
 		return m;
 	}
 
 	public static SpriteCollectionModel openModel(IPath_r path)
 	{
-		SpriteCollectionModel model = new SpriteCollectionModel(path);
+		SpriteCollectionModel model = new SpriteCollectionModel(new Text("TEST"), path);
 		try
 		{
 			model.load();
