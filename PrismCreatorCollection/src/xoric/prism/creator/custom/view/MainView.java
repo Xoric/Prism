@@ -21,10 +21,10 @@ import xoric.prism.creator.common.spritelist.view.SpriteList;
 import xoric.prism.creator.common.view.IMainMenuBar;
 import xoric.prism.creator.common.view.INewDialog;
 import xoric.prism.creator.common.view.PrismCreatorCommonView;
-import xoric.prism.creator.custom.control.IMainControl;
 import xoric.prism.creator.custom.control.CollectionSpriteNameGenerator;
-import xoric.prism.creator.custom.model.ObjectModel;
+import xoric.prism.creator.custom.control.IMainControl;
 import xoric.prism.creator.custom.model.CollectionModel;
+import xoric.prism.creator.custom.model.ObjectModel;
 import xoric.prism.data.types.Text;
 import xoric.prism.swing.input.IValueInputListener;
 import xoric.prism.swing.input.TextInput;
@@ -50,7 +50,7 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 
 	public MainView()
 	{
-		super("SpriteCollection");
+		super("Collection");
 		super.setLayout(new GridBagLayout());
 
 		nameInput = new TextInput("Name", this);
