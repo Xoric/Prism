@@ -5,7 +5,7 @@ import javax.swing.text.BadLocationException;
 
 import xoric.prism.data.types.TextMap;
 
-class PrismTextFilter extends PrismDocumentFilter
+public class PrismTextFilter extends PrismDocumentFilter
 {
 	public PrismTextFilter(Object owner)
 	{
