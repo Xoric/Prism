@@ -1,5 +1,7 @@
 package xoric.prism.creator.common.view;
 
+import java.awt.Component;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
@@ -36,7 +38,7 @@ public class MainMenuBar extends JMenuBar implements IMainMenuBar
 	}
 
 	@Override
-	public void appendHtmlLine(String line)
+	public void appendAboutHtmlLine(String line)
 	{
 		helpMenu.getAboutDialog().appendHtmlLine(line);
 	}
@@ -51,5 +53,11 @@ public class MainMenuBar extends JMenuBar implements IMainMenuBar
 	public void setModelObjectIsNull(boolean isModelObjectNull)
 	{
 		mainMenu.setModelObjectIsNull(isModelObjectNull);
+	}
+
+	@Override
+	public void appendAboutComponent(Component c)
+	{
+		helpMenu.getAboutDialog().appendComponent(c);
 	}
 }

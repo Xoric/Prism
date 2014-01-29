@@ -1,5 +1,7 @@
 package xoric.prism.creator.common.view;
 
+import java.awt.Component;
+
 import javax.swing.JMenuItem;
 
 import xoric.prism.creator.common.control.IMainMenuListener;
@@ -10,7 +12,9 @@ public interface IMainMenuBar
 
 	public void setMainMenuListener(IMainMenuListener listener);
 
-	public void appendHtmlLine(String line);
+	public void appendAboutHtmlLine(String line);
+
+	public void appendAboutComponent(Component c);
 
 	public void addCreationItem(JMenuItem item);
 

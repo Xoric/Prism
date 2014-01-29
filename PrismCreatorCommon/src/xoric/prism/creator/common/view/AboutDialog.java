@@ -46,4 +46,9 @@ public class AboutDialog
 		JOptionPane.showOptionDialog(null, message, "About " + creatorName, JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE, null,
 				options, options[0]);
 	}
+
+	public void appendComponent(Component c)
+	{
+		components.add(c);
+	}
 }
