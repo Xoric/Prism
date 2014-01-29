@@ -1,0 +1,6 @@
+package xoric.prism.creator.custom.creators;
+
+interface IOptimizerResults
+{
+
+}

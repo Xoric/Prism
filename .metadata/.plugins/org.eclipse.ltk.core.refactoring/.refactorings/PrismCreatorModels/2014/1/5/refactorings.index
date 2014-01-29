@@ -9,3 +9,6 @@
 1390805916004	Move compilation unit
 1390806599411	Rename field 'variationlist'
 1390806812828	Rename local variable 'tileSize'
+1390985037598	Rename package 'xoric.prism.creator.models.generators'
+1390985054138	Rename package 'xoric.prism.creator.models.creators'
+1390986456517	Move compilation unit

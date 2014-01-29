@@ -138,4 +138,10 @@ public class Rect implements IRect_r, IStackable, IPackable
 		position.pack(stream);
 		size.pack(stream);
 	}
+
+	@Override
+	public boolean isSquare()
+	{
+		return size.isSquare();
+	}
 }

@@ -1,0 +1,137 @@
+package xoric.prism.creator.custom.creators;
+
+import java.util.List;
+
+import xoric.prism.data.types.Rect;
+
+public class SpritePacker<P>
+{
+
+	/**
+	 * Determines the outcome of a rectangle-fitting test
+	 * @author ryanm
+	 */
+	private static enum Fit
+	{
+		/**
+		 * Indicates that the rectangle did not fit
+		 */
+		FAIL,
+		/**
+		 * Indicates that the rectangle fitted perfectly
+		 */
+		PERFECT,
+		/**
+		 * Indicates that the rectangle fitted with room to spare
+		 */
+		FIT
+	};
+
+	private Node root;
+
+	/**
+	 * The border to leave around rectangles
+	 */
+	private int border = 0;
+
+	/**
+	 * Builds a new {@link SpritePacker}
+	 * @param width
+	 *            The width of the space available to pack into
+	 * @param height
+	 *            The height of the space available to pack into
+	 * @param border
+	 *            The border to preserve between packed items
+	 */
+	public SpritePacker(int width, int height, int border)
+	{
+		root = new Node(new Rect(0, 0, width, height));
+		this.border = border;
+	}
+
+	/**
+	 * Builds a list of all {@link Rect}s in the tree, for debugging purposes
+	 * @param rectangles
+	 *            The list to add the tree's {@link Rect}s to
+	 */
+	public void inspectRectangles(List<Rect> rectangles)
+	{
+		root.getRectangles(rectangles);
+	}
+
+	/**
+	 * Finds the {@link Rect} where an item is stored
+	 * @param item
+	 *            The item to search for
+	 * @return The {@link Rect} where that item resides, or null if not found
+	 */
+	public Rect findRectangle(P item)
+	{
+		return root.findRectange(item);
+	}
+
+	/**
+	 * Clears the packer of all items
+	 */
+	public void clear()
+	{
+		root = new Node(root.rect);
+	}
+
+	/**
+	 * Attempts to pack an item of the supplied dimensions
+	 * @param width
+	 *            The width of the item
+	 * @param height
+	 *            The height of the item
+	 * @param o
+	 *            The item to pack
+	 * @return The packed location, or null if it will not fit.
+	 */
+	public Rect insert(int width, int height, P o)
+	{
+		Node n = root.insert(width + 2 * border, height + 2 * border, o);
+
+		if (n != null)
+		{
+			Rect r = new Rect(n.rect.x + border, n.rect.y + border, n.rect.width - 2 * border, n.rect.height - 2 * border);
+			return r;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * Removes an item from the tree, consolidating the space if possible. The space can easily become fragmented, so don't rely on this to
+	 * work as cleverly as you would like.
+	 * @param o
+	 *            the item to remove
+	 * @return <code>true</code> if the item was found, false otherwise
+	 */
+	public boolean remove(P o)
+	{
+		return root.remove(o);
+	}
+
+	/**
+	 * Gets the width of this packer
+	 * @return the width of this packer
+	 */
+	public int getWidth()
+	{
+		return root.rect.width;
+	}
+
+	/**
+	 * Gets the height of this packer
+	 * @return The height of this packer
+	 */
+	public int getHeight()
+	{
+		return root.rect.height;
+	}
+
+	
+}

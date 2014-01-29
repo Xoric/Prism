@@ -89,4 +89,10 @@ public class Point implements IStackable, IPackable, IPoint_r
 		y = IntPacker.unpack_s(stream);
 
 	}
+
+	@Override
+	public boolean isSquare()
+	{
+		return x == y;
+	}
 }

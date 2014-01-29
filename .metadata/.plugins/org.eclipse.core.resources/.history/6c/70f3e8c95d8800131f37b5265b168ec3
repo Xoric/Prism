@@ -1,0 +1,30 @@
+package xoric.prism.creator.common.view;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JMenuItem;
+
+public class HelpMenu implements ActionListener
+{
+	private final JMenuItem mnuItemAbout;
+	private final AboutDialog aboutDialog;
+
+	public HelpMenu()
+	{
+		mnuItemAbout = new JMenuItem("About");
+		mnuItemAbout.addActionListener(this);
+		
+		aboutDialog = new AboutDialog();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		Object o = e.getSource();
+
+		if (o == mnuItemAbout)
+		{
+		}
+	}
+}

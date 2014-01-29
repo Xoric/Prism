@@ -1,0 +1,6 @@
+package xoric.prism.creator.custom.creators;
+
+public interface IOptimizer
+{
+public void onThreadFinished(IOptimizerResults results);
+}

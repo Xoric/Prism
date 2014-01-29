@@ -1,0 +1,44 @@
+package xoric.prism.creator.custom.creators;
+
+import java.awt.image.BufferedImage;
+import java.util.List;
+
+import xoric.prism.data.types.IPoint_r;
+import xoric.prism.data.types.Point;
+
+import com.ryanm.droid.rugl.util.RectanglePacker;
+
+class OptimizerThread extends Thread
+{
+	private static final long serialVersionUID = 1L;
+
+	private final List<ObjectImages> objects;
+	private final IPoint_r size;
+
+	public OptimizerThread(List<ObjectImages> objects, IPoint_r size)
+	{
+		this.objects = objects;
+		this.size = new Point(size);
+	}
+
+	@Override
+	public void run()
+	{
+		RectanglePacker<BufferedImage> p = new RectanglePacker<BufferedImage>(size.getX(), size.getY(), 0);
+
+		for (ObjectImages o : objects)
+			for (BufferedImage bi : o.getImages())
+				p.insert(bi.getWidth(), bi.getHeight(), bi);
+
+		boolean b = true;
+
+		for (ObjectImages o : objects)
+			for (BufferedImage bi : o.getImages())
+				b &= p.findRectangle(bi) != null;
+
+		if (b)
+		{
+
+		}
+	}
+}

@@ -1,0 +1,18 @@
+package xoric.prism.creator.common.view;
+
+import javax.swing.JLabel;
+
+import xoric.prism.swing.PrismPanel;
+
+public class AboutDialog
+{
+	private final JLabel aboutLabel;
+	private final PrismPanel aboutPanel;
+
+	public AboutDialog()
+	{
+		aboutLabel = new JLabel();
+		aboutPanel = new PrismPanel();
+	}
+
+}

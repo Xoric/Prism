@@ -1,0 +1,16 @@
+package xoric.prism.creator.common.view;
+
+import java.awt.Component;
+
+import javax.swing.JMenuItem;
+
+public interface IMainMenuBar
+{
+	public void setDialogCreator(INewDialogCreator dialogCreator);
+	
+	public void setMainMenuListener(IMainMenuListener mainMenuListener);
+
+	public void addAboutComponent(Component c);
+
+	public void addCreationItem(JMenuItem item);
+}

@@ -37,3 +37,24 @@
 1390919013942	Rename field 's'
 1390919032153	Rename method 'load'
 1390922438200	Rename method 'startThread'
+1390940613271	Rename type 'RectanglePacker'
+1390940711320	Delete elements
+1390940753162	Rename type 'RectanglePacker2'
+1390943713773	Move compilation unit
+1390946240691	Rename method 'callBack'
+1390947241728	Rename type 'OptimizerWorker'
+1390947353310	Rename field 'size'
+1390947532115	Rename method 'optimize'
+1390947827834	Delete element
+1390950071917	Rename method 'findHighestDimensions'
+1390950374908	Rename field 'squareSize'
+1390950563744	Delete element
+1390953905562	Rename method 'calcSquare'
+1390953922921	Rename method 'calcActualSquare'
+1390954304803	Rename local variable 'results'
+1390983304160	Rename local variable 'size'
+1390983972133	Delete element
+1390984044517	Delete element
+1390985059080	Rename package 'xoric.prism.creator.custom.creators'
+1390985073010	Rename type 'TextureCreator'
+1390986742814	Rename local variable 'file'
