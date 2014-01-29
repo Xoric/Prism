@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy element &apos;PrismMetaFileException.java&apos; to &apos;PrismData/src/xoric.prism.exceptions&apos;&#x0D;&#x0A;- Original project: &apos;PrismData&apos;&#x0D;&#x0A;- Destination element: &apos;PrismData/src/xoric.prism.exceptions&apos;&#x0D;&#x0A;- Original element: &apos;xoric.prism.exceptions.PrismMetaFileException.java&apos;" description="Copy compilation unit" destination="/src&lt;xoric.prism.exceptions" element1="/src&lt;xoric.prism.exceptions{PrismMetaFileException.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1387628471768" units="1" version="1.0"/>
-</session>

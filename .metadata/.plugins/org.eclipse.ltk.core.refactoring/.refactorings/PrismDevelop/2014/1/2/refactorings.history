@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename method &apos;xoric.prism.develop.meta.AttachmentImporter.createtHeader()&apos; to &apos;createHeader&apos;&#x0D;&#x0A;- Original project: &apos;PrismDevelop&apos;&#x0D;&#x0A;- Original element: &apos;xoric.prism.develop.meta.AttachmentImporter.createtHeader()&apos;&#x0D;&#x0A;- Renamed element: &apos;xoric.prism.develop.meta.AttachmentImporter.createHeader()&apos;&#x0D;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;createtHeader&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.method" input="/src&lt;xoric.prism.develop.meta{AttachmentImporter.java[AttachmentImporter~createtHeader" name="createHeader" references="true" stamp="1389093088358" version="1.0"/>
-</session>

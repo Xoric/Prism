@@ -1,6 +1,0 @@
-package xoric.prism.com;
-
-public class MessageDispatcher
-{
-	private List<Message> messages;
-}

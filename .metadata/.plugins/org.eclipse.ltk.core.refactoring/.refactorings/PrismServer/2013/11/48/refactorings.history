@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename package &apos;xoric.prism.server&apos; to &apos;xoric.prism.server.main&apos;&#x0D;&#x0A;- Original project: &apos;PrismServer&apos;&#x0D;&#x0A;- Original element: &apos;PrismServer/src/xoric.prism.server&apos;&#x0D;&#x0A;- Renamed element: &apos;PrismServer/src/xoric.prism.server.main&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;xoric.prism.server&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src&lt;xoric.prism.server" name="xoric.prism.server.main" qualified="false" references="true" stamp="1385742886379" textual="false" version="1.0"/>
-</session>

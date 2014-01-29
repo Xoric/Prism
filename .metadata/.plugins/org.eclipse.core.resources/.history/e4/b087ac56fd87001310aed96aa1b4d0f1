@@ -1,6 +1,0 @@
-package xoric.prism.creator.common.factory;
-
-public abstract class Factory
-{
-
-}

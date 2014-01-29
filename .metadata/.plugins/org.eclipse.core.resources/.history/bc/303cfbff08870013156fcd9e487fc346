@@ -1,8 +1,0 @@
-package xoric.prism.creator.common.spritelist.control;
-
-public interface ISpriteNameGenerator
-{
-	public String getFilename(int index);
-	
-	public IPath_r getPath();
-}

@@ -1,5 +1,0 @@
-package xoric.prism.creator.custom.control;
-
-public interface ISpriteCollectionControl extends IMainMenuListener
-{
-}

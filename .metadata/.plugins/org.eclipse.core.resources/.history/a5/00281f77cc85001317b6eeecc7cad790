@@ -1,8 +1,0 @@
-package xoric.prism.creator.models.control;
-
-public interface IMainControl extends IModelControl, IAnimationControl, ISpriteControl ,IMainMenuListener
-{
-	public void initialize();
-
-	public void requestExit();
-}

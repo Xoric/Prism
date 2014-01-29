@@ -1,6 +1,0 @@
-package xoric.prism.creator.common.buttonpanel;
-
-public interface IButtonPanelListener
-{
-
-}

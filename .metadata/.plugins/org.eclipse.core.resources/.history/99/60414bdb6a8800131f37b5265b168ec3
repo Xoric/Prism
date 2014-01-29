@@ -1,8 +1,0 @@
-package xoric.prism.creator.custom.creators;
-
-import xoric.prism.data.types.IPoint_r;
-
-public interface IOptimizer
-{
-	public void onWorkerCallBack(IPoint_r size, boolean success);
-}

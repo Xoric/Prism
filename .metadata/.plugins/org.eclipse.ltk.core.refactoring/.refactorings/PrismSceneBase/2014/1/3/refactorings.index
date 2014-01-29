@@ -1,8 +1,0 @@
-1390042296736	Rename method 'init'
-1390043263146	Delete element
-1390043294055	Rename package 'xoric.prism.scene.shader'
-1390043497887	Rename method 'getTextureObject'
-1390052056317	Rename local variable 'f'
-1390052285520	Rename local variable 'vertexShader'
-1390052288518	Rename local variable 'fragmentShader'
-1390055965190	Rename local variable 'e'

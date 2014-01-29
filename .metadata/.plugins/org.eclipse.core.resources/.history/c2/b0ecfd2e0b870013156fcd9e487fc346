@@ -1,8 +1,0 @@
-package xoric.prism.creator.custom.view;
-
-import xoric.prism.data.types.IPath_r;
-
-public interface IObjectList
-{
-	public void loadAndDisplay(IPath_r path);	public void requestReloadObjects();
-}

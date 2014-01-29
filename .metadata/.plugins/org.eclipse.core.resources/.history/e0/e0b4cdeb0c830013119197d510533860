@@ -1,6 +1,0 @@
-package xoric.prism.server.control;
-
-public interface ILoginHandler
-{
-
-}
