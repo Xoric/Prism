@@ -29,16 +29,6 @@ public class PrismCreatorCommonView extends PrismFrame implements INewDialogCrea
 		return mainMenuBar;
 	}
 
-	//	protected void setMainMenuListener(IMainMenuListener mainMenuListener)
-	//	{
-	//		mainMenuBar.setMainMenuListener(mainMenuListener);
-	//	}
-
-	//	protected void setDialogCreator(INewDialogCreator dialogCreator)
-	//	{
-	//		mainMenuBar.setDialogCreator(dialogCreator);
-	//	}
-
 	public void setExtendedTitle(String s)
 	{
 		this.setTitle(baseTitle + (s == null ? "" : " - " + s));

@@ -45,6 +45,7 @@ public class MainMenuBar extends JMenuBar implements IMainMenuBar
 	public void addCreationItem(JMenuItem item)
 	{
 		mainMenu.addCreationItem(item);
+		item.setEnabled(false);
 	}
 
 	@Override
