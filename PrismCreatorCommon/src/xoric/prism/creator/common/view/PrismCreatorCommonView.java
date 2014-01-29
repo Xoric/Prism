@@ -1,6 +1,5 @@
 package xoric.prism.creator.common.view;
 
-import xoric.prism.creator.common.control.IMainMenuListener;
 import xoric.prism.data.tools.Common;
 import xoric.prism.swing.PrismFrame;
 
@@ -25,20 +24,20 @@ public class PrismCreatorCommonView extends PrismFrame implements INewDialogCrea
 		this.setJMenuBar(mainMenuBar);
 	}
 
-	protected MainMenuBar getMainMenuBar()
+	protected IMainMenuBar getMainMenuBar()
 	{
 		return mainMenuBar;
 	}
 
-	protected void setMainMenuListener(IMainMenuListener mainMenuListener)
-	{
-		mainMenuBar.setMainMenuListener(mainMenuListener);
-	}
+	//	protected void setMainMenuListener(IMainMenuListener mainMenuListener)
+	//	{
+	//		mainMenuBar.setMainMenuListener(mainMenuListener);
+	//	}
 
-	protected void setDialogCreator(INewDialogCreator dialogCreator)
-	{
-		mainMenuBar.setDialogCreator(dialogCreator);
-	}
+	//	protected void setDialogCreator(INewDialogCreator dialogCreator)
+	//	{
+	//		mainMenuBar.setDialogCreator(dialogCreator);
+	//	}
 
 	public void setExtendedTitle(String s)
 	{
