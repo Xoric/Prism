@@ -146,7 +146,7 @@ public class TextureGenerator implements Runnable
 		{
 			for (BufferedImage bi : o.getImages())
 			{
-				frame.setAction("Placing images (" + (p + 1) + " of " + imageCount + ")");
+				frame.setAction("Placing sprites (" + (p + 1) + " of " + imageCount + ")");
 
 				Rect r = packer.findRectangle(bi);
 				if (r == null)
