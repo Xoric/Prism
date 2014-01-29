@@ -47,19 +47,19 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 		ObjectList o = new ObjectList(this);
 		objectList = o;
 		Insets insets = new Insets(30, 30, 30, 30);
-		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 2, 0.25, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0,
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 2, 0.15, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0,
 				0);
 		add(o, c);
 
 		SpriteList s = new SpriteList();
 		spriteList = s;
 		insets = new Insets(30, 0, 30, 30);
-		c = new GridBagConstraints(1, 1, 1, 1, 0.75, 0.4, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
+		c = new GridBagConstraints(1, 1, 1, 1, 0.85, 0.4, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
 		add(s, c);
 
 		RectView r = new RectView();
 		rectView = r;
-		c = new GridBagConstraints(1, 0, 1, 1, 0.75, 0.6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
+		c = new GridBagConstraints(1, 0, 1, 1, 0.85, 0.6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
 		add(r, c);
 
 		mnuItemCreateTexture = new JMenuItem("Combined texture (.png)");
@@ -126,7 +126,8 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 		boolean b = model != null;
 		objectList.setEnabled(b);
 		spriteList.setEnabled(b);
-		rectView.setEnabled(b && objectList.getSelectedIndex() >= 0);
+		rectView.enableControls();
+		//		rectView.setEnabled(b && objectList.getSelectedIndex() >= 0);
 	}
 
 	@Override

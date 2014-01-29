@@ -11,5 +11,5 @@ public interface IRectView
 
 	public void clear();
 
-	public void setEnabled(boolean b);
+	public void enableControls();
 }

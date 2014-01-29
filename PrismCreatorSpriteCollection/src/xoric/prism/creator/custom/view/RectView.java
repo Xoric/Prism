@@ -18,7 +18,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
@@ -40,8 +39,10 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 		IButtonPanelListener
 {
 	private static final long serialVersionUID = 1L;
-	private static final int rgb0 = Color.black.getRGB();
-	private static final int rgb1 = Color.orange.getRGB();
+	private static final Color fill0 = new Color(0, 0, 0, 50);
+	private static final Color border0 = new Color(0, 0, 0, 255);
+	private static final Color fill1 = new Color(Color.orange.getRed(), Color.orange.getGreen(), Color.orange.getBlue(), 50);
+	private static final Color border1 = new Color(Color.orange.getRed(), Color.orange.getGreen(), Color.orange.getBlue(), 255);
 
 	private IRectControl control;
 
@@ -93,11 +94,11 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 		slider.setMaximum(15);
 		slider.addChangeListener(this);
 
-		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 2, 0.3, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(
-				0, 0, 0, 15), 0, 0);
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 15, 0.2, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+				new Insets(0, 0, 0, 15), 0, 0);
 		add(p3, c);
 
-		c = new GridBagConstraints(1, 0, 1, 1, 0.7, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+		c = new GridBagConstraints(1, 0, 1, 1, 0.85, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
 		add(scroll, c);
 
 		c.weighty = 0.0;
@@ -114,7 +115,7 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 		enableControls();
 	}
 
-	private void enableControls()
+	public void enableControls()
 	{
 		boolean b = this.isEnabled() && image != null;
 		slider.setEnabled(b);
@@ -141,78 +142,25 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 
 		int selectedIndex = rectList.getSelectedIndex();
 		final int n = model.getRectCount();
+		int zoom = slider.getValue();
+		Graphics g = decoratedImage.getGraphics();
 
 		for (int i = 0; i < n; ++i)
 		{
 			Rect r = model.getRect(i);
-			int rgb = selectedIndex == i ? rgb1 : rgb0;
 
 			if (r.getWidth() > 0 && r.getHeight() > 0)
 			{
-				int zoom = slider.getValue();
-
 				int sx = r.getX() * zoom;
 				int sy = r.getY() * zoom;
-				int w = r.getWidth() * zoom;
-				int h = r.getHeight() * zoom;
-				int sx2 = sx + w + zoom - 1;
-				int sy2 = sy + h + zoom - 1;
+				int w = r.getWidth() * zoom - 1;
+				int h = r.getHeight() * zoom - 1;
 
-				// TODO: fix bug
-				String[] options = { "OK :(" };
-
-				for (int x = sx; x < sx + w + zoom; ++x)
-				{
-					try
-					{
-						decoratedImage.setRGB(x, sy, rgb);
-					}
-					catch (Exception e)
-					{
-						JOptionPane.showOptionDialog(null, "error while drawing top line (x=" + x + ", sy=" + sy + ") [w="
-								+ decoratedImage.getWidth() + ", h=" + decoratedImage.getHeight() + "]", "Error",
-								JOptionPane.WARNING_MESSAGE, JOptionPane.DEFAULT_OPTION, null, options, options[0]);
-						return;
-					}
-					try
-					{
-						decoratedImage.setRGB(x, sy2, rgb);
-					}
-					catch (Exception e)
-					{
-						JOptionPane.showOptionDialog(null, "error while drawing bottom line (x=" + x + ", sy2=" + sy2 + ") [w="
-								+ decoratedImage.getWidth() + ", h=" + decoratedImage.getHeight() + "]", "Error",
-								JOptionPane.WARNING_MESSAGE, JOptionPane.DEFAULT_OPTION, null, options, options[0]);
-						return;
-					}
-				}
-				for (int y = sy; y < sy + h + zoom; ++y)
-				{
-					try
-					{
-						decoratedImage.setRGB(sx, y, rgb);
-					}
-					catch (Exception e)
-					{
-						JOptionPane.showOptionDialog(null, "error while drawing left line (sx=" + sx + ", y=" + y + ") [w="
-								+ decoratedImage.getWidth() + ", h=" + decoratedImage.getHeight() + "]", "Error",
-								JOptionPane.WARNING_MESSAGE, JOptionPane.DEFAULT_OPTION, null, options, options[0]);
-						;
-						return;
-					}
-					try
-					{
-						decoratedImage.setRGB(sx2, y, rgb);
-					}
-					catch (Exception e)
-					{
-						JOptionPane.showOptionDialog(null, "error while drawing right line (sx2=" + sx2 + ", y=" + y + ") [w="
-								+ decoratedImage.getWidth() + ", h=" + decoratedImage.getHeight() + "]", "Error",
-								JOptionPane.WARNING_MESSAGE, JOptionPane.DEFAULT_OPTION, null, options, options[0]);
-						return;
-					}
-				}
-
+				boolean b = selectedIndex == i;
+				g.setColor(b ? fill1 : fill0);
+				g.fillRect(sx, sy, w, h);
+				g.setColor(b ? border1 : border0);
+				g.drawRect(sx, sy, w, h);
 			}
 		}
 	}
@@ -261,12 +209,12 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 		try
 		{
 			image = ImageIO.read(file);
-			slider.setEnabled(true);
+			enableControls();
 		}
 		catch (IOException e)
 		{
 			image = null;
-			slider.setEnabled(false);
+			enableControls();
 		}
 	}
 
@@ -421,13 +369,13 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 
 				if (w < 0)
 					w = 0;
-				else if (r.getX() + w >= image.getWidth())
-					w = image.getWidth() - r.getX() - 1;
+				else if (r.getX() + w > image.getWidth())
+					w = image.getWidth() - r.getX();
 
 				if (h < 0)
 					h = 0;
-				else if (r.getY() + h >= image.getHeight())
-					h = image.getHeight() - r.getY() - 1;
+				else if (r.getY() + h > image.getHeight())
+					h = image.getHeight() - r.getY();
 
 				if (w != r.getWidth() || h != r.getHeight())
 				{
