@@ -181,10 +181,12 @@ public class TextureGenerator implements Runnable
 			mb.addMetaLine(ml);
 
 			// update meta data: add rects
-			ml = new MetaLine(MetaKey.ALT);
 			for (int i = 0; i < m.getRectCount(); ++i)
+			{
+				ml = new MetaLine(MetaKey.ALT);
 				m.getRect(i).appendTo(ml.getHeap());
-			mb.addMetaLine(ml);
+				mb.addMetaLine(ml);
+			}
 
 			for (BufferedImage bi : o.getImages())
 			{
