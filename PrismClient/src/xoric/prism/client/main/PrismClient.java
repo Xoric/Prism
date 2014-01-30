@@ -2,10 +2,11 @@ package xoric.prism.client.main;
 
 import java.net.Socket;
 
-import javax.swing.JOptionPane;
-
 import xoric.prism.com.ClientLoginMessage;
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.global.FileTableDirectoryIndex;
+import xoric.prism.data.global.Prism;
+import xoric.prism.data.global.UIIndex;
 import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.meta.MetaList;
 import xoric.prism.data.net.NetConstants;
@@ -18,6 +19,8 @@ import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
 import xoric.prism.scene.SceneStage;
 import xoric.prism.scene.camera.Camera;
+import xoric.prism.scene.textures.collections.CollectionMeta;
+import xoric.prism.scene.textures.collections.ObjectMeta;
 import xoric.prism.world.entities.Movable;
 import xoric.prism.world.model.GridModelMeta;
 
@@ -127,9 +130,36 @@ public class PrismClient implements ISceneListener
 		}
 	}
 
+	private void testCollectionMeta()
+	{
+		try
+		{
+			MetaFile mf = Prism.global.loadMetaFile(FileTableDirectoryIndex.UI, UIIndex.FRAMES.ordinal());
+			CollectionMeta m = new CollectionMeta();
+			m.load(mf.getMetaList());
+
+			System.out.println("objects: " + m.getObjectCount());
+
+			for (int i = 0; i < m.getObjectCount(); ++i)
+			{
+				ObjectMeta om = m.getObject(i);
+
+				System.out.println("Object " + i + " (" + om.getName() + "): " + om.getInstanceCount() + " instance(s) with "
+						+ om.getInstance(0).getRectCount() + " rect(s)");
+			}
+		}
+		catch (PrismException e)
+		{
+			// TODO Auto-generated catch block
+			e.code.print();
+			e.user.showMessage();
+		}
+	}
+
 	public void start()
 	{
 		testModelMeta();
+		testCollectionMeta();
 
 		scene.createWindow(800, 480, false);
 		scene.initialize();
