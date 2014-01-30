@@ -84,4 +84,11 @@ public class FloatPoint implements IStackable, IFloatPoint_r
 	{
 		return y;
 	}
+
+	@Override
+	public void extractFrom(Heap h)
+	{
+		x = h.floats.get(0);
+		y = h.floats.get(0);
+	}
 }

@@ -144,4 +144,13 @@ public class Rect implements IRect_r, IStackable, IPackable
 	{
 		return size.isSquare();
 	}
+
+	@Override
+	public void extractFrom(Heap h)
+	{
+		position.x = h.ints.get(0);
+		position.y = h.ints.get(1);
+		size.x = h.ints.get(2);
+		size.y = h.ints.get(3);
+	}
 }

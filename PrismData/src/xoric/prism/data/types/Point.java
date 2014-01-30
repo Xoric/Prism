@@ -95,4 +95,11 @@ public class Point implements IStackable, IPackable, IPoint_r
 	{
 		return x == y;
 	}
+
+	@Override
+	public void extractFrom(Heap h)
+	{
+		x = h.ints.get(0);
+		y = h.ints.get(1);
+	}
 }

@@ -30,6 +30,12 @@ public class FloatRect implements IStackable, IFloatRect_r
 	}
 
 	@Override
+	public String toString()
+	{
+		return "x=" + topLeft.x + ", y=" + topLeft.y + ", w=" + size.x + ", h=" + size.y;
+	}
+
+	@Override
 	public IFloatPoint_r getTopLeft()
 	{
 		return topLeft;
@@ -62,5 +68,14 @@ public class FloatRect implements IStackable, IFloatRect_r
 	{
 		topLeft.extractFrom(h);
 		size.extractFrom(h);
+	}
+
+	@Override
+	public void extractFrom(Heap h)
+	{
+		topLeft.x = h.floats.get(0);
+		topLeft.y = h.floats.get(1);
+		size.x = h.floats.get(2);
+		size.y = h.floats.get(3);
 	}
 }
