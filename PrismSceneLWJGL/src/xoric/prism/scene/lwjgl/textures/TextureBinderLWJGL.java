@@ -1,4 +1,4 @@
-package xoric.prism.scene.lwjgl;
+package xoric.prism.scene.lwjgl.textures;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -16,9 +16,10 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import xoric.prism.scene.lwjgl.textures.Texture;
+import xoric.prism.scene.textures.ITexture;
+import xoric.prism.scene.textures.ITextureBinder;
 
-public class TextureIO2
+public class TextureBinderLWJGL implements ITextureBinder
 {
 	public static Texture createFromFile(File file) throws IOException
 	{
@@ -65,5 +66,25 @@ public class TextureIO2
 
 		Texture t = new Texture(programID, width, height);
 		return t;
+	}
+
+	@Override
+	public ITexture bindTexture(BufferedImage image) throws IOException
+	{
+		int width = image.getWidth();
+		int height = image.getHeight();
+
+		final AffineTransform tx = AffineTransform.getScaleInstance(1, -1);
+		tx.translate(0, -height);
+
+		final AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		image = op.filter(image, null);
+
+		final int[] pixels = image.getRGB(0, 0, width, height, null, 0, width);
+		IntBuffer textureBuffer = BufferUtils.createIntBuffer(pixels.length);
+		textureBuffer.put(pixels);
+		textureBuffer.rewind();
+
+		return createFromIntBuffer(textureBuffer, width, height);
 	}
 }

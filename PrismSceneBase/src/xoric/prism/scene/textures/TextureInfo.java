@@ -4,24 +4,29 @@ import xoric.prism.data.types.IFloatRect_r;
 
 public class TextureInfo
 {
-	private final int textureID;
+	private final ITexture texture;
 	private final IFloatRect_r rect;
 	private final boolean flipH;
 
-	public TextureInfo(int textureID, IFloatRect_r rect, boolean flipH)
+	public TextureInfo(ITexture texture, IFloatRect_r rect, boolean flipH)
 	{
-		this.textureID = textureID;
+		this.texture = texture;
 		this.rect = rect;
 		this.flipH = flipH;
 	}
 
-	public int getTextureID()
+	public ITexture getTexture()
 	{
-		return textureID;
+		return texture;
 	}
 
 	public IFloatRect_r getRect()
 	{
 		return rect;
+	}
+
+	public boolean isFlippedH()
+	{
+		return flipH;
 	}
 }

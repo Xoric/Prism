@@ -3,6 +3,7 @@ package xoric.prism.scene;
 import java.awt.Dimension;
 import java.util.List;
 
+import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.scene.shaders.IShaderIO;
 
 public interface IScene extends IShaderIO
@@ -23,6 +24,8 @@ public interface IScene extends IShaderIO
 	 */
 	public void createWindow(int width, int height, boolean isFullScreen);
 
+	public IFloatPoint_r getScreenSize();
+
 	/**
 	 * Sets the window to fullscreen.
 	 * @param fullscreen
@@ -32,8 +35,6 @@ public interface IScene extends IShaderIO
 	public void initialize();
 
 	public void startLoop(ISceneListener listener);
-
-	public void setStage(SceneStage stage);
 
 	public void setSlope(float slope);
 }

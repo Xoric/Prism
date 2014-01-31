@@ -8,23 +8,29 @@ import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.meta.MetaLine;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
+import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IText_r;
 
 public class ObjectMeta
 {
 	private final IText_r name;
 	private final FloatPoint objectFraction;
+	private final FloatPoint size;
 	private final List<ObjectInstance> instances;
 
 	// used while creation:
 	private List<FloatRect> tempRects;
+	private List<IFloatPoint_r> sizes;
 
-	public ObjectMeta(IText_r name, FloatPoint objectFraction)
+	public ObjectMeta(IText_r name, FloatPoint objectFraction, FloatPoint size)
 	{
 		this.name = name;
 		this.objectFraction = objectFraction;
+		this.size = size;
 		this.instances = new ArrayList<ObjectInstance>();
+
 		this.tempRects = new ArrayList<FloatRect>();
+		this.sizes = new ArrayList<IFloatPoint_r>();
 	}
 
 	@Override
@@ -48,7 +54,7 @@ public class ObjectMeta
 		return instances.size();
 	}
 
-	public void addSubRect(FloatRect rect, MetaLine ml) throws PrismException
+	public void addSubRect(FloatRect rect, IFloatPoint_r size, MetaLine ml) throws PrismException
 	{
 		if (instances.size() > 0)
 		{
@@ -59,17 +65,25 @@ public class ObjectMeta
 			throw e;
 		}
 		tempRects.add(rect);
+		sizes.add(size);
 	}
 
-	public void addPosition(float x, float y)
+	public void addPosition(float fx, float fy)
 	{
 		ObjectInstance o = new ObjectInstance();
 
 		if (tempRects.size() == 0)
-			o.addRect(new FloatRect(x, y, objectFraction.x, objectFraction.y));
+		{
+			o.addRect(new FloatRect(fx, fy, objectFraction.x, objectFraction.y), size);
+		}
 		else
-			for (FloatRect fr : tempRects)
-				o.addRect(new FloatRect(x + fr.topLeft.x, y + fr.topLeft.y, fr.size.x, fr.size.y));
+		{
+			for (int i = 0; i < tempRects.size(); ++i)
+			{
+				FloatRect fr = tempRects.get(i);
+				o.addRect(new FloatRect(fx + fr.getX(), fy + fr.getY(), fr.getWidth(), fr.getHeight()), sizes.get(i));
+			}
+		}
 
 		instances.add(o);
 	}
@@ -77,5 +91,6 @@ public class ObjectMeta
 	public void finish()
 	{
 		tempRects = null;
+		sizes = null;
 	}
 }

@@ -13,11 +13,11 @@ import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.Heap;
-import xoric.prism.data.types.IMetaChild;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Rect;
+import xoric.prism.scene.textures.ArtMeta;
 
-public class CollectionMeta implements IMetaChild
+public class CollectionMeta extends ArtMeta
 {
 	private FloatPoint textureSize;
 	private List<ObjectMeta> objects;
@@ -108,7 +108,8 @@ public class CollectionMeta implements IMetaChild
 		float fw = width / textureSize.x;
 		float fh = height / textureSize.y;
 		FloatPoint objectFraction = new FloatPoint(fw, fh);
-		ObjectMeta om = new ObjectMeta(name, objectFraction);
+		FloatPoint size = new FloatPoint(width, height);
+		ObjectMeta om = new ObjectMeta(name, objectFraction, size);
 		objects.add(om);
 
 		return om;
@@ -126,7 +127,8 @@ public class CollectionMeta implements IMetaChild
 		float fw = rect.getWidth() / textureSize.x;
 		float fh = rect.getHeight() / textureSize.y;
 		FloatRect rectFraction = new FloatRect(fx, fy, fw, fh);
-		om.addSubRect(rectFraction, ml);
+		FloatPoint size = new FloatPoint(rect.getWidth(), rect.getHeight());
+		om.addSubRect(rectFraction, size, ml);
 	}
 
 	private void interpretSub(ObjectMeta om, MetaLine ml) throws PrismException
@@ -134,8 +136,10 @@ public class CollectionMeta implements IMetaChild
 		ml.ensureMinima(2, 0, 0);
 		ensureSizeIsSet(ml);
 		Heap h = ml.getHeap();
-		float fx = h.ints.get(0) / textureSize.x;
-		float fy = h.ints.get(1) / textureSize.y;
+		float x = h.ints.get(0);
+		float y = h.ints.get(1);
+		float fx = x / textureSize.x;
+		float fy = y / textureSize.y;
 		om.addPosition(fx, fy);
 	}
 }

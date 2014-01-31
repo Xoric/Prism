@@ -8,13 +8,17 @@ import xoric.prism.data.PrismDataLoader;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.Prism;
 import xoric.prism.global.PrismGlobal;
-import xoric.prism.scene.IScene;
 import xoric.prism.scene.lwjgl.PrismSceneLWJGL;
+import xoric.prism.scene.lwjgl.textures.TextureBinderLWJGL;
+import xoric.prism.scene.materials.Drawer;
+import xoric.prism.scene.materials.Materials;
+import xoric.prism.scene.textures.ITextureBinder;
 import xoric.prism.world.PrismWorldLoader;
 
 public class PrismClientBootstrap
 {
-	private static IScene scene;
+	private static PrismSceneLWJGL scene;
+	private static ITextureBinder textureBinder;
 	private static PrismClient client;
 
 	public static void main(String[] args)
@@ -35,8 +39,14 @@ public class PrismClientBootstrap
 			// set message perspective
 			Message.perspective = Perspective.CLIENT;
 
-			// create scene and client
+			// create scene and initialize materials
 			scene = new PrismSceneLWJGL();
+			textureBinder = new TextureBinderLWJGL();
+			//			AllShaders.load(scene); 
+			Materials.load(textureBinder);
+			Drawer.renderer = scene;
+
+			// create scene and client
 			client = new PrismClient(scene);
 
 			// start client

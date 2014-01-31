@@ -4,9 +4,6 @@ import java.net.Socket;
 
 import xoric.prism.com.ClientLoginMessage;
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.global.FileTableDirectoryIndex;
-import xoric.prism.data.global.Prism;
-import xoric.prism.data.global.UIIndex;
 import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.meta.MetaList;
 import xoric.prism.data.net.NetConstants;
@@ -14,13 +11,14 @@ import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.Path;
 import xoric.prism.data.types.Text;
-import xoric.prism.scene.IRenderer;
+import xoric.prism.scene.IRendererUI;
+import xoric.prism.scene.IRendererWorld;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
-import xoric.prism.scene.SceneStage;
 import xoric.prism.scene.camera.Camera;
-import xoric.prism.scene.textures.collections.CollectionMeta;
-import xoric.prism.scene.textures.collections.ObjectMeta;
+import xoric.prism.scene.materials.Materials;
+import xoric.prism.scene.shaders.AllShaders;
+import xoric.prism.scene.textures.TextureInfo;
 import xoric.prism.world.entities.Movable;
 import xoric.prism.world.model.GridModelMeta;
 
@@ -29,6 +27,9 @@ public class PrismClient implements ISceneListener
 	private IScene scene;
 
 	private int ni = 0;
+	private int nis = 0;
+
+	private float increasing;
 
 	private float slope = 0.1f;
 	private boolean isSlopeGrowing = true;
@@ -46,6 +47,8 @@ public class PrismClient implements ISceneListener
 	private FloatPoint temp;
 	private FloatPoint temp2;
 	private Camera cam;
+
+	private final FloatRect testRect = new FloatRect(20.0f, 20.0f, 120.0f, 80.0f);
 
 	public PrismClient(IScene scene)
 	{
@@ -130,36 +133,35 @@ public class PrismClient implements ISceneListener
 		}
 	}
 
-	private void testCollectionMeta()
-	{
-		try
-		{
-			MetaFile mf = Prism.global.loadMetaFile(FileTableDirectoryIndex.UI, UIIndex.FRAMES.ordinal());
-			CollectionMeta m = new CollectionMeta();
-			m.load(mf.getMetaList());
-
-			System.out.println("objects: " + m.getObjectCount());
-
-			for (int i = 0; i < m.getObjectCount(); ++i)
-			{
-				ObjectMeta om = m.getObject(i);
-
-				System.out.println("Object " + i + " (" + om.getName() + "): " + om.getInstanceCount() + " instance(s) with "
-						+ om.getInstance(0).getRectCount() + " rect(s)");
-			}
-		}
-		catch (PrismException e)
-		{
-			// TODO Auto-generated catch block
-			e.code.print();
-			e.user.showMessage();
-		}
-	}
+	//	private void testCollectionMeta()
+	//	{
+	//		try
+	//		{
+	//			MetaFile mf = Prism.global.loadMetaFile(FileTableDirectoryIndex.UI, UIIndex.FRAMES.ordinal());
+	//			CollectionMeta m = new CollectionMeta();
+	//			m.load(mf.getMetaList());
+	//
+	//			System.out.println("objects: " + m.getObjectCount());
+	//
+	//			for (int i = 0; i < m.getObjectCount(); ++i)
+	//			{
+	//				ObjectMeta om = m.getObject(i);
+	//
+	//				System.out.println("Object " + i + " (" + om.getName() + "): " + om.getInstanceCount() + " instance(s) with "
+	//						+ om.getInstance(0).getRectCount() + " rect(s)");
+	//			}
+	//		}
+	//		catch (PrismException e)
+	//		{
+	//			// TODO Auto-generated catch block
+	//			e.code.print();
+	//			e.user.showMessage();
+	//		}
+	//	}
 
 	public void start()
 	{
 		testModelMeta();
-		testCollectionMeta();
 
 		scene.createWindow(800, 480, false);
 		scene.initialize();
@@ -167,14 +169,28 @@ public class PrismClient implements ISceneListener
 	}
 
 	@Override
-	public boolean requestUpdateScene(int passedMs, IRenderer renderer)
+	public void onClosingScene(Exception e0)
 	{
-		if (ni == 0)
-		{
-			ni = 1;
-			scene.setStage(SceneStage.GROUND);
-		}
+		System.out.println("client is being notified that scene is closing");
 
+		if (e0 != null)
+		{
+			if (e0 instanceof PrismException)
+			{
+				PrismException e = (PrismException) e0;
+				e.code.print();
+				e.user.showMessage();
+			}
+			else
+			{
+				e0.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public boolean drawWorld(int passedMs, IRendererWorld renderer) throws Exception
+	{
 		if (isSlopeGrowing)
 		{
 			slope += 0.01f;
@@ -226,7 +242,9 @@ public class PrismClient implements ISceneListener
 		// draw planes
 		cam.transformWithCameraBounds(testPlane.getTopLeft(), temp);
 		cam.transformWithCameraBounds(testPlane.getSize(), temp2);
-		renderer.drawPlane(temp, temp2);
+		TextureInfo texInfo = Materials.frames.getTextureInfo(0, 0, 0, ni);
+		//		temp.y += 0.1f;
+		renderer.drawPlane(texInfo, new FloatRect(temp, temp2));
 
 		// draw edges
 		//		renderer.setColor(0.3f, 0.5f, 0.2f);
@@ -234,39 +252,49 @@ public class PrismClient implements ISceneListener
 		for (int i = 0; i < 4; ++i)
 		{
 			cam.transformWithCameraBounds(testMan[i], temp);
-			renderer.drawObject(temp, temp2, 0.0f);
+			texInfo = Materials.frames.getTextureInfo(0, 0, 1, ni);
+			renderer.drawObject(texInfo, temp, temp2, 0.0f);
 		}
 
 		// draw walking man
 		//		renderer.setColor(0.3f, 0.2f, 0.8f);
 		cam.transformWithCameraBounds(walkingMan, temp);
-		renderer.drawObject(temp, temp2, 0.0f);
+		texInfo = Materials.frames.getTextureInfo(0, 0, 2, ni);
+		renderer.drawObject(texInfo, temp, temp2, 0.0f);
 
 		// draw movable
 		//		renderer.setColor(0.3f, 0.2f, 0.5f);
 		cam.transformWithCameraBounds(movable.getPosition(), temp);
-		renderer.drawObject(temp, temp2, 0.0f);
+		texInfo = Materials.frames.getTextureInfo(0, 0, 3, ni);
+		renderer.drawObject(texInfo, temp, temp2, 0.0f);
+
+		nis += passedMs;
+		if (nis > 1000)
+		{
+			nis = 0;
+			if (++ni > 2)
+				ni = 0;
+		}
 
 		return true;
 	}
 
 	@Override
-	public void onClosingScene(Throwable throwable)
+	public boolean drawUI(int passedMs, IRendererUI renderer) throws Exception
 	{
-		System.out.println("client is being notified that scene is closing");
+		// test art
+		TextureInfo texInfo = Materials.frames.getTextureInfo(0, 0, 0, ni);
 
-		if (throwable != null)
-		{
-			if (throwable instanceof PrismException)
-			{
-				PrismException e = (PrismException) throwable;
-				e.code.print();
-				e.user.showMessage();
-			}
-			else
-			{
-				throwable.printStackTrace();
-			}
-		}
+		AllShaders.defaultShader.activate();
+		AllShaders.defaultShader.setTexture(texInfo.getTexture());
+
+		//		testRect.addY(-0.1f);
+		//		renderer.drawSprite(texInfo, testRect);
+
+		increasing += 0.5f;
+		testRect.addY(0.1f);
+		Materials.framesDrawer.drawThreeParter(testRect.getTopLeft(), 30.0f + increasing, 0, 0);
+
+		return true;
 	}
 }

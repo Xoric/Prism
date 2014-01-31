@@ -14,20 +14,25 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.IFloatPoint_r;
+import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.PrismColor;
-import xoric.prism.scene.IRenderer;
+import xoric.prism.scene.IRendererUI;
+import xoric.prism.scene.IRendererWorld;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
-import xoric.prism.scene.PrismSceneLoader;
-import xoric.prism.scene.SceneStage;
 import xoric.prism.scene.lwjgl.textures.Texture;
+import xoric.prism.scene.lwjgl.textures.TextureBinderLWJGL;
+import xoric.prism.scene.shaders.AllShaders;
 import xoric.prism.scene.shaders.IShader2;
+import xoric.prism.scene.textures.TextureInfo;
 
-public class PrismSceneLWJGL implements IScene, IRenderer
+public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 {
 	private final ShaderIO2 shaderIO;
-	private Throwable throwable;
+	private FloatPoint screenSize;
+	private Exception exception;
 
 	private float slope;
 
@@ -87,6 +92,7 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		{
 			DisplayMode mode = findDisplay(width, height);
 			System.out.println("Setting display size to " + mode.getWidth() + " x " + height);
+			screenSize = new FloatPoint(mode.getWidth(), mode.getHeight());
 			Display.setDisplayMode(mode);
 			Display.create();
 		}
@@ -108,9 +114,9 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		}
 	}
 
-	private void memorizeException(Throwable e)
+	private void memorizeException(Exception e)
 	{
-		this.throwable = e;
+		this.exception = e;
 	}
 
 	@Override
@@ -124,9 +130,9 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 
 		try
 		{
-			PrismSceneLoader.loadAll(this);
+			AllShaders.load(this);
 		}
-		catch (Throwable e2)
+		catch (Exception e2)
 		{
 			memorizeException(e2);
 		}
@@ -151,7 +157,7 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 			textures[0] = new TextureIO(new FileInputStream("../debug/g1.png"));
 			textures[1] = new TextureIO(new FileInputStream("../debug/g2.png"));
 			textures[2] = new TextureIO(new FileInputStream("../debug/john.png"));
-			testingTexture = TextureIO2.createFromFile(new File("../debug/john.png"));
+			testingTexture = TextureBinderLWJGL.createFromFile(new File("../debug/john.png"));
 			GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_REPLACE);
 			textures[0].init();
 			textures[1].init();
@@ -164,7 +170,7 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 	}
 
 	@Override
-	public void startLoop(ISceneListener listener)
+	public void startLoop(ISceneListener client)
 	{
 		final int loopInterval = IScene.LOOP_INTERVAL_MS;
 		long lastMs = System.currentTimeMillis();
@@ -197,7 +203,24 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
 				// client returns false if the scene should be closed
-				resumeTimer &= listener.requestUpdateScene(passedMs, this);
+				try
+				{
+					if (resumeTimer)
+					{
+						setStage(true);
+						resumeTimer = client.drawWorld(passedMs, this);
+					}
+					if (resumeTimer)
+					{
+						setStage(false);
+						resumeTimer = client.drawUI(passedMs, this);
+					}
+				}
+				catch (Exception e0)
+				{
+					resumeTimer = false;
+					exception = e0;
+				}
 
 				// update the scene
 				Display.update();
@@ -215,12 +238,12 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 				}
 				catch (InterruptedException e)
 				{
-					if (throwable == null)
-						throwable = e;
+					if (exception == null)
+						exception = e;
 				}
 			}
 
-			resumeTimer &= throwable == null;
+			resumeTimer &= exception == null;
 		}
 		while (resumeTimer);
 
@@ -230,29 +253,19 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 
 		// destroy scene
 		Display.destroy();
-		listener.onClosingScene(throwable);
+		client.onClosingScene(exception);
 	}
 
-	@Override
-	public void setStage(SceneStage stage)
+	private void setStage(boolean isWorldStage)
 	{
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
 
-		switch (stage)
-		{
-			case GROUND:
-				GL11.glFrustum(-0.5, 0.5, -0.5, 0.5, 1.5, 6.5);
-				//				GL11.glTranslated(0.0, -0.25, 0.0);
-				//				GL11.glScaled(1.5, 1.5, 1.0);
-				break;
+		if (isWorldStage)
+			GL11.glFrustum(-0.5, 0.5, -0.5, 0.5, 1.5, 6.5);
+		else
+			GL11.glOrtho(0.0f, 1.0f, 0.0f, 1.0f, 1.0f, -1.0f);
 
-			case INTERFACE:
-				//				GL11.glOrtho(0, width, 0, height, 1, -1);
-				GL11.glOrtho(0.0f, 1.0f, 0.0f, 1.0f, 1.0f, -1.0f);
-				break;
-		}
-		//		GL11.glScaled(1.0, -1.0, 1.0);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
 		GL11.glLoadIdentity();
@@ -261,12 +274,6 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 	}
 
 	/* **************** IRenderer *************************** */
-
-	//	@Override
-	//	public void setColor(float r, float g, float b)
-	//	{
-	//		GL11.glColor3f(r, g, b);
-	//	}
 
 	private float calcZ(float y)
 	{
@@ -277,120 +284,10 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		return z;
 	}
 
-	@Override
-	public void drawPlane(IFloatPoint_r position, IFloatPoint_r size)
-	{
-		//		bindTexture(textures[0].getProgramID(), false);
-
-		GL11.glBegin(GL11.GL_QUADS);
-
-		float x = -0.5f + position.getX();
-		float y0 = position.getY();
-		float y = -0.5f + y0;
-		float w = size.getX();
-		float h = size.getY();
-		float zFront = calcZ(y0);
-		float zBack = calcZ(y0 + h);
-
-		GL11.glTexCoord2f(0.0f, 0.0f);
-		GL11.glVertex3f(x, y, zFront);
-		GL11.glTexCoord2f(1.0f, 0.0f);
-		GL11.glVertex3f(x + w, y, zFront);
-		GL11.glTexCoord2f(1.0f, 1.0f);
-		GL11.glVertex3f(x + w, y + h, zBack);
-		GL11.glTexCoord2f(0.0f, 1.0f);
-		GL11.glVertex3f(x, y + h, zBack);
-
-		GL11.glEnd();
-
-		//		unbindTexture();
-	}
-
-	@Override
-	public void drawObject(IFloatPoint_r position, IFloatPoint_r size, float zOnset)
-	{
-		float[] rgba = testingColor2.getRGBA();
-		for (int i = 0; i < 3; ++i)
-		{
-			if (brgba[i])
-			{
-				rgba[i] += 0.001f * i;
-				if (rgba[i] > 1.0f)
-				{
-					rgba[i] = 1.0f;
-					brgba[i] = false;
-				}
-			}
-			else
-			{
-				rgba[i] -= 0.001f * i;
-				if (rgba[i] < 0.0f)
-				{
-					rgba[i] = 0.0f;
-					brgba[i] = true;
-				}
-			}
-		}
-
-		//		bindTexture(textures[0].getProgramID(), false);
-		testingDefaultShader.activate();
-		testingDefaultShader.setTexture(testingTexture);
-		testingDefaultShader.setColor(testingColor2);
-
-		GL11.glBegin(GL11.GL_QUADS);
-
-		float x = -0.5f + position.getX();
-		float y0 = position.getY();
-		float y = -0.5f + y0;
-		float w = size.getX();
-		float h = size.getY();
-		float z = calcZ(y0) + zOnset;
-
-		GL11.glTexCoord2f(0.0f, 0.0f);
-		GL11.glVertex3f(x, y, z);
-		GL11.glTexCoord2f(1.0f, 0.0f);
-		GL11.glVertex3f(x + w, y, z);
-		GL11.glTexCoord2f(1.0f, 1.0f);
-		GL11.glVertex3f(x + w, y + h, z);
-		GL11.glTexCoord2f(0.0f, 1.0f);
-		GL11.glVertex3f(x, y + h, z);
-
-		GL11.glEnd();
-
-		//		unbindTexture();
-	}
-
 	public void setInterpolationNearest()
 	{
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST_MIPMAP_NEAREST);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-	}
-
-	@Override
-	public void drawSprite(float x, float y, float w, float h)
-	{
-		//		bindTexture(textures[2].getProgramID(), true);
-
-		//		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST_MIPMAP_NEAREST);
-		//		 GL_TEXTURE_MIN_FILTER: used whenever a surface is rendered with smaller dimensions than its corresponding texture bitmap
-
-		//		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-		// GL_TEXTURE_MAG_FILTER: used when a surface is bigger than the texture being applied
-
-		GL11.glBegin(GL11.GL_QUADS);
-
-		GL11.glTexCoord2f(0.0f, 0.0f);
-		GL11.glVertex2f(x, y);
-		GL11.glTexCoord2f(1.0f, 0.0f);
-		GL11.glVertex2f(x + w, y);
-		GL11.glTexCoord2f(1.0f, 1.0f);
-		GL11.glVertex2f(x + w, y + h);
-		GL11.glTexCoord2f(0.0f, 1.0f);
-		GL11.glVertex2f(x, y + h);
-
-		GL11.glEnd();
-
-		//		unbindTexture();
 	}
 
 	@Override
@@ -405,22 +302,267 @@ public class PrismSceneLWJGL implements IScene, IRenderer
 		return ShaderIO2.createShader(vertexShader, pixelShader);
 	}
 
-	//	@Override
-	//	public void bindTexture(int programID, boolean enableFilter)
-	//	{
-	//		GL11.glBindTexture(GL11.GL_TEXTURE_2D, programID);
-	//
-	//
-	//		int s = Calendar.getInstance().get(Calendar.SECOND);
-	//		if (s % 10 < 5)
-	//			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-	//		else
-	//			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-	//	}
+	@Override
+	public void drawSprite(TextureInfo texInfo, IFloatRect_r rect)
+	{
+		GL11.glBegin(GL11.GL_QUADS);
+
+		float x = rect.getTopLeft().getX() / screenSize.x;
+		float y = 1.0f - rect.getTopLeft().getY() / screenSize.y;
+		float w = rect.getSize().getX() / screenSize.x;
+		float h = -(rect.getSize().getY() / screenSize.y);
+
+		IFloatPoint_r tl = texInfo.getRect().getTopLeft();
+		IFloatPoint_r br = texInfo.getRect().getBottomRight();
+
+		if (texInfo.isFlippedH())
+		{
+			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
+			GL11.glVertex2f(x, y);
+			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
+			GL11.glVertex2f(x + w, y);
+			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
+			GL11.glVertex2f(x + w, y + h);
+			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
+			GL11.glVertex2f(x, y + h);
+		}
+		else
+		{
+			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
+			GL11.glVertex2f(x, y);
+			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
+			GL11.glVertex2f(x + w, y);
+			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
+			GL11.glVertex2f(x + w, y + h);
+			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
+			GL11.glVertex2f(x, y + h);
+		}
+		GL11.glEnd();
+	}
 
 	//	@Override
-	//	public void unbindTexture()
+	//	public void drawSprite(IFloatRect_r texRect, IFloatPoint_r position, IFloatPoint_r size)
 	//	{
-	//		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
+	//		GL11.glBegin(GL11.GL_QUADS);
+	//
+	//		float x = rect.getTopLeft().getX();
+	//		float y = rect.getTopLeft().getY();
+	//		float w = rect.getSize().getX();
+	//		float h = rect.getSize().getY();
+	//
+	//		IFloatPoint_r tl = texRect.getTopLeft();
+	//		IFloatPoint_r br = texRect.getBottomRight();
+	//
+	//		GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
+	//		GL11.glVertex2f(x, y);
+	//		GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
+	//		GL11.glVertex2f(x + w, y);
+	//		GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
+	//		GL11.glVertex2f(x + w, y + h);
+	//		GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
+	//		GL11.glVertex2f(x, y + h);
+	//
+	//		GL11.glEnd();
 	//	}
+
+	@Override
+	public void drawSprite(IFloatRect_r texRect, IFloatRect_r screenRect)
+	{
+		GL11.glBegin(GL11.GL_QUADS);
+
+		/* checked */
+		float x = screenRect.getTopLeft().getX() / screenSize.x;
+		float y = 1.0f - screenRect.getTopLeft().getY() / screenSize.y;
+		float w = screenRect.getSize().getX() / screenSize.x;
+		float h = -screenRect.getSize().getY() / screenSize.y;
+
+		IFloatPoint_r tl = texRect.getTopLeft();
+		IFloatPoint_r br = texRect.getBottomRight();
+
+		GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
+		GL11.glVertex2f(x, y);
+		GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
+		GL11.glVertex2f(x + w, y);
+		GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
+		GL11.glVertex2f(x + w, y + h);
+		GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
+		GL11.glVertex2f(x, y + h);
+
+		GL11.glEnd();
+	}
+
+	//	@Override
+	//	public void drawPlane(TextureInfo texInfo, IFloatRect_r rect)
+	//	{
+	//		GL11.glBegin(GL11.GL_QUADS);
+	//
+	//		float x = -0.5f + rect.getTopLeft().getX();
+	//		float y0 = rect.getTopLeft().getY();
+	//		float y = -0.5f + y0;
+	//		float w = rect.getSize().getX();
+	//		float h = rect.getSize().getY();
+	//		float zFront = calcZ(y0);
+	//		float zBack = calcZ(y0 + h);
+	//
+	//		IFloatPoint_r tl = texInfo.getRect().getTopLeft();
+	//		IFloatPoint_r br = texInfo.getRect().getBottomRight();
+	//
+	//		if (texInfo.isFlippedH())
+	//		{
+	//			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
+	//			GL11.glVertex3f(x, y, zFront);
+	//			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
+	//			GL11.glVertex3f(x + w, y, zFront);
+	//			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
+	//			GL11.glVertex3f(x + w, y + h, zBack);
+	//			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
+	//			GL11.glVertex3f(x, y + h, zBack);
+	//		}
+	//		else
+	//		{
+	//			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
+	//			GL11.glVertex3f(x, y, zFront);
+	//			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
+	//			GL11.glVertex3f(x + w, y, zFront);
+	//			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
+	//			GL11.glVertex3f(x + w, y + h, zBack);
+	//			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
+	//			GL11.glVertex3f(x, y + h, zBack);
+	//		}
+	//
+	//		//		GL11.glTexCoord2f(0.0f, 0.0f);
+	//		//		GL11.glVertex3f(x, y, zFront);
+	//		//		GL11.glTexCoord2f(1.0f, 0.0f);
+	//		//		GL11.glVertex3f(x + w, y, zFront);
+	//		//		GL11.glTexCoord2f(1.0f, 1.0f);
+	//		//		GL11.glVertex3f(x + w, y + h, zBack);
+	//		//		GL11.glTexCoord2f(0.0f, 1.0f);
+	//		//		GL11.glVertex3f(x, y + h, zBack);
+	//
+	//		GL11.glEnd();
+	//	}
+	@Override
+	public void drawPlane(TextureInfo texInfo, IFloatRect_r rect)
+	{
+		GL11.glBegin(GL11.GL_QUADS);
+
+		float x = -0.5f + rect.getTopLeft().getX();
+		float y0 = 1.0f - rect.getTopLeft().getY();
+		float y = -0.5f + y0;
+		float w = rect.getSize().getX();
+		float h = -rect.getSize().getY();
+		float zFront = calcZ(y0);
+		float zBack = calcZ(y0 + h);
+
+		IFloatPoint_r tl = texInfo.getRect().getTopLeft();
+		IFloatPoint_r br = texInfo.getRect().getBottomRight();
+
+		if (texInfo.isFlippedH())
+		{
+			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
+			GL11.glVertex3f(x, y, zFront);
+			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
+			GL11.glVertex3f(x + w, y, zFront);
+			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
+			GL11.glVertex3f(x + w, y + h, zBack);
+			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
+			GL11.glVertex3f(x, y + h, zBack);
+		}
+		else
+		{
+			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
+			GL11.glVertex3f(x, y, zFront);
+			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
+			GL11.glVertex3f(x + w, y, zFront);
+			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
+			GL11.glVertex3f(x + w, y + h, zBack);
+			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
+			GL11.glVertex3f(x, y + h, zBack);
+		}
+
+		GL11.glEnd();
+	}
+
+	@Override
+	public void drawObject(TextureInfo texInfo, IFloatPoint_r position, IFloatPoint_r size, float z)
+	{
+		//		float[] rgba = testingColor2.getRGBA();
+		//		for (int i = 0; i < 3; ++i)
+		//		{
+		//			if (brgba[i])
+		//			{
+		//				rgba[i] += 0.001f * i;
+		//				if (rgba[i] > 1.0f)
+		//				{
+		//					rgba[i] = 1.0f;
+		//					brgba[i] = false;
+		//				}
+		//			}
+		//			else
+		//			{
+		//				rgba[i] -= 0.001f * i;
+		//				if (rgba[i] < 0.0f)
+		//				{
+		//					rgba[i] = 0.0f;
+		//					brgba[i] = true;
+		//				}
+		//			}
+		//		}
+
+		//		bindTexture(textures[0].getProgramID(), false);
+		//		testingDefaultShader.activate();
+		//		testingDefaultShader.setTexture(testingTexture);
+		//		testingDefaultShader.setColor(testingColor2);
+
+		GL11.glBegin(GL11.GL_QUADS);
+
+		float x = -0.5f + position.getX();
+		float y0 = position.getY();
+		float y = -0.5f + y0;
+		float w = size.getX();
+		float h = size.getY();
+		z = calcZ(y0) + z;
+
+		//		GL11.glTexCoord2f(0.0f, 0.0f);
+		//		GL11.glVertex3f(x, y, z);
+		//		GL11.glTexCoord2f(1.0f, 0.0f);
+		//		GL11.glVertex3f(x + w, y, z);
+		//		GL11.glTexCoord2f(1.0f, 1.0f);
+		//		GL11.glVertex3f(x + w, y + h, z);
+		//		GL11.glTexCoord2f(0.0f, 1.0f);
+		//		GL11.glVertex3f(x, y + h, z);
+
+		IFloatPoint_r tl = texInfo.getRect().getTopLeft();
+		IFloatPoint_r br = texInfo.getRect().getBottomRight();
+
+		if (texInfo.isFlippedH())
+		{
+			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
+			GL11.glVertex3f(x, y, z);
+			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
+			GL11.glVertex3f(x + w, y, z);
+			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
+			GL11.glVertex3f(x + w, y + h, z);
+			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
+			GL11.glVertex3f(x, y + h, z);
+		}
+		else
+		{
+			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
+			GL11.glVertex3f(x, y, z);
+			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
+			GL11.glVertex3f(x + w, y, z);
+			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
+			GL11.glVertex3f(x + w, y + h, z);
+			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
+			GL11.glVertex3f(x, y + h, z);
+		}
+		GL11.glEnd();
+	}
+
+	@Override
+	public IFloatPoint_r getScreenSize()
+	{
+		return screenSize;
+	}
 }

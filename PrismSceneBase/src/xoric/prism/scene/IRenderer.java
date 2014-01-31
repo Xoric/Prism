@@ -2,6 +2,7 @@ package xoric.prism.scene;
 
 import xoric.prism.data.types.IFloatPoint_r;
 
+@Deprecated
 public interface IRenderer
 {
 	//	public void setColor(float r, float g, float b);

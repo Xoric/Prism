@@ -115,6 +115,11 @@ public class MetaList implements IPackable, IInfoLayer
 		return blocks.size();
 	}
 
+	public IInfoLayer getParent()
+	{
+		return uplink;
+	}
+
 	@Override
 	public void setUplink(IInfoLayer uplink)
 	{

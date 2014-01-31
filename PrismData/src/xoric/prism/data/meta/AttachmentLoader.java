@@ -122,4 +122,9 @@ public class AttachmentLoader extends AttachmentTable
 
 		return result.toByteArray();
 	}
+
+	public File getFile()
+	{
+		return file;
+	}
 }
