@@ -48,6 +48,18 @@ public class FloatRect implements IStackable, IFloatRect_r
 		bottomRight.y += dy;
 	}
 
+	public void setX(float x)
+	{
+		topLeft.x = x;
+		bottomRight.x = x + size.x;
+	}
+
+	public void setY(float y)
+	{
+		topLeft.y = y;
+		bottomRight.y = y + size.y;
+	}
+
 	@Override
 	public String toString()
 	{
@@ -149,5 +161,18 @@ public class FloatRect implements IStackable, IFloatRect_r
 	public float getY()
 	{
 		return topLeft.y;
+	}
+
+	public void setSize(IFloatPoint_r spriteSize)
+	{
+		size.copyFrom(spriteSize);
+		updateBottomRight();
+	}
+
+	public void setSize(float w, float h)
+	{
+		size.x = w;
+		size.y = h;
+		updateBottomRight();
 	}
 }

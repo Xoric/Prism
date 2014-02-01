@@ -12,6 +12,7 @@ import xoric.prism.scene.lwjgl.PrismSceneLWJGL;
 import xoric.prism.scene.lwjgl.textures.TextureBinderLWJGL;
 import xoric.prism.scene.materials.Drawer;
 import xoric.prism.scene.materials.Materials;
+import xoric.prism.scene.materials.Printer;
 import xoric.prism.scene.textures.ITextureBinder;
 import xoric.prism.world.PrismWorldLoader;
 
@@ -45,6 +46,7 @@ public class PrismClientBootstrap
 			//			AllShaders.load(scene); 
 			Materials.load(textureBinder);
 			Drawer.renderer = scene;
+			Printer.renderer = scene;
 
 			// create scene and client
 			client = new PrismClient(scene);

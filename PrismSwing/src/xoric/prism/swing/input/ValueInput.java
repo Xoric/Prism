@@ -7,7 +7,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -61,14 +61,15 @@ public abstract class ValueInput extends JPanel implements ActionListener, IValu
 
 		try
 		{
-			Image img = ImageIO.read(ClassLoader.getSystemResource("icons/edit.png"));
+			URL u = ClassLoader.getSystemResource("icons/edit.png");
+			Image img = ImageIO.read(u);
 			ImageIcon icn = new ImageIcon(img);
 			editButton.setIcon(icn);
 			editButton.setText("");
 			editButton.setPreferredSize(new Dimension(icn.getIconWidth() + 8, icn.getIconHeight() + 4));
 			editButton.setToolTipText("Click to edit");
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			editButton.setText("Edit");
 		}

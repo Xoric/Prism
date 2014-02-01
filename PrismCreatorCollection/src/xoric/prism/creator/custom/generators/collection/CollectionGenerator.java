@@ -46,7 +46,7 @@ public class CollectionGenerator
 		MetaBlock devBlock = new MetaBlock(MetaType.DEVELOP, 0);
 
 		// load collection MetaBlock
-		MetaBlock collectionBlock = loadCommonBlock();
+		MetaBlock collectionBlock = loadCollectionBlock();
 
 		// make sure texture is there
 		ensureTexture();
@@ -77,7 +77,7 @@ public class CollectionGenerator
 		return targetFile;
 	}
 
-	private MetaBlock loadCommonBlock() throws PrismException
+	private MetaBlock loadCollectionBlock() throws PrismException
 	{
 		File file = model.getPath().getFile("texture.meta");
 		MetaBlock collectionBlock;
@@ -105,7 +105,7 @@ public class CollectionGenerator
 		{
 			PrismException e = new PrismException();
 			e.setText("No texture could be found. Generate a texture first.");
-			e.addInfo("file", file.toString());
+			e.addInfo("missing file", file.toString());
 			throw e;
 		}
 	}

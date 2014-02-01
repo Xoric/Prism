@@ -2,5 +2,5 @@ package xoric.prism.data.global;
 
 public enum UIIndex
 {
-	FRAMES
+	FRAMES, FONT
 }

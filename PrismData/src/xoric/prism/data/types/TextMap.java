@@ -208,4 +208,14 @@ public abstract class TextMap
 	{
 		return (c == '-');
 	}
+
+	/*
+	public static void main(String[] args)
+	{
+		for (int i = 0; i < 64; ++i)
+			System.out.println("[" + i + "]: " + charOf(i));
+
+		// [58..63] still available
+	}
+	*/
 }

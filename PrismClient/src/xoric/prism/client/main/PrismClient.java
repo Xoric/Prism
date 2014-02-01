@@ -50,6 +50,12 @@ public class PrismClient implements ISceneListener
 
 	private final FloatRect testRect = new FloatRect(20.0f, 20.0f, 120.0f, 80.0f);
 
+	private final Text testText = new Text("13 APPLES!");
+	private final FloatPoint testPosition = new FloatPoint(100.0f, 150.0f);
+
+	private float fontScale;
+	private boolean fontScalingUp;
+
 	public PrismClient(IScene scene)
 	{
 		this.scene = scene;
@@ -294,6 +300,24 @@ public class PrismClient implements ISceneListener
 		increasing += 0.5f;
 		testRect.addY(0.1f);
 		Materials.framesDrawer.drawThreeParter(testRect.getTopLeft(), 30.0f + increasing, 0, 0);
+
+		if (fontScalingUp)
+		{
+			fontScale += 0.01f;
+			if (fontScale > 1.5f)
+				fontScalingUp = false;
+		}
+		else
+		{
+			fontScale -= 0.01f;
+			if (fontScale <= 0.0f)
+			{
+				fontScale = 0.0f;
+				fontScalingUp = true;
+			}
+		}
+		Materials.printer.setScale(fontScale);
+		Materials.printer.print(testPosition, testText);
 
 		return true;
 	}

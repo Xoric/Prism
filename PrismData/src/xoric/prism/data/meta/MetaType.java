@@ -9,6 +9,7 @@ public enum MetaType
 	ANIM_D /* animation-names for ModelCreator etc. */,
 	MODEL_G,
 	URGENCY, /* message urgency */
-	COLLECTION /* sprite collection */
+	COLLECTION, /* sprite collection */
+	GRID /* sprite grid */
 	// max index: 255
 }
