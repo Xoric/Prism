@@ -15,12 +15,12 @@ import xoric.prism.scene.materials.Printer;
 public class UiTextArea extends FloatRect implements IDrawableUI
 {
 	private Text text;
-	private final List<Text> lines;
 	private float scale;
+	private final List<Integer> stops;
 
 	public UiTextArea()
 	{
-		lines = new ArrayList<Text>();
+		stops = new ArrayList<Integer>();
 		scale = Printer.DEFAULT_SCALE;
 	}
 
@@ -41,23 +41,60 @@ public class UiTextArea extends FloatRect implements IDrawableUI
 
 	public void arrangeLines()
 	{
-		lines.clear();
+		stops.clear();
 
 		if (text != null)
 		{
-			float w = 0.0f;
-			StringBuilder sb = new StringBuilder();
+			boolean resume = true;
+			int index = -1;
+			int lastIndex = 0;
+			float width = 0.0f;
 
-			for (int i = 0; i < text.length(); ++i)
+			do
 			{
-				char c = text.charAt(i);
-				int s = text.symbolAt(i);
+				index = text.findSeparator(index + 1);
 
-				w += Materials.printer.getWidth(s, scale);
-				sb.append(c);
+				if (index < 0)
+				{
+					resume = false;
+					index = text.length() - 1;
+				}
 
-				// TODO: resume
+				// calculate line length
+				float w = 0.0f;
+				for (int i = lastIndex; i < index + 1; ++i)
+					w += Materials.printer.getWidth(text.symbolAt(i), scale);
+
+				width += w;
+
+				// check if current word still fits into this line
+				if (width >= size.x)
+				{
+					stops.add(lastIndex);
+					width = w;
+				}
+				lastIndex = index;
 			}
+			while (resume);
+		}
+
+	}
+
+	public void test()
+	{
+		setSize(100.0f, 80.0f);
+		setText(new Text(
+				"Oppositionsführer Klitschko hat Ukraines Präsidenten Janukowitsch attackiert. Der beute das Land schamlos aus. Die Verhandlungen mit einem Betrüger fielen ihm schwer."));
+		arrangeLines();
+
+		for (Integer i : stops)
+			System.out.println(i);
+
+		int lasti = 0;
+		for (Integer i : stops)
+		{
+			System.out.println(text.substring(lasti, i + 1));
+			lasti = i;
 		}
 	}
 
