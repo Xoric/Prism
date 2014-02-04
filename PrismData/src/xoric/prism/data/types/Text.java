@@ -6,12 +6,12 @@ import java.awt.event.KeyEvent;
  * @author Felix Möhrle
  * @since 26.05.2011, 13:47:31
  */
-public class Text implements IText_r
+public class Text implements IText_r // TODO needs a rework
 {
 	public static final IText_r EMPTY = new Text("");
 
-	protected final StringBuffer ascii = new StringBuffer();
-	protected final StringBuffer symbols = new StringBuffer(); // TODO change to List<Byte>
+	protected final StringBuilder ascii = new StringBuilder();
+	protected final StringBuilder symbols = new StringBuilder(); // TODO change to List<Byte>
 
 	/**
 	 * Text constructor.
@@ -32,6 +32,7 @@ public class Text implements IText_r
 		set("");
 	}
 
+	@Override
 	public String cut(int count)
 	{
 		if (count < 1)
@@ -147,5 +148,20 @@ public class Text implements IText_r
 			symbols.append((char) i);
 			ascii.append(TextMap.charOf(i));
 		}
+	}
+
+	@Override
+	public int findSeparator(int startIndex)
+	{
+		for (int i = startIndex; i < ascii.length(); ++i)
+			if (TextMap.isSeparator(ascii.charAt(i)))
+				return i;
+
+		return -1;
+	}
+
+	public Text subtext(int lastIndex, int index)
+	{
+		return new Text(substring(lastIndex, index)); // TODO reimplement 
 	}
 }

@@ -15,18 +15,18 @@ public class ObjectMeta
 {
 	private final IText_r name;
 	private final FloatPoint objectFraction;
-	private final FloatPoint size;
+	private final FloatPoint sizePixels;
 	private final List<ObjectInstance> instances;
 
 	// used while creation:
 	private List<FloatRect> tempRects;
 	private List<IFloatPoint_r> sizes;
 
-	public ObjectMeta(IText_r name, FloatPoint objectFraction, FloatPoint size)
+	public ObjectMeta(IText_r name, FloatPoint objectFraction, FloatPoint sizePixels)
 	{
 		this.name = name;
 		this.objectFraction = objectFraction;
-		this.size = size;
+		this.sizePixels = sizePixels;
 		this.instances = new ArrayList<ObjectInstance>();
 
 		this.tempRects = new ArrayList<FloatRect>();
@@ -37,6 +37,11 @@ public class ObjectMeta
 	public String toString()
 	{
 		return name.toString();
+	}
+
+	public IFloatPoint_r getSize()
+	{
+		return sizePixels;
 	}
 
 	public IText_r getName()
@@ -74,7 +79,7 @@ public class ObjectMeta
 
 		if (tempRects.size() == 0)
 		{
-			o.addRect(new FloatRect(fx, fy, objectFraction.x, objectFraction.y), size);
+			o.addRect(new FloatRect(fx, fy, objectFraction.x, objectFraction.y), sizePixels);
 		}
 		else
 		{

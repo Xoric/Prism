@@ -126,7 +126,7 @@ public class GridMeta extends ArtMeta
 		{
 			rects.add(new FloatRect(c * w, r * h, w, h));
 
-			if (++c >= spriteSize.getX())
+			if (++c >= columnCount)
 			{
 				c = 0;
 				++r;

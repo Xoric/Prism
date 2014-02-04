@@ -2,6 +2,7 @@ package xoric.prism.develop.meta;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -45,100 +46,6 @@ public class MetaFileCreator
 		this.infusedMetaList = null;
 	}
 
-	/**
-	 * Supply a previously created MetaList. {@link MetaFileCreator} will then no longer attempt to generate a MetaList from a text file
-	 * {@code "meta.txt"} within the source directory.
-	 * @param metaList
-	 */
-	public void infuseMetaList(MetaList metaList)
-	{
-		this.infusedMetaList = metaList;
-	}
-
-	private static MetaBlock createMetaBlock(String line) throws PrismException
-	{
-		// split line
-		line = line.substring(1);
-		String[] s = line.split(STRING_METABLOCK);
-
-		// check parameter count
-		if (s.length != 2)
-		{
-			PrismException e = new PrismException();
-			// ----
-			e.user.setText(UserErrorText.INTERNAL_PROBLEM);
-			// ----
-			e.code.setText("could not create MetaBlock from the given line (" + s.length + " parameter(s) found instead of 2)");
-			e.code.addInfo("line", line);
-			// ----
-			// ----
-			throw e;
-		}
-
-		// create MetaBlock
-		MetaType t = MetaType.valueOf(s[0]);
-		int v = Integer.valueOf(s[1]);
-		MetaBlock block = new MetaBlock(t, v);
-
-		return block;
-	}
-
-	private static MetaTextLine createMetaTextLine(String line) throws PrismException
-	{
-		// split line
-		String[] s = line.split(CHAR_KEY_SPLIT);
-
-		if (s.length != 2)
-		{
-			PrismException e = new PrismException();
-			// ----
-			e.user.setText(UserErrorText.INTERNAL_PROBLEM);
-			// ----
-			e.code.setText("could not create MetaTextLine from the given line (" + s.length + " parameter(s) found instead of 2)");
-			e.code.addInfo("line", line);
-			// ----
-			// ----
-			throw e;
-		}
-
-		// extract key and parameters
-		String key = s[0];
-		String[] params = s[1].split(CHAR_PARAM_SPLIT);
-
-		// create MetaLine
-		MetaTextLine t = new MetaTextLine(key, params);
-
-		return t;
-	}
-
-	private int readVersion(IPath_r path, String filename) throws PrismException
-	{
-		int version = 0;
-		File file = path.getFile(filename);
-
-		if (file.exists())
-		{
-			try
-			{
-				MetaFile metaFile = new MetaFile(targetPath, filename);
-				metaFile.load();
-				version = metaFile.getLocalFileVersion();
-			}
-			catch (Exception e0)
-			{
-				PrismException e = new PrismException(e0);
-				// ----
-				// ----
-				// ----
-				e.setText("Could not read file version.");
-				e.addInfo("file", file.toString());
-				// ----
-				throw e;
-			}
-		}
-		return version;
-	}
-
 	public void create() throws PrismException
 	{
 		// check if path exists
@@ -173,6 +80,9 @@ public class MetaFileCreator
 		MetaBlock devBlock = metaList.claimMetaBlock(MetaType.DEVELOP);
 		String targetFilename = obtainTargetFilename(devBlock);
 		checkDevelopBlock(devBlock, targetFilename, info);
+
+		// import additional MetaBlocks
+		importExternalMetaBlocks(metaList, devBlock);
 
 		// gather attachments
 		List<MetaLine> attachmentLines = devBlock.findLines(MetaKey.ATTACH);
@@ -307,6 +217,100 @@ public class MetaFileCreator
 		sb.append(" | attachments: " + attachmentCount);
 
 		System.out.println(sb.toString());
+	}
+
+	/**
+	 * Supply a previously created MetaList. {@link MetaFileCreator} will then no longer attempt to generate a MetaList from a text file
+	 * {@code "meta.txt"} within the source directory.
+	 * @param metaList
+	 */
+	public void infuseMetaList(MetaList metaList)
+	{
+		this.infusedMetaList = metaList;
+	}
+
+	private static MetaBlock createMetaBlock(String line) throws PrismException
+	{
+		// split line
+		line = line.substring(1);
+		String[] s = line.split(STRING_METABLOCK);
+
+		// check parameter count
+		if (s.length != 2)
+		{
+			PrismException e = new PrismException();
+			// ----
+			e.user.setText(UserErrorText.INTERNAL_PROBLEM);
+			// ----
+			e.code.setText("could not create MetaBlock from the given line (" + s.length + " parameter(s) found instead of 2)");
+			e.code.addInfo("line", line);
+			// ----
+			// ----
+			throw e;
+		}
+
+		// create MetaBlock
+		MetaType t = MetaType.valueOf(s[0]);
+		int v = Integer.valueOf(s[1]);
+		MetaBlock block = new MetaBlock(t, v);
+
+		return block;
+	}
+
+	private static MetaTextLine createMetaTextLine(String line) throws PrismException
+	{
+		// split line
+		String[] s = line.split(CHAR_KEY_SPLIT);
+
+		if (s.length != 2)
+		{
+			PrismException e = new PrismException();
+			// ----
+			e.user.setText(UserErrorText.INTERNAL_PROBLEM);
+			// ----
+			e.code.setText("could not create MetaTextLine from the given line (" + s.length + " parameter(s) found instead of 2)");
+			e.code.addInfo("line", line);
+			// ----
+			// ----
+			throw e;
+		}
+
+		// extract key and parameters
+		String key = s[0];
+		String[] params = s[1].split(CHAR_PARAM_SPLIT);
+
+		// create MetaLine
+		MetaTextLine t = new MetaTextLine(key, params);
+
+		return t;
+	}
+
+	private int readVersion(IPath_r path, String filename) throws PrismException
+	{
+		int version = 0;
+		File file = path.getFile(filename);
+
+		if (file.exists())
+		{
+			try
+			{
+				MetaFile metaFile = new MetaFile(targetPath, filename);
+				metaFile.load();
+				version = metaFile.getLocalFileVersion();
+			}
+			catch (Exception e0)
+			{
+				PrismException e = new PrismException(e0);
+				// ----
+				// ----
+				// ----
+				e.setText("Could not read file version.");
+				e.addInfo("file", file.toString());
+				// ----
+				throw e;
+			}
+		}
+		return version;
 	}
 
 	private void checkAttachment(File obtainedAttachmentFile, MetaLine sourceMetaLine, MetaListInfo info) throws PrismException
@@ -481,6 +485,60 @@ public class MetaFileCreator
 			metaList.addMetaBlock(b);
 
 		return metaList;
+	}
+
+	public void importExternalMetaBlocks(MetaList metaList, MetaBlock devBlock) throws PrismException
+	{
+		int index = -1;
+		do
+		{
+			index = devBlock.findNextIndex(MetaKey.IMPORT, index + 1);
+
+			if (index >= 0)
+			{
+				MetaLine ml = devBlock.getMetaLine(index);
+				ml.ensureMinima(0, 0, 1);
+				String filename = ml.getHeap().texts.get(0).toString().toLowerCase();
+				File f = sourcePath.getFile(filename);
+
+				if (!f.exists())
+				{
+					PrismException e = new PrismException();
+					// ----
+					e.user.setText(UserErrorText.DEVELOP_FILE_CAUSED_PROBLEM);
+					// ----
+					e.code.setText("an external MetaBlock is missing");
+					e.code.addInfo("external file", f.toString());
+					// ----
+					ml.addExceptionInfoTo(e);
+					// ----
+					throw e;
+				}
+
+				// import MetaBlock
+				try
+				{
+					MetaBlock mb = new MetaBlock();
+					FileInputStream stream = new FileInputStream(f);
+					mb.unpack(stream);
+					metaList.addMetaBlock(mb);
+				}
+				catch (Exception e0)
+				{
+					PrismException e = new PrismException(e0);
+					// ----
+					e.user.setText(UserErrorText.DEVELOP_FILE_CAUSED_PROBLEM);
+					// ----
+					e.code.setText("error while trying to import MetaBlock");
+					e.code.addInfo("external file", f.toString());
+					// ----
+					ml.addExceptionInfoTo(e);
+					// ----
+					throw e;
+				}
+			}
+		}
+		while (index >= 0);
 	}
 
 	public File getResultingTargetFile()

@@ -13,6 +13,13 @@ public class FloatRect implements IStackable, IFloatRect_r
 		this.bottomRight = new FloatPoint();
 	}
 
+	public FloatRect(IFloatRect_r other)
+	{
+		this.topLeft = new FloatPoint(other.getTopLeft());
+		this.size = new FloatPoint(other.getSize());
+		this.bottomRight = new FloatPoint(other.getBottomRight());
+	}
+
 	public FloatRect(float x, float y, float width, float height)
 	{
 		this.topLeft = new FloatPoint(x, y);
@@ -33,6 +40,12 @@ public class FloatRect implements IStackable, IFloatRect_r
 	{
 		this.topLeft.copyFrom(topLeft);
 		this.size.copyFrom(size);
+		updateBottomRight();
+	}
+
+	public void setTopLeft(IFloatPoint_r pos)
+	{
+		topLeft.copyFrom(pos);
 		updateBottomRight();
 	}
 
@@ -84,6 +97,18 @@ public class FloatRect implements IStackable, IFloatRect_r
 		return bottomRight;
 	}
 
+	@Override
+	public float getRight()
+	{
+		return bottomRight.getX();
+	}
+
+	@Override
+	public float getBottom()
+	{
+		return bottomRight.getY();
+	}
+
 	private void updateBottomRight()
 	{
 		bottomRight.x = topLeft.x + size.x;
@@ -133,10 +158,10 @@ public class FloatRect implements IStackable, IFloatRect_r
 		bottomRight.x = topLeft.x + size.x;
 	}
 
-	public void setWidth(float w)
+	public void multiplyHeight(float f)
 	{
-		size.x = w;
-		bottomRight.x = topLeft.x + w;
+		size.y *= f;
+		bottomRight.y = topLeft.y + size.y;
 	}
 
 	@Override
@@ -171,6 +196,27 @@ public class FloatRect implements IStackable, IFloatRect_r
 
 	public void setSize(float w, float h)
 	{
+		size.x = w;
+		size.y = h;
+		updateBottomRight();
+	}
+
+	public void setWidth(float w)
+	{
+		size.x = w;
+		bottomRight.x = topLeft.x + w;
+	}
+
+	public void setHeight(float h)
+	{
+		size.y = h;
+		bottomRight.y = topLeft.y + h;
+	}
+
+	public void set(float x, float y, float w, float h)
+	{
+		topLeft.x = x;
+		topLeft.y = y;
 		size.x = w;
 		size.y = h;
 		updateBottomRight();

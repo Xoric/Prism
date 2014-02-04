@@ -9,7 +9,8 @@ public enum MetaKey
 	SUB,
 	ALT,
 	COUNT,
-	SIZE;
+	SIZE,
+	IMPORT;
 
 	private static final MetaKey[] VALUES = values();
 

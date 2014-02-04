@@ -8,8 +8,6 @@ import xoric.prism.scene.shaders.IShaderIO;
 
 public interface IScene extends IShaderIO
 {
-	public static final int LOOP_INTERVAL_MS = 25;
-
 	/**
 	 * Returns a list of available resolutions.
 	 * @return List<Dimension>

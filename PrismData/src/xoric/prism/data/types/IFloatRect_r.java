@@ -15,4 +15,8 @@ public interface IFloatRect_r extends IStackable_r
 	public float getX();
 
 	public float getY();
+
+	public float getRight();
+
+	public float getBottom();
 }

@@ -1,6 +1,7 @@
 package xoric.prism.client.bootstrap;
 
-import xoric.prism.client.main.PrismClient;
+import xoric.prism.client.PrismClient;
+import xoric.prism.client.settings.ClientSettings;
 import xoric.prism.com.Message;
 import xoric.prism.com.Perspective;
 import xoric.prism.com.PrismCommunicationLoader;
@@ -21,6 +22,7 @@ public class PrismClientBootstrap
 	private static PrismSceneLWJGL scene;
 	private static ITextureBinder textureBinder;
 	private static PrismClient client;
+	private static ClientSettings settings;
 
 	public static void main(String[] args)
 	{
@@ -40,8 +42,11 @@ public class PrismClientBootstrap
 			// set message perspective
 			Message.perspective = Perspective.CLIENT;
 
+			// create client settings
+			settings = new ClientSettings();
+
 			// create scene and initialize materials
-			scene = new PrismSceneLWJGL();
+			scene = new PrismSceneLWJGL(settings);
 			textureBinder = new TextureBinderLWJGL();
 			//			AllShaders.load(scene); 
 			Materials.load(textureBinder);

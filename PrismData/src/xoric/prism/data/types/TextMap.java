@@ -32,11 +32,12 @@ public abstract class TextMap
 	private static int COLON = 55;
 	private static int SEMICOLON = 56;
 	private static int UNDERLINE = 57;
+	private static int PARA = 58;
 	private static int INVALID = -1;
 
 	private static final int[] INDICES = new int[] { SPACE, EXCLAMATION_MARK, QUOTE, INVALID, DOLLAR, PERCENT, INVALID, QUOTE,
 			OPEN_BRACKET, CLOSE_BRACKET, PRODUCT, PLUS, COMMA, MINUS, DOT, SLASH, ZERO, ZERO + 1, ZERO + 2, ZERO + 3, ZERO + 4, ZERO + 5,
-			ZERO + 6, ZERO + 7, ZERO + 8, ZERO + 9, COLON, SEMICOLON, LESSER, EQUAL, GREATER, QUESTION_MARK, AT };
+			ZERO + 6, ZERO + 7, ZERO + 8, ZERO + 9, COLON, SEMICOLON, LESSER, EQUAL, GREATER, QUESTION_MARK, AT, PARA };
 
 	/**
 	 * Tries to convert a character to make it compatible to the internal alphabet.
@@ -122,6 +123,10 @@ public abstract class TextMap
 		{
 			c = '_';
 		}
+		else if (index == PARA)
+		{
+			c = '§';
+		}
 		return c;
 	}
 
@@ -160,6 +165,10 @@ public abstract class TextMap
 		{
 			i = UNDERLINE;
 		}
+		else if (i == '§')
+		{
+			i = PARA;
+		}
 		// else: invalid
 		else
 		{
@@ -174,12 +183,12 @@ public abstract class TextMap
 
 	/**
 	 * Checks if the given character is suitable for being followed by a line break.
-	 * @param i
+	 * @param c
 	 */
-	public static boolean isSeperator(int i)
+	public static boolean isSeparator(char c)
 	{
-		boolean b = (i == ' ') || (i == '!') || (i == '%') || ((i >= ')') && (i <= '.')) || ((i >= ':') && (i <= ';')) || (i == '=')
-				|| (i == '?');
+		boolean b = (c == ' ') || (c == '!') || (c == '%') || ((c >= ')') && (c <= '.')) || ((c >= ':') && (c <= ';')) || (c == '=')
+				|| (c == '?');
 		return b;
 	}
 
@@ -215,7 +224,7 @@ public abstract class TextMap
 		for (int i = 0; i < 64; ++i)
 			System.out.println("[" + i + "]: " + charOf(i));
 
-		// [58..63] still available
+		// [59..63] still available
 	}
 	*/
 }

@@ -17,7 +17,6 @@ public class MetaBlock implements IPackable, IInfoLayer
 	private MetaType metaType;
 	private int version;
 	private final List<MetaLine> list;
-	private final IntPacker intPacker;
 
 	private IInfoLayer uplink;
 
@@ -25,7 +24,6 @@ public class MetaBlock implements IPackable, IInfoLayer
 	{
 		this.metaType = MetaType.COMMON;
 		this.list = new ArrayList<MetaLine>();
-		this.intPacker = new IntPacker();
 	}
 
 	public MetaBlock(MetaType metaType, int version)
@@ -33,7 +31,6 @@ public class MetaBlock implements IPackable, IInfoLayer
 		this.metaType = metaType;
 		this.version = version;
 		this.list = new ArrayList<MetaLine>();
-		this.intPacker = new IntPacker();
 	}
 
 	@Override
@@ -130,13 +127,9 @@ public class MetaBlock implements IPackable, IInfoLayer
 	@Override
 	public void pack(OutputStream stream) throws IOException
 	{
-		// write metaType
-		intPacker.setValue(metaType.ordinal());
-		intPacker.pack(stream);
-
-		// write number of lines
-		intPacker.setValue(list.size());
-		intPacker.pack(stream);
+		// write metaType and number of lines
+		IntPacker.pack_s(stream, metaType.ordinal());
+		IntPacker.pack_s(stream, list.size());
 
 		// write lines
 		for (MetaLine l : list)
@@ -147,13 +140,11 @@ public class MetaBlock implements IPackable, IInfoLayer
 	public void unpack(InputStream stream) throws IOException, PrismException
 	{
 		// read metaType
-		intPacker.unpack(stream);
-		int value = intPacker.getValue();
+		int value = IntPacker.unpack_s(stream);
 		metaType = MetaType.values()[value]; // TODO: unsafe
 
 		// read number of lines
-		intPacker.unpack(stream);
-		value = intPacker.getValue();
+		value = IntPacker.unpack_s(stream);
 
 		// read lines
 		for (int i = 0; i < value; ++i)

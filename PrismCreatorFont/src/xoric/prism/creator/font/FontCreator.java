@@ -3,14 +3,18 @@ package xoric.prism.creator.font;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.meta.MetaKey;
+import xoric.prism.data.meta.MetaLine;
+import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Path;
 import xoric.prism.data.types.TextMap;
@@ -33,8 +37,17 @@ public class FontCreator
 
 		try
 		{
+			MetaLine ml = new MetaLine(MetaKey.SIZE);
+
 			for (int i = 0; i < 64; ++i)
-				writeChar(i, font, path);
+				writeChar(i, font, path, ml);
+
+			MetaBlock mb = new MetaBlock(MetaType.COMMON, 0);
+			mb.addMetaLine(ml);
+
+			FileOutputStream stream = new FileOutputStream(path.getFile("padding.meta"));
+			mb.pack(stream);
+			stream.close();
 		}
 		catch (Exception e)
 		{
@@ -42,12 +55,12 @@ public class FontCreator
 		}
 	}
 
-	private static void writeChar(int i, Font font, IPath_r path) throws IOException
+	private static void writeChar(int i, Font font, IPath_r path, MetaLine ml) throws IOException
 	{
 		char c = TextMap.charOf(i);
 		final int X = 1;
 		final int Y = height - 6;
-		System.out.println("writing '" + c + "'");
+		System.out.print("writing '" + c + "'");
 
 		BufferedImage letter = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
@@ -68,6 +81,36 @@ public class FontCreator
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
 
 		g.dispose();
+
+		// calculate padding
+		int padding = 0;
+		if (c == ' ')
+			padding = 12;
+		else if (c == '$')
+			padding = 13;
+		else if (c == '§')
+			padding = 18;
+		else
+		{
+			for (int x = 0; x < width; ++x)
+			{
+				boolean b2 = false;
+
+				for (int y = 0; y < height; ++y)
+				{
+					Color t = new Color(bi.getRGB(x, y));
+					b2 |= t.getRed() > 100;
+				}
+
+				if (b2)
+					padding = x;
+			}
+
+			padding += 3;
+		}
+		ml.getHeap().ints.add(padding);
+
+		System.out.print(", padding: " + padding);
 
 		for (int x = 0; x < width; ++x)
 		{
@@ -111,8 +154,13 @@ public class FontCreator
 			}
 		}
 
-		File f = path.getFile("sprite" + i + ".png");
-		ImageIO.write(letter, "png", f);
+		if (c != '$' && c != '§')
+		{
+			File f = path.getFile("sprite" + i + ".png");
+			ImageIO.write(letter, "png", f);
+		}
+
+		System.out.println();
 	}
 
 	private static int genWhite(int y)
@@ -150,12 +198,12 @@ public class FontCreator
 		return a << 24;
 	}
 
-	private static void listFonts()
-	{
-		GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		for (String font : e.getAvailableFontFamilyNames())
-		{
-			System.out.println(font);
-		}
-	}
+	//	private static void listFonts()
+	//	{
+	//		GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	//		for (String font : e.getAvailableFontFamilyNames())
+	//		{
+	//			System.out.println(font);
+	//		}
+	//	}
 }

@@ -29,20 +29,26 @@ class MetaContentPanel extends JPanel
 	private static final long serialVersionUID = 1L;
 
 	private JLabel label2;
+	private JList<String> list0;
 	private JList<String> list;
 
 	public MetaContentPanel()
 	{
 		label2 = new JLabel();
+		list0 = new JList<String>();
 		list = new JList<String>();
 
 		JPanel p = new JPanel(new GridBagLayout());
 
 		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-				new Insets(60, 10, 00, 10), 0, 0);
+				new Insets(60, 10, 0, 10), 0, 0);
 		p.add(label2, c);
 
-		c = new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(30, 10, 30,
+		c = new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+				new Insets(10, 10, 0, 10), 0, 0);
+		p.add(list0, c);
+
+		c = new GridBagConstraints(0, 2, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(10, 10, 30,
 				10), 0, 0);
 		p.add(list, c);
 
@@ -60,6 +66,7 @@ class MetaContentPanel extends JPanel
 		catch (PrismException e)
 		{
 			label2.setText(e.code.toString());
+			list0.removeAll();
 			list.removeAll();
 		}
 	}
@@ -78,11 +85,11 @@ class MetaContentPanel extends JPanel
 
 	private void showMetaFile(IPath_r path, String filename) throws PrismException
 	{
-		MetaFile f = new MetaFile(path, filename);
-		f.load();
+		MetaFile mf = new MetaFile(path, filename);
+		mf.load();
 
-		int version = f.getLocalFileVersion();
-		MetaTimeStamp t = f.getTimeStamp();
+		int version = mf.getLocalFileVersion();
+		MetaTimeStamp t = mf.getTimeStamp();
 
 		StringBuffer sb = new StringBuffer();
 		sb.append("<html><b>" + filename + "</b><br>");
@@ -91,10 +98,28 @@ class MetaContentPanel extends JPanel
 		sb.append("</html>");
 		label2.setText(sb.toString());
 
-		AttachmentLoader a = f.getAttachmentLoader();
-		int n = a.getAttachmentCount();
+		// MetaBlocks
+		int n = mf.getMetaList().getBlockCount();
 
 		DefaultListModel<String> model = new DefaultListModel<String>();
+		for (int i = 0; i < n; ++i)
+		{
+			MetaBlock mb = mf.getMetaList().getMetaBlock(i);
+
+			sb.setLength(0);
+			sb.append("[" + i + "] ");
+			sb.append(mb.getMetaType().toString());
+			sb.append(" (" + mb.getLineCount() + ")");
+
+			model.addElement(sb.toString());
+		}
+		list0.setModel(model);
+
+		// attachments
+		AttachmentLoader a = mf.getAttachmentLoader();
+		n = a.getAttachmentCount();
+
+		model = new DefaultListModel<String>();
 		for (int i = 0; i < n; ++i)
 		{
 			AttachmentHeader h = a.get(i);
@@ -114,5 +139,4 @@ class MetaContentPanel extends JPanel
 		}
 		list.setModel(model);
 	}
-
 }

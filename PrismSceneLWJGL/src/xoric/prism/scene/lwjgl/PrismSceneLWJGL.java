@@ -24,6 +24,7 @@ import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
 import xoric.prism.scene.lwjgl.textures.Texture;
 import xoric.prism.scene.lwjgl.textures.TextureBinderLWJGL;
+import xoric.prism.scene.settings.ISceneSettings;
 import xoric.prism.scene.shaders.AllShaders;
 import xoric.prism.scene.shaders.IShader2;
 import xoric.prism.scene.textures.TextureInfo;
@@ -42,10 +43,24 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 	private PrismColor testingColor2;
 	private boolean[] brgba = new boolean[4];
 
-	public PrismSceneLWJGL()
+	private int interval;
+
+	public PrismSceneLWJGL(ISceneSettings settings)
 	{
+		setFps(settings.getFps());
+
 		shaderIO = new ShaderIO2();
 		slope = 0.5f;
+	}
+
+	private void setFps(int fps)
+	{
+		if (fps < 30)
+			fps = 30;
+		else if (fps > 90)
+			fps = 90;
+
+		interval = 1000 / fps;
 	}
 
 	private static DisplayMode findDisplay(int width, int height) throws LWJGLException
@@ -172,7 +187,6 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 	@Override
 	public void startLoop(ISceneListener client)
 	{
-		final int loopInterval = IScene.LOOP_INTERVAL_MS;
 		long lastMs = System.currentTimeMillis();
 		boolean resumeTimer = true;
 
@@ -189,52 +203,55 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 			long currentMs = System.currentTimeMillis();
 			int passedMs = (int) (currentMs - lastMs);
 
-			if (passedMs >= loopInterval)
+			if (interval <= 0 || passedMs >= interval)
 			{
-				frameTimerMs += passedMs;
-				if (frameTimerMs >= 3000)
+				if (passedMs > 0)
 				{
-					int fps = (frameCounter * 1000) / frameTimerMs;
-					Display.setTitle(fps + " fps");
-					frameCounter = 0;
-					frameTimerMs = 0;
-				}
-
-				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-
-				// client returns false if the scene should be closed
-				try
-				{
-					if (resumeTimer)
+					frameTimerMs += passedMs;
+					if (frameTimerMs >= 3000)
 					{
-						setStage(true);
-						resumeTimer = client.drawWorld(passedMs, this);
+						int fps = (frameCounter * 1000) / frameTimerMs;
+						Display.setTitle(fps + " fps");
+						frameCounter = 0;
+						frameTimerMs = 0;
 					}
-					if (resumeTimer)
+
+					GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+
+					// client returns false if the scene should be closed
+					try
 					{
-						setStage(false);
-						resumeTimer = client.drawUI(passedMs, this);
+						if (resumeTimer)
+						{
+							setStage(true);
+							resumeTimer = client.drawWorld(passedMs, this);
+						}
+						if (resumeTimer)
+						{
+							setStage(false);
+							resumeTimer = client.drawUI(passedMs, this);
+						}
 					}
-				}
-				catch (Exception e0)
-				{
-					resumeTimer = false;
-					exception = e0;
-				}
+					catch (Exception e0)
+					{
+						resumeTimer = false;
+						exception = e0;
+					}
 
-				// update the scene
-				Display.update();
-				++frameCounter;
-				resumeTimer &= !Display.isCloseRequested();
+					// update the scene
+					Display.update();
+					++frameCounter;
+					resumeTimer &= !Display.isCloseRequested();
 
-				// keep track of time passed
-				lastMs = currentMs;
+					// keep track of time passed
+					lastMs = currentMs;
+				}
 			}
 			else
 			{
 				try
 				{
-					Thread.sleep(loopInterval - passedMs);
+					Thread.sleep(interval - passedMs);
 				}
 				catch (InterruptedException e)
 				{

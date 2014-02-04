@@ -43,10 +43,10 @@ public class MetaList implements IPackable, IInfoLayer
 		return sb.toString();
 	}
 
-	public void addMetaBlock(MetaBlock b)
+	public void addMetaBlock(MetaBlock mb)
 	{
-		b.setUplink(uplink);
-		blocks.add(b);
+		mb.setUplink(uplink);
+		blocks.add(mb);
 	}
 
 	public MetaBlock claimMetaBlock(MetaType t) throws PrismException

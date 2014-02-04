@@ -28,4 +28,6 @@ public interface IText_r
 	public int length();
 
 	public String cut(int count);
+
+	public int findSeparator(int startIndex);
 }
