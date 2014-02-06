@@ -11,7 +11,8 @@ public class IntPacker implements IPredictablePackable
 	private static final IntPacker instance = new IntPacker();
 
 	private static final byte buf[] = new byte[4];
-	private static final int capacities[] = { 64, 16384, 4194304, 1073741824 };
+	//	private static final int capacities[] = { 64, 16384, 4194304, 1073741824 };
+	private static final int capacities[] = { 32, 8192, 2097152, 536870912 };
 
 	private int value;
 
@@ -30,7 +31,10 @@ public class IntPacker implements IPredictablePackable
 	{
 		int bytes = calcPackedSize();
 		int packed = bytes - 1;
-		packed |= value << 2;
+		//		packed |= value << 2;
+		int sign = value >= 0 ? 0 : 1;
+		packed |= sign << 2;
+		packed |= Math.abs(value) << 3;
 
 		for (int i = 0; i < bytes; ++i)
 			buf[i] = (byte) (packed >> (8 * i));
@@ -45,15 +49,24 @@ public class IntPacker implements IPredictablePackable
 		int bytes = 1 + (k & 0x3);
 		stream.read(buf, 1, bytes - 1);
 
-		value = k >> 2;
+		//		value = k >> 2;
+		int sign = (k >> 2) & 0x1;
+		value = k >> 3;
+
 		for (int i = 1; i < bytes; ++i)
-			value |= (0xFF & buf[i]) << (i * 8 - 2);
+			value |= (0xFF & buf[i]) << (i * 8 - 3);
+		//		value |= (0xFF & buf[i]) << (i * 8 - 2);
+
+		if (sign > 0)
+			value = -value;
 	}
 
 	@Override
 	public int calcPackedSize()
 	{
-		int v = value;
+		//		int v = value;
+		int v = Math.abs(value);
+
 		for (int i = 0; i < 4; ++i)
 		{
 			int cap = capacities[i];
@@ -124,4 +137,42 @@ public class IntPacker implements IPredictablePackable
 		return instance.calcPackedSize();
 	}
 
+	/*
+	public static void main(String[] args)
+	{
+		try
+		{
+			int f = 0;
+			int s = 0;
+
+			for (int v1 = -536870911; v1 < 536870912; ++v1)
+			{
+				ByteArrayOutputStream stream = new ByteArrayOutputStream();
+				IntPacker.pack_s(stream, v1);
+				stream.close();
+				byte[] buf = stream.toByteArray();
+
+				ByteArrayInputStream stream2 = new ByteArrayInputStream(buf);
+				int v2 = IntPacker.unpack_s(stream2);
+				stream2.close();
+
+				if (v1 == v2)
+				{
+					++s;
+				}
+				else
+				{
+					++f;
+					System.out.println(v1 + " ... " + v2);
+				}
+			}
+			System.out.println("successful: " + s);
+			System.out.println("failed: " + f);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	*/
 }

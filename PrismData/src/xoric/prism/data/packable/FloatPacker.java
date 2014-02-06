@@ -6,6 +6,8 @@ import java.io.OutputStream;
 
 public class FloatPacker implements IPackable
 {
+	// TODO enable negative numbers
+
 	private static final FloatPacker instance = new FloatPacker();
 
 	private static final byte buf[] = new byte[4];
@@ -58,10 +60,6 @@ public class FloatPacker implements IPackable
 			final int cap = decimalPlaces == 1 ? 10 : 100;
 			int postComma = (int) (carry + temp / 10);
 
-			/*
-			if (postComma >= cap)
-				postComma = cap - 1;
-			*/
 			if (postComma >= cap)
 			{
 				postComma = 0;
