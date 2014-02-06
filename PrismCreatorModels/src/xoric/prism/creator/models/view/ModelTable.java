@@ -15,9 +15,9 @@ import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
 import xoric.prism.swing.PrismPanel;
 import xoric.prism.swing.input.IValueInputListener;
-import xoric.prism.swing.input.PointInput;
-import xoric.prism.swing.input.TextInput;
-import xoric.prism.swing.input.ValueInput;
+import xoric.prism.swing.input.PointInputPanel;
+import xoric.prism.swing.input.TextInputPanel;
+import xoric.prism.swing.input.ValueInputPanel;
 import xoric.prism.swing.tooltips.ToolTipFormatter;
 
 class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
@@ -26,8 +26,8 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 
 	private IMainControl control;
 
-	private TextInput nameInput;
-	private PointInput spriteSizeInput;
+	private TextInputPanel nameInput;
+	private PointInputPanel spriteSizeInput;
 
 	public ModelTable()
 	{
@@ -36,12 +36,12 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 		JPanel contentPane = new JPanel(new GridBagLayout());
 		contentPane.setBorder(BorderFactory.createEtchedBorder());
 
-		nameInput = new TextInput("Name", this);
+		nameInput = new TextInputPanel("Name", this);
 		nameInput.setValue(new Text("NONE"));
 		nameInput.setPrompt("Enter a new name for this model.");
 		nameInput.setToolTipText(ToolTipFormatter.split("Provide a name for this model."));
 
-		spriteSizeInput = new PointInput("Sprite size", this);
+		spriteSizeInput = new PointInputPanel("Sprite size", this);
 		spriteSizeInput.setUnit("px");
 		spriteSizeInput.setValue(new Point(0, 0));
 		spriteSizeInput.setLabels("Width", "Height");
@@ -80,7 +80,7 @@ class ModelTable extends PrismPanel implements IModelTable, IValueInputListener
 	}
 
 	@Override
-	public void notifyValueChanged(ValueInput input)
+	public void notifyValueChanged(ValueInputPanel input)
 	{
 		if (input == nameInput)
 		{

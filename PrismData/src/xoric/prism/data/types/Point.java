@@ -4,6 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import xoric.prism.data.heap.Heap;
+import xoric.prism.data.heap.HeapReader;
+import xoric.prism.data.heap.IStackable;
+import xoric.prism.data.packable.IPackable;
+import xoric.prism.data.packable.IntPacker;
+
 public class Point implements IStackable, IPackable, IPoint_r
 {
 	public int x;

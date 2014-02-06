@@ -46,7 +46,8 @@ public class PrismClientBootstrap
 			settings = new ClientSettings();
 
 			// create scene and initialize materials
-			scene = new PrismSceneLWJGL(settings);
+			scene = new PrismSceneLWJGL();
+			scene.loadSettings(settings);
 			textureBinder = new TextureBinderLWJGL();
 			//			AllShaders.load(scene); 
 			Materials.load(textureBinder);

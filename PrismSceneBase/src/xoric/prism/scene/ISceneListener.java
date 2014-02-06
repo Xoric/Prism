@@ -1,6 +1,7 @@
 package xoric.prism.scene;
 
-public interface ISceneListener
+
+public interface ISceneListener extends IInputListener
 {
 	public boolean drawWorld(int passedMs, IRendererWorld renderer) throws Exception;
 

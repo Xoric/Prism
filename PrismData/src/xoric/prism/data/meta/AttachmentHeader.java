@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import xoric.prism.data.types.IPredictablePackable;
+import xoric.prism.data.packable.IPredictablePackable;
+import xoric.prism.data.packable.IntPacker;
+import xoric.prism.data.packable.TextPacker;
 import xoric.prism.data.types.IText_r;
-import xoric.prism.data.types.IntPacker;
 import xoric.prism.data.types.Text;
-import xoric.prism.data.types.TextPacker;
 
 public class AttachmentHeader implements IPredictablePackable
 {

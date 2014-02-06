@@ -19,7 +19,7 @@ import xoric.prism.scene.textures.grid.GridMeta;
 
 public class Printer implements IMetaChild
 {
-	public static final float DEFAULT_SCALE = 0.75f;
+	public static final float DEFAULT_SCALE = 0.62f;
 
 	public static IRendererUI renderer;
 
@@ -30,6 +30,10 @@ public class Printer implements IMetaChild
 	//	private float spriteHeight;
 	private float scale;
 
+	private IText_r text;
+	private int startIndex;
+	private int endIndex;
+
 	public Printer(GridArt font)
 	{
 		this.font = font;
@@ -39,6 +43,45 @@ public class Printer implements IMetaChild
 		setScale(DEFAULT_SCALE);
 	}
 
+	public void setText(IText_r text)
+	{
+		this.text = text;
+		this.startIndex = 0;
+		this.endIndex = text.length();
+	}
+
+	/**
+	 * Calculates a given text's width using default font scale.
+	 * @param text
+	 * @return float
+	 */
+	public float calcTextWidth(IText_r text)
+	{
+		return calcTextWidth(text, 0, text.length());
+	}
+
+	/**
+	 * Calculates a given text substring's width using default font scale.
+	 * @param text
+	 * @param startIndex
+	 * @param endIndex
+	 * @return float
+	 */
+	public float calcTextWidth(IText_r text, int startIndex, int endIndex)
+	{
+		float w = 0.0f;
+		for (int i = startIndex; i < endIndex; ++i)
+			w += padding[text.symbolAt(i)];
+
+		return w;
+	}
+
+	public void setOnset(int startIndex, int endIndex)
+	{
+		this.startIndex = startIndex;
+		this.endIndex = endIndex;
+	}
+
 	public void setScale(float scale)
 	{
 		this.scale = scale;
@@ -46,15 +89,20 @@ public class Printer implements IMetaChild
 		this.tempScreenRect.setSize(gridMeta.getSpriteSize().getX() * scale, gridMeta.getSpriteSize().getY() * scale);
 	}
 
-	public void print(IFloatPoint_r screenPos, IText_r text, float scale) throws PrismException
+	public float getHeight(float scale)
+	{
+		return gridMeta.getSpriteSize().getY() * scale;
+	}
+
+	public void print(IFloatPoint_r screenPos, float scale) throws PrismException
 	{
 		float s = this.scale;
 		setScale(scale);
-		print(screenPos, text);
+		print(screenPos);
 		setScale(s);
 	}
 
-	public void print(IFloatPoint_r screenPos, IText_r text) throws PrismException
+	public void print(IFloatPoint_r screenPos) throws PrismException
 	{
 		ITexture texture = font.getTexture(0);
 		AllShaders.defaultShader.activate();
@@ -62,7 +110,7 @@ public class Printer implements IMetaChild
 
 		tempScreenRect.setTopLeft(screenPos);
 
-		for (int i = 0; i < text.length(); ++i)
+		for (int i = startIndex; i < endIndex; ++i)
 		{
 			int s = text.symbolAt(i);
 			IFloatRect_r texRect = gridMeta.getRect(s);

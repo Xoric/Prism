@@ -5,6 +5,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.heap.Heap;
+import xoric.prism.data.heap.HeapReader;
+import xoric.prism.data.heap.IStackable;
+import xoric.prism.data.packable.IPackable;
 
 public class Rect implements IRect_r, IStackable, IPackable
 {

@@ -1,5 +1,9 @@
 package xoric.prism.data.types;
 
+import xoric.prism.data.heap.Heap;
+import xoric.prism.data.heap.HeapReader;
+import xoric.prism.data.heap.IStackable;
+
 public class FloatRect implements IStackable, IFloatRect_r
 {
 	protected final FloatPoint topLeft;
@@ -36,42 +40,13 @@ public class FloatRect implements IStackable, IFloatRect_r
 		updateBottomRight();
 	}
 
-	public void set(IFloatPoint_r topLeft, IFloatPoint_r size)
+	private void updateBottomRight()
 	{
-		this.topLeft.copyFrom(topLeft);
-		this.size.copyFrom(size);
-		updateBottomRight();
+		bottomRight.x = topLeft.x + size.x;
+		bottomRight.y = topLeft.y + size.y;
 	}
 
-	public void setTopLeft(IFloatPoint_r pos)
-	{
-		topLeft.copyFrom(pos);
-		updateBottomRight();
-	}
-
-	public void addX(float dx)
-	{
-		topLeft.x += dx;
-		bottomRight.x += dx;
-	}
-
-	public void addY(float dy)
-	{
-		topLeft.y += dy;
-		bottomRight.y += dy;
-	}
-
-	public void setX(float x)
-	{
-		topLeft.x = x;
-		bottomRight.x = x + size.x;
-	}
-
-	public void setY(float y)
-	{
-		topLeft.y = y;
-		bottomRight.y = y + size.y;
-	}
+	/* ***** getters **************************************************** */
 
 	@Override
 	public String toString()
@@ -109,17 +84,115 @@ public class FloatRect implements IStackable, IFloatRect_r
 		return bottomRight.getY();
 	}
 
-	private void updateBottomRight()
-	{
-		bottomRight.x = topLeft.x + size.x;
-		bottomRight.y = topLeft.y + size.y;
-	}
-
 	@Override
 	public void appendTo(Heap h)
 	{
 		topLeft.appendTo(h);
 		size.appendTo(h);
+	}
+
+	@Override
+	public float getWidth()
+	{
+		return size.x;
+	}
+
+	@Override
+	public float getHeight()
+	{
+		return size.y;
+	}
+
+	@Override
+	public float getX()
+	{
+		return topLeft.x;
+	}
+
+	@Override
+	public float getY()
+	{
+		return topLeft.y;
+	}
+
+	/* ***** setters **************************************************** */
+
+	public void set(IFloatPoint_r topLeft, IFloatPoint_r size)
+	{
+		this.topLeft.copyFrom(topLeft);
+		this.size.copyFrom(size);
+		updateBottomRight();
+	}
+
+	public void setSize(IFloatPoint_r size)
+	{
+		this.size.copyFrom(size);
+		updateBottomRight();
+	}
+
+	public void setSize(float w, float h)
+	{
+		size.x = w;
+		size.y = h;
+		updateBottomRight();
+	}
+
+	public void setWidth(float w)
+	{
+		size.x = w;
+		bottomRight.x = topLeft.x + w;
+	}
+
+	public void setHeight(float h)
+	{
+		size.y = h;
+		bottomRight.y = topLeft.y + h;
+	}
+
+	public void set(float x, float y, float w, float h)
+	{
+		topLeft.x = x;
+		topLeft.y = y;
+		size.x = w;
+		size.y = h;
+		updateBottomRight();
+	}
+
+	public void setTopLeft(IFloatPoint_r pos)
+	{
+		topLeft.copyFrom(pos);
+		updateBottomRight();
+	}
+
+	public void setTopLeft(float x, float y)
+	{
+		topLeft.x = x;
+		topLeft.y = y;
+		updateBottomRight();
+	}
+
+	public void addX(float dx)
+	{
+		topLeft.x += dx;
+		bottomRight.x += dx;
+	}
+
+	public void addY(float dy)
+	{
+		topLeft.y += dy;
+		bottomRight.y += dy;
+	}
+
+	public void setX(float x)
+	{
+		topLeft.x = x;
+		bottomRight.x = x + size.x;
+	}
+
+	public void setY(float y)
+	{
+		topLeft.y = y;
+		bottomRight.y = y + size.y;
 	}
 
 	@Override
@@ -164,61 +237,17 @@ public class FloatRect implements IStackable, IFloatRect_r
 		bottomRight.y = topLeft.y + size.y;
 	}
 
-	@Override
-	public float getWidth()
+	public void addPosition(float dx, float dy)
 	{
-		return size.x;
+		topLeft.x += dx;
+		topLeft.y += dy;
+		bottomRight.x += dx;
+		bottomRight.y += dy;
 	}
 
-	@Override
-	public float getHeight()
+	public boolean contains(IFloatPoint_r mouse)
 	{
-		return size.y;
-	}
-
-	@Override
-	public float getX()
-	{
-		return topLeft.x;
-	}
-
-	@Override
-	public float getY()
-	{
-		return topLeft.y;
-	}
-
-	public void setSize(IFloatPoint_r spriteSize)
-	{
-		size.copyFrom(spriteSize);
-		updateBottomRight();
-	}
-
-	public void setSize(float w, float h)
-	{
-		size.x = w;
-		size.y = h;
-		updateBottomRight();
-	}
-
-	public void setWidth(float w)
-	{
-		size.x = w;
-		bottomRight.x = topLeft.x + w;
-	}
-
-	public void setHeight(float h)
-	{
-		size.y = h;
-		bottomRight.y = topLeft.y + h;
-	}
-
-	public void set(float x, float y, float w, float h)
-	{
-		topLeft.x = x;
-		topLeft.y = y;
-		size.x = w;
-		size.y = h;
-		updateBottomRight();
+		return mouse.getX() >= topLeft.x && mouse.getY() >= topLeft.y && mouse.getX() <= bottomRight.getX()
+				&& mouse.getY() <= bottomRight.getY();
 	}
 }

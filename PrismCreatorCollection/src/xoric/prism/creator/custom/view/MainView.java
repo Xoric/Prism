@@ -27,8 +27,8 @@ import xoric.prism.creator.custom.model.CollectionModel;
 import xoric.prism.creator.custom.model.ObjectModel;
 import xoric.prism.data.types.Text;
 import xoric.prism.swing.input.IValueInputListener;
-import xoric.prism.swing.input.TextInput;
-import xoric.prism.swing.input.ValueInput;
+import xoric.prism.swing.input.TextInputPanel;
+import xoric.prism.swing.input.ValueInputPanel;
 import xoric.prism.swing.tooltips.ToolTipFormatter;
 
 public class MainView extends PrismCreatorCommonView implements ActionListener, ISpriteCollectionView, IObjectListListener,
@@ -40,7 +40,7 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 
 	private CollectionModel model;
 
-	private final TextInput nameInput;
+	private final TextInputPanel nameInput;
 	private final IObjectList objectList;
 	private final ISpriteList spriteList;
 	private final IRectView rectView;
@@ -50,10 +50,10 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 
 	public MainView()
 	{
-		super("Collection");
+		super("collection", true);
 		super.setLayout(new GridBagLayout());
 
-		nameInput = new TextInput("Name", this);
+		nameInput = new TextInputPanel("Name", this);
 		nameInput.setValue(new Text("NONE"));
 		nameInput.setPrompt("Enter a new name for this collection.");
 		nameInput.setToolTipText(ToolTipFormatter.split("Provide a name for this collection."));
@@ -226,7 +226,7 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 	}
 
 	@Override
-	public void notifyValueChanged(ValueInput input)
+	public void notifyValueChanged(ValueInputPanel input)
 	{
 		if (input == nameInput)
 			control.requestSetName(nameInput.getValue());

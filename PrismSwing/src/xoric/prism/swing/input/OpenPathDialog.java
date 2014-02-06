@@ -56,7 +56,7 @@ public class OpenPathDialog implements ActionListener
 
 		if (o == pathButton)
 		{
-			Path path = PathInput.showDialog(title);
+			Path path = PathInputDialog.showDialog(title);
 			if (path != null)
 				pathField.setText(path.toString());
 		}

@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.packable.IPackable;
+import xoric.prism.data.packable.IntPacker;
 
 public class PrismColor implements IPackable
 {

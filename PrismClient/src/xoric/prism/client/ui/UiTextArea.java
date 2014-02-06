@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
@@ -12,16 +13,18 @@ import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.materials.Materials;
 import xoric.prism.scene.materials.Printer;
 
-public class UiTextArea extends FloatRect implements IDrawableUI
+public class UITextArea extends FloatRect implements IDrawableUI, IUITextComponent
 {
 	private Text text;
 	private float scale;
 	private final List<Integer> stops;
+	private final FloatPoint tempPos;
 
-	public UiTextArea()
+	public UITextArea()
 	{
 		stops = new ArrayList<Integer>();
 		scale = Printer.DEFAULT_SCALE;
+		tempPos = new FloatPoint();
 	}
 
 	public void setScale(float scale)
@@ -34,18 +37,18 @@ public class UiTextArea extends FloatRect implements IDrawableUI
 		this.text = new Text(text);
 	}
 
+	@Override
 	public void setText(Text text)
 	{
 		this.text = text;
 	}
 
-	public void arrangeLines()
+	public void rearrangeLines()
 	{
 		stops.clear();
 
 		if (text != null)
 		{
-			boolean resume = true;
 			int index = -1;
 			int lastIndex = 0;
 			float width = 0.0f;
@@ -53,55 +56,47 @@ public class UiTextArea extends FloatRect implements IDrawableUI
 			do
 			{
 				index = text.findSeparator(index + 1);
-
-				if (index < 0)
-				{
-					resume = false;
-					index = text.length() - 1;
-				}
-
-				// calculate line length
-				float w = 0.0f;
-				for (int i = lastIndex; i < index + 1; ++i)
-					w += Materials.printer.getWidth(text.symbolAt(i), scale);
-
+				float w = Materials.printer.calcTextWidth(text, lastIndex, index);
 				width += w;
 
-				// check if current word still fits into this line
+				// check if current word still fits into the current line
 				if (width >= size.x)
 				{
 					stops.add(lastIndex);
 					width = w;
 				}
-				lastIndex = index;
+				lastIndex = index + 1;
 			}
-			while (resume);
-		}
+			while (index >= 0);
 
-	}
-
-	public void test()
-	{
-		setSize(100.0f, 80.0f);
-		setText(new Text(
-				"Oppositionsführer Klitschko hat Ukraines Präsidenten Janukowitsch attackiert. Der beute das Land schamlos aus. Die Verhandlungen mit einem Betrüger fielen ihm schwer."));
-		arrangeLines();
-
-		for (Integer i : stops)
-			System.out.println(i);
-
-		int lasti = 0;
-		for (Integer i : stops)
-		{
-			System.out.println(text.substring(lasti, i + 1));
-			lasti = i;
+			int z = stops.get(stops.size() - 1);
+			if (z < text.length())
+				stops.add(text.length());
 		}
 	}
 
 	@Override
 	public void draw(IRendererUI renderer) throws PrismException
 	{
-		// TODO Auto-generated method stub
+		tempPos.copyFrom(topLeft);
+		Materials.printer.setText(text);
+		int start = 0;
 
+		for (int i = 0; i < stops.size(); ++i)
+		{
+			int j = stops.get(i);
+
+			Materials.printer.setOnset(start, j);
+			Materials.printer.print(tempPos);
+			tempPos.y += Materials.printer.getHeight(scale);
+
+			start = j;
+		}
+	}
+
+	@Override
+	public IText_r getText()
+	{
+		return text;
 	}
 }

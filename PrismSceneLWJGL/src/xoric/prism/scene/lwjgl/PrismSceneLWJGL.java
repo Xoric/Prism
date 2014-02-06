@@ -17,7 +17,10 @@ import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IFloatRect_r;
+import xoric.prism.data.types.IPoint_r;
+import xoric.prism.data.types.Point;
 import xoric.prism.data.types.PrismColor;
+import xoric.prism.scene.IInputListener;
 import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.IRendererWorld;
 import xoric.prism.scene.IScene;
@@ -31,6 +34,8 @@ import xoric.prism.scene.textures.TextureInfo;
 
 public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 {
+	private final InputHandlerLWJGL inputHandler;
+
 	private final ShaderIO2 shaderIO;
 	private FloatPoint screenSize;
 	private Exception exception;
@@ -45,12 +50,20 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 
 	private int interval;
 
-	public PrismSceneLWJGL(ISceneSettings settings)
+	public PrismSceneLWJGL()
 	{
-		setFps(settings.getFps());
+		setFps(60);
+
+		inputHandler = new InputHandlerLWJGL();
 
 		shaderIO = new ShaderIO2();
 		slope = 0.5f;
+	}
+
+	@Override
+	public void loadSettings(ISceneSettings settings)
+	{
+		setFps(settings.getFps());
 	}
 
 	private void setFps(int fps)
@@ -84,6 +97,22 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 	/* **************** IScene *************************** */
 
 	@Override
+	public IPoint_r findBestResolution(int width, int height)
+	{
+		Point p;
+		try
+		{
+			DisplayMode m = findDisplay(width, height);
+			p = new Point(m.getWidth(), m.getHeight());
+		}
+		catch (LWJGLException e)
+		{
+			p = null;
+		}
+		return p;
+	}
+
+	@Override
 	public List<Dimension> getAvailableResolutions()
 	{
 		List<Dimension> result = new ArrayList<Dimension>();
@@ -101,7 +130,7 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 	}
 
 	@Override
-	public void createWindow(int width, int height, boolean isFullScreen)
+	public IFloatPoint_r createWindow(int width, int height, boolean isFullScreen) throws PrismException
 	{
 		try
 		{
@@ -111,10 +140,13 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 			Display.setDisplayMode(mode);
 			Display.create();
 		}
-		catch (LWJGLException e)
+		catch (LWJGLException e0)
 		{
-			e.printStackTrace();
+			PrismException e = new PrismException(e0);
+			e.setText("An error occured while trying to create a display window.");
+			throw e;
 		}
+		return screenSize;
 	}
 
 	@Override
@@ -185,13 +217,15 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 	}
 
 	@Override
-	public void startLoop(ISceneListener client)
+	public void startLoop(ISceneListener client, IInputListener il)
 	{
+		inputHandler.initialize(il, (int) screenSize.y);
+
 		long lastMs = System.currentTimeMillis();
 		boolean resumeTimer = true;
 
 		/* test */GL11.glMatrixMode(GL11.GL_PROJECTION); // Den richtigen Stack aktivieren
-		GL11.glLoadIdentity(); // Die Matrix zur�cksetzen
+		GL11.glLoadIdentity(); // Die Matrix zuruecksetzen
 
 		int frameCounter = 0;
 		int frameTimerMs = 0;
@@ -202,6 +236,9 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 		{
 			long currentMs = System.currentTimeMillis();
 			int passedMs = (int) (currentMs - lastMs);
+
+			// handle controls
+			inputHandler.update();
 
 			if (interval <= 0 || passedMs >= interval)
 			{
@@ -265,8 +302,9 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 		while (resumeTimer);
 
 		// clean up (TODO: move to client)
-		for (int i = 0; i < textures.length; ++i)
-			GL11.glDeleteTextures(textures[i].getProgramID());
+		if (textures != null)
+			for (int i = 0; i < textures.length; ++i)
+				GL11.glDeleteTextures(textures[i].getProgramID());
 
 		// destroy scene
 		Display.destroy();
@@ -581,5 +619,11 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 	public IFloatPoint_r getScreenSize()
 	{
 		return screenSize;
+	}
+
+	@Override
+	public void setWindowTitle(String title)
+	{
+		Display.setTitle(title);
 	}
 }

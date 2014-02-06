@@ -6,9 +6,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import xoric.prism.creator.models.image.AnimationSpriteNameGenerator;
-import xoric.prism.data.types.IPackable;
+import xoric.prism.data.packable.IPackable;
+import xoric.prism.data.packable.IntPacker;
 import xoric.prism.data.types.IPath_r;
-import xoric.prism.data.types.IntPacker;
 import xoric.prism.world.animations.AnimationIndex;
 import xoric.prism.world.entities.ViewAngle;
 

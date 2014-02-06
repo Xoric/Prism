@@ -1,39 +1,61 @@
 package xoric.prism.client.ui;
 
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.types.FloatRect;
+import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
-import xoric.prism.scene.IDrawableUI;
 import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.materials.Materials;
 
-public class UiFrame extends FloatRect implements IDrawableUI
+public class UIFrame extends UIComponentH implements IUITextComponent
 {
-	private Text title;
+	protected UITextLine titleLine;
 
-	public void setTitle(IText_r title)
+	@Override
+	public void setText(Text title)
 	{
-		this.title = new Text(title);
+		if (titleLine == null)
+			registerChild(titleLine = new UITextLine());
+
+		titleLine.setText(title);
+		//		titleLine.rearrange(rect);
 	}
 
-	public void setTitle(Text title)
+	@Override
+	public IText_r getText()
 	{
-		this.title = title;
+		return titleLine == null ? null : titleLine.getText();
 	}
 
 	@Override
 	public void draw(IRendererUI renderer) throws PrismException
 	{
 		Materials.framesDrawer.setup(0, 1, 0);
-		Materials.framesDrawer.drawNineParts(this);
+		Materials.framesDrawer.drawNineParts(rect);
 
-		if (title != null)
+		if (titleLine != null)
 		{
-			Materials.framesDrawer.setup(2, 0);
-			Materials.framesDrawer.drawThreeParts(topLeft, size.x);
+			int i = isMouseDown ? 1 : 0;
+			Materials.framesDrawer.setup(2, i);
+			Materials.framesDrawer.drawThreeParts(rect.getTopLeft(), rect.getWidth());
 
-			Materials.printer.print(topLeft, title);
+			titleLine.draw(renderer);
 		}
+	}
+
+	@Override
+	public void mouseClick() throws PrismException
+	{
+	}
+
+	@Override
+	protected IActiveUI mouseDownConfirmed(IFloatPoint_r mouse)
+	{
+		return null;
+	}
+
+	@Override
+	protected void mouseUpConfirmed()
+	{
 	}
 }

@@ -6,8 +6,8 @@ import xoric.prism.com.ClientLoginMessage;
 import xoric.prism.com.Message;
 import xoric.prism.com.Token;
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.heap.Heap;
 import xoric.prism.data.time.PrismClock;
-import xoric.prism.data.types.Heap;
 import xoric.prism.data.types.IText_r;
 
 public class ClientLink0

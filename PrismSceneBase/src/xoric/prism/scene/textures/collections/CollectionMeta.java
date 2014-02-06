@@ -5,6 +5,7 @@ import java.util.List;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
+import xoric.prism.data.heap.Heap;
 import xoric.prism.data.meta.MetaBlock;
 import xoric.prism.data.meta.MetaKey;
 import xoric.prism.data.meta.MetaLine;
@@ -12,7 +13,6 @@ import xoric.prism.data.meta.MetaList;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
-import xoric.prism.data.types.Heap;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Rect;
 import xoric.prism.scene.textures.ArtMeta;

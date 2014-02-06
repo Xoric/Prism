@@ -18,7 +18,7 @@ public class RequestFocusListener implements AncestorListener
 			JTextField t = (JTextField) c;
 			t.selectAll();
 		}
-		c.removeAncestorListener(this);
+		//		c.removeAncestorListener(this);
 	}
 
 	@Override

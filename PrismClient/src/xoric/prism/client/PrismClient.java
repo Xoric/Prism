@@ -2,7 +2,11 @@ package xoric.prism.client;
 
 import java.net.Socket;
 
-import xoric.prism.client.ui.UiFrame;
+import xoric.prism.client.ui.PrismUI;
+import xoric.prism.client.ui.UIWindow;
+import xoric.prism.client.ui.actions.ButtonAction;
+import xoric.prism.client.ui.actions.ButtonActionIndex;
+import xoric.prism.client.ui.actions.IActionHandler;
 import xoric.prism.com.ClientLoginMessage;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.meta.MetaFile;
@@ -10,6 +14,7 @@ import xoric.prism.data.meta.MetaList;
 import xoric.prism.data.net.NetConstants;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
+import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.Path;
 import xoric.prism.data.types.Text;
 import xoric.prism.scene.IRendererUI;
@@ -18,19 +23,18 @@ import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
 import xoric.prism.scene.camera.Camera;
 import xoric.prism.scene.materials.Materials;
-import xoric.prism.scene.shaders.AllShaders;
 import xoric.prism.scene.textures.TextureInfo;
 import xoric.prism.world.entities.Movable;
 import xoric.prism.world.model.GridModelMeta;
 
-public class PrismClient implements ISceneListener
+public class PrismClient implements ISceneListener, IActionHandler
 {
-	private IScene scene;
+	private final IScene scene;
+	private final PrismUI ui;
+	private volatile Exception clientException;
 
 	private int ni = 0;
 	private int nis = 0;
-
-	private float increasing;
 
 	private float slope = 0.1f;
 	private boolean isSlopeGrowing = true;
@@ -49,20 +53,10 @@ public class PrismClient implements ISceneListener
 	private FloatPoint temp2;
 	private Camera cam;
 
-	private final FloatRect testRect = new FloatRect(20.0f, 20.0f, 120.0f, 80.0f);
-	private final FloatRect testRect2 = new FloatRect(20.0f, 220.0f, 120.0f, 80.0f);
-
-	private final Text testText = new Text("§40 = $2?");
-	private final FloatPoint testPosition = new FloatPoint(100.0f, 150.0f);
-
-	private float fontScale;
-	private boolean fontScalingUp;
-
-	private final UiFrame uiFrame = new UiFrame();
-
 	public PrismClient(IScene scene)
 	{
 		this.scene = scene;
+		this.ui = new PrismUI(this);
 
 		testPlane = new FloatRect(0.0f, 0.0f, 800.0f, 480.0f);
 
@@ -84,8 +78,7 @@ public class PrismClient implements ISceneListener
 		temp2 = new FloatPoint();
 		cam = new Camera(0.0f, 0.0f, 800.0f, 480.0f);
 
-		uiFrame.set(120.0f, 120.0f, 90.0f, 70.0f);
-		uiFrame.setTitle(new Text("MY TITLE"));
+		//		ta.test();
 	}
 
 	public void testConnect()
@@ -95,22 +88,6 @@ public class PrismClient implements ISceneListener
 			Socket socket = new Socket("127.0.0.1", NetConstants.port);
 
 			Thread.sleep(1500);
-			//			String s = "Can you read this?";
-			//			socket.getOutputStream().write(s.getBytes());
-			//
-			//			Thread.sleep(200);
-			//			s = "And this?";
-			//			socket.getOutputStream().write(s.getBytes());
-			//
-			//			Thread.sleep(1000);
-			//			s = "How about...";
-			//			socket.getOutputStream().write(s.getBytes());
-			//			s = "This...";
-			//			socket.getOutputStream().write(s.getBytes());
-			//			s = "That...";
-			//			socket.getOutputStream().write(s.getBytes());
-			//			s = "...and finally this?";
-			//			socket.getOutputStream().write(s.getBytes());
 
 			ClientLoginMessage m = new ClientLoginMessage();
 			m.setPassword(new Text("JOHN'S PASSWORD!"));
@@ -121,7 +98,6 @@ public class PrismClient implements ISceneListener
 			//			socket.getOutputStream()
 
 		}
-
 		catch (Exception e)
 		{
 			e.printStackTrace();
@@ -172,31 +148,62 @@ public class PrismClient implements ISceneListener
 	//		}
 	//	}
 
-	public void start()
+	public void start() throws PrismException
 	{
 		testModelMeta();
 
-		scene.createWindow(800, 480, false);
+		IFloatPoint_r screenSize = scene.createWindow(800, 480, false);
+		ui.setScreenSize(screenSize);
+
+		for (int i = 0; i < 10; ++i)
+		{
+			UIWindow uiWindow = new UIWindow(null);
+			uiWindow.setXRuler(20.0f + i * 20, 0.0f);
+			uiWindow.setYRuler(40.0f + i * 5, 0.0f);
+			uiWindow.setWidthRuler(150.0f, 0.0f);
+			uiWindow.setHeightRuler(90.0f, 0.0f);
+			uiWindow.setText(new Text("WINDOW" + i));
+
+			ui.addWindow(uiWindow);
+		}
+
 		scene.initialize();
-		scene.startLoop(this);
+		scene.startLoop(this, this);
 	}
 
 	@Override
-	public void onClosingScene(Exception e0)
+	public void onClosingScene(Exception sceneException)
 	{
 		System.out.println("client is being notified that scene is closing");
 
-		if (e0 != null)
+		if (clientException != null)
 		{
-			if (e0 instanceof PrismException)
+			System.out.println("client exception:");
+
+			if (clientException instanceof PrismException)
 			{
-				PrismException e = (PrismException) e0;
+				PrismException e = (PrismException) clientException;
 				e.code.print();
 				e.user.showMessage();
 			}
 			else
 			{
-				e0.printStackTrace();
+				clientException.printStackTrace();
+			}
+		}
+		else if (sceneException != null)
+		{
+			System.out.println("scene exception:");
+
+			if (sceneException instanceof PrismException)
+			{
+				PrismException e = (PrismException) sceneException;
+				e.code.print();
+				e.user.showMessage();
+			}
+			else
+			{
+				sceneException.printStackTrace();
 			}
 		}
 	}
@@ -289,46 +296,68 @@ public class PrismClient implements ISceneListener
 				ni = 0;
 		}
 
-		return true;
+		return clientException == null;
 	}
 
 	@Override
 	public boolean drawUI(int passedMs, IRendererUI renderer) throws Exception
 	{
-		Materials.framesDrawer.setup(0, 1, 0).drawNineParts(testRect2);
 
 		// test art
-		TextureInfo texInfo = Materials.frames.getTextureInfo(0, 0, 0, ni);
-
-		AllShaders.defaultShader.activate();
-		AllShaders.defaultShader.setTexture(texInfo.getTexture());
 
 		//		testRect.addY(-0.1f);
 		//		renderer.drawSprite(texInfo, testRect);
 
-		increasing += 0.5f;
-		testRect.addY(0.1f);
-		Materials.framesDrawer.setup(0, 0, 0).drawThreeParts(testRect.getTopLeft(), 30.0f + increasing);
+		//		Materials.printer.setText(testText);
+		//		Materials.printer.print(testPosition, fontScale);
 
-		if (fontScalingUp)
+		//		uiWindow.setWidth(uiWindow.getWidth() + 0.06f);
+		//		uiWindow.setHeight(uiWindow.getHeight() + 0.02f);
+		//		uiWindow.draw(renderer);
+
+		//		ta.draw(renderer);
+
+		ui.draw(renderer);
+
+		return clientException == null;
+	}
+
+	@Override
+	public void mouseMove(IFloatPoint_r mouse)
+	{
+		ui.mouseMove(mouse);
+	}
+
+	@Override
+	public void onMouseDown(IFloatPoint_r mouse, boolean isLeft)
+	{
+		scene.setWindowTitle(mouse.toString());
+
+		if (isLeft)
+			ui.mouseDown(mouse);
+	}
+
+	@Override
+	public void onMouseUp(IFloatPoint_r mouse, boolean isLeft)
+	{
+		if (isLeft)
 		{
-			fontScale += 0.003f;
-			if (fontScale > 1.5f)
-				fontScalingUp = false;
-		}
-		else
-		{
-			fontScale -= 0.002f;
-			if (fontScale <= 0.5f)
+			try
 			{
-				fontScale = 0.5f;
-				fontScalingUp = true;
+				ui.mouseUp(mouse);
+			}
+			catch (PrismException e)
+			{
+				if (clientException == null)
+					clientException = e;
 			}
 		}
-		Materials.printer.print(testPosition, testText, fontScale);
+	}
 
-		uiFrame.draw(renderer);
-
-		return true;
+	@Override
+	public void executeAction(UIWindow w, ButtonAction a)
+	{
+		if (a.getActionIndex() == ButtonActionIndex.CLOSE_WINDOW)
+			ui.closeWindow(w);
 	}
 }

@@ -14,11 +14,11 @@ import xoric.prism.creator.custom.control.CollectionSpriteNameGenerator;
 import xoric.prism.creator.custom.model.CollectionModel;
 import xoric.prism.creator.custom.model.ObjectModel;
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.heap.Heap;
 import xoric.prism.data.meta.MetaBlock;
 import xoric.prism.data.meta.MetaKey;
 import xoric.prism.data.meta.MetaLine;
 import xoric.prism.data.meta.MetaType;
-import xoric.prism.data.types.Heap;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.Rect;
 

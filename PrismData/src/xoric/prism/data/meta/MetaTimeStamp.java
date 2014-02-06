@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
 
-import xoric.prism.data.types.IPackable;
+import xoric.prism.data.packable.IPackable;
 
 public class MetaTimeStamp implements IPackable
 {

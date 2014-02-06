@@ -10,6 +10,7 @@ import java.util.List;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
+import xoric.prism.data.heap.Heap;
 import xoric.prism.data.meta.AttachmentHeader;
 import xoric.prism.data.meta.AttachmentTable;
 import xoric.prism.data.meta.MetaBlock;
@@ -19,10 +20,9 @@ import xoric.prism.data.meta.MetaLine;
 import xoric.prism.data.meta.MetaList;
 import xoric.prism.data.meta.MetaTimeStamp;
 import xoric.prism.data.meta.MetaType;
+import xoric.prism.data.packable.IntPacker;
 import xoric.prism.data.tools.Common;
-import xoric.prism.data.types.Heap;
 import xoric.prism.data.types.IPath_r;
-import xoric.prism.data.types.IntPacker;
 
 public class MetaFileCreator
 {

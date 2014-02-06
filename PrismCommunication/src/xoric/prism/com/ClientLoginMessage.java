@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
-import xoric.prism.data.types.HeapPacker_s;
+import xoric.prism.data.packable.HeapPacker_s;
 import xoric.prism.data.types.IText_r;
 
 public class ClientLoginMessage extends Message

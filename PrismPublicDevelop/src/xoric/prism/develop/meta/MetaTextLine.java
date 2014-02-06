@@ -1,8 +1,8 @@
 package xoric.prism.develop.meta;
 
+import xoric.prism.data.heap.Heap;
 import xoric.prism.data.meta.MetaKey;
 import xoric.prism.data.meta.MetaLine;
-import xoric.prism.data.types.Heap;
 import xoric.prism.data.types.Text;
 
 class MetaTextLine

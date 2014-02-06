@@ -6,8 +6,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import xoric.prism.data.types.IPackable;
-import xoric.prism.data.types.IntPacker;
+import xoric.prism.data.packable.IPackable;
+import xoric.prism.data.packable.IntPacker;
 import xoric.prism.world.entities.ViewAngle;
 
 class AnimationMeta implements IPackable

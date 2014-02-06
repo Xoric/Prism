@@ -27,8 +27,8 @@ import xoric.prism.creator.models.view.PreviewFrame;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.swing.input.IIntInput;
 import xoric.prism.swing.input.IValueInputListener;
-import xoric.prism.swing.input.IntInput;
-import xoric.prism.swing.input.ValueInput;
+import xoric.prism.swing.input.IntInputPanel;
+import xoric.prism.swing.input.ValueInputPanel;
 import xoric.prism.swing.tooltips.ToolTipFormatter;
 import xoric.prism.world.animations.AnimationIndex;
 import xoric.prism.world.entities.ViewAngle;
@@ -73,7 +73,7 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 		animCell.setEnabled(true);
 		animationCell = animCell;
 
-		IntInput durInput = new IntInput("Duration", this);
+		IntInputPanel durInput = new IntInputPanel("Duration", this);
 		durInput.setToolTipText(ToolTipFormatter.split("Duration of this animation in milliseconds"));
 		durationInput = durInput;
 		durationInput.setUnit("ms");
@@ -218,7 +218,7 @@ public class AnimationView extends JPanel implements ActionListener, IAnimationV
 	}
 
 	@Override
-	public void notifyValueChanged(ValueInput input)
+	public void notifyValueChanged(ValueInputPanel input)
 	{
 		if (input == durationInput)
 		{

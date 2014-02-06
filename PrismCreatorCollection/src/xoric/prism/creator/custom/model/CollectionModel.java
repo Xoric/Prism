@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.types.IPackable;
+import xoric.prism.data.packable.IPackable;
+import xoric.prism.data.packable.IntPacker;
+import xoric.prism.data.packable.TextPacker;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IText_r;
-import xoric.prism.data.types.IntPacker;
 import xoric.prism.data.types.Text;
-import xoric.prism.data.types.TextPacker;
 
 public class CollectionModel implements IPackable
 {

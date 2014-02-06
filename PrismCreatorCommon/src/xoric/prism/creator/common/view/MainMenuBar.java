@@ -16,12 +16,15 @@ public class MainMenuBar extends JMenuBar implements IMainMenuBar
 	private final ToolsMenu toolsMenu;
 	private final HelpMenu helpMenu;
 
-	public MainMenuBar(String dataName, INewDialogCreator d)
+	public MainMenuBar(String dataName, INewDialogCreator d, boolean useToolsMenu)
 	{
 		String s = Common.GAME_NAME + " " + dataName.substring(0, 1).toUpperCase() + dataName.substring(1) + "Creator";
 
 		add(mainMenu = new MainMenu(dataName, d));
-		add(toolsMenu = new ToolsMenu());
+		if (useToolsMenu)
+			add(toolsMenu = new ToolsMenu());
+		else
+			toolsMenu = null;
 		add(helpMenu = new HelpMenu(s));
 	}
 

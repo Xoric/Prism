@@ -10,13 +10,13 @@ import java.io.OutputStream;
 import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
 import xoric.prism.creator.grid.view.NewGridData;
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.types.IPackable;
+import xoric.prism.data.packable.IPackable;
+import xoric.prism.data.packable.TextPacker;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
-import xoric.prism.data.types.TextPacker;
 
 public class GridModel implements IPackable
 {

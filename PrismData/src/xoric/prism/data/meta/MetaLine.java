@@ -8,10 +8,10 @@ import java.util.List;
 import xoric.prism.data.exceptions.IInfoLayer;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
-import xoric.prism.data.types.Heap;
-import xoric.prism.data.types.HeapPacker_s;
-import xoric.prism.data.types.IPackable;
-import xoric.prism.data.types.IntPacker;
+import xoric.prism.data.heap.Heap;
+import xoric.prism.data.packable.HeapPacker_s;
+import xoric.prism.data.packable.IPackable;
+import xoric.prism.data.packable.IntPacker;
 
 public class MetaLine implements IPackable, IInfoLayer
 {

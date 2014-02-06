@@ -1,6 +1,6 @@
 package xoric.prism.data.types;
 
-class TextBuilder extends Text
+public class TextBuilder extends Text
 {
 	public void setLength(int length)
 	{

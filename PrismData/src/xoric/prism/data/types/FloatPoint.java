@@ -1,5 +1,9 @@
 package xoric.prism.data.types;
 
+import xoric.prism.data.heap.Heap;
+import xoric.prism.data.heap.HeapReader;
+import xoric.prism.data.heap.IStackable;
+
 public class FloatPoint implements IStackable, IFloatPoint_r
 {
 	public float x;

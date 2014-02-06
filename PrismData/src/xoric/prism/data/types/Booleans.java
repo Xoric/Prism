@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import xoric.prism.data.packable.IPackable;
+import xoric.prism.data.packable.IntPacker;
+
 /**
  * @author XoricLee
  * @since 30.10.2011, 17:17:13

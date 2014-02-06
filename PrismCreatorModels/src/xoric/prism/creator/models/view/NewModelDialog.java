@@ -21,7 +21,7 @@ import xoric.prism.creator.common.view.INewDialog;
 import xoric.prism.data.types.Path;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
-import xoric.prism.swing.input.PathInput;
+import xoric.prism.swing.input.PathInputDialog;
 import xoric.prism.swing.input.RequestFocusListener;
 import xoric.prism.swing.input.fields.IInputListener;
 import xoric.prism.swing.input.fields.PrismIntField;
@@ -171,7 +171,7 @@ public class NewModelDialog implements ActionListener, IInputListener, INewDialo
 
 		if (o == pathButton)
 		{
-			Path path = PathInput.showDialog("Select working directory");
+			Path path = PathInputDialog.showDialog("Select working directory");
 			if (path != null)
 				pathField.setText(path.toString());
 		}

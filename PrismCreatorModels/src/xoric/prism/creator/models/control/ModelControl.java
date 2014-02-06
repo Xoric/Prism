@@ -20,7 +20,7 @@ import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Path;
 import xoric.prism.data.types.Point;
 import xoric.prism.swing.input.OpenPathDialog;
-import xoric.prism.swing.input.PointInput;
+import xoric.prism.swing.input.PointInputPanel;
 import xoric.prism.swing.input.PrismFileDialog;
 
 public class ModelControl extends ControlLayer
@@ -203,7 +203,7 @@ public class ModelControl extends ControlLayer
 
 	public void createNewPortrait(ModelModel model)
 	{
-		Point size = PointInput.showInputMessage("Create portrait", "Please enter the desired size for the portrait.", "Width", "Height",
+		Point size = PointInputPanel.showInputMessage("Create portrait", "Please enter the desired size for the portrait.", "Width", "Height",
 				100, 80);
 
 		if (size != null && size.getX() > 0 && size.getY() > 0)

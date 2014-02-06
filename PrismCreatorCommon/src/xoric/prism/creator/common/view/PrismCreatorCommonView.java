@@ -12,7 +12,7 @@ public class PrismCreatorCommonView extends PrismFrame implements INewDialogCrea
 	private final MainMenuBar mainMenuBar;
 	private final String baseTitle;
 
-	public PrismCreatorCommonView(String dataName)
+	public PrismCreatorCommonView(String dataName, boolean useToolsMenu)
 	{
 		super("", 640, 480, true);
 		this.dataName = dataName;
@@ -20,7 +20,7 @@ public class PrismCreatorCommonView extends PrismFrame implements INewDialogCrea
 		baseTitle = Common.GAME_NAME + " " + dataName.substring(0, 1).toUpperCase() + dataName.substring(1) + "Creator";
 		setExtendedTitle(null);
 
-		mainMenuBar = new MainMenuBar(dataName, this);
+		mainMenuBar = new MainMenuBar(dataName, this, useToolsMenu);
 		this.setJMenuBar(mainMenuBar);
 	}
 

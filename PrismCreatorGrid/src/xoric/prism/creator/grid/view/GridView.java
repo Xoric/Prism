@@ -18,9 +18,9 @@ import xoric.prism.creator.grid.model.GridModel;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
 import xoric.prism.swing.input.IValueInputListener;
-import xoric.prism.swing.input.PointInput;
-import xoric.prism.swing.input.TextInput;
-import xoric.prism.swing.input.ValueInput;
+import xoric.prism.swing.input.PointInputPanel;
+import xoric.prism.swing.input.TextInputPanel;
+import xoric.prism.swing.input.ValueInputPanel;
 import xoric.prism.swing.tooltips.ToolTipFormatter;
 
 public class GridView extends PrismCreatorCommonView implements ActionListener, IValueInputListener, IGridView
@@ -31,8 +31,8 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 
 	private GridModel model;
 
-	private final TextInput nameInput;
-	private final PointInput sizeInput;
+	private final TextInputPanel nameInput;
+	private final PointInputPanel sizeInput;
 
 	private final ISpriteList spriteList;
 
@@ -41,12 +41,12 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 
 	public GridView()
 	{
-		super("SpriteGrid");
+		super("SpriteGrid", true);
 		super.setLayout(new GridBagLayout());
 
 		Insets insets = new Insets(30, 30, 30, 30);
 
-		nameInput = new TextInput("Name", this);
+		nameInput = new TextInputPanel("Name", this);
 		nameInput.setValue(new Text("NONE"));
 		nameInput.setPrompt("Enter a new name for this grid.");
 		nameInput.setToolTipText(ToolTipFormatter.split("Provide a name for this sprite grid."));
@@ -54,7 +54,7 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 				insets, 0, 0);
 		add(nameInput, c);
 
-		sizeInput = new PointInput("Sprite size", this);
+		sizeInput = new PointInputPanel("Sprite size", this);
 		sizeInput.setValue(new Point(24, 24));
 		sizeInput.setPrompt("Enter a new sprite size.");
 		sizeInput.setToolTipText(ToolTipFormatter.split("Width and height of one cell in the sprite grid."));
@@ -149,7 +149,7 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 	}
 
 	@Override
-	public void notifyValueChanged(ValueInput input)
+	public void notifyValueChanged(ValueInputPanel input)
 	{
 		if (input == nameInput)
 			control.requestRenameGrid(nameInput.getValue());

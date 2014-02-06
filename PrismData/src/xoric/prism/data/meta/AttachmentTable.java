@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import xoric.prism.data.types.IPredictablePackable;
+import xoric.prism.data.packable.IPredictablePackable;
 
 public class AttachmentTable implements IPredictablePackable
 {

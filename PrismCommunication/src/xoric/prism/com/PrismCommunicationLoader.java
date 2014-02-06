@@ -4,13 +4,13 @@ import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.CommonIndex;
 import xoric.prism.data.global.FileTableDirectoryIndex;
 import xoric.prism.data.global.Prism;
+import xoric.prism.data.heap.Heap;
 import xoric.prism.data.meta.MetaBlock;
 import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.meta.MetaKey;
 import xoric.prism.data.meta.MetaLine;
 import xoric.prism.data.meta.MetaList;
 import xoric.prism.data.meta.MetaType;
-import xoric.prism.data.types.Heap;
 
 public abstract class PrismCommunicationLoader
 {

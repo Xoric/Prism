@@ -6,8 +6,8 @@ import java.io.FileInputStream;
 import xoric.prism.data.exceptions.IInfoLayer;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
+import xoric.prism.data.packable.IntPacker;
 import xoric.prism.data.types.IPath_r;
-import xoric.prism.data.types.IntPacker;
 
 public class MetaFile implements IInfoLayer
 {

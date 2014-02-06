@@ -36,7 +36,7 @@ public class MainView extends PrismCreatorCommonView implements IMainView, IAnim
 
 	public MainView()
 	{
-		super("model");
+		super("model", true);
 		super.getMainMenuBar().setDialogCreator(this);
 
 		GridBagLayout layout = new GridBagLayout();

@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import xoric.prism.data.packable.IPackable;
+import xoric.prism.data.packable.IntPacker;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.IFloatPoint_r;
-import xoric.prism.data.types.IPackable;
-import xoric.prism.data.types.IntPacker;
 
 /**
  * @author XoricLee

@@ -22,7 +22,7 @@ public class ModelMenuBar extends MainMenuBar implements ActionListener
 
 	public ModelMenuBar(INewDialogCreator d)
 	{
-		super("model", d);
+		super("model", d, true);
 
 		menuItemCreateAnimations = createMenuItem("Create animations (.png)");
 		menuItemCreateModel = createMenuItem("Create model (" + modelExtension + ")");

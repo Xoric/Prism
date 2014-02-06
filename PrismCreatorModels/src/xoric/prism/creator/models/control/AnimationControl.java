@@ -15,7 +15,7 @@ public class AnimationControl extends ControlLayer
 	public void deleteAnimation(AnimationIndex animation)
 	{
 		System.out.println("requestDeleteAnimation(" + animation + ")");
-
+		// TODO
 		//		view.displayAnimation(animation, false);
 	}
 

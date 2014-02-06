@@ -19,9 +19,9 @@ import xoric.prism.data.types.Path;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
 import xoric.prism.swing.input.IValueInputListener;
-import xoric.prism.swing.input.PathInput;
+import xoric.prism.swing.input.PathInputDialog;
 import xoric.prism.swing.input.RequestFocusListener;
-import xoric.prism.swing.input.ValueInput;
+import xoric.prism.swing.input.ValueInputPanel;
 import xoric.prism.swing.input.fields.PrismIntField;
 import xoric.prism.swing.input.fields.PrismTextField;
 import xoric.prism.swing.tooltips.ToolTipFormatter;
@@ -98,7 +98,7 @@ public class NewGridDialog implements ActionListener, INewDialog, IValueInputLis
 
 		if (o == pathButton)
 		{
-			Path path = PathInput.showDialog("Select working directory");
+			Path path = PathInputDialog.showDialog("Select working directory");
 			if (path != null)
 				pathField.setText(path.toString());
 		}
@@ -112,7 +112,7 @@ public class NewGridDialog implements ActionListener, INewDialog, IValueInputLis
 	}
 
 	@Override
-	public void notifyValueChanged(ValueInput input)
+	public void notifyValueChanged(ValueInputPanel input)
 	{
 	}
 }

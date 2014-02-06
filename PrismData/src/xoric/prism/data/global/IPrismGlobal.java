@@ -1,8 +1,8 @@
 package xoric.prism.data.global;
 
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.heap.Heap;
 import xoric.prism.data.meta.MetaFile;
-import xoric.prism.data.types.Heap;
 import xoric.prism.data.types.IPath_r;
 
 public interface IPrismGlobal
