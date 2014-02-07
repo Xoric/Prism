@@ -234,6 +234,8 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 		if (rect.getHeight() < 35.0f)
 			rect.setHeight(35.0f);
 
+		// TODO implement an upper limit for window size
+
 		rearrangeCorner();
 		rearrangeChildrenOnly();
 	}
