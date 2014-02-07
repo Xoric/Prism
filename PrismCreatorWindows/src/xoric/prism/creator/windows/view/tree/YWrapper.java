@@ -11,14 +11,14 @@ class YWrapper extends Wrapper
 
 	public YWrapper(UIComponent c, DefaultMutableTreeNode node)
 	{
-		super(node, "Y");
+		super(node, "y");
 		component = c;
 	}
 
 	@Override
 	public void showDialog()
 	{
-		Ruler r = PrismRulerDialog.getInstance().showDialog("Input Y", "Enter Y", component.getYRuler());
+		Ruler r = PrismRulerDialog.getInstance().showDialog("Input y", "Enter y", component.getYRuler());
 
 		if (r != null)
 			component.setYRuler(r.constant, r.factor);

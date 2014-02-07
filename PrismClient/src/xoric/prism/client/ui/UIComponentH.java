@@ -57,7 +57,7 @@ public abstract class UIComponentH extends UIComponent
 	}
 
 	@Override
-	public void pack(OutputStream stream) throws IOException
+	public void pack(OutputStream stream) throws IOException, PrismException
 	{
 		super.pack(stream);
 

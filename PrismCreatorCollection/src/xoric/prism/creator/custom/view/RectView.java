@@ -462,4 +462,14 @@ public class RectView extends JPanel implements ListSelectionListener, ChangeLis
 			}
 		}
 	}
+
+	@Override
+	public void onUpButton()
+	{
+	}
+
+	@Override
+	public void onDownButton()
+	{
+	}
 }

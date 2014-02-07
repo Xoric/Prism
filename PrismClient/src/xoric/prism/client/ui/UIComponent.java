@@ -42,6 +42,11 @@ public abstract class UIComponent implements IDrawableUI, IUIChild, IActiveUI, I
 		children.add(c);
 	}
 
+	protected void unregisterChild(IUIChild c)
+	{
+		children.remove(c);
+	}
+
 	public void setXRuler(float constant, float factor)
 	{
 		xRuler.constant = constant;
@@ -100,9 +105,14 @@ public abstract class UIComponent implements IDrawableUI, IUIChild, IActiveUI, I
 			rect.setY(parentRect.getY() + yRuler.calculate(parentRect.getHeight()));
 			rect.setWidth(widthRuler.calculate(parentRect.getWidth()));
 
-			for (IUIChild c : children)
-				c.rearrange(rect);
+			rearrangeChildrenOnly();
 		}
+	}
+
+	protected void rearrangeChildrenOnly()
+	{
+		for (IUIChild c : children)
+			c.rearrange(rect);
 	}
 
 	protected int importInt()
@@ -152,7 +162,7 @@ public abstract class UIComponent implements IDrawableUI, IUIChild, IActiveUI, I
 	}
 
 	@Override
-	public void pack(OutputStream stream) throws IOException
+	public void pack(OutputStream stream) throws IOException, PrismException
 	{
 		xRuler.pack(stream);
 		yRuler.pack(stream);

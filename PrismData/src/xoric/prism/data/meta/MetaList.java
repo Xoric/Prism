@@ -60,7 +60,6 @@ public class MetaList implements IPackable, IInfoLayer
 		e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
 		// ----
 		e.code.setText("non-existing MetaBlock requested");
-		addExceptionInfoTo(e);
 		e.code.addInfo("MetaType", t.toString());
 		// ----
 		addExceptionInfoTo(e);
@@ -83,7 +82,7 @@ public class MetaList implements IPackable, IInfoLayer
 	}
 
 	@Override
-	public void pack(OutputStream stream) throws IOException
+	public void pack(OutputStream stream) throws IOException, PrismException
 	{
 		// write block count
 		intPacker.setValue(blocks.size());

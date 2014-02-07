@@ -85,7 +85,7 @@ public class MetaLine implements IPackable, IInfoLayer
 	}
 
 	@Override
-	public void pack(OutputStream stream) throws IOException
+	public void pack(OutputStream stream) throws IOException, PrismException
 	{
 		IntPacker.pack_s(stream, key.ordinal());
 		HeapPacker_s.pack_s(stream, heap, 2);

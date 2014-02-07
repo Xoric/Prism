@@ -111,6 +111,21 @@ public class MainControl implements IMainControl
 		}
 	}
 
+	@Override
+	public void requestMoveObject(int index, boolean moveUp)
+	{
+		if (model != null)
+		{
+			ObjectControl.moveObject(model, index, moveUp);
+			CollectionControl.saveModel(model);
+
+			view.displayObjects();
+			view.displayObject();
+
+			view.selectObject(index + (moveUp ? -1 : 1));
+		}
+	}
+
 	/* -------------- IRectControl ------------ */
 
 	@Override

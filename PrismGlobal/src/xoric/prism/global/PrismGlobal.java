@@ -17,7 +17,7 @@ public class PrismGlobal implements IPrismGlobal
 	private Path dataPath;
 	private FileTable fileTable;
 
-	public void load() throws PrismException
+	public void init()
 	{
 		Properties prop = System.getProperties();
 		String os = prop.getProperty("os.name");
@@ -30,7 +30,10 @@ public class PrismGlobal implements IPrismGlobal
 
 		// set data path
 		dataPath = new Path(s);
+	}
 
+	public void load() throws PrismException
+	{
 		// create and load FileTable
 		fileTable = new FileTable(dataPath);
 		fileTable.load("common/toc.meta");

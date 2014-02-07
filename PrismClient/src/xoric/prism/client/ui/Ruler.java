@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.packable.FloatPacker;
+import xoric.prism.data.packable.FloatPacker3;
 import xoric.prism.data.packable.IPackable;
 import xoric.prism.data.packable.IntPacker;
 
@@ -35,13 +35,13 @@ public class Ruler implements IPackable
 	public void unpack(InputStream stream) throws IOException, PrismException
 	{
 		constant = IntPacker.unpack_s(stream);
-		factor = FloatPacker.unpack_s(stream, 2);
+		factor = FloatPacker3.unpack_s(stream, 2);
 	}
 
 	@Override
-	public void pack(OutputStream stream) throws IOException
+	public void pack(OutputStream stream) throws IOException, PrismException
 	{
 		IntPacker.pack_s(stream, (int) constant);
-		FloatPacker.pack_s(stream, factor, 2);
+		FloatPacker3.pack_s(stream, factor, 2);
 	}
 }

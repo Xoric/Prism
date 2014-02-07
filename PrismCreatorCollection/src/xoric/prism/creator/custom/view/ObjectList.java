@@ -42,6 +42,7 @@ public class ObjectList extends PrismPanel implements ListSelectionListener, IOb
 		JScrollPane scroll = new JScrollPane(list);
 
 		ButtonPanel bp = new ButtonPanel(this, "object", true, false, true);
+		bp.addUpDownButtons();
 		buttonPanel = bp;
 
 		JPanel p = new JPanel(new BorderLayout());
@@ -133,5 +134,23 @@ public class ObjectList extends PrismPanel implements ListSelectionListener, IOb
 	public void onDeleteButton()
 	{
 		control.requestDeleteObject(list.getSelectedIndex());
+	}
+
+	@Override
+	public void onUpButton()
+	{
+		control.requestMoveObject(list.getSelectedIndex(), true);
+	}
+
+	@Override
+	public void onDownButton()
+	{
+		control.requestMoveObject(list.getSelectedIndex(), false);
+	}
+
+	@Override
+	public void selectObject(int index)
+	{
+		list.setSelectedIndex(index);
 	}
 }

@@ -250,4 +250,19 @@ public class FloatRect implements IStackable, IFloatRect_r
 		return mouse.getX() >= topLeft.x && mouse.getY() >= topLeft.y && mouse.getX() <= bottomRight.getX()
 				&& mouse.getY() <= bottomRight.getY();
 	}
+
+	public void setBottomRight(IFloatPoint_r p)
+	{
+		bottomRight.copyFrom(p);
+		topLeft.x = bottomRight.x - size.x;
+		topLeft.y = bottomRight.y - size.y;
+	}
+
+	public void addSize(float dw, float dh)
+	{
+		size.x += dw;
+		size.y += dh;
+		bottomRight.x += dw;
+		bottomRight.y += dh;
+	}
 }

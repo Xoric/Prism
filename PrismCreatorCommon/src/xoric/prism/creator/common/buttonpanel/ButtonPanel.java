@@ -19,6 +19,9 @@ public class ButtonPanel extends JPanel implements ActionListener, IButtonPanel
 	private final JButton editButton;
 	private final JButton deleteButton;
 
+	private JButton upButton;
+	private JButton downButton;
+
 	public ButtonPanel(IButtonPanelListener listener, String dataName, boolean add, boolean edit, boolean delete)
 	{
 		super(new FlowLayout());
@@ -37,6 +40,14 @@ public class ButtonPanel extends JPanel implements ActionListener, IButtonPanel
 			add(deleteButton);
 	}
 
+	public void addUpDownButtons()
+	{
+		upButton = Factory.createUpButton(this, "Move up.");
+		add(upButton);
+		downButton = Factory.createDownButton(this, "Move down.");
+		add(downButton);
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
@@ -48,6 +59,11 @@ public class ButtonPanel extends JPanel implements ActionListener, IButtonPanel
 			listener.onEditButton();
 		else if (o == deleteButton)
 			listener.onDeleteButton();
+		//
+		else if (o == upButton)
+			listener.onUpButton();
+		else if (o == downButton)
+			listener.onDownButton();
 	}
 
 	@Override
@@ -62,5 +78,10 @@ public class ButtonPanel extends JPanel implements ActionListener, IButtonPanel
 			editButton.setEnabled(b);
 		if (deleteButton != null)
 			deleteButton.setEnabled(b);
+
+		if (upButton != null)
+			upButton.setEnabled(b);
+		if (downButton != null)
+			downButton.setEnabled(b);
 	}
 }

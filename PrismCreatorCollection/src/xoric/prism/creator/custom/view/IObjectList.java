@@ -14,4 +14,6 @@ public interface IObjectList
 	public int getSelectedIndex();
 
 	public void setEnabled(boolean b);
+
+	public void selectObject(int index);
 }

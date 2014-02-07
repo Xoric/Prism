@@ -99,7 +99,11 @@ public class PrismUI implements IDrawableUI
 			UIWindow w = (UIWindow) activeComponent;
 			float dx = mouse.getX() - last.x;
 			float dy = mouse.getY() - last.y;
-			w.moveBy(dx, dy);
+
+			if (w.isResizing())
+				w.resize(dx, dy);
+			else
+				w.moveBy(dx, dy);
 		}
 		last.x = mouse.getX();
 		last.y = mouse.getY();

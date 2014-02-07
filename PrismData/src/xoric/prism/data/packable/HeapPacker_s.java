@@ -4,13 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.heap.Heap;
 
 public abstract class HeapPacker_s
 {
 	private static final byte buf[] = new byte[9];
 
-	public static synchronized void pack_s(OutputStream stream, Heap heap, int floatDecimals) throws IOException
+	public static synchronized void pack_s(OutputStream stream, Heap heap, int floatDecimals) throws IOException, PrismException
 	{
 		int mode = calcMode_s(heap);
 		int i = heap.getIntCount();
@@ -52,15 +53,14 @@ public abstract class HeapPacker_s
 			IntPacker.pack_s(stream, heap.ints.get(j));
 
 		// pack floats
-		for (int j = 0; j < f; ++j)
-			FloatPacker.pack_s(stream, heap.floats.get(j), floatDecimals);
+		FloatPacker3.pack_s(stream, heap.floats, floatDecimals);
 
 		// pack texts
 		for (int j = 0; j < t; ++j)
 			TextPacker.pack_s(stream, heap.texts.get(j));
 	}
 
-	public static synchronized void unpack_s(InputStream stream, int floatDecimals, Heap heap) throws IOException
+	public static synchronized void unpack_s(InputStream stream, int floatDecimals, Heap heap) throws IOException, PrismException
 	{
 		// reset heap
 		heap.ints.clear();
@@ -113,8 +113,7 @@ public abstract class HeapPacker_s
 			heap.ints.add(IntPacker.unpack_s(stream));
 
 		// unpack floats
-		for (int j = 0; j < f; ++j)
-			heap.floats.add(FloatPacker.unpack_s(stream, floatDecimals));
+		FloatPacker3.unpack_s(stream, heap.floats, floatDecimals, f);
 
 		// pack texts	
 		for (int j = 0; j < t; ++j)
@@ -122,14 +121,14 @@ public abstract class HeapPacker_s
 	}
 
 	@Deprecated
-	public static synchronized Heap unpack_s(InputStream stream, int floatDecimals) throws IOException
+	public static synchronized Heap unpack_s(InputStream stream, int floatDecimals) throws IOException, PrismException
 	{
 		Heap heap = new Heap();
 		unpack_s(stream, floatDecimals, heap);
 		return heap;
 	}
 
-	public static int calcPackedSize_s(Heap heap, int floatDecimals)
+	public static int calcPackedSize_s(Heap heap, int floatDecimals) throws PrismException
 	{
 		int mode = calcMode_s(heap);
 		int bytes;
@@ -145,7 +144,7 @@ public abstract class HeapPacker_s
 			bytes += IntPacker.calcPackedSize_s(heap.ints.get(i));
 
 		for (int i = 0; i < heap.floats.size(); ++i)
-			bytes += FloatPacker.calcPackedSize_s(heap.floats.get(i), floatDecimals);
+			bytes += FloatPacker3.calcPackedSize(heap.floats.get(i), floatDecimals);
 
 		for (int i = 0; i < heap.texts.size(); ++i)
 			bytes += TextPacker.calcPackedSize_s(heap.texts.get(i));

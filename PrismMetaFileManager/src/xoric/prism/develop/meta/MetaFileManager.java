@@ -22,7 +22,6 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import xoric.prism.data.PrismDataLoader;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.Prism;
 import xoric.prism.data.types.IPath_r;
@@ -314,40 +313,41 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 
 	public static void main(String[] args)
 	{
-		try
-		{
-			Properties prop = System.getProperties();
-			String os = prop.getProperty("os.name");
+		//		try
+		//		{
+		Properties prop = System.getProperties();
+		String os = prop.getProperty("os.name");
 
-			String s;
-			if (os.equals("Linux"))
-				s = "/home/xoric/workspace/resource";
-			else
-				s = "E:/Prism/resource";
-			resPath = new Path(s);
+		String s;
+		if (os.equals("Linux"))
+			s = "/home/xoric/workspace/resource";
+		else
+			s = "E:/Prism/resource";
+		resPath = new Path(s);
 
-			// global initialization
-			PrismGlobal.setLookAndFeel();
-			PrismGlobal global = new PrismGlobal();
-			global.load();
-			Prism.global = global;
+		// global initialization
+		PrismGlobal.setLookAndFeel();
+		PrismGlobal global = new PrismGlobal();
+		global.init();
+		//			global.load();
+		Prism.global = global;
 
-			// initialize
-			PrismDataLoader.loadAll();
+		// initialize
+		//			PrismDataLoader.loadAll();
 
-			MetaFileManager m = new MetaFileManager();
-			m.setVisible(true);
-			m.onReload();
-		}
-		catch (PrismException e)
-		{
-			e.user.showMessage();
-			e.code.print();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		MetaFileManager m = new MetaFileManager();
+		m.setVisible(true);
+		m.onReload();
+		//		}
+		//		catch (PrismException e)
+		//		{
+		//			e.user.showMessage();
+		//			e.code.print();
+		//		}
+		//		catch (Exception e)
+		//		{
+		//			e.printStackTrace();
+		//		}
 	}
 
 }

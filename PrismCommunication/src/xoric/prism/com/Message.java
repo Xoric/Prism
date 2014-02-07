@@ -43,7 +43,7 @@ public class Message implements IPackable
 	// 	token			1 byte		** size = 1 byte (token) + rest
 	// ---------------------------------------------------------------
 
-	protected int calcPackedSize()
+	protected int calcPackedSize() throws PrismException
 	{
 		int size = 1 /* token */
 		+ HeapPacker_s.calcPackedSize_s(heap, token.getFloatDecimals()); /* heap */
@@ -65,7 +65,7 @@ public class Message implements IPackable
 	}
 
 	@Override
-	public void pack(OutputStream stream) throws IOException
+	public void pack(OutputStream stream) throws IOException, PrismException
 	{
 		writeHeader(stream);
 		stream.write(token.ordinal());
@@ -73,7 +73,7 @@ public class Message implements IPackable
 		HeapPacker_s.pack_s(stream, heap, token.getFloatDecimals());
 	}
 
-	protected void writeHeader(OutputStream stream) throws IOException
+	protected void writeHeader(OutputStream stream) throws IOException, PrismException
 	{
 		int size = calcPackedSize();
 		stream.write(startByte);

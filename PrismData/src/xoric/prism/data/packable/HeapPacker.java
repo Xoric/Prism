@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.heap.Heap;
 
 public class HeapPacker implements IPackable
@@ -11,8 +12,9 @@ public class HeapPacker implements IPackable
 	private final byte buf[] = new byte[9];
 
 	private final IntPacker intPacker = new IntPacker();
-	private final FloatPacker floatPacker = new FloatPacker();
+	//	private final FloatPacker floatPacker = new FloatPacker();
 	private final TextPacker textPacker = new TextPacker();
+	private int floatDecimalPlaces;
 
 	private Heap heap;
 
@@ -38,11 +40,11 @@ public class HeapPacker implements IPackable
 
 	public void setFloatDecimalPlaces(int floatDecimalPlaces)
 	{
-		floatPacker.setDecimalPlaces(floatDecimalPlaces);
+		this.floatDecimalPlaces = floatDecimalPlaces;
 	}
 
 	@Override
-	public void pack(OutputStream stream) throws IOException
+	public void pack(OutputStream stream) throws IOException, PrismException
 	{
 		int mode = calcMode();
 		int i = heap.getIntCount();
@@ -87,11 +89,7 @@ public class HeapPacker implements IPackable
 		}
 
 		// pack floats
-		for (int j = 0; j < f; ++j)
-		{
-			floatPacker.setValue(heap.floats.get(j));
-			floatPacker.pack(stream);
-		}
+		FloatPacker3.pack_s(stream, heap.floats, floatDecimalPlaces);
 
 		// pack texts
 		for (int j = 0; j < t; ++j)
@@ -102,7 +100,7 @@ public class HeapPacker implements IPackable
 	}
 
 	@Override
-	public void unpack(InputStream stream) throws IOException
+	public void unpack(InputStream stream) throws IOException, PrismException
 	{
 		int k0 = 0xFF & stream.read();
 		int mode = 0x1 & k0;
@@ -155,11 +153,7 @@ public class HeapPacker implements IPackable
 		}
 
 		// unpack floats
-		for (int j = 0; j < f; ++j)
-		{
-			floatPacker.unpack(stream);
-			heap.floats.add(floatPacker.getValue());
-		}
+		FloatPacker3.unpack_s(stream, heap.floats, floatDecimalPlaces, f);
 
 		// pack texts	
 		for (int j = 0; j < t; ++j)
@@ -169,7 +163,7 @@ public class HeapPacker implements IPackable
 		}
 	}
 
-	public int calcPackedSize()
+	public int calcPackedSize() throws PrismException
 	{
 		int mode = calcMode();
 		int bytes;
@@ -187,11 +181,12 @@ public class HeapPacker implements IPackable
 			bytes += intPacker.calcPackedSize();
 		}
 
-		for (int i = 0; i < heap.floats.size(); ++i)
-		{
-			floatPacker.setValue(heap.floats.get(i));
-			bytes += floatPacker.calcPackedSize();
-		}
+		bytes += FloatPacker3.calcPackedSize(heap.floats, floatDecimalPlaces);
+		//		for (int i = 0; i < heap.floats.size(); ++i)
+		//		{
+		//			floatPacker.setValue(heap.floats.get(i));
+		//			bytes += floatPacker.calcPackedSize();
+		//		}
 
 		for (int i = 0; i < heap.texts.size(); ++i)
 		{

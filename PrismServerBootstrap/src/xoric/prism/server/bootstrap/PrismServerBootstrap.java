@@ -22,6 +22,7 @@ public class PrismServerBootstrap
 			// global initialization
 			PrismGlobal.setLookAndFeel();
 			PrismGlobal global = new PrismGlobal();
+			global.init();
 			global.load();
 			Prism.global = global;
 

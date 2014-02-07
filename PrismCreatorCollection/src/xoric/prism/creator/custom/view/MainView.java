@@ -231,4 +231,10 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 		if (input == nameInput)
 			control.requestSetName(nameInput.getValue());
 	}
+
+	@Override
+	public void selectObject(int index)
+	{
+		objectList.selectObject(index);
+	}
 }

@@ -95,4 +95,10 @@ public class FloatPoint implements IStackable, IFloatPoint_r
 		x = h.floats.get(0);
 		y = h.floats.get(0);
 	}
+
+	public void negate()
+	{
+		x = -x;
+		y = -y;
+	}
 }

@@ -16,4 +16,6 @@ public interface ISpriteCollectionView
 	public void displayObjects();
 
 	public void displayObject();
+
+	public void selectObject(int index);
 }

@@ -11,14 +11,14 @@ class XWrapper extends Wrapper
 
 	public XWrapper(UIComponent c, DefaultMutableTreeNode node)
 	{
-		super(node, "X");
+		super(node, "x");
 		component = c;
 	}
 
 	@Override
 	public void showDialog()
 	{
-		Ruler r = PrismRulerDialog.getInstance().showDialog("Input X", "Enter X", component.getXRuler());
+		Ruler r = PrismRulerDialog.getInstance().showDialog("Input x", "Enter x", component.getXRuler());
 
 		if (r != null)
 			component.setXRuler(r.constant, r.factor);

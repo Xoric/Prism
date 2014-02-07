@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import xoric.prism.data.exceptions.PrismException;
+
 public class MessageDispatcher
 {
 	public static final int[] thresholds = { 0, 35, 500 };
@@ -42,7 +44,7 @@ public class MessageDispatcher
 		list.add(new MessageEntry(m));
 	}
 
-	public void updateAndSend(int ms) throws IOException
+	public void updateAndSend(int ms) throws IOException, PrismException
 	{
 		boolean sendNow = false;
 

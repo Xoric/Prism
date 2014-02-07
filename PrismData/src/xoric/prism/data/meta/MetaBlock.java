@@ -125,7 +125,7 @@ public class MetaBlock implements IPackable, IInfoLayer
 	}
 
 	@Override
-	public void pack(OutputStream stream) throws IOException
+	public void pack(OutputStream stream) throws IOException, PrismException
 	{
 		// write metaType and number of lines
 		IntPacker.pack_s(stream, metaType.ordinal());

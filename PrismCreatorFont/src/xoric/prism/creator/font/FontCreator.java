@@ -45,7 +45,9 @@ public class FontCreator
 			MetaBlock mb = new MetaBlock(MetaType.COMMON, 0);
 			mb.addMetaLine(ml);
 
-			FileOutputStream stream = new FileOutputStream(path.getFile("padding.meta"));
+			File f = path.getFile("padding.meta");
+			System.out.println("writing " + f.toString());
+			FileOutputStream stream = new FileOutputStream(f);
 			mb.pack(stream);
 			stream.close();
 		}

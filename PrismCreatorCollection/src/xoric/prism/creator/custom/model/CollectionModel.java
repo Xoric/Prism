@@ -132,4 +132,23 @@ public class CollectionModel implements IPackable
 	{
 		return name;
 	}
+
+	public void moveObjectModel(int index, boolean moveUp)
+	{
+		if (index >= 0 && index < objects.size())
+		{
+			if (moveUp && index > 0)
+			{
+				ObjectModel o = objects.get(index);
+				objects.remove(index);
+				objects.add(index - 1, o);
+			}
+			else if (!moveUp && index < objects.size() - 1)
+			{
+				ObjectModel o = objects.get(index);
+				objects.remove(index);
+				objects.add(index + 1, o);
+			}
+		}
+	}
 }

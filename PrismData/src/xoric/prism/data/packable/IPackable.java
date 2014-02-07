@@ -10,5 +10,5 @@ public interface IPackable
 {
 	public void unpack(InputStream stream) throws IOException, PrismException;
 
-	public void pack(OutputStream stream) throws IOException;
+	public void pack(OutputStream stream) throws IOException, PrismException;
 }

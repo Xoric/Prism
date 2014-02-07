@@ -4,11 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class FloatPacker implements IPackable
+@Deprecated
+public class FloatPacker_ implements IPackable
 {
 	// TODO enable negative numbers
 
-	private static final FloatPacker instance = new FloatPacker();
+	private static final FloatPacker_ instance = new FloatPacker_();
 
 	private static final byte buf[] = new byte[4];
 	private static final int capacities[] = { 64 - 1, 16384 - 1, 4194304 - 1, 1073741824 - 1, 4 - 1, 1024 - 1, 262144 - 1, 67108864 - 1, 0,

@@ -55,7 +55,7 @@ public class ClientLoginMessage extends Message
 	}
 
 	@Override
-	protected int calcPackedSize()
+	protected int calcPackedSize() throws PrismException
 	{
 		return super.calcPackedSize() + PasswordHash.bufferSize;
 	}
@@ -77,7 +77,7 @@ public class ClientLoginMessage extends Message
 	}
 
 	@Override
-	public void pack(OutputStream stream) throws IOException
+	public void pack(OutputStream stream) throws IOException, PrismException
 	{
 		writeHeader(stream);
 		stream.write(token.ordinal());

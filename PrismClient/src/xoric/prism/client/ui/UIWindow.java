@@ -8,10 +8,13 @@ import xoric.prism.client.ui.actions.ButtonActionIndex;
 import xoric.prism.client.ui.actions.IActionHandler;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
+import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
+import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
 import xoric.prism.scene.IRendererUI;
+import xoric.prism.scene.materials.Materials;
 
 public class UIWindow extends UIFrame implements IUIButtonHost
 {
@@ -19,15 +22,23 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 
 	private IActionHandler actionHandler;
 
-	private IFloatPoint_r screenSize;
+	private final FloatRect screenRect;
+	//	private IFloatPoint_r screenSize;
 	private static final float SAFETY = 30.0f;
 
 	private UIButton closeButton;
+	//	private FloatPoint cornerPos;
+	//	private FloatPoint cornerOnset;
+	private FloatRect cornerRect;
+	private boolean isResizing;
 	private final List<UIComponent> components;
 
 	public UIWindow(IFloatPoint_r screenSize)
 	{
 		components = new ArrayList<UIComponent>();
+
+		screenRect = new FloatRect();
+
 		//		this.screenSize = screenSize;
 		setText(DEFAULT_TITLE);
 
@@ -38,12 +49,59 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 		//
 		//		addComponent(b);
 
-		addCloseButton();
+		//		makeResizable(true);
+		//		makeClosable(true);
+	}
+
+	public void makeResizable(boolean b)
+	{
+		if (b && cornerRect == null)
+		{
+			cornerRect = new FloatRect();
+			cornerRect.setSize(Materials.frames.getMeta().getObject(3).getSize());
+
+			rearrangeCorner();
+		}
+		else if (!b && cornerRect != null)
+		{
+			cornerRect = null;
+		}
+	}
+
+	public boolean isResizing()
+	{
+		return isResizing;
 	}
 
 	public void setScreenSize(IFloatPoint_r screenSize)
 	{
-		this.screenSize = screenSize;
+		screenRect.setSize(screenSize);
+		//		this.screenSize = screenSize;
+	}
+
+	public List<UIComponent> getComponents()
+	{
+		return components;
+	}
+
+	public void makeClosable(boolean b)
+	{
+		if (b && closeButton == null)
+		{
+			closeButton = new UIButton(this);
+			closeButton.setActionIndex(ButtonActionIndex.CLOSE_WINDOW);
+			closeButton.setXRuler(-26.0f, 1.0f);
+			closeButton.setYRuler(0.5f, 0.0f);
+			closeButton.setWidthRuler(26.0f, 0.0f);
+			closeButton.setText(new Text("X"));
+			addComponent(closeButton);
+		}
+		else if (!b && closeButton != null)
+		{
+			unregisterChild(closeButton);
+			components.remove(closeButton);
+			closeButton = null;
+		}
 	}
 
 	public void addComponent(UIComponent c)
@@ -52,38 +110,9 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 		components.add(c);
 	}
 
-	public List<UIComponent> getComponents()
-	{
-		return components;
-	}
-
-	public void addCloseButton()
-	{
-		if (closeButton == null)
-		{
-			closeButton = new UIButton(this);
-			closeButton.setActionIndex(ButtonActionIndex.CLOSE_WINDOW);
-			closeButton.setXRuler(-23.0f, 1.0f);
-			closeButton.setYRuler(0.5f, 0.0f);
-			closeButton.setWidthRuler(23.0f, 0.0f);
-			closeButton.setText(new Text("X"));
-
-			addComponent(closeButton);
-		}
-	}
-
 	public void setActionHandler(IActionHandler actionHandler)
 	{
 		this.actionHandler = actionHandler;
-	}
-
-	@Override
-	public void draw(IRendererUI renderer) throws PrismException
-	{
-		super.draw(renderer);
-
-		for (UIComponent c : components)
-			c.draw(renderer);
 	}
 
 	@Override
@@ -94,6 +123,17 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 			IActiveUI a = c.mouseDown(mouse);
 			if (a != null)
 				return a;
+		}
+
+		isResizing = false;
+
+		if (cornerRect != null)
+		{
+			if (cornerRect.contains(mouse))
+			{
+				float z = (mouse.getX() - cornerRect.getX()) / (cornerRect.getWidth());
+				isResizing = (mouse.getY() > z * cornerRect.getY() + (1.0f - z) * cornerRect.getBottom());
+			}
 		}
 		return this;
 	}
@@ -156,6 +196,49 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 	}
 
 	@Override
+	public void draw(IRendererUI renderer) throws PrismException
+	{
+		super.draw(renderer);
+
+		if (cornerRect != null)
+		{
+			Materials.framesDrawer.setup(0, 3, 0);
+			Materials.framesDrawer.drawSingle(cornerRect.getTopLeft());
+		}
+
+		for (UIComponent c : components)
+			c.draw(renderer);
+	}
+
+	@Override
+	public void rearrange(IFloatRect_r parentRect)
+	{
+		super.rearrange(parentRect);
+
+		rearrangeCorner();
+	}
+
+	private void rearrangeCorner()
+	{
+		if (cornerRect != null)
+			cornerRect.setBottomRight(rect.getBottomRight());
+	}
+
+	public void resize(float dx, float dy)
+	{
+		rect.addSize(dx, dy);
+
+		if (rect.getWidth() < 100.0f)
+			rect.setWidth(100.0f);
+
+		if (rect.getHeight() < 35.0f)
+			rect.setHeight(35.0f);
+
+		rearrangeCorner();
+		rearrangeChildrenOnly();
+	}
+
+	@Override
 	public void moveBy(float dx, float dy)
 	{
 		// limit left
@@ -170,7 +253,7 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 		else
 		{
 			// limit right
-			m = screenSize.getX() - SAFETY;
+			m = screenRect.getWidth() - SAFETY;
 			d = m - x;
 			if (d < 0.0f)
 				dx += d;
@@ -187,14 +270,27 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 		else
 		{
 			// limit bottom
-			m = screenSize.getY() - SAFETY;
+			m = screenRect.getHeight() - SAFETY;
 			d = m - y;
 			if (d < 0.0f)
 				dy += d;
-
 		}
+
+		// move own stuff
+		if (cornerRect != null)
+			cornerRect.addPosition(dx, dy);
 
 		// call parent
 		super.moveBy(dx, dy);
+	}
+
+	public boolean isResizable()
+	{
+		return cornerRect != null;
+	}
+
+	public boolean isClosable()
+	{
+		return closeButton != null;
 	}
 }

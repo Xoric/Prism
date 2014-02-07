@@ -62,6 +62,20 @@ public class Drawer
 		return this;
 	}
 
+	public void drawSingle(IFloatPoint_r screenPos) throws PrismException
+	{
+		ObjectMeta om = meta.getObject(objectIndex);
+		ObjectInstance oi = om.getInstance(objectInstance);
+		IFloatPoint_r size = oi.getSize(rectOnset);
+		IFloatRect_r texRect = oi.getRect(rectOnset);
+
+		// setup parameters
+		this.screenRect.setTopLeft(screenPos);
+		this.screenRect.setSize(size);
+
+		renderer.drawSprite(texRect, screenRect);
+	}
+
 	public void drawThreeParts(IFloatPoint_r screenPos, float width) throws PrismException
 	{
 		// setup parameters

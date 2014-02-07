@@ -9,13 +9,10 @@ import xoric.prism.client.ui.actions.ButtonActionIndex;
 import xoric.prism.client.ui.actions.IActionHandler;
 import xoric.prism.com.ClientLoginMessage;
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.meta.MetaFile;
-import xoric.prism.data.meta.MetaList;
 import xoric.prism.data.net.NetConstants;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
-import xoric.prism.data.types.Path;
 import xoric.prism.data.types.Text;
 import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.IRendererWorld;
@@ -104,23 +101,23 @@ public class PrismClient implements ISceneListener, IActionHandler
 		}
 	}
 
-	private void testModelMeta()
-	{
-		try
-		{
-			MetaFile mf = new MetaFile(new Path("E:\\Prism\\data\\model\\creep"), "fennec.md");
-			mf.load();
-			MetaList metaList = mf.getMetaList();
-
-			gm = new GridModelMeta();
-			gm.load(metaList);
-		}
-		catch (PrismException e)
-		{
-			e.code.print();
-			e.user.showMessage();
-		}
-	}
+	//	private void testModelMeta()
+	//	{
+	//		try
+	//		{
+	//			MetaFile mf = new MetaFile(new Path("E:\\Prism\\data\\model\\creep"), "fennec.md");
+	//			mf.load();
+	//			MetaList metaList = mf.getMetaList();
+	//
+	//			gm = new GridModelMeta();
+	//			gm.load(metaList);
+	//		}
+	//		catch (PrismException e)
+	//		{
+	//			e.code.print();
+	//			e.user.showMessage();
+	//		}
+	//	}
 
 	//	private void testCollectionMeta()
 	//	{
@@ -150,7 +147,7 @@ public class PrismClient implements ISceneListener, IActionHandler
 
 	public void start() throws PrismException
 	{
-		testModelMeta();
+		//		testModelMeta();
 
 		IFloatPoint_r screenSize = scene.createWindow(800, 480, false);
 		ui.setScreenSize(screenSize);
@@ -163,6 +160,8 @@ public class PrismClient implements ISceneListener, IActionHandler
 			uiWindow.setWidthRuler(150.0f, 0.0f);
 			uiWindow.setHeightRuler(90.0f, 0.0f);
 			uiWindow.setText(new Text("WINDOW" + i));
+			uiWindow.makeClosable(true);
+			uiWindow.makeResizable(true);
 
 			ui.addWindow(uiWindow);
 		}

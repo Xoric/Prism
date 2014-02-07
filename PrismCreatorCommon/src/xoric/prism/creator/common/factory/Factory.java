@@ -27,6 +27,16 @@ public abstract class Factory
 		return createButton(listener, "Delete", "icons/del.png", tooltip);
 	}
 
+	public static JButton createUpButton(ActionListener listener, String tooltip)
+	{
+		return createButton(listener, "Up", "icons/up.png", tooltip);
+	}
+
+	public static JButton createDownButton(ActionListener listener, String tooltip)
+	{
+		return createButton(listener, "Down", "icons/down.png", tooltip);
+	}
+
 	public static JButton createButton(ActionListener listener, String s, String icon, String tooltip)
 	{
 		JButton b = new JButton();
