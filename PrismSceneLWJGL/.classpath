@@ -2,13 +2,13 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/PrismSceneBase"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/PrismData"/>
 	<classpathentry kind="lib" path="/lwjgl-2.9.1/jar/lwjgl.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="http://www.lwjgl.org/javadoc/"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="lwjgl-2.9.1/native/all"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/PrismData"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PrismSceneBase"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
