@@ -1,5 +1,8 @@
 package xoric.prism.client.ui;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +11,7 @@ import xoric.prism.client.ui.actions.ButtonActionIndex;
 import xoric.prism.client.ui.actions.IActionHandler;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
+import xoric.prism.data.packable.IntPacker;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IFloatRect_r;
@@ -294,5 +298,23 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 	public boolean isClosable()
 	{
 		return closeButton != null;
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException, PrismException
+	{
+		super.unpack(stream);
+
+		makeClosable(IntPacker.unpack_s(stream) > 0);
+		makeResizable(IntPacker.unpack_s(stream) > 0);
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException, PrismException
+	{
+		super.pack(stream);
+
+		IntPacker.pack_s(stream, closeButton == null ? 0 : 1);
+		IntPacker.pack_s(stream, cornerRect == null ? 0 : 1);
 	}
 }

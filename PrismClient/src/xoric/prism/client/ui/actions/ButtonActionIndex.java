@@ -6,6 +6,7 @@ import xoric.prism.data.exceptions.UserErrorText;
 public enum ButtonActionIndex
 {
 	NONE, CLOSE_WINDOW;
+	// not limited to 256
 
 	private static final ButtonActionIndex[] VALUES = values();
 

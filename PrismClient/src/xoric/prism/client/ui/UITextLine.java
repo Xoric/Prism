@@ -1,6 +1,12 @@
 package xoric.prism.client.ui;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.packable.IPackable;
+import xoric.prism.data.packable.TextPacker;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.IText_r;
@@ -10,7 +16,7 @@ import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.materials.Materials;
 import xoric.prism.scene.materials.Printer;
 
-public class UITextLine implements IDrawableUI, IUITextComponent, IUIChild
+public class UITextLine implements IDrawableUI, IUITextComponent, IUIChild, IPackable
 {
 	private static final Text DEFAULT_TEXT = new Text("");
 
@@ -93,5 +99,17 @@ public class UITextLine implements IDrawableUI, IUITextComponent, IUIChild
 	{
 		this.parentRect = parentRect;
 		repositionText();
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException, PrismException
+	{
+		text = TextPacker.unpack_s(stream);
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException, PrismException
+	{
+		TextPacker.pack_s(stream, text);
 	}
 }

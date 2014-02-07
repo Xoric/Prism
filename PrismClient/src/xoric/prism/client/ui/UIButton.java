@@ -1,9 +1,14 @@
 package xoric.prism.client.ui;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import xoric.prism.client.ui.actions.ButtonAction;
 import xoric.prism.client.ui.actions.ButtonActionIndex;
 import xoric.prism.client.ui.actions.ButtonActionMask;
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.packable.IntPacker;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
@@ -78,5 +83,37 @@ public class UIButton extends UIComponent implements IUITextComponent
 	public void setActionIndex(ButtonActionIndex actionIndex)
 	{
 		this.actionIndex = actionIndex;
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException, PrismException
+	{
+		super.unpack(stream);
+
+		// unpack text and actionIndex
+		textLine.unpack(stream);
+		actionIndex = ButtonActionIndex.valueOf(IntPacker.unpack_s(stream));
+
+		// unpack actionMask
+		int i = IntPacker.unpack_s(stream);
+		if (i > 0)
+			actionMask.unpack(stream);
+		else
+			actionMask = null;
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException, PrismException
+	{
+		super.pack(stream);
+
+		// pack text and actionIndex
+		textLine.pack(stream);
+		IntPacker.pack_s(stream, actionIndex.ordinal());
+
+		// pack actionMask
+		IntPacker.pack_s(stream, actionMask == null ? 0 : 1);
+		if (actionMask != null)
+			actionMask.pack(stream);
 	}
 }

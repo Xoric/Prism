@@ -1,6 +1,11 @@
 package xoric.prism.client.ui;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.packable.IntPacker;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
@@ -57,5 +62,25 @@ public class UIFrame extends UIComponentH implements IUITextComponent
 	@Override
 	protected void mouseUpConfirmed()
 	{
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException, PrismException
+	{
+		super.unpack(stream);
+
+		int i = IntPacker.unpack_s(stream);
+		if (i > 0)
+			titleLine.unpack(stream);
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException, PrismException
+	{
+		super.pack(stream);
+
+		int i = titleLine != null ? 1 : 0;
+		IntPacker.pack_s(stream, i);
+		titleLine.pack(stream);
 	}
 }
