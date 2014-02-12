@@ -1,28 +1,32 @@
 package xoric.prism.client.ui;
 
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.types.FloatRect;
+import xoric.prism.data.types.IFloatPoint_r;
+import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
 import xoric.prism.scene.IDrawableUI;
 import xoric.prism.scene.IRendererUI;
 
-public class UILabel extends FloatRect implements IDrawableUI, IUITextComponent
+public class UILabel extends UIComponent implements IDrawableUI, IUITextComponent
 {
 	private static final float BORDER = 20.0f;
-	private UITextArea textArea;
+	private final UITextArea textArea;
 
 	public UILabel()
 	{
 		textArea = new UITextArea();
 	}
 
-	public void rearrangeText()
+	@Override
+	public void rearrange(IFloatRect_r parentRect)
 	{
-		textArea.setX(topLeft.x + BORDER);
-		textArea.setY(topLeft.y + BORDER);
-		textArea.setWidth(size.x - 2.0f * BORDER);
-		textArea.setHeight(size.y - 2.0f * BORDER);
+		super.rearrange(parentRect);
+
+		textArea.setX(rect.getX() + BORDER);
+		textArea.setY(rect.getY() + BORDER);
+		textArea.setWidth(rect.getWidth() - 2.0f * BORDER);
+		textArea.setHeight(rect.getHeight() - 2.0f * BORDER);
 	}
 
 	public void setText(IText_r text)
@@ -48,5 +52,21 @@ public class UILabel extends FloatRect implements IDrawableUI, IUITextComponent
 	public IText_r getText()
 	{
 		return textArea.getText();
+	}
+
+	@Override
+	public void mouseClick() throws PrismException
+	{
+	}
+
+	@Override
+	protected IActiveUI mouseDownConfirmed(IFloatPoint_r mouse)
+	{
+		return null;
+	}
+
+	@Override
+	protected void mouseUpConfirmed()
+	{
 	}
 }
