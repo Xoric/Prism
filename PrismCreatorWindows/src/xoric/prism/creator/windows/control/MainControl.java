@@ -27,10 +27,12 @@ public class MainControl implements IMainControl
 		view.setModel(model);
 		view.startScene();
 
-		UIWindow w = model.getWindow();
-		w.setScreenSize(view.getScreenSize());
-		w.rearrange(view.getScreenRect());
-
+		if (model != null)
+		{
+			UIWindow w = model.getWindow();
+			w.setScreenSize(view.getScreenSize());
+			w.rearrange(view.getScreenRect());
+		}
 		view.displayTree();
 	}
 
@@ -65,15 +67,26 @@ public class MainControl implements IMainControl
 	public void requestOpenProject(IPath_r path)
 	{
 		String filename = findModel(path);
-		if (filename != null)
-		{
-			model = new WindowModel(path, filename, view.getScreenSize());
-			initWindow();
-		}
-		else
+
+		if (filename == null)
 		{
 			JOptionPane.showMessageDialog(null, "No window could be found in the given directory.", "New Window",
 					JOptionPane.WARNING_MESSAGE);
+		}
+		else
+		{
+			model = new WindowModel(path, filename, view.getScreenSize());
+			try
+			{
+				model.load();
+			}
+			catch (PrismException e)
+			{
+				model = null;
+				e.code.print();
+				e.user.showMessage();
+			}
+			initWindow();
 		}
 	}
 
