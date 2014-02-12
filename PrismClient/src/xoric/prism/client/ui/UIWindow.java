@@ -303,12 +303,20 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 	@Override
 	public void unpack(InputStream stream) throws IOException, PrismException
 	{
+		components.clear();
+
 		super.unpack(stream);
 
 		makeClosable(IntPacker.unpack_s(stream) > 0);
 		makeResizable(IntPacker.unpack_s(stream) > 0);
 
-		// TODO: unpack components with UIFactory
+		final int n = IntPacker.unpack_s(stream);
+
+		for (int i = 0; i < n; ++i)
+		{
+			UIComponent c = UIFactory.unpackComponent(stream, this);
+			components.add(c);
+		}
 	}
 
 	@Override
@@ -319,9 +327,13 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 		IntPacker.pack_s(stream, closeButton == null ? 0 : 1);
 		IntPacker.pack_s(stream, cornerRect == null ? 0 : 1);
 
-		// TODO: pack components with UIFactory 
+		final int n = components.size();
+		IntPacker.pack_s(stream, n);
 
-		//		for (UIComponent c : components)
-		//			c.pack(stream);
+		for (int i = 0; i < n; ++i)
+		{
+			UIComponent c = components.get(i);
+			UIFactory.packComponent(stream, c);
+		}
 	}
 }
