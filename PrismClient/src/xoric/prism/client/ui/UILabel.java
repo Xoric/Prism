@@ -2,7 +2,6 @@ package xoric.prism.client.ui;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IFloatPoint_r;
-import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
 import xoric.prism.scene.IDrawableUI;
@@ -16,17 +15,8 @@ public class UILabel extends UIComponent implements IDrawableUI, IUITextComponen
 	public UILabel()
 	{
 		textArea = new UITextArea();
-	}
 
-	@Override
-	public void rearrange(IFloatRect_r parentRect)
-	{
-		super.rearrange(parentRect);
-
-		textArea.setX(rect.getX() + BORDER);
-		textArea.setY(rect.getY() + BORDER);
-		textArea.setWidth(rect.getWidth() - 2.0f * BORDER);
-		textArea.setHeight(rect.getHeight() - 2.0f * BORDER);
+		super.registerChild(textArea);
 	}
 
 	public void setText(IText_r text)
