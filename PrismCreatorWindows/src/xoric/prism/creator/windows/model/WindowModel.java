@@ -1,7 +1,10 @@
 package xoric.prism.creator.windows.model;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 import xoric.prism.client.ui.UIWindow;
 import xoric.prism.creator.windows.view.NewWindowData;
@@ -49,18 +52,43 @@ public class WindowModel
 		return window;
 	}
 
+	public void load() throws PrismException
+	{
+		FileInputStream stream;
+		try
+		{
+			stream = new FileInputStream(file);
+			window.unpack(stream);
+			stream.close();
+		}
+		catch (FileNotFoundException e0)
+		{
+			PrismException e = new PrismException(e0);
+			e.setText("No window could be loaded from the given directory.");
+			e.addInfo("missing file", filename);
+			throw e;
+		}
+		catch (IOException e0)
+		{
+			PrismException e = new PrismException(e0);
+			e.setText("There was a problem while trying to load a window from the given destination.");
+			e.addInfo("source file", filename);
+			throw e;
+		}
+	}
+
 	public void save() throws PrismException
 	{
 		try
 		{
 			FileOutputStream stream = new FileOutputStream(file);
-			//window.
+			window.pack(stream);
 			stream.close();
 		}
 		catch (Exception e0)
 		{
 			PrismException e = new PrismException(e0);
-			e.setText("An error occured while trying to save the window");
+			e.setText("An error occured while trying to save the window.");
 			e.addInfo("file", file.toString());
 			throw e;
 		}
