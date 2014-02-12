@@ -6,6 +6,7 @@ import java.util.List;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
+import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
 import xoric.prism.scene.IDrawableUI;
@@ -13,15 +14,19 @@ import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.materials.Materials;
 import xoric.prism.scene.materials.Printer;
 
-public class UITextArea extends FloatRect implements IDrawableUI, IUITextComponent
+public class UITextArea implements IDrawableUI, IUITextComponent, IUIChild
 {
+	private static final float BORDER = 20.0f;
+
 	private Text text;
 	private float scale;
+	private final FloatRect rect;
 	private final List<Integer> stops;
 	private final FloatPoint tempPos;
 
 	public UITextArea()
 	{
+		rect = new FloatRect();
 		stops = new ArrayList<Integer>();
 		scale = Printer.DEFAULT_SCALE;
 		tempPos = new FloatPoint();
@@ -60,7 +65,7 @@ public class UITextArea extends FloatRect implements IDrawableUI, IUITextCompone
 				width += w;
 
 				// check if current word still fits into the current line
-				if (width >= size.x)
+				if (width >= rect.getWidth())
 				{
 					stops.add(lastIndex);
 					width = w;
@@ -78,7 +83,7 @@ public class UITextArea extends FloatRect implements IDrawableUI, IUITextCompone
 	@Override
 	public void draw(IRendererUI renderer) throws PrismException
 	{
-		tempPos.copyFrom(topLeft);
+		tempPos.copyFrom(rect.getTopLeft());
 		Materials.printer.setText(text);
 		int start = 0;
 
@@ -98,5 +103,23 @@ public class UITextArea extends FloatRect implements IDrawableUI, IUITextCompone
 	public IText_r getText()
 	{
 		return text;
+	}
+
+	@Override
+	public void moveBy(float dx, float dy)
+	{
+		rect.addPosition(dx, dy);
+	}
+
+	@Override
+	public void rearrange(IFloatRect_r parentRect)
+	{
+		if (parentRect != null)
+		{
+			rect.setX(parentRect.getX() + BORDER);
+			rect.setY(parentRect.getY() + BORDER);
+			rect.setWidth(parentRect.getWidth() - 2.0f * BORDER);
+			rect.setHeight(parentRect.getHeight() - 2.0f * BORDER);
+		}
 	}
 }
