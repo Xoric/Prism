@@ -9,11 +9,12 @@ import xoric.prism.creator.common.view.INewDialogResult;
 import xoric.prism.creator.windows.model.WindowModel;
 import xoric.prism.creator.windows.view.IMainView;
 import xoric.prism.creator.windows.view.NewWindowData;
+import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IPath_r;
 
 public class MainControl implements IMainControl
 {
-	private IMainView view;
+	private final IMainView view;
 	private WindowModel model;
 
 	public MainControl(IMainView view)
@@ -41,7 +42,7 @@ public class MainControl implements IMainControl
 		initWindow();
 	}
 
-	private String findModel(IPath_r path)
+	private static String findModel(IPath_r path)
 	{
 		File dir = new File(path.toString());
 		File[] files = dir.listFiles();
@@ -93,13 +94,21 @@ public class MainControl implements IMainControl
 	@Override
 	public void requestSave()
 	{
-		//		model.save();
+		try
+		{
+			model.save();
+		}
+		catch (PrismException e)
+		{
+			e.code.print();
+			e.user.showMessage();
+		}
 	}
 
 	@Override
 	public void onWindowModified()
 	{
 		model.getWindow().rearrange(view.getScreenRect());
-		//	TODO	save();
+		requestSave();
 	}
 }
