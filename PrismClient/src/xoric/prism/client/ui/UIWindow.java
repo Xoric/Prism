@@ -307,8 +307,8 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 
 		makeClosable(IntPacker.unpack_s(stream) > 0);
 		makeResizable(IntPacker.unpack_s(stream) > 0);
-		
-		// TODO: unpack components
+
+		// TODO: unpack components with UIFactory
 	}
 
 	@Override
@@ -318,7 +318,10 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 
 		IntPacker.pack_s(stream, closeButton == null ? 0 : 1);
 		IntPacker.pack_s(stream, cornerRect == null ? 0 : 1);
-		
-		// TODO: pack components
+
+		// TODO: pack components with UIFactory 
+
+		//		for (UIComponent c : components)
+		//			c.pack(stream);
 	}
 }

@@ -16,6 +16,8 @@ import xoric.prism.scene.IDrawableUI;
 
 public abstract class UIComponent implements IDrawableUI, IUIChild, IActiveUI, IPackable
 {
+	private final UIIdentifier identifier;
+
 	protected Ruler xRuler;
 	protected Ruler yRuler;
 	protected Ruler widthRuler;
@@ -25,8 +27,10 @@ public abstract class UIComponent implements IDrawableUI, IUIChild, IActiveUI, I
 
 	private final List<IUIChild> children;
 
-	public UIComponent()
+	public UIComponent(UIIdentifier id)
 	{
+		this.identifier = id;
+
 		children = new ArrayList<IUIChild>();
 
 		rect = new FloatRect();
@@ -35,6 +39,11 @@ public abstract class UIComponent implements IDrawableUI, IUIChild, IActiveUI, I
 		xRuler = new Ruler();
 		yRuler = new Ruler();
 		widthRuler = new Ruler();
+	}
+
+	public UIIdentifier getIdentifier()
+	{
+		return identifier;
 	}
 
 	protected void registerChild(IUIChild c)
@@ -164,6 +173,7 @@ public abstract class UIComponent implements IDrawableUI, IUIChild, IActiveUI, I
 	@Override
 	public void pack(OutputStream stream) throws IOException, PrismException
 	{
+		//		IntPacker.pack_s(stream, identifier.ordinal());
 		xRuler.pack(stream);
 		yRuler.pack(stream);
 		widthRuler.pack(stream);

@@ -25,6 +25,8 @@ public class UIButton extends UIComponent implements IUITextComponent
 
 	public UIButton(IUIButtonHost inputHub)
 	{
+		super(UIIdentifier.BUTTON);
+
 		this.inputHub = inputHub;
 		this.actionIndex = ButtonActionIndex.NONE;
 

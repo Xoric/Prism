@@ -12,8 +12,10 @@ public abstract class UIComponentH extends UIComponent
 {
 	protected Ruler heightRuler;
 
-	public UIComponentH()
+	public UIComponentH(UIIdentifier id)
 	{
+		super(id);
+
 		heightRuler = new Ruler();
 	}
 

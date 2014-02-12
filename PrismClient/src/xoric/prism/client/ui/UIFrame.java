@@ -16,6 +16,11 @@ public class UIFrame extends UIComponentH implements IUITextComponent
 {
 	protected UITextLine titleLine;
 
+	public UIFrame()
+	{
+		super(UIIdentifier.FRAME);
+	}
+
 	@Override
 	public void setText(Text title)
 	{

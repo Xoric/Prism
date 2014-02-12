@@ -9,11 +9,12 @@ import xoric.prism.scene.IRendererUI;
 
 public class UILabel extends UIComponent implements IDrawableUI, IUITextComponent
 {
-	private static final float BORDER = 20.0f;
 	private final UITextArea textArea;
 
 	public UILabel()
 	{
+		super(UIIdentifier.LABEL);
+
 		textArea = new UITextArea();
 
 		super.registerChild(textArea);
