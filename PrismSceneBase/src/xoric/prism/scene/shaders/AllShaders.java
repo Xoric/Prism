@@ -17,7 +17,15 @@ public class AllShaders
 
 	public static void load(IShaderIO shaderIO) throws PrismException
 	{
-		defaultShader = loadShader(shaderIO, ShaderIndex.DEFAULT);
+		try
+		{
+			defaultShader = loadShader(shaderIO, ShaderIndex.DEFAULT);
+		}
+		catch (Exception e)
+		{
+			System.out.println("using shader substitute");
+			defaultShader = shaderIO.createShaderSubstitute();
+		}
 	}
 
 	private static IShader2 loadShader(IShaderIO shaderIO, ShaderIndex si) throws PrismException
