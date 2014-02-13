@@ -1,9 +1,6 @@
 package xoric.prism.scene.lwjgl;
 
 import java.awt.Dimension;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +24,6 @@ import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
 import xoric.prism.scene.lwjgl.shaders.DefaultShaderSubstitute;
 import xoric.prism.scene.lwjgl.textures.Texture;
-import xoric.prism.scene.lwjgl.textures.TextureBinderLWJGL;
 import xoric.prism.scene.settings.ISceneSettings;
 import xoric.prism.scene.shaders.AllShaders;
 import xoric.prism.scene.shaders.IShader2;
@@ -185,17 +181,18 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 			memorizeException(e2);
 		}
 
-		try
-		{
-			// TODO: throws an exception on netbook
-			testingDefaultShader = ShaderIO2.createShader(new File("../debug/defaultShader.vert"), new File("../debug/defaultShader.frag"));
-			testingDefaultShader.activate();
-		}
-		catch (PrismException e)
-		{
-			e.code.print();
-		}
+		//		try
+		//		{
+		//			// TODO: throws an exception on netbook
+		//			testingDefaultShader = ShaderIO2.createShader(new File("../debug/defaultShader.vert"), new File("../debug/defaultShader.frag"));
+		//			testingDefaultShader.activate();
+		//		}
+		//		catch (PrismException e)
+		//		{
+		//			e.code.print();
+		//		}
 
+		/*
 		testingColor2 = new PrismColor();
 		testingColor2.set(1.0f, 0.0f, 0.0f, 1.0f);
 
@@ -215,6 +212,7 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 		{
 			e1.printStackTrace();
 		}
+		*/
 	}
 
 	@Override
@@ -631,6 +629,7 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 	@Override
 	public IShader2 createShaderSubstitute()
 	{
+		DefaultShaderSubstitute.initialize();
 		return new DefaultShaderSubstitute();
 	}
 }
