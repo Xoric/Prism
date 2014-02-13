@@ -6,7 +6,7 @@ import xoric.prism.data.exceptions.UserErrorText;
 public enum ButtonActionIndex
 {
 	NONE, CLOSE_WINDOW;
-	// not limited to 256
+	// unlimited
 
 	private static final ButtonActionIndex[] VALUES = values();
 
@@ -16,7 +16,7 @@ public enum ButtonActionIndex
 		{
 			PrismException e = new PrismException();
 			e.user.setText(UserErrorText.INTERNAL_PROBLEM);
-			e.code.setText("invalid conversion from int " + v + " to " + ButtonActionIndex.class.toString());
+			e.code.setText("invalid conversion from int " + v + " to " + ButtonActionIndex.class.getSimpleName());
 			e.code.addInfo("enum count", VALUES.length);
 			throw e;
 		}
