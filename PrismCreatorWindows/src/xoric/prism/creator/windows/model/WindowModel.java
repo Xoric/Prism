@@ -54,10 +54,9 @@ public class WindowModel
 
 	public void load() throws PrismException
 	{
-		FileInputStream stream;
 		try
 		{
-			stream = new FileInputStream(file);
+			FileInputStream stream = new FileInputStream(file);
 			window.unpack(stream);
 			stream.close();
 		}
