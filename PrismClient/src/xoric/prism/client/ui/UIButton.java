@@ -88,6 +88,21 @@ public class UIButton extends UIComponent implements IUITextComponent
 	}
 
 	@Override
+	public void pack(OutputStream stream) throws IOException, PrismException
+	{
+		super.pack(stream);
+
+		// pack text and actionIndex
+		textLine.pack(stream);
+		IntPacker.pack_s(stream, actionIndex.ordinal());
+
+		// pack actionMask
+		IntPacker.pack_s(stream, actionMask == null ? 0 : 1);
+		if (actionMask != null)
+			actionMask.pack(stream);
+	}
+
+	@Override
 	public void unpack(InputStream stream) throws IOException, PrismException
 	{
 		super.unpack(stream);
@@ -102,20 +117,5 @@ public class UIButton extends UIComponent implements IUITextComponent
 			actionMask.unpack(stream);
 		else
 			actionMask = null;
-	}
-
-	@Override
-	public void pack(OutputStream stream) throws IOException, PrismException
-	{
-		super.pack(stream);
-
-		// pack text and actionIndex
-		textLine.pack(stream);
-		IntPacker.pack_s(stream, actionIndex.ordinal());
-
-		// pack actionMask
-		IntPacker.pack_s(stream, actionMask == null ? 0 : 1);
-		if (actionMask != null)
-			actionMask.pack(stream);
 	}
 }

@@ -70,6 +70,17 @@ public class UIFrame extends UIComponentH implements IUITextComponent
 	}
 
 	@Override
+	public void pack(OutputStream stream) throws IOException, PrismException
+	{
+		super.pack(stream);
+
+		int i = titleLine == null ? 0 : 1;
+		IntPacker.pack_s(stream, i);
+		if (titleLine != null)
+			titleLine.pack(stream);
+	}
+
+	@Override
 	public void unpack(InputStream stream) throws IOException, PrismException
 	{
 		super.unpack(stream);
@@ -77,15 +88,7 @@ public class UIFrame extends UIComponentH implements IUITextComponent
 		int i = IntPacker.unpack_s(stream);
 		if (i > 0)
 			titleLine.unpack(stream);
-	}
-
-	@Override
-	public void pack(OutputStream stream) throws IOException, PrismException
-	{
-		super.pack(stream);
-
-		int i = titleLine != null ? 1 : 0;
-		IntPacker.pack_s(stream, i);
-		titleLine.pack(stream);
+		else
+			titleLine = null;
 	}
 }

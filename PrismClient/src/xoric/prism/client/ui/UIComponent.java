@@ -163,20 +163,19 @@ public abstract class UIComponent implements IDrawableUI, IUIChild, IActiveUI, I
 	protected abstract void mouseUpConfirmed();
 
 	@Override
+	public void pack(OutputStream stream) throws IOException, PrismException
+	{
+		xRuler.pack(stream);
+		yRuler.pack(stream);
+		widthRuler.pack(stream);
+	}
+
+	@Override
 	public void unpack(InputStream stream) throws IOException, PrismException
 	{
 		xRuler.unpack(stream);
 		yRuler.unpack(stream);
 		widthRuler.unpack(stream);
-	}
-
-	@Override
-	public void pack(OutputStream stream) throws IOException, PrismException
-	{
-		//		IntPacker.pack_s(stream, identifier.ordinal());
-		xRuler.pack(stream);
-		yRuler.pack(stream);
-		widthRuler.pack(stream);
 	}
 
 	@Override

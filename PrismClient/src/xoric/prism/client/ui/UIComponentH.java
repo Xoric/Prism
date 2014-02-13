@@ -51,18 +51,18 @@ public abstract class UIComponentH extends UIComponent
 	}
 
 	@Override
-	public void unpack(InputStream stream) throws IOException, PrismException
-	{
-		super.unpack(stream);
-
-		heightRuler.unpack(stream);
-	}
-
-	@Override
 	public void pack(OutputStream stream) throws IOException, PrismException
 	{
 		super.pack(stream);
 
 		heightRuler.pack(stream);
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException, PrismException
+	{
+		super.unpack(stream);
+
+		heightRuler.unpack(stream);
 	}
 }

@@ -1,6 +1,11 @@
 package xoric.prism.client.ui;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.packable.TextPacker;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
@@ -59,5 +64,21 @@ public class UILabel extends UIComponent implements IDrawableUI, IUITextComponen
 	@Override
 	protected void mouseUpConfirmed()
 	{
+	}
+
+	@Override
+	public void pack(OutputStream stream) throws IOException, PrismException
+	{
+		super.pack(stream);
+
+		TextPacker.pack_s(stream, textArea.getText());
+	}
+
+	@Override
+	public void unpack(InputStream stream) throws IOException, PrismException
+	{
+		super.unpack(stream);
+
+		textArea.setText(TextPacker.unpack_s(stream));
 	}
 }
