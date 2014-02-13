@@ -32,7 +32,7 @@ public class TextureLoader
 			PrismException e = new PrismException(e0);
 			e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
 			e.user.addInfo("file", attachmentLoader.getFile().getName());
-			e.code.setText("an IO error occured while trying to load a texture");
+			e.code.setText("an error occured while trying to load a texture");
 			e.code.addInfo("file", attachmentLoader.getFile().toString());
 			throw e;
 		}
