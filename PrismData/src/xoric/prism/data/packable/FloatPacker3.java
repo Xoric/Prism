@@ -33,7 +33,7 @@ public class FloatPacker3
 	{
 		checkDecimalPlaces(decimalPlaces);
 
-		int bytes = calcPackedSize(value, decimalPlaces);
+		int bytes = calcPackedSizeUnsafe(value, decimalPlaces);
 		int sign = value >= 0.0f ? 0 : 1;
 		value = Math.abs(value);
 
@@ -71,7 +71,7 @@ public class FloatPacker3
 		}
 
 		packed |= postComma << 3;
-		packed |= preComma << decimalPlaces == 1 ? 7 : 10;
+		packed |= preComma << (decimalPlaces == 1 ? 7 : 10);
 
 		buf[0] = (byte) packed;
 		for (int i = 1; i < bytes; ++i)
