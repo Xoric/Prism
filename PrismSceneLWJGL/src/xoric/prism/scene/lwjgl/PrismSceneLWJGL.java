@@ -630,6 +630,8 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 	public IShader2 createShaderSubstitute()
 	{
 		DefaultShaderSubstitute.initialize();
-		return new DefaultShaderSubstitute();
+		DefaultShaderSubstitute d = new DefaultShaderSubstitute();
+
+		return d;
 	}
 }
