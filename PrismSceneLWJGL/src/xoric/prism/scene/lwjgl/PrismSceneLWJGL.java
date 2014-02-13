@@ -25,6 +25,7 @@ import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.IRendererWorld;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
+import xoric.prism.scene.lwjgl.shaders.DefaultShaderSubstitute;
 import xoric.prism.scene.lwjgl.textures.Texture;
 import xoric.prism.scene.lwjgl.textures.TextureBinderLWJGL;
 import xoric.prism.scene.settings.ISceneSettings;
@@ -46,7 +47,7 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 	private IShader2 testingDefaultShader;
 	private Texture testingTexture;
 	private PrismColor testingColor2;
-	private boolean[] brgba = new boolean[4];
+	private final boolean[] brgba = new boolean[4];
 
 	private int interval;
 
@@ -625,5 +626,11 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 	public void setWindowTitle(String title)
 	{
 		Display.setTitle(title);
+	}
+
+	@Override
+	public IShader2 createShaderSubstitute()
+	{
+		return new DefaultShaderSubstitute();
 	}
 }
