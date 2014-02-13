@@ -8,7 +8,7 @@ import xoric.prism.data.exceptions.PrismException;
 
 public interface IPackable
 {
-	public void unpack(InputStream stream) throws IOException, PrismException;
-
 	public void pack(OutputStream stream) throws IOException, PrismException;
+
+	public void unpack(InputStream stream) throws IOException, PrismException;
 }
