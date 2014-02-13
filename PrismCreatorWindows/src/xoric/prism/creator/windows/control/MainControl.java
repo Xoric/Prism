@@ -42,6 +42,7 @@ public class MainControl implements IMainControl
 		NewWindowData d = (NewWindowData) result;
 		model = new WindowModel(d, view.getScreenSize());
 		initWindow();
+		requestSave();
 	}
 
 	private static String findModel(IPath_r path)
