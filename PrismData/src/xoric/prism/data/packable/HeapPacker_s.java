@@ -14,9 +14,9 @@ public abstract class HeapPacker_s
 	public static synchronized void pack_s(OutputStream stream, Heap heap, int floatDecimals) throws IOException, PrismException
 	{
 		int mode = calcMode_s(heap);
-		int i = heap.getIntCount();
-		int f = heap.getFloatCount();
-		int t = heap.getTextCount();
+		int i = heap.ints.size();
+		int f = heap.floats.size();
+		int t = heap.texts.size();
 
 		if (mode == 0)
 		{
@@ -120,8 +120,7 @@ public abstract class HeapPacker_s
 			heap.texts.add(TextPacker.unpack_s(stream));
 	}
 
-	@Deprecated
-	public static synchronized Heap unpack_s(InputStream stream, int floatDecimals) throws IOException, PrismException
+	public static Heap unpack_s(InputStream stream, int floatDecimals) throws IOException, PrismException
 	{
 		Heap heap = new Heap();
 		unpack_s(stream, floatDecimals, heap);
@@ -155,9 +154,9 @@ public abstract class HeapPacker_s
 	private static int calcMode_s(Heap heap)
 	{
 		int mode;
-		int i = heap.getIntCount();
-		int f = heap.getFloatCount();
-		int t = heap.getTextCount();
+		int i = heap.ints.size();
+		int f = heap.floats.size();
+		int t = heap.texts.size();
 
 		if (i < 8 && f < 4 && t < 4)
 			mode = 0;

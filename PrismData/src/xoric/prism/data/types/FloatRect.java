@@ -1,7 +1,6 @@
 package xoric.prism.data.types;
 
 import xoric.prism.data.heap.Heap;
-import xoric.prism.data.heap.HeapReader;
 import xoric.prism.data.heap.IStackable;
 
 public class FloatRect implements IStackable, IFloatRect_r
@@ -89,6 +88,14 @@ public class FloatRect implements IStackable, IFloatRect_r
 	{
 		topLeft.appendTo(h);
 		size.appendTo(h);
+	}
+
+	@Override
+	public void extractFrom(Heap h)
+	{
+		topLeft.extractFrom(h);
+		size.extractFrom(h);
+		updateBottomRight();
 	}
 
 	@Override
@@ -193,22 +200,6 @@ public class FloatRect implements IStackable, IFloatRect_r
 	{
 		topLeft.y = y;
 		bottomRight.y = y + size.y;
-	}
-
-	@Override
-	public void extractFrom(HeapReader h)
-	{
-		topLeft.extractFrom(h);
-		size.extractFrom(h);
-	}
-
-	@Override
-	public void extractFrom(Heap h)
-	{
-		topLeft.x = h.floats.get(0);
-		topLeft.y = h.floats.get(1);
-		size.x = h.floats.get(2);
-		size.y = h.floats.get(3);
 	}
 
 	public void copyFrom(IFloatRect_r rect)

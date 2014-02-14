@@ -1,7 +1,6 @@
 package xoric.prism.data.types;
 
 import xoric.prism.data.heap.Heap;
-import xoric.prism.data.heap.HeapReader;
 import xoric.prism.data.heap.IStackable;
 
 public class FloatPoint implements IStackable, IFloatPoint_r
@@ -71,10 +70,10 @@ public class FloatPoint implements IStackable, IFloatPoint_r
 	}
 
 	@Override
-	public void extractFrom(HeapReader h)
+	public void extractFrom(Heap h)
 	{
-		x = h.getNextFloat();
-		y = h.getNextFloat();
+		x = h.nextFloat();
+		y = h.nextFloat();
 	}
 
 	@Override
@@ -87,13 +86,6 @@ public class FloatPoint implements IStackable, IFloatPoint_r
 	public float getY()
 	{
 		return y;
-	}
-
-	@Override
-	public void extractFrom(Heap h)
-	{
-		x = h.floats.get(0);
-		y = h.floats.get(0);
 	}
 
 	public void negate()

@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import xoric.prism.data.heap.Heap;
-import xoric.prism.data.heap.HeapReader;
 import xoric.prism.data.heap.IStackable;
 import xoric.prism.data.packable.IPackable;
 import xoric.prism.data.packable.IntPacker;
@@ -57,10 +56,10 @@ public class Point implements IStackable, IPackable, IPoint_r
 	}
 
 	@Override
-	public void extractFrom(HeapReader h)
+	public void extractFrom(Heap h)
 	{
-		x = h.getNextInt();
-		y = h.getNextInt();
+		x = h.nextInt();
+		y = h.nextInt();
 	}
 
 	@Override
@@ -93,19 +92,11 @@ public class Point implements IStackable, IPackable, IPoint_r
 	{
 		x = IntPacker.unpack_s(stream);
 		y = IntPacker.unpack_s(stream);
-
 	}
 
 	@Override
 	public boolean isSquare()
 	{
 		return x == y;
-	}
-
-	@Override
-	public void extractFrom(Heap h)
-	{
-		x = h.ints.get(0);
-		y = h.ints.get(1);
 	}
 }
