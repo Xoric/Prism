@@ -16,10 +16,11 @@ import xoric.prism.data.meta.MetaLine;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.Point;
+import xoric.prism.data.types.Text;
 
 public class TextureGenerator
 {
-	private GridModel model;
+	private final GridModel model;
 
 	public TextureGenerator(GridModel model)
 	{
@@ -115,7 +116,7 @@ public class TextureGenerator
 
 		// update meta data: add name
 		MetaLine ml = new MetaLine(MetaKey.ITEM);
-		ml.getHeap().texts.add(model.getName());
+		ml.getHeap().texts.add(new Text(model.getName()));
 		mb.addMetaLine(ml);
 
 		// update meta data: add texture and sprite size
