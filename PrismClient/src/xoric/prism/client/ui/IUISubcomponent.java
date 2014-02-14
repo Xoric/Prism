@@ -2,7 +2,7 @@ package xoric.prism.client.ui;
 
 import xoric.prism.data.types.IFloatRect_r;
 
-public interface IUIChild
+public interface IUISubcomponent
 {
 	public void moveBy(float dx, float dy);
 
