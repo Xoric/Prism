@@ -17,7 +17,7 @@ public class SocketReader extends Thread
 	public SocketReader(Socket socket, ISocketListener listener) throws IOException
 	{
 		this.stream = new BufferedInputStream(socket.getInputStream());
-		this.buffer = new byte[Message.maximumBufferSize];
+		this.buffer = new byte[Message_in.maximumBufferSize];
 		this.listener = listener;
 	}
 
@@ -52,7 +52,7 @@ public class SocketReader extends Thread
 			readBytes(3);
 
 			// check startByte
-			if (buffer[0] != Message.startByte)
+			if (buffer[0] != Message_in.startByte)
 			{
 				PrismException e = new PrismException();
 				// ----
@@ -65,7 +65,7 @@ public class SocketReader extends Thread
 
 			// extract size
 			int size = buffer[1] | (buffer[2] << 8);
-			if (size < 1 || size > Message.maximumBufferSize)
+			if (size < 1 || size > Message_in.maximumBufferSize)
 			{
 				PrismException e = new PrismException();
 				// ----
@@ -84,15 +84,15 @@ public class SocketReader extends Thread
 			ByteArrayInputStream stream = new ByteArrayInputStream(buffer, 0, size);
 
 			// create message
-			Message m;
+			Message_in m;
 			if (tokenIndex == Token.LOGIN.ordinal())
 			{
-				m = new ClientLoginMessage();
+				m = new ClientLoginMessage_in();
 			}
 			else
 			{
 				Token token = Token.valueOf(tokenIndex);
-				m = new Message(token);
+				m = new Message_in(token);
 			}
 			m.unpack(stream);
 			listener.receiveMessage(m);

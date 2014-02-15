@@ -10,10 +10,10 @@ public class MessagePipe
 {
 	private class MessageNode
 	{
-		private Message message;
+		private Message_in message;
 		private volatile MessageNode next;
 
-		public MessageNode(Message m)
+		public MessageNode(Message_in m)
 		{
 			this.message = m;
 			this.next = null;
@@ -22,11 +22,11 @@ public class MessagePipe
 
 	// head of the queue: consume data here
 	private MessageNode head;
-	private AtomicBoolean consumerLock;
+	private final AtomicBoolean consumerLock;
 
 	// tail of the queue: produce data here
 	private MessageNode tail;
-	private AtomicBoolean producerLock;
+	private final AtomicBoolean producerLock;
 
 	public MessagePipe()
 	{
@@ -35,7 +35,7 @@ public class MessagePipe
 		consumerLock = new AtomicBoolean(false);
 	}
 
-	public void produce(final Message m)
+	public void produce(final Message_in m)
 	{
 		// create new node
 		MessageNode tmp = new MessageNode(m);
@@ -53,7 +53,7 @@ public class MessagePipe
 		producerLock.getAndSet(false);
 	}
 
-	public Message consume()
+	public Message_in consume()
 	{
 		// wait until queue is available
 		while (!consumerLock.compareAndSet(false, true))
@@ -61,7 +61,7 @@ public class MessagePipe
 		}
 
 		// get next node	
-		Message result;
+		Message_in result;
 		MessageNode nextNode = head.next;
 
 		if (nextNode != null)

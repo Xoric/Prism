@@ -1,7 +1,6 @@
 package xoric.prism.com;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
 
@@ -10,11 +9,11 @@ import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.packable.HeapPacker_s;
 import xoric.prism.data.types.IText_r;
 
-public class ClientLoginMessage extends Message
+public class ClientLoginMessage_out extends Message_out
 {
 	private byte[] passwordBuffer;
 
-	public ClientLoginMessage()
+	public ClientLoginMessage_out()
 	{
 		super(Token.LOGIN);
 	}
@@ -49,31 +48,10 @@ public class ClientLoginMessage extends Message
 		}
 	}
 
-	public byte[] getPassword()
-	{
-		return passwordBuffer;
-	}
-
 	@Override
 	protected int calcPackedSize() throws PrismException
 	{
 		return super.calcPackedSize() + PasswordHash.bufferSize;
-	}
-
-	@Override
-	public void unpack(InputStream stream) throws IOException, PrismException
-	{
-		// first 3 bytes (startByte + size) are already read at this point
-		int i = stream.read();
-		token = Token.valueOf(i);
-		// ---
-		passwordBuffer = new byte[PasswordHash.bufferSize];
-		stream.read(passwordBuffer);
-		// ---
-		HeapPacker_s.unpack_s(stream, token.getFloatDecimals(), heap);
-
-		// ensure that the number of ints, floats and texts read is valid
-		ensureMinima();
 	}
 
 	@Override

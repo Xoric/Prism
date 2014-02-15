@@ -1,35 +1,23 @@
 package xoric.prism.com;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
-
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
-import xoric.prism.data.heap.Heap;
-import xoric.prism.data.packable.HeapPacker_s;
-import xoric.prism.data.packable.IPackable;
+import xoric.prism.data.heap.HeapBase;
 
-public class Message implements IPackable
+abstract class MessageBase
 {
 	public static final byte startByte = (byte) 233;
 	public static final int maximumBufferSize = 256;
 	public static Perspective perspective = null;
 
 	protected Token token;
-	protected final Heap heap;
 
-	public Message(Token token)
+	public MessageBase(Token token)
 	{
 		this.token = token;
-		this.heap = new Heap();
 	}
 
-	public Heap getHeap()
-	{
-		return heap;
-	}
+	public abstract HeapBase getHeap();
 
 	@Override
 	public String toString()
@@ -43,54 +31,14 @@ public class Message implements IPackable
 	// 	token			1 byte		** size = 1 byte (token) + rest
 	// ---------------------------------------------------------------
 
-	protected int calcPackedSize() throws PrismException
-	{
-		int size = 1 /* token */
-		+ HeapPacker_s.calcPackedSize_s(heap, token.getFloatDecimals()); /* heap */
-
-		return size;
-	}
-
-	@Override
-	public void unpack(InputStream stream) throws IOException, PrismException
-	{
-		// first 3 bytes (startByte + size) have already been skipped at this point
-		int i = stream.read();
-		token = Token.valueOf(i);
-		// ---
-		HeapPacker_s.unpack_s(stream, token.getFloatDecimals(), heap);
-
-		// ensure that the number of ints, floats and texts read is valid
-		ensureMinima();
-	}
-
-	@Override
-	public void pack(OutputStream stream) throws IOException, PrismException
-	{
-		writeHeader(stream);
-		stream.write(token.ordinal());
-		// ---
-		HeapPacker_s.pack_s(stream, heap, token.getFloatDecimals());
-	}
-
-	protected void writeHeader(OutputStream stream) throws IOException, PrismException
-	{
-		int size = calcPackedSize();
-		stream.write(startByte);
-		stream.write(size);
-		stream.write(size >> 8);
-	}
-
 	public Token getToken()
 	{
 		return token;
 	}
 
 	@SuppressWarnings("rawtypes")
-	private void checkList(String name, List list, int min) throws PrismException
+	private void checkList(String name, int n, int min) throws PrismException
 	{
-		final int n = list == null ? 0 : list.size();
-
 		if (n < min)
 		{
 			PrismException e = new PrismException();
@@ -115,9 +63,9 @@ public class Message implements IPackable
 
 		if (m != null)
 		{
-			checkList("ints", heap.ints, m.intMin);
-			checkList("floats", heap.floats, m.floatMin);
-			checkList("texts", heap.texts, m.textMin);
+			checkList("ints", getHeap().ints.size(), m.intMin);
+			checkList("floats", getHeap().floats.size(), m.floatMin);
+			checkList("texts", getHeap().getTextCount(), m.textMin);
 		}
 	}
 }

@@ -14,11 +14,11 @@ public class MessageDispatcher
 
 	private class MessageEntry
 	{
-		public final Message message;
+		public final Message_out message;
 		public final int threshold;
 		public int ageMs;
 
-		public MessageEntry(Message message)
+		public MessageEntry(Message_out message)
 		{
 			this.message = message;
 			this.threshold = thresholds[message.getToken().getUrgency()];
@@ -39,7 +39,7 @@ public class MessageDispatcher
 		this.list = new ArrayList<MessageEntry>();
 	}
 
-	public void addMessage(Message m)
+	public void addMessage(Message_out m)
 	{
 		list.add(new MessageEntry(m));
 	}
