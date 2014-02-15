@@ -5,13 +5,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.heap.Heap;
+import xoric.prism.data.heap.Heap_r;
+import xoric.prism.data.heap.Heap_w;
 
 public abstract class HeapPacker_s
 {
 	private static final byte buf[] = new byte[9];
 
-	public static synchronized void pack_s(OutputStream stream, Heap heap, int floatDecimals) throws IOException, PrismException
+	public static synchronized void pack_s(OutputStream stream, Heap_w heap, int floatDecimals) throws IOException, PrismException
 	{
 		int mode = calcMode_s(heap);
 		int i = heap.ints.size();
@@ -60,7 +61,7 @@ public abstract class HeapPacker_s
 			TextPacker.pack_s(stream, heap.texts.get(j));
 	}
 
-	public static synchronized void unpack_s(InputStream stream, int floatDecimals, Heap heap) throws IOException, PrismException
+	public static synchronized void unpack_s(InputStream stream, int floatDecimals, Heap_r heap) throws IOException, PrismException
 	{
 		// reset heap
 		heap.ints.clear();

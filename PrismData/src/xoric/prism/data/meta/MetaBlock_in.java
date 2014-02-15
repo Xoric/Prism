@@ -2,68 +2,31 @@ package xoric.prism.data.meta;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import xoric.prism.data.exceptions.IInfoLayer;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
-import xoric.prism.data.packable.IPackable;
+import xoric.prism.data.packable.IPackable_in;
 import xoric.prism.data.packable.IntPacker;
 
-public class MetaBlock implements IPackable, IInfoLayer
+public class MetaBlock_in extends MetaBlockBase implements IPackable_in, IInfoLayer
 {
-	private MetaType metaType;
-	private int version;
-	private final List<MetaLine> list;
+	private final List<MetaLine_in> list;
 
 	private IInfoLayer uplink;
 
-	public MetaBlock()
+	public MetaBlock_in()
 	{
 		this.metaType = MetaType.COMMON;
-		this.list = new ArrayList<MetaLine>();
-	}
-
-	public MetaBlock(MetaType metaType, int version)
-	{
-		this.metaType = metaType;
-		this.version = version;
-		this.list = new ArrayList<MetaLine>();
+		this.list = new ArrayList<MetaLine_in>();
 	}
 
 	@Override
-	public String toString()
-	{
-		return list.size() + " line(s)";
-	}
-
 	public int getLineCount()
 	{
 		return list.size();
-	}
-
-	public MetaType getMetaType()
-	{
-		return metaType;
-	}
-
-	public int getVersion()
-	{
-		return version;
-	}
-
-	public void addMetaLine(MetaLine metaLine)
-	{
-		this.list.add(metaLine);
-		metaLine.setUplink(this);
-	}
-
-	public void insertMetaLine(int index, MetaLine metaLine)
-	{
-		this.list.add(index, metaLine);
-		metaLine.setUplink(this);
 	}
 
 	public int findNextIndex(MetaKey key, int startIndex)
@@ -75,19 +38,19 @@ public class MetaBlock implements IPackable, IInfoLayer
 		return -1;
 	}
 
-	public MetaLine getMetaLine(int index)
+	public MetaLine_in getMetaLine(int index)
 	{
 		return list.get(index);
 	}
 
-	public List<MetaLine> getMetaLines()
+	public List<MetaLine_in> getMetaLines()
 	{
 		return list;
 	}
 
-	public MetaLine claimLine(MetaKey key) throws PrismException
+	public MetaLine_in claimLine(MetaKey key) throws PrismException
 	{
-		for (MetaLine l : list)
+		for (MetaLine_in l : list)
 			if (l.getKey() == key)
 				return l;
 
@@ -102,11 +65,11 @@ public class MetaBlock implements IPackable, IInfoLayer
 		throw e;
 	}
 
-	public List<MetaLine> findLines(MetaKey key)
+	public List<MetaLine_in> findLines(MetaKey key)
 	{
-		List<MetaLine> list = new ArrayList<MetaLine>();
+		List<MetaLine_in> list = new ArrayList<MetaLine_in>();
 
-		for (MetaLine l : this.list)
+		for (MetaLine_in l : this.list)
 			if (l.getKey() == key)
 				list.add(l);
 
@@ -117,7 +80,7 @@ public class MetaBlock implements IPackable, IInfoLayer
 	{
 		int n = 0;
 
-		for (MetaLine l : list)
+		for (MetaLine_in l : list)
 			if (l.getKey() == key)
 				++n;
 
@@ -125,23 +88,11 @@ public class MetaBlock implements IPackable, IInfoLayer
 	}
 
 	@Override
-	public void pack(OutputStream stream) throws IOException, PrismException
-	{
-		// write metaType and number of lines
-		IntPacker.pack_s(stream, metaType.ordinal());
-		IntPacker.pack_s(stream, list.size());
-
-		// write lines
-		for (MetaLine l : list)
-			l.pack(stream);
-	}
-
-	@Override
 	public void unpack(InputStream stream) throws IOException, PrismException
 	{
 		// read metaType
 		int value = IntPacker.unpack_s(stream);
-		metaType = MetaType.values()[value]; // TODO: unsafe
+		metaType = MetaType.valueOf(value);
 
 		// read number of lines
 		value = IntPacker.unpack_s(stream);
@@ -149,8 +100,7 @@ public class MetaBlock implements IPackable, IInfoLayer
 		// read lines
 		for (int i = 0; i < value; ++i)
 		{
-			MetaLine l = new MetaLine();
-			l.setUplink(this);
+			MetaLine_in l = new MetaLine_in(this);
 			l.unpack(stream);
 			list.add(l);
 		}
@@ -168,6 +118,6 @@ public class MetaBlock implements IPackable, IInfoLayer
 		if (uplink != null)
 			uplink.addExceptionInfoTo(e);
 
-		e.code.addInfo("MetaBlock", metaType.toString());
+		e.code.addInfo(MetaType.class.getSimpleName(), metaType.toString());
 	}
 }
