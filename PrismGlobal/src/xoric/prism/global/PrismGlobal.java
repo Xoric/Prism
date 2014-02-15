@@ -7,7 +7,7 @@ import javax.swing.UIManager;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.FileTableDirectoryIndex;
 import xoric.prism.data.global.IPrismGlobal;
-import xoric.prism.data.heap.Heap;
+import xoric.prism.data.heap.Heap_in;
 import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Path;
@@ -64,7 +64,7 @@ public class PrismGlobal implements IPrismGlobal
 	}
 
 	@Override
-	public Heap getVersionHeap()
+	public Heap_in getVersionHeap()
 	{
 		return fileTable.getVersionHeap();
 	}

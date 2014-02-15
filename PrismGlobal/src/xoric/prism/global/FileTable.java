@@ -6,12 +6,12 @@ import java.util.List;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.global.FileTableDirectoryIndex;
-import xoric.prism.data.heap.Heap;
-import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.meta.MetaBlock_in;
 import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.meta.MetaKey;
-import xoric.prism.data.meta.MetaLine;
-import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaLine_in;
+import xoric.prism.data.meta.MetaList_in;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.IPath_r;
 
@@ -22,7 +22,7 @@ public class FileTable
 
 	private final IPath_r dataPath;
 	private final List<FileTableDirectory> list;
-	private Heap versionHeap;
+	private Heap_in versionHeap;
 
 	public FileTable(IPath_r dataPath)
 	{
@@ -36,12 +36,12 @@ public class FileTable
 
 		MetaFile f = new MetaFile(dataPath, filename);
 		f.load();
-		MetaList metaList = f.getMetaList();
-		MetaBlock metaBlock = metaList.claimMetaBlock(MetaType.TOC);
+		MetaList_in metaList = f.getMetaList();
+		MetaBlock_in metaBlock = metaList.claimMetaBlock(MetaType.TOC);
 
 		FileTableDirectory currentDir = null;
 
-		for (MetaLine l : metaBlock.getMetaLines())
+		for (MetaLine_in l : metaBlock.getMetaLines())
 		{
 			currentDir = interpretLine(currentDir, l);
 		}
@@ -49,7 +49,7 @@ public class FileTable
 
 	public void createVersionHeap() throws PrismException
 	{
-		versionHeap = new Heap();
+		versionHeap = new Heap_in();
 
 		for (FileTableDirectory d : list)
 		{
@@ -62,12 +62,12 @@ public class FileTable
 		}
 	}
 
-	public Heap getVersionHeap()
+	public Heap_in getVersionHeap()
 	{
 		return versionHeap;
 	}
 
-	public FileTableDirectory interpretLine(FileTableDirectory currentDir, MetaLine metaLine) throws PrismException
+	public FileTableDirectory interpretLine(FileTableDirectory currentDir, MetaLine_in metaLine) throws PrismException
 	{
 		MetaKey key = metaLine.getKey();
 
@@ -82,10 +82,10 @@ public class FileTable
 		return currentDir;
 	}
 
-	private FileTableDirectory loadDirectoryLine(MetaLine metaLine) throws PrismException
+	private FileTableDirectory loadDirectoryLine(MetaLine_in metaLine) throws PrismException
 	{
 		metaLine.ensureMinima(0, 0, 1);
-		Heap h = metaLine.getHeap();
+		Heap_in h = metaLine.getHeap();
 		String dir = h.texts.get(0).toString().toLowerCase();
 		FileTableDirectory d = new FileTableDirectory(dir);
 		list.add(d);
@@ -93,7 +93,7 @@ public class FileTable
 		return d;
 	}
 
-	private void loadFileLine(FileTableDirectory currentDir, MetaLine metaLine) throws PrismException
+	private void loadFileLine(FileTableDirectory currentDir, MetaLine_in metaLine) throws PrismException
 	{
 		if (currentDir == null)
 		{
@@ -109,7 +109,7 @@ public class FileTable
 		}
 
 		metaLine.ensureMinima(0, 0, 1);
-		Heap h = metaLine.getHeap();
+		Heap_in h = metaLine.getHeap();
 		String s = h.texts.get(0).toString().toLowerCase();
 
 		String filename = currentDir.getPath().getFile(s).toString().replace('\\', '/');
