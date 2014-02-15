@@ -9,20 +9,18 @@ public enum UIIdentifier
 
 	private static final UIIdentifier[] VALUES = values();
 
-	public static UIIdentifier valueOf(int v) throws PrismException
+	public static UIIdentifier valueOf(int index) throws PrismException
 	{
-		if (v < 0 || v >= VALUES.length)
+		if (index < 0 || index >= VALUES.length)
 		{
 			PrismException e = new PrismException();
 			// ----
 			e.user.setText(UserErrorText.INTERNAL_PROBLEM);
 			// ----
-			e.code.setText("error while converting int to " + UIIdentifier.class.toString());
-			e.code.addInfo("value", v);
-			e.code.addInfo("enum count", VALUES.length);
+			e.code.setText("error while converting int (" + index + ") to " + UIIdentifier.class.getSimpleName());
 			// ----
 			throw e;
 		}
-		return VALUES[v];
+		return VALUES[index];
 	}
 }
