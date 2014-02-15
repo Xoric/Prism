@@ -7,10 +7,11 @@ import java.util.List;
 import xoric.prism.creator.common.factory.SuccessMessage;
 import xoric.prism.creator.models.model.ModelModel;
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.meta.MetaBlock_out;
 import xoric.prism.data.meta.MetaKey;
-import xoric.prism.data.meta.MetaLine;
-import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaLine_out;
+import xoric.prism.data.meta.MetaList_in;
+import xoric.prism.data.meta.MetaList_out;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Text;
@@ -71,8 +72,8 @@ public class ModelGenerator
 
 		// create required MetaBlocks
 		IPath_r path = model.getPath();
-		MetaBlock devBlock = new MetaBlock(MetaType.DEVELOP, 0);
-		MetaBlock modelBlock = new MetaBlock(MetaType.MODEL_G, 0);
+		MetaBlock_out devBlock = new MetaBlock_out(MetaType.DEVELOP, 0);
+		MetaBlock_out modelBlock = new MetaBlock_out(MetaType.MODEL_G, 0);
 
 		// insert sprite size
 		addSpriteSize(modelBlock);
@@ -93,18 +94,21 @@ public class ModelGenerator
 		}
 
 		// add target file
-		MetaLine targetLine = new MetaLine(MetaKey.TARGET);
+		MetaLine_out targetLine = new MetaLine_out(MetaKey.TARGET);
 		targetLine.getHeap().texts.add(new Text(targetFilename));
 		devBlock.addMetaLine(targetLine);
 
 		// create MetaList
-		MetaList metaList = new MetaList();
-		metaList.addMetaBlock(modelBlock);
-		metaList.addMetaBlock(devBlock);
+		MetaList_out metaList_out = new MetaList_out();
+		metaList_out.addMetaBlock(modelBlock);
+		metaList_out.addMetaBlock(devBlock);
+
+		// convert MetaList to _in
+		MetaList_in metaList_in = new MetaList_in(metaList_out);
 
 		// pass information to MetaFileCreator
 		MetaFileCreator c = new MetaFileCreator(path, path);
-		c.infuseMetaList(metaList);
+		c.infuseMetaList(metaList_in);
 		c.create();
 
 		// get target file
@@ -114,7 +118,7 @@ public class ModelGenerator
 		return result;
 	}
 
-	private void addPortrait(IPath_r path, MetaBlock devBlock, MetaBlock modelBlock, ModelResult result)
+	private void addPortrait(IPath_r path, MetaBlock_out devBlock, MetaBlock_out modelBlock, ModelResult result)
 	{
 		final String filename = "portrait.png";
 		File portraitFile = path.getFile(filename);
@@ -122,25 +126,25 @@ public class ModelGenerator
 		if (portraitFile.exists())
 		{
 			// add portrait line
-			MetaLine portraitLine = new MetaLine(MetaKey.ALT);
+			MetaLine_out portraitLine = new MetaLine_out(MetaKey.ALT);
 			modelBlock.addMetaLine(portraitLine);
 
 			// add portrait image
-			MetaLine attachLine = new MetaLine(MetaKey.ATTACH);
+			MetaLine_out attachLine = new MetaLine_out(MetaKey.ATTACH);
 			attachLine.getHeap().texts.add(new Text(filename));
 			devBlock.addMetaLine(attachLine);
 		}
 	}
 
-	private void addSpriteSize(MetaBlock modelBlock)
+	private void addSpriteSize(MetaBlock_out modelBlock)
 	{
-		MetaLine sizeLine = new MetaLine(MetaKey.SIZE);
+		MetaLine_out sizeLine = new MetaLine_out(MetaKey.SIZE);
 		sizeLine.getHeap().ints.add(model.getSpriteSize().getX());
 		sizeLine.getHeap().ints.add(model.getSpriteSize().getY());
 		modelBlock.insertMetaLine(0, sizeLine);
 	}
 
-	private void addAnimation(IPath_r path, AnimationIndex a, MetaBlock devBlock, MetaBlock modelBlock, ModelResult result)
+	private void addAnimation(IPath_r path, AnimationIndex a, MetaBlock_out devBlock, MetaBlock_out modelBlock, ModelResult result)
 			throws PrismException
 	{
 		int variation = 0;
@@ -158,7 +162,7 @@ public class ModelGenerator
 		while (b);
 	}
 
-	private boolean addVariation(IPath_r path, AnimationIndex a, int variation, MetaBlock devBlock, MetaBlock modelBlock)
+	private boolean addVariation(IPath_r path, AnimationIndex a, int variation, MetaBlock_out devBlock, MetaBlock_out modelBlock)
 			throws PrismException
 	{
 		// generate filenames
@@ -169,7 +173,7 @@ public class ModelGenerator
 		if (wasFound)
 		{
 			// add animation line
-			MetaLine animLine = new MetaLine(MetaKey.ITEM);
+			MetaLine_out animLine = new MetaLine_out(MetaKey.ITEM);
 			animLine.getHeap().ints.add(a.ordinal());
 			modelBlock.addMetaLine(animLine);
 
@@ -177,14 +181,14 @@ public class ModelGenerator
 			AnimationMeta meta = loadVariationMeta(path, a, variation);
 			for (int i = 0; i < meta.getCount(); ++i)
 			{
-				MetaLine angleLine = new MetaLine(MetaKey.SUB);
+				MetaLine_out angleLine = new MetaLine_out(MetaKey.SUB);
 				angleLine.getHeap().ints.add(meta.getAngle(i).ordinal());
 				angleLine.getHeap().ints.add(meta.getColumnCount(i));
 				modelBlock.addMetaLine(angleLine);
 			}
 
 			// add animation image
-			MetaLine attachLine = new MetaLine(MetaKey.ATTACH);
+			MetaLine_out attachLine = new MetaLine_out(MetaKey.ATTACH);
 			attachLine.getHeap().texts.add(new Text(filename));
 			devBlock.addMetaLine(attachLine);
 		}
