@@ -7,24 +7,24 @@ import java.util.List;
 import xoric.prism.data.exceptions.IInfoLayer;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
-import xoric.prism.data.heap.Heap_r;
+import xoric.prism.data.heap.Heap_in;
 import xoric.prism.data.packable.HeapPacker_s;
 import xoric.prism.data.packable.IPackable_in;
 import xoric.prism.data.packable.IntPacker;
 
 public class MetaLine_in extends MetaLineBase implements IInfoLayer, IPackable_in
 {
-	private final Heap_r heap;
+	private final Heap_in heap;
 	private IInfoLayer uplink;
 
 	public MetaLine_in(IInfoLayer uplink)
 	{
-		this.heap = new Heap_r();
+		this.heap = new Heap_in();
 		setUplink(uplink);
 	}
 
 	@Override
-	public Heap_r getHeap()
+	public Heap_in getHeap()
 	{
 		return heap;
 	}

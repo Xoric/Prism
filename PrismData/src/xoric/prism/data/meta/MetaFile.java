@@ -16,7 +16,7 @@ public class MetaFile implements IInfoLayer
 	private final String filename;
 	private int localFileVersion;
 	private MetaTimeStamp timeStamp;
-	private MetaList metaList;
+	private MetaList_in metaList;
 	private AttachmentLoader attachmentLoader;
 
 	public MetaFile(IPath_r path, String filename)
@@ -26,11 +26,11 @@ public class MetaFile implements IInfoLayer
 		this.file = path.getFile(filename);
 		this.localFileVersion = 0;
 		this.timeStamp = new MetaTimeStamp();
-		this.metaList = new MetaList();
+		this.metaList = new MetaList_in();
 		this.metaList.setUplink(this);
 	}
 
-	public void setMetaList(MetaList metaList)
+	public void setMetaList(MetaList_in metaList)
 	{
 		this.metaList = metaList;
 		this.metaList.setUplink(this);
@@ -104,7 +104,7 @@ public class MetaFile implements IInfoLayer
 		return attachmentLoader;
 	}
 
-	public MetaList getMetaList()
+	public MetaList_in getMetaList()
 	{
 		return metaList;
 	}

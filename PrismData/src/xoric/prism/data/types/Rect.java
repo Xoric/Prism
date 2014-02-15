@@ -5,7 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.heap.Heap;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.heap.Heap_out;
 import xoric.prism.data.heap.IStackable;
 import xoric.prism.data.packable.IPackable;
 
@@ -97,14 +98,14 @@ public class Rect implements IRect_r, IStackable, IPackable
 	}
 
 	@Override
-	public void appendTo(Heap h)
+	public void appendTo(Heap_out h)
 	{
 		position.appendTo(h);
 		size.appendTo(h);
 	}
 
 	@Override
-	public void extractFrom(Heap h)
+	public void extractFrom(Heap_in h)
 	{
 		position.extractFrom(h);
 		size.extractFrom(h);

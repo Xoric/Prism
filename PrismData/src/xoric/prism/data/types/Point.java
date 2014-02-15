@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import xoric.prism.data.heap.Heap;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.heap.Heap_out;
 import xoric.prism.data.heap.IStackable;
 import xoric.prism.data.packable.IPackable;
 import xoric.prism.data.packable.IntPacker;
@@ -49,14 +50,14 @@ public class Point implements IStackable, IPackable, IPoint_r
 	}
 
 	@Override
-	public void appendTo(Heap h)
+	public void appendTo(Heap_out h)
 	{
 		h.ints.add(x);
 		h.ints.add(y);
 	}
 
 	@Override
-	public void extractFrom(Heap h)
+	public void extractFrom(Heap_in h)
 	{
 		x = h.nextInt();
 		y = h.nextInt();

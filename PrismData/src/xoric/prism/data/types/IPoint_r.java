@@ -1,8 +1,8 @@
 package xoric.prism.data.types;
 
-import xoric.prism.data.heap.IStackable_r;
+import xoric.prism.data.heap.IStackable_out;
 
-public interface IPoint_r extends IStackable_r
+public interface IPoint_r extends IStackable_out
 {
 	public int getX();
 

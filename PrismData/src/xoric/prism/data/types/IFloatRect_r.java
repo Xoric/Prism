@@ -1,8 +1,8 @@
 package xoric.prism.data.types;
 
-import xoric.prism.data.heap.IStackable_r;
+import xoric.prism.data.heap.IStackable_out;
 
-public interface IFloatRect_r extends IStackable_r
+public interface IFloatRect_r extends IStackable_out
 {
 	public IFloatPoint_r getTopLeft();
 

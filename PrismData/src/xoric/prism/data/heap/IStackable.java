@@ -1,6 +1,5 @@
 package xoric.prism.data.heap;
 
-public interface IStackable extends IStackable_r
+public interface IStackable extends IStackable_in, IStackable_out
 {
-	public void extractFrom(Heap h);
 }

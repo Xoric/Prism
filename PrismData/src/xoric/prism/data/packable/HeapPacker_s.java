@@ -5,14 +5,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.heap.Heap_r;
-import xoric.prism.data.heap.Heap_w;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.heap.Heap_out;
 
 public abstract class HeapPacker_s
 {
 	private static final byte buf[] = new byte[9];
 
-	public static synchronized void pack_s(OutputStream stream, Heap_w heap, int floatDecimals) throws IOException, PrismException
+	public static synchronized void pack_s(OutputStream stream, Heap_out heap, int floatDecimals) throws IOException, PrismException
 	{
 		int mode = calcMode_s(heap);
 		int i = heap.ints.size();
@@ -61,7 +61,7 @@ public abstract class HeapPacker_s
 			TextPacker.pack_s(stream, heap.texts.get(j));
 	}
 
-	public static synchronized void unpack_s(InputStream stream, int floatDecimals, Heap_r heap) throws IOException, PrismException
+	public static synchronized void unpack_s(InputStream stream, int floatDecimals, Heap_in heap) throws IOException, PrismException
 	{
 		// reset heap
 		heap.ints.clear();
@@ -121,14 +121,14 @@ public abstract class HeapPacker_s
 			heap.texts.add(TextPacker.unpack_s(stream));
 	}
 
-	public static Heap unpack_s(InputStream stream, int floatDecimals) throws IOException, PrismException
+	public static Heap_in unpack_s(InputStream stream, int floatDecimals) throws IOException, PrismException
 	{
-		Heap heap = new Heap();
+		Heap_in heap = new Heap_in();
 		unpack_s(stream, floatDecimals, heap);
 		return heap;
 	}
 
-	public static int calcPackedSize_s(Heap heap, int floatDecimals) throws PrismException
+	public static int calcPackedSize_s(Heap_out heap, int floatDecimals) throws PrismException
 	{
 		int mode = calcMode_s(heap);
 		int bytes;
@@ -152,7 +152,7 @@ public abstract class HeapPacker_s
 		return bytes;
 	}
 
-	private static int calcMode_s(Heap heap)
+	private static int calcMode_s(Heap_out heap)
 	{
 		int mode;
 		int i = heap.ints.size();

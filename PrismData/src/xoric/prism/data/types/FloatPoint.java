@@ -1,6 +1,7 @@
 package xoric.prism.data.types;
 
-import xoric.prism.data.heap.Heap;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.heap.Heap_out;
 import xoric.prism.data.heap.IStackable;
 
 public class FloatPoint implements IStackable, IFloatPoint_r
@@ -63,14 +64,14 @@ public class FloatPoint implements IStackable, IFloatPoint_r
 	}
 
 	@Override
-	public void appendTo(Heap h)
+	public void appendTo(Heap_out h)
 	{
 		h.floats.add(x);
 		h.floats.add(y);
 	}
 
 	@Override
-	public void extractFrom(Heap h)
+	public void extractFrom(Heap_in h)
 	{
 		x = h.nextFloat();
 		y = h.nextFloat();
