@@ -4,7 +4,7 @@ import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.heap.HeapBase;
 
-abstract class MessageBase
+public abstract class MessageBase
 {
 	public static final byte startByte = (byte) 233;
 	public static final int maximumBufferSize = 256;
