@@ -5,11 +5,11 @@ import java.util.List;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
-import xoric.prism.data.heap.Heap;
-import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.meta.MetaBlock_in;
 import xoric.prism.data.meta.MetaKey;
-import xoric.prism.data.meta.MetaLine;
-import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaLine_in;
+import xoric.prism.data.meta.MetaList_in;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
@@ -20,7 +20,7 @@ import xoric.prism.scene.textures.ArtMeta;
 public class CollectionMeta extends ArtMeta
 {
 	private FloatPoint textureSize;
-	private List<ObjectMeta> objects;
+	private final List<ObjectMeta> objects;
 
 	public CollectionMeta()
 	{
@@ -28,13 +28,13 @@ public class CollectionMeta extends ArtMeta
 	}
 
 	@Override
-	public void load(MetaList metaList) throws PrismException
+	public void load(MetaList_in metaList) throws PrismException
 	{
 		objects.clear();
-		MetaBlock mb = metaList.claimMetaBlock(MetaType.COLLECTION);
+		MetaBlock_in mb = metaList.claimMetaBlock(MetaType.COLLECTION);
 		ObjectMeta om = null;
 
-		for (MetaLine ml : mb.getMetaLines())
+		for (MetaLine_in ml : mb.getMetaLines())
 		{
 			om = interpretLine(om, ml);
 		}
@@ -53,7 +53,7 @@ public class CollectionMeta extends ArtMeta
 		return objects.get(index);
 	}
 
-	private ObjectMeta interpretLine(ObjectMeta om, MetaLine ml) throws PrismException
+	private ObjectMeta interpretLine(ObjectMeta om, MetaLine_in ml) throws PrismException
 	{
 		MetaKey key = ml.getKey();
 
@@ -76,16 +76,16 @@ public class CollectionMeta extends ArtMeta
 		return om;
 	}
 
-	private void interpretSize(MetaLine ml) throws PrismException
+	private void interpretSize(MetaLine_in ml) throws PrismException
 	{
 		ml.ensureMinima(2, 0, 0);
-		Heap h = ml.getHeap();
+		Heap_in h = ml.getHeap();
 		int width = h.ints.get(0);
 		int height = h.ints.get(1);
 		textureSize = new FloatPoint(width, height);
 	}
 
-	private void ensureSizeIsSet(MetaLine ml) throws PrismException
+	private void ensureSizeIsSet(MetaLine_in ml) throws PrismException
 	{
 		if (textureSize == null)
 		{
@@ -97,11 +97,11 @@ public class CollectionMeta extends ArtMeta
 		}
 	}
 
-	private ObjectMeta interpretItem(MetaLine ml) throws PrismException
+	private ObjectMeta interpretItem(MetaLine_in ml) throws PrismException
 	{
 		ml.ensureMinima(2, 0, 1);
 		ensureSizeIsSet(ml);
-		Heap h = ml.getHeap();
+		Heap_in h = ml.getHeap();
 		IText_r name = h.texts.get(0);
 		int width = h.ints.get(0);
 		int height = h.ints.get(1);
@@ -115,11 +115,11 @@ public class CollectionMeta extends ArtMeta
 		return om;
 	}
 
-	private void interpretAlt(ObjectMeta om, MetaLine ml) throws PrismException
+	private void interpretAlt(ObjectMeta om, MetaLine_in ml) throws PrismException
 	{
 		ml.ensureMinima(4, 0, 0);
 		ensureSizeIsSet(ml);
-		Heap h = ml.getHeap();
+		Heap_in h = ml.getHeap();
 		Rect rect = new Rect();
 		rect.extractFrom(h);
 		float fx = rect.getX() / textureSize.x;
@@ -131,11 +131,11 @@ public class CollectionMeta extends ArtMeta
 		om.addSubRect(rectFraction, size, ml);
 	}
 
-	private void interpretSub(ObjectMeta om, MetaLine ml) throws PrismException
+	private void interpretSub(ObjectMeta om, MetaLine_in ml) throws PrismException
 	{
 		ml.ensureMinima(2, 0, 0);
 		ensureSizeIsSet(ml);
-		Heap h = ml.getHeap();
+		Heap_in h = ml.getHeap();
 		float x = h.ints.get(0);
 		float y = h.ints.get(1);
 		float fx = x / textureSize.x;

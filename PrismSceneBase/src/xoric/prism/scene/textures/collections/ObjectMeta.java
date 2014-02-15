@@ -5,7 +5,7 @@ import java.util.List;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
-import xoric.prism.data.meta.MetaLine;
+import xoric.prism.data.meta.MetaLine_in;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
@@ -59,7 +59,7 @@ public class ObjectMeta
 		return instances.size();
 	}
 
-	public void addSubRect(FloatRect rect, IFloatPoint_r size, MetaLine ml) throws PrismException
+	public void addSubRect(FloatRect rect, IFloatPoint_r size, MetaLine_in ml) throws PrismException
 	{
 		if (instances.size() > 0)
 		{

@@ -1,10 +1,10 @@
 package xoric.prism.scene.materials;
 
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.meta.MetaBlock_in;
 import xoric.prism.data.meta.MetaKey;
-import xoric.prism.data.meta.MetaLine;
-import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaLine_in;
+import xoric.prism.data.meta.MetaList_in;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
@@ -121,10 +121,10 @@ public class Printer implements IMetaChild
 	}
 
 	@Override
-	public void load(MetaList metaList) throws PrismException
+	public void load(MetaList_in metaList) throws PrismException
 	{
-		MetaBlock mb = metaList.claimMetaBlock(MetaType.COMMON);
-		MetaLine ml = mb.claimLine(MetaKey.SIZE);
+		MetaBlock_in mb = metaList.claimMetaBlock(MetaType.COMMON);
+		MetaLine_in ml = mb.claimLine(MetaKey.SIZE);
 		ml.ensureMinima(padding.length, 0, 0);
 
 		for (int i = 0; i < padding.length; ++i)

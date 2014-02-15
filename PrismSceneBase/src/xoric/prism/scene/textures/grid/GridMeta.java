@@ -5,10 +5,10 @@ import java.util.List;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
-import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.meta.MetaBlock_in;
 import xoric.prism.data.meta.MetaKey;
-import xoric.prism.data.meta.MetaLine;
-import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaLine_in;
+import xoric.prism.data.meta.MetaList_in;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
@@ -30,15 +30,15 @@ public class GridMeta extends ArtMeta
 	}
 
 	@Override
-	public void load(MetaList metaList) throws PrismException
+	public void load(MetaList_in metaList) throws PrismException
 	{
 		rects.clear();
 		columnCount = 0;
 
-		MetaBlock mb = metaList.claimMetaBlock(MetaType.GRID);
+		MetaBlock_in mb = metaList.claimMetaBlock(MetaType.GRID);
 		IFloatPoint_r textureSize = null;
 
-		for (MetaLine ml : mb.getMetaLines())
+		for (MetaLine_in ml : mb.getMetaLines())
 		{
 			textureSize = interpretLine(textureSize, ml);
 		}
@@ -59,7 +59,7 @@ public class GridMeta extends ArtMeta
 		return rects.size();
 	}
 
-	private IFloatPoint_r interpretLine(IFloatPoint_r textureSize, MetaLine ml) throws PrismException
+	private IFloatPoint_r interpretLine(IFloatPoint_r textureSize, MetaLine_in ml) throws PrismException
 	{
 		MetaKey key = ml.getKey();
 
@@ -82,14 +82,14 @@ public class GridMeta extends ArtMeta
 		return textureSize;
 	}
 
-	private IText_r interpretItem(MetaLine ml) throws PrismException
+	private IText_r interpretItem(MetaLine_in ml) throws PrismException
 	{
 		ml.ensureMinima(0, 0, 1);
 		IText_r name = ml.getHeap().texts.get(0);
 		return name;
 	}
 
-	private IFloatPoint_r interpretSize(MetaLine ml) throws PrismException
+	private IFloatPoint_r interpretSize(MetaLine_in ml) throws PrismException
 	{
 		ml.ensureMinima(4, 0, 0);
 		int w = ml.getHeap().ints.get(0);
@@ -103,14 +103,14 @@ public class GridMeta extends ArtMeta
 		return textureSize;
 	}
 
-	private int interpretAlt(MetaLine ml) throws PrismException
+	private int interpretAlt(MetaLine_in ml) throws PrismException
 	{
 		ml.ensureMinima(1, 0, 0);
 		int columnCount = ml.getHeap().ints.get(0);
 		return columnCount;
 	}
 
-	private void interpretCount(MetaLine ml, IFloatPoint_r textureSize) throws PrismException
+	private void interpretCount(MetaLine_in ml, IFloatPoint_r textureSize) throws PrismException
 	{
 		ml.ensureMinima(1, 0, 0);
 		ensureColumnSpriteSizeIsSet(ml);
@@ -134,7 +134,7 @@ public class GridMeta extends ArtMeta
 		}
 	}
 
-	private void ensureColumnCountIsSet(MetaLine ml) throws PrismException
+	private void ensureColumnCountIsSet(MetaLine_in ml) throws PrismException
 	{
 		if (columnCount <= 0)
 		{
@@ -146,7 +146,7 @@ public class GridMeta extends ArtMeta
 		}
 	}
 
-	private void ensureColumnSpriteSizeIsSet(MetaLine ml) throws PrismException
+	private void ensureColumnSpriteSizeIsSet(MetaLine_in ml) throws PrismException
 	{
 		if (spriteSize == null)
 		{
@@ -158,7 +158,7 @@ public class GridMeta extends ArtMeta
 		}
 	}
 
-	private void ensureTextureSizeIsSet(MetaLine ml, IFloatPoint_r textureSize) throws PrismException
+	private void ensureTextureSizeIsSet(MetaLine_in ml, IFloatPoint_r textureSize) throws PrismException
 	{
 		if (textureSize == null)
 		{

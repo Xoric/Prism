@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.meta.MetaFile;
-import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaList_in;
 
 public abstract class Art
 {
@@ -37,7 +37,7 @@ public abstract class Art
 		loadMeta(metaFile.getMetaList());
 	}
 
-	protected abstract void loadMeta(MetaList metaList) throws PrismException;
+	protected abstract void loadMeta(MetaList_in metaList) throws PrismException;
 
 	public abstract ArtMeta getMeta();
 

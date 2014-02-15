@@ -2,7 +2,7 @@ package xoric.prism.scene.textures.grid;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.meta.MetaFile;
-import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaList_in;
 import xoric.prism.scene.textures.Art;
 
 public class GridArt extends Art
@@ -15,7 +15,7 @@ public class GridArt extends Art
 	}
 
 	@Override
-	protected void loadMeta(MetaList metaList) throws PrismException
+	protected void loadMeta(MetaList_in metaList) throws PrismException
 	{
 		meta = new GridMeta();
 		meta.load(metaList);

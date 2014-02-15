@@ -2,7 +2,7 @@ package xoric.prism.scene.textures.collections;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.meta.MetaFile;
-import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaList_in;
 import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.scene.textures.Art;
 import xoric.prism.scene.textures.ITexture;
@@ -18,7 +18,7 @@ public class CollectionArt extends Art
 	}
 
 	@Override
-	public void loadMeta(MetaList metaList) throws PrismException
+	public void loadMeta(MetaList_in metaList) throws PrismException
 	{
 		meta = new CollectionMeta();
 		meta.load(metaList);

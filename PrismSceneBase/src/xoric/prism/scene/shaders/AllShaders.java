@@ -8,7 +8,7 @@ import xoric.prism.data.global.Prism;
 import xoric.prism.data.global.ShaderIndex;
 import xoric.prism.data.meta.AttachmentLoader;
 import xoric.prism.data.meta.MetaFile;
-import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaList_in;
 import xoric.prism.data.meta.MetaType;
 
 public class AllShaders
@@ -32,7 +32,7 @@ public class AllShaders
 	{
 		MetaFile mf = Prism.global.loadMetaFile(FileTableDirectoryIndex.SHADER, si.ordinal());
 		mf.load();
-		MetaList ml = mf.getMetaList();
+		MetaList_in ml = mf.getMetaList();
 		ml.claimMetaBlock(MetaType.SHADER);
 		AttachmentLoader al = mf.getAttachmentLoader();
 
