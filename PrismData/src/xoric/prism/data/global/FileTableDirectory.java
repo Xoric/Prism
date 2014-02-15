@@ -1,6 +1,6 @@
 package xoric.prism.data.global;
 
-public enum FileTableDirectoryIndex
+public enum FileTableDirectory
 {
 	COMMON, DEV, SHADER, UI
 }
