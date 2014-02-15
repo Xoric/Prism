@@ -14,10 +14,10 @@ import xoric.prism.creator.custom.control.CollectionSpriteNameGenerator;
 import xoric.prism.creator.custom.model.CollectionModel;
 import xoric.prism.creator.custom.model.ObjectModel;
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.heap.Heap;
-import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.heap.Heap_out;
+import xoric.prism.data.meta.MetaBlock_out;
 import xoric.prism.data.meta.MetaKey;
-import xoric.prism.data.meta.MetaLine;
+import xoric.prism.data.meta.MetaLine_out;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.Rect;
@@ -26,8 +26,8 @@ import com.ryanm.droid.rugl.util.RectanglePacker;
 
 public class TextureGenerator implements Runnable
 {
-	private CollectionModel model;
-	private ICreatorFrame frame;
+	private final CollectionModel model;
+	private final ICreatorFrame frame;
 
 	private static Thread thread;
 
@@ -100,7 +100,7 @@ public class TextureGenerator implements Runnable
 
 		// create the texture
 		frame.increaseChapter();
-		MetaBlock mb = new MetaBlock(MetaType.COLLECTION, 0);
+		MetaBlock_out mb = new MetaBlock_out(MetaType.COLLECTION, 0);
 		BufferedImage bi = createTexture(bestSolution, objects, n, mb);
 
 		// write the texture
@@ -140,7 +140,7 @@ public class TextureGenerator implements Runnable
 		}
 	}
 
-	private BufferedImage createTexture(IOptimizerResults solution, List<ObjectImages> objects, int imageCount, MetaBlock mb)
+	private BufferedImage createTexture(IOptimizerResults solution, List<ObjectImages> objects, int imageCount, MetaBlock_out mb)
 			throws PrismException
 	{
 		IPoint_r size = solution.getActualSize();
@@ -149,8 +149,8 @@ public class TextureGenerator implements Runnable
 		Graphics2D g = out.createGraphics();
 
 		// update meta data: add size
-		MetaLine ml = new MetaLine(MetaKey.SIZE);
-		Heap h = ml.getHeap();
+		MetaLine_out ml = new MetaLine_out(MetaKey.SIZE);
+		Heap_out h = ml.getHeap();
 		h.ints.add(size.getX());
 		h.ints.add(size.getY());
 		mb.addMetaLine(ml);
@@ -173,7 +173,7 @@ public class TextureGenerator implements Runnable
 			}
 
 			// update meta data: add object
-			ml = new MetaLine(MetaKey.ITEM);
+			ml = new MetaLine_out(MetaKey.ITEM);
 			h = ml.getHeap();
 			h.texts.add(m.getName());
 			h.ints.add(width);
@@ -183,7 +183,7 @@ public class TextureGenerator implements Runnable
 			// update meta data: add rects
 			for (int i = 0; i < m.getRectCount(); ++i)
 			{
-				ml = new MetaLine(MetaKey.ALT);
+				ml = new MetaLine_out(MetaKey.ALT);
 				m.getRect(i).appendTo(ml.getHeap());
 				mb.addMetaLine(ml);
 			}
@@ -202,7 +202,7 @@ public class TextureGenerator implements Runnable
 				}
 
 				// update meta data: add variation
-				ml = new MetaLine(MetaKey.SUB);
+				ml = new MetaLine_out(MetaKey.SUB);
 				r.getPosition().appendTo(ml.getHeap());
 				mb.addMetaLine(ml);
 
@@ -231,7 +231,7 @@ public class TextureGenerator implements Runnable
 		}
 	}
 
-	private void writeMeta(File metaFile, MetaBlock mb) throws PrismException
+	private void writeMeta(File metaFile, MetaBlock_out mb) throws PrismException
 	{
 		try
 		{

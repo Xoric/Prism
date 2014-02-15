@@ -6,10 +6,12 @@ import java.io.FileInputStream;
 import xoric.prism.creator.common.factory.SuccessMessage;
 import xoric.prism.creator.custom.model.CollectionModel;
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.meta.MetaBlock_in;
+import xoric.prism.data.meta.MetaBlock_out;
 import xoric.prism.data.meta.MetaKey;
-import xoric.prism.data.meta.MetaLine;
-import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaLine_out;
+import xoric.prism.data.meta.MetaList_in;
+import xoric.prism.data.meta.MetaList_out;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Text;
@@ -17,7 +19,7 @@ import xoric.prism.develop.meta.MetaFileCreator;
 
 public class CollectionGenerator
 {
-	private CollectionModel model;
+	private final CollectionModel model;
 
 	public CollectionGenerator(CollectionModel model)
 	{
@@ -43,33 +45,36 @@ public class CollectionGenerator
 	private File tryGenerate(String targetFilename) throws PrismException
 	{
 		// create dev MetaBlock
-		MetaBlock devBlock = new MetaBlock(MetaType.DEVELOP, 0);
+		MetaBlock_out devBlock = new MetaBlock_out(MetaType.DEVELOP, 0);
 
 		// load collection MetaBlock
-		MetaBlock collectionBlock = loadCollectionBlock();
+		MetaBlock_out collectionBlock = loadCollectionBlock();
 
 		// make sure texture is there
 		ensureTexture();
 
 		// add target file
-		MetaLine targetLine = new MetaLine(MetaKey.TARGET);
+		MetaLine_out targetLine = new MetaLine_out(MetaKey.TARGET);
 		targetLine.getHeap().texts.add(new Text(targetFilename));
 		devBlock.addMetaLine(targetLine);
 
 		// add texture
-		MetaLine attachLine = new MetaLine(MetaKey.ATTACH);
+		MetaLine_out attachLine = new MetaLine_out(MetaKey.ATTACH);
 		attachLine.getHeap().texts.add(new Text("TEXTURE.PNG"));
 		devBlock.addMetaLine(attachLine);
 
 		// create MetaList
-		MetaList metaList = new MetaList();
-		metaList.addMetaBlock(collectionBlock);
-		metaList.addMetaBlock(devBlock);
+		MetaList_out metaList_out = new MetaList_out();
+		metaList_out.addMetaBlock(collectionBlock);
+		metaList_out.addMetaBlock(devBlock);
+
+		// convert MetaList to _in
+		MetaList_in metaList_in = new MetaList_in(metaList_out);
 
 		// pass information to MetaFileCreator
 		IPath_r path = model.getPath();
 		MetaFileCreator c = new MetaFileCreator(path, path);
-		c.infuseMetaList(metaList);
+		c.infuseMetaList(metaList_in);
 		c.create();
 
 		// get target file
@@ -77,13 +82,14 @@ public class CollectionGenerator
 		return targetFile;
 	}
 
-	private MetaBlock loadCollectionBlock() throws PrismException
+	private MetaBlock_out loadCollectionBlock() throws PrismException
 	{
 		File file = model.getPath().getFile("texture.meta");
-		MetaBlock collectionBlock;
+		MetaBlock_in collectionBlock;
 		try
 		{
-			collectionBlock = new MetaBlock(MetaType.COLLECTION, 0);
+			collectionBlock = new MetaBlock_in();
+			//			collectionBlock = new MetaBlock_in(MetaType.COLLECTION, 0);
 			FileInputStream stream = new FileInputStream(file);
 			collectionBlock.unpack(stream);
 			stream.close();
@@ -95,7 +101,10 @@ public class CollectionGenerator
 			e.addInfo("file", file.toString());
 			throw e;
 		}
-		return collectionBlock;
+
+		MetaBlock_out c = new MetaBlock_out(collectionBlock);
+
+		return c;
 	}
 
 	private void ensureTexture() throws PrismException
