@@ -18,6 +18,14 @@ public class MetaList_out extends MetaListBase implements IPackable_out
 		blocks = new ArrayList<MetaBlock_out>();
 	}
 
+	public MetaList_out(MetaList_in metaList)
+	{
+		blocks = new ArrayList<MetaBlock_out>(metaList.getBlockCount());
+
+		for (int i = 0; i < metaList.getBlockCount(); ++i)
+			blocks.add(new MetaBlock_out(metaList.getMetaBlock(i)));
+	}
+
 	public void addMetaBlock(MetaBlock_out b)
 	{
 		blocks.add(b);

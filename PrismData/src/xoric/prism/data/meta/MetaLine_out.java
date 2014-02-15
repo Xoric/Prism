@@ -19,6 +19,12 @@ public class MetaLine_out extends MetaLineBase implements IPackable_out
 		this.heap = new Heap_out();
 	}
 
+	public MetaLine_out(MetaLine_in l)
+	{
+		this.key = l.key;
+		this.heap = new Heap_out(l.getHeap());
+	}
+
 	@Override
 	public Heap_out getHeap()
 	{

@@ -23,6 +23,12 @@ public class MetaLine_in extends MetaLineBase implements IInfoLayer, IPackable_i
 		setUplink(uplink);
 	}
 
+	public MetaLine_in(IInfoLayer uplink, MetaLine_out l)
+	{
+		this.heap = new Heap_in(l.getHeap());
+		setUplink(uplink);
+	}
+
 	@Override
 	public Heap_in getHeap()
 	{

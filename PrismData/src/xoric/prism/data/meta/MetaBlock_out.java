@@ -11,12 +11,21 @@ import xoric.prism.data.packable.IntPacker;
 
 public class MetaBlock_out extends MetaBlockBase implements IPackable_out
 {
-	private final List<MetaLine_out> list;
+	protected final List<MetaLine_out> list;
 
 	public MetaBlock_out(MetaType metaType, int version)
 	{
 		super(metaType, version);
 		this.list = new ArrayList<MetaLine_out>();
+	}
+
+	public MetaBlock_out(MetaBlock_in mb)
+	{
+		super(mb.metaType, mb.version);
+		this.list = new ArrayList<MetaLine_out>();
+
+		for (MetaLine_in l : mb.getMetaLines())
+			list.add(new MetaLine_out(l));
 	}
 
 	@Override

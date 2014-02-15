@@ -10,9 +10,9 @@ import javax.imageio.ImageIO;
 import xoric.prism.creator.common.factory.SuccessMessage;
 import xoric.prism.creator.grid.model.GridModel;
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.meta.MetaBlock_out;
 import xoric.prism.data.meta.MetaKey;
-import xoric.prism.data.meta.MetaLine;
+import xoric.prism.data.meta.MetaLine_out;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.Point;
@@ -52,7 +52,7 @@ public class TextureGenerator
 		Point counts = calcColumnsAndRows(w, h, n);
 
 		// create the texture
-		MetaBlock mb = new MetaBlock(MetaType.GRID, 0);
+		MetaBlock_out mb = new MetaBlock_out(MetaType.GRID, 0);
 		BufferedImage bi = createTexture(counts, n, mb);
 
 		// write the texture
@@ -106,7 +106,7 @@ public class TextureGenerator
 		return new Point(cBest, rBest);
 	}
 
-	private BufferedImage createTexture(IPoint_r counts, int n, MetaBlock mb) throws PrismException
+	private BufferedImage createTexture(IPoint_r counts, int n, MetaBlock_out mb) throws PrismException
 	{
 		IPoint_r spriteSize = model.getSpriteSize();
 		int width = spriteSize.getX() * counts.getX();
@@ -115,12 +115,12 @@ public class TextureGenerator
 		Graphics2D g = out.createGraphics();
 
 		// update meta data: add name
-		MetaLine ml = new MetaLine(MetaKey.ITEM);
+		MetaLine_out ml = new MetaLine_out(MetaKey.ITEM);
 		ml.getHeap().texts.add(new Text(model.getName()));
 		mb.addMetaLine(ml);
 
 		// update meta data: add texture and sprite size
-		ml = new MetaLine(MetaKey.SIZE);
+		ml = new MetaLine_out(MetaKey.SIZE);
 		ml.getHeap().ints.add(width);
 		ml.getHeap().ints.add(height);
 		ml.getHeap().ints.add(spriteSize.getX());
@@ -128,12 +128,12 @@ public class TextureGenerator
 		mb.addMetaLine(ml);
 
 		// update meta data: add column count
-		ml = new MetaLine(MetaKey.ALT);
+		ml = new MetaLine_out(MetaKey.ALT);
 		ml.getHeap().ints.add(counts.getX());
 		mb.addMetaLine(ml);
 
 		// update meta data: add  count
-		ml = new MetaLine(MetaKey.COUNT);
+		ml = new MetaLine_out(MetaKey.COUNT);
 		ml.getHeap().ints.add(n);
 		mb.addMetaLine(ml);
 
@@ -185,7 +185,7 @@ public class TextureGenerator
 		}
 	}
 
-	private void writeMeta(File metaFile, MetaBlock mb) throws PrismException
+	private void writeMeta(File metaFile, MetaBlock_out mb) throws PrismException
 	{
 		try
 		{

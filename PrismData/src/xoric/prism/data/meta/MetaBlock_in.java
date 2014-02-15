@@ -23,6 +23,21 @@ public class MetaBlock_in extends MetaBlockBase implements IPackable_in, IInfoLa
 		this.list = new ArrayList<MetaLine_in>();
 	}
 
+	public MetaBlock_in(MetaType metaType, int version)
+	{
+		super(metaType, version);
+		this.list = new ArrayList<MetaLine_in>();
+	}
+
+	public MetaBlock_in(MetaBlock_out m)
+	{
+		super(m.metaType, m.version);
+		this.list = new ArrayList<MetaLine_in>(m.getLineCount());
+
+		for (MetaLine_out l : m.list)
+			list.add(new MetaLine_in(this, l));
+	}
+
 	@Override
 	public int getLineCount()
 	{
