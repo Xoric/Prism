@@ -10,14 +10,15 @@ import java.util.List;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
-import xoric.prism.data.heap.Heap;
+import xoric.prism.data.heap.Heap_in;
 import xoric.prism.data.meta.AttachmentHeader;
 import xoric.prism.data.meta.AttachmentTable;
-import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.meta.MetaBlock_in;
 import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.meta.MetaKey;
-import xoric.prism.data.meta.MetaLine;
-import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaLine_in;
+import xoric.prism.data.meta.MetaList_in;
+import xoric.prism.data.meta.MetaList_out;
 import xoric.prism.data.meta.MetaTimeStamp;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.packable.IntPacker;
@@ -37,7 +38,7 @@ public class MetaFileCreator
 
 	private File targetFile;
 
-	private MetaList infusedMetaList;
+	private MetaList_in infusedMetaList;
 
 	public MetaFileCreator(IPath_r sourcePath, IPath_r targetPath)
 	{
@@ -63,29 +64,30 @@ public class MetaFileCreator
 
 		// load MetaList from local text file or use infused MetaList
 		MetaListInfo info;
-		MetaList metaList;
+		MetaList_in metaList_in;
+
 		if (infusedMetaList != null)
 		{
-			metaList = infusedMetaList;
+			metaList_in = infusedMetaList;
 			info = new MetaListInfo(null);
 		}
 		else
 		{
 			File textFile = sourcePath.getFile("meta.txt");
-			metaList = loadLocalMetaList(textFile);
+			metaList_in = loadLocalMetaList(textFile);
 			info = new MetaListInfo(textFile);
 		}
 
 		// check if MetaList contains all required information
-		MetaBlock devBlock = metaList.claimMetaBlock(MetaType.DEVELOP);
+		MetaBlock_in devBlock = metaList_in.claimMetaBlock(MetaType.DEVELOP);
 		String targetFilename = obtainTargetFilename(devBlock);
 		checkDevelopBlock(devBlock, targetFilename, info);
 
 		// import additional MetaBlocks
-		importExternalMetaBlocks(metaList, devBlock);
+		importExternalMetaBlocks(metaList_in, devBlock);
 
 		// gather attachments
-		List<MetaLine> attachmentLines = devBlock.findLines(MetaKey.ATTACH);
+		List<MetaLine_in> attachmentLines = devBlock.findLines(MetaKey.ATTACH);
 		AttachmentImporter[] imports = null;
 		final int attachmentCount = attachmentLines.size();
 		AttachmentTable table = null;
@@ -98,7 +100,7 @@ public class MetaFileCreator
 			for (int i = 0; i < attachmentCount; ++i)
 			{
 				// obtain attachment from MetaLine
-				MetaLine l = attachmentLines.get(i);
+				MetaLine_in l = attachmentLines.get(i);
 				String filename = null;
 				if (l.getHeap().texts.size() > 0)
 					filename = l.getHeap().texts.get(0).toString().toLowerCase();
@@ -141,7 +143,10 @@ public class MetaFileCreator
 		}
 
 		// remove develop MetaBlock from MetaList
-		metaList.dropMetaBlock(devBlock);
+		metaList_in.dropMetaBlock(devBlock);
+
+		// convert to MetaBlock_out
+		MetaList_out metaList_out = new MetaList_out(metaList_in);
 
 		// write file
 		MetaTimeStamp timeStamp = new MetaTimeStamp();
@@ -157,7 +162,7 @@ public class MetaFileCreator
 			timeStamp.pack(stream);
 
 			// 3) write MetaList
-			metaList.pack(stream);
+			metaList_out.pack(stream);
 
 			// 4) write number of attachments
 			IntPacker.pack_s(stream, attachmentCount);
@@ -207,9 +212,9 @@ public class MetaFileCreator
 		StringBuffer sb = new StringBuffer();
 		sb.append("MetaFile written: " + targetFile.getPath() + " | size: " + Common.getFileSize(targetFile.length()) + " | version: "
 				+ newVersion + " | " + timeStamp.toString() + " | blocks: ");
-		for (int i = 0; i < metaList.getBlockCount(); ++i)
+		for (int i = 0; i < metaList_in.getBlockCount(); ++i)
 		{
-			MetaBlock block = metaList.getMetaBlock(i);
+			MetaBlock_in block = metaList_in.getMetaBlock(i);
 			if (i > 0)
 				sb.append(", ");
 			sb.append(block.getMetaType().toString());
@@ -224,12 +229,12 @@ public class MetaFileCreator
 	 * {@code "meta.txt"} within the source directory.
 	 * @param metaList
 	 */
-	public void infuseMetaList(MetaList metaList)
+	public void infuseMetaList(MetaList_in metaList)
 	{
 		this.infusedMetaList = metaList;
 	}
 
-	private static MetaBlock createMetaBlock(String line) throws PrismException
+	private static MetaBlock_in createMetaBlock(String line) throws PrismException
 	{
 		// split line
 		line = line.substring(1);
@@ -252,7 +257,7 @@ public class MetaFileCreator
 		// create MetaBlock
 		MetaType t = MetaType.valueOf(s[0]);
 		int v = Integer.valueOf(s[1]);
-		MetaBlock block = new MetaBlock(t, v);
+		MetaBlock_in block = new MetaBlock_in(t, v);
 
 		return block;
 	}
@@ -313,7 +318,7 @@ public class MetaFileCreator
 		return version;
 	}
 
-	private void checkAttachment(File obtainedAttachmentFile, MetaLine sourceMetaLine, MetaListInfo info) throws PrismException
+	private void checkAttachment(File obtainedAttachmentFile, MetaLine_in sourceMetaLine, MetaListInfo info) throws PrismException
 	{
 		if (obtainedAttachmentFile == null || !obtainedAttachmentFile.exists())
 		{
@@ -340,7 +345,7 @@ public class MetaFileCreator
 		}
 	}
 
-	private void checkDevelopBlock(MetaBlock devBlock, String targetFilename, MetaListInfo info) throws PrismException
+	private void checkDevelopBlock(MetaBlock_in devBlock, String targetFilename, MetaListInfo info) throws PrismException
 	{
 		// check if MetaBlock of type DEVELOP exists
 		if (devBlock == null)
@@ -390,10 +395,10 @@ public class MetaFileCreator
 		}
 	}
 
-	private String obtainTargetFilename(MetaBlock devBlock) throws PrismException
+	private String obtainTargetFilename(MetaBlock_in devBlock) throws PrismException
 	{
-		MetaLine targetLine = devBlock.claimLine(MetaKey.TARGET);
-		Heap targetHeap = targetLine.getHeap();
+		MetaLine_in targetLine = devBlock.claimLine(MetaKey.TARGET);
+		Heap_in targetHeap = targetLine.getHeap();
 		String targetFilename = null;
 		if (targetHeap != null && targetHeap.texts.size() == 1)
 			targetFilename = targetHeap.texts.get(0).toString().toLowerCase();
@@ -401,7 +406,7 @@ public class MetaFileCreator
 		return targetFilename;
 	}
 
-	public static MetaList loadLocalMetaList(File textFile) throws PrismException
+	public static MetaList_in loadLocalMetaList(File textFile) throws PrismException
 	{
 		// check if text file exists
 		if (!textFile.exists())
@@ -440,8 +445,8 @@ public class MetaFileCreator
 		}
 
 		// extract meta blocks
-		MetaList metaList = new MetaList();
-		MetaBlock b = null;
+		MetaList_in metaList = new MetaList_in();
+		MetaBlock_in b = null;
 
 		for (String line : list)
 		{
@@ -474,7 +479,7 @@ public class MetaFileCreator
 				else
 				{
 					MetaTextLine t = createMetaTextLine(line);
-					MetaLine l = t.toMetaLine();
+					MetaLine_in l = t.toMetaLine_in(b);
 					b.addMetaLine(l);
 				}
 			}
@@ -487,7 +492,7 @@ public class MetaFileCreator
 		return metaList;
 	}
 
-	public void importExternalMetaBlocks(MetaList metaList, MetaBlock devBlock) throws PrismException
+	public void importExternalMetaBlocks(MetaList_in metaList, MetaBlock_in devBlock) throws PrismException
 	{
 		int index = -1;
 		do
@@ -496,7 +501,7 @@ public class MetaFileCreator
 
 			if (index >= 0)
 			{
-				MetaLine ml = devBlock.getMetaLine(index);
+				MetaLine_in ml = devBlock.getMetaLine(index);
 				ml.ensureMinima(0, 0, 1);
 				String filename = ml.getHeap().texts.get(0).toString().toLowerCase();
 				File f = sourcePath.getFile(filename);
@@ -518,7 +523,7 @@ public class MetaFileCreator
 				// import MetaBlock
 				try
 				{
-					MetaBlock mb = new MetaBlock();
+					MetaBlock_in mb = new MetaBlock_in();
 					FileInputStream stream = new FileInputStream(f);
 					mb.unpack(stream);
 					metaList.addMetaBlock(mb);

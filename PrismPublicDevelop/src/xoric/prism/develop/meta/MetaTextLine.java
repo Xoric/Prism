@@ -1,8 +1,10 @@
 package xoric.prism.develop.meta;
 
-import xoric.prism.data.heap.Heap;
+import xoric.prism.data.exceptions.IInfoLayer;
+import xoric.prism.data.heap.Heap_out;
 import xoric.prism.data.meta.MetaKey;
-import xoric.prism.data.meta.MetaLine;
+import xoric.prism.data.meta.MetaLine_in;
+import xoric.prism.data.meta.MetaLine_out;
 import xoric.prism.data.types.Text;
 
 class MetaTextLine
@@ -16,20 +18,13 @@ class MetaTextLine
 		this.params = params;
 	}
 
-	public MetaLine toMetaLine()
+	public MetaLine_in toMetaLine_in(IInfoLayer uplink)
 	{
-		MetaKey k = MetaKey.valueOf(key);
-
-		MetaLine l = new MetaLine(k);
-		Heap heap = l.getHeap();
-
-		for (String s : params)
-			addParam(s, heap);
-
-		return l;
+		MetaLine_out l = toMetaLine_out();
+		return new MetaLine_in(uplink, l);
 	}
 
-	private void addParam(String s, Heap heap)
+	private void addParam(String s, Heap_out heap)
 	{
 		// try to convert to int
 		try
@@ -56,5 +51,18 @@ class MetaTextLine
 		// assume text
 		Text t = new Text(s);
 		heap.texts.add(t);
+	}
+
+	public MetaLine_out toMetaLine_out()
+	{
+		MetaKey k = MetaKey.valueOf(key);
+
+		MetaLine_out l = new MetaLine_out(k);
+		Heap_out heap = l.getHeap();
+
+		for (String s : params)
+			addParam(s, heap);
+
+		return l;
 	}
 }
