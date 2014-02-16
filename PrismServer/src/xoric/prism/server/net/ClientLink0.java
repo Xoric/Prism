@@ -2,11 +2,11 @@ package xoric.prism.server.net;
 
 import java.util.List;
 
-import xoric.prism.com.ClientLoginMessage;
-import xoric.prism.com.Message;
+import xoric.prism.com.ClientLoginMessage_in;
+import xoric.prism.com.Message_in;
 import xoric.prism.com.Token;
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.heap.Heap;
+import xoric.prism.data.heap.Heap_in;
 import xoric.prism.data.time.PrismClock;
 import xoric.prism.data.types.IText_r;
 
@@ -42,21 +42,21 @@ public class ClientLink0
 		return core.toString() + "/0";
 	}
 
-	private void handleLogin(ClientLoginMessage lm)
+	private void handleLogin(ClientLoginMessage_in lm)
 	{
 		byte[] pw = lm.getPassword();
-		Heap h = lm.getHeap();
+		Heap_in h = lm.getHeap();
 		IText_r acc = h.texts.get(0);
 		List<Integer> versions = h.ints;
 
 		System.out.println("I (" + toString() + ") want to login with acc=" + acc.toString());
 	}
 
-	private void handleMessage(Message m) throws PrismException
+	private void handleMessage(Message_in m) throws PrismException
 	{
-		if (m instanceof ClientLoginMessage && m.getToken() == Token.LOGIN)
+		if (m instanceof ClientLoginMessage_in && m.getToken() == Token.LOGIN)
 		{
-			ClientLoginMessage lm = (ClientLoginMessage) m;
+			ClientLoginMessage_in lm = (ClientLoginMessage_in) m;
 			handleLogin(lm);
 		}
 		else
@@ -76,7 +76,7 @@ public class ClientLink0
 		if (e != null)
 			throw e;
 
-		Message m;
+		Message_in m;
 		do
 		{
 			m = core.getNextMessage();

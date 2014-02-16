@@ -4,5 +4,5 @@ public interface ISocketListener
 {
 	public void onSocketListenerCrashing(Exception e);
 
-	public void receiveMessage(MessageBase m);
+	public void receiveMessage(Message_in m);
 }

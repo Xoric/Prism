@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.Socket;
 
 import xoric.prism.com.ISocketListener;
-import xoric.prism.com.Message;
 import xoric.prism.com.MessagePipe;
+import xoric.prism.com.Message_in;
 import xoric.prism.com.SocketReader;
 
 public class ClientCore implements ISocketListener
@@ -77,12 +77,12 @@ public class ClientCore implements ISocketListener
 	}
 
 	@Override
-	public void receiveMessage(Message m)
+	public void receiveMessage(Message_in m)
 	{
 		messagePipe.produce(m);
 	}
 
-	public Message getNextMessage()
+	public Message_in getNextMessage()
 	{
 		return messagePipe.consume();
 	}

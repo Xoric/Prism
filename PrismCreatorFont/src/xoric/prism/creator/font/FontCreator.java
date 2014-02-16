@@ -11,9 +11,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.meta.MetaBlock_out;
 import xoric.prism.data.meta.MetaKey;
-import xoric.prism.data.meta.MetaLine;
+import xoric.prism.data.meta.MetaLine_out;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Path;
@@ -37,12 +37,12 @@ public class FontCreator
 
 		try
 		{
-			MetaLine ml = new MetaLine(MetaKey.SIZE);
+			MetaLine_out ml = new MetaLine_out(MetaKey.SIZE);
 
 			for (int i = 0; i < 64; ++i)
 				writeChar(i, font, path, ml);
 
-			MetaBlock mb = new MetaBlock(MetaType.COMMON, 0);
+			MetaBlock_out mb = new MetaBlock_out(MetaType.COMMON, 0);
 			mb.addMetaLine(ml);
 
 			File f = path.getFile("padding.meta");
@@ -57,7 +57,7 @@ public class FontCreator
 		}
 	}
 
-	private static void writeChar(int i, Font font, IPath_r path, MetaLine ml) throws IOException
+	private static void writeChar(int i, Font font, IPath_r path, MetaLine_out ml) throws IOException
 	{
 		char c = TextMap.charOf(i);
 		final int X = 1;
@@ -90,7 +90,7 @@ public class FontCreator
 			padding = 12;
 		else if (c == '$')
 			padding = 13;
-		else if (c == '§')
+		else if (c == 'ï¿½')
 			padding = 18;
 		else
 		{
@@ -156,7 +156,7 @@ public class FontCreator
 			}
 		}
 
-		if (c != '$' && c != '§')
+		if (c != '$' && c != 'ï¿½')
 		{
 			File f = path.getFile("sprite" + i + ".png");
 			ImageIO.write(letter, "png", f);

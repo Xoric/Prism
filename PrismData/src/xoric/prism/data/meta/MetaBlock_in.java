@@ -38,6 +38,11 @@ public class MetaBlock_in extends MetaBlockBase implements IPackable_in, IInfoLa
 			list.add(new MetaLine_in(this, l));
 	}
 
+	public void addMetaLine(MetaLine_in ml)
+	{
+		list.add(ml);
+	}
+
 	@Override
 	public int getLineCount()
 	{

@@ -49,7 +49,7 @@ public class MetaList_out extends MetaListBase implements IPackable_out
 	}
 
 	@Override
-	protected MetaBlockBase getMetaBlock(int index)
+	protected MetaBlock_out getMetaBlock(int index)
 	{
 		return blocks.get(index);
 	}

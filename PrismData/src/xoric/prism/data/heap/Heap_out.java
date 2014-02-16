@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xoric.prism.data.types.IText_r;
+import xoric.prism.data.types.Text;
 
 public class Heap_out extends HeapBase
 {
@@ -20,6 +21,21 @@ public class Heap_out extends HeapBase
 		texts = new ArrayList<IText_r>(textCount);
 	}
 
+	public Heap_out(Heap_in h)
+	{
+		super(h.ints.size(), h.floats.size());
+		texts = new ArrayList<IText_r>(h.getTextCount());
+
+		for (int i : h.ints)
+			ints.add(i);
+
+		for (float f : h.floats)
+			floats.add(f);
+
+		for (int i = 0; i < h.getTextCount(); ++i)
+			texts.add(new Text(h.getText(i)));
+	}
+
 	@Override
 	public void clear()
 	{
@@ -28,13 +44,13 @@ public class Heap_out extends HeapBase
 	}
 
 	@Override
-	protected IText_r getText(int index)
+	public IText_r getText(int index)
 	{
 		return texts.get(index);
 	}
 
 	@Override
-	protected int getTextCount()
+	public int getTextCount()
 	{
 		return texts.size();
 	}

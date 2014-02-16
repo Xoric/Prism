@@ -7,7 +7,7 @@ import xoric.prism.data.types.IPath_r;
 
 public interface IPrismGlobal
 {
-	public MetaFile loadMetaFile(FileTableDirectory fd, int index) throws PrismException;
+	public MetaFile loadMetaFile(FileTableDirectoryIndex fd, int index) throws PrismException;
 
 	public IPath_r getDataPath();
 

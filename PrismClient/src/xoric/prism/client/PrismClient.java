@@ -7,7 +7,7 @@ import xoric.prism.client.ui.UIWindow;
 import xoric.prism.client.ui.actions.ButtonAction;
 import xoric.prism.client.ui.actions.ButtonActionIndex;
 import xoric.prism.client.ui.actions.IActionHandler;
-import xoric.prism.com.ClientLoginMessage;
+import xoric.prism.com.ClientLoginMessage_out;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.net.NetConstants;
 import xoric.prism.data.types.FloatPoint;
@@ -86,7 +86,7 @@ public class PrismClient implements ISceneListener, IActionHandler
 
 			Thread.sleep(1500);
 
-			ClientLoginMessage m = new ClientLoginMessage();
+			ClientLoginMessage_out m = new ClientLoginMessage_out();
 			m.setPassword(new Text("JOHN'S PASSWORD!"));
 			m.getHeap().ints.add(17);
 			m.getHeap().texts.add(new Text("JOHN"));

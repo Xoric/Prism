@@ -31,9 +31,9 @@ public abstract class HeapBase
 		floats.clear();
 	}
 
-	protected abstract IText_r getText(int index);
+	public abstract IText_r getText(int index);
 
-	protected abstract int getTextCount();
+	public abstract int getTextCount();
 
 	@Override
 	public String toString()

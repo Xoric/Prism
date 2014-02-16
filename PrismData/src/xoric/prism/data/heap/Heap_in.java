@@ -25,6 +25,20 @@ public class Heap_in extends HeapBase
 		texts = new ArrayList<Text>(textCount);
 	}
 
+	public Heap_in(Heap_out h)
+	{
+		texts = new ArrayList<Text>(h.getTextCount());
+
+		for (int i : h.ints)
+			ints.add(i);
+
+		for (float f : h.floats)
+			floats.add(f);
+
+		for (int i = 0; i < h.getTextCount(); ++i)
+			texts.add(new Text(h.getText(i)));
+	}
+
 	public void rewind()
 	{
 		intIndex = 0;
@@ -55,13 +69,13 @@ public class Heap_in extends HeapBase
 	}
 
 	@Override
-	protected IText_r getText(int index)
+	public IText_r getText(int index)
 	{
 		return texts.get(index);
 	}
 
 	@Override
-	protected int getTextCount()
+	public int getTextCount()
 	{
 		return texts.size();
 	}

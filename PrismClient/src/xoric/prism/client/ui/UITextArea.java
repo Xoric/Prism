@@ -14,7 +14,7 @@ import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.materials.Materials;
 import xoric.prism.scene.materials.Printer;
 
-public class UITextArea implements IDrawableUI, IUITextComponent, IUIChild
+public class UITextArea implements IDrawableUI, IUITextComponent, IUISubcomponent
 {
 	private static final float BORDER = 20.0f;
 

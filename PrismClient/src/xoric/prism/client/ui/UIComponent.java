@@ -14,7 +14,7 @@ import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.Text;
 import xoric.prism.scene.IDrawableUI;
 
-public abstract class UIComponent implements IDrawableUI, IUIChild, IActiveUI, IPackable
+public abstract class UIComponent implements IDrawableUI, IUISubcomponent, IActiveUI, IPackable
 {
 	private final UIIdentifier identifier;
 
@@ -25,13 +25,13 @@ public abstract class UIComponent implements IDrawableUI, IUIChild, IActiveUI, I
 	protected final FloatRect rect;
 	protected boolean isMouseDown;
 
-	private final List<IUIChild> children;
+	private final List<IUISubcomponent> children;
 
 	public UIComponent(UIIdentifier id)
 	{
 		this.identifier = id;
 
-		children = new ArrayList<IUIChild>();
+		children = new ArrayList<IUISubcomponent>();
 
 		rect = new FloatRect();
 		rect.setHeight(28.0f);
@@ -46,12 +46,12 @@ public abstract class UIComponent implements IDrawableUI, IUIChild, IActiveUI, I
 		return identifier;
 	}
 
-	protected void registerChild(IUIChild c)
+	protected void registerChild(IUISubcomponent c)
 	{
 		children.add(c);
 	}
 
-	protected void unregisterChild(IUIChild c)
+	protected void unregisterChild(IUISubcomponent c)
 	{
 		children.remove(c);
 	}
@@ -120,7 +120,7 @@ public abstract class UIComponent implements IDrawableUI, IUIChild, IActiveUI, I
 
 	protected void rearrangeChildrenOnly()
 	{
-		for (IUIChild c : children)
+		for (IUISubcomponent c : children)
 			c.rearrange(rect);
 	}
 
@@ -183,7 +183,7 @@ public abstract class UIComponent implements IDrawableUI, IUIChild, IActiveUI, I
 	{
 		rect.addPosition(dx, dy);
 
-		for (IUIChild c : children)
+		for (IUISubcomponent c : children)
 			c.moveBy(dx, dy);
 	}
 }

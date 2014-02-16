@@ -2,7 +2,7 @@ package xoric.prism.client.bootstrap;
 
 import xoric.prism.client.PrismClient;
 import xoric.prism.client.settings.ClientSettings;
-import xoric.prism.com.Message;
+import xoric.prism.com.MessageBase;
 import xoric.prism.com.Perspective;
 import xoric.prism.com.PrismCommunicationLoader;
 import xoric.prism.data.PrismDataLoader;
@@ -41,7 +41,7 @@ public class PrismClientBootstrap
 			PrismCommunicationLoader.loadAll();
 
 			// set message perspective
-			Message.perspective = Perspective.CLIENT;
+			MessageBase.perspective = Perspective.CLIENT;
 
 			// create client settings
 			settings = new ClientSettings();

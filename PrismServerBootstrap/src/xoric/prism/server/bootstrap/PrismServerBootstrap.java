@@ -2,7 +2,7 @@ package xoric.prism.server.bootstrap;
 
 import javax.swing.SwingUtilities;
 
-import xoric.prism.com.Message;
+import xoric.prism.com.MessageBase;
 import xoric.prism.com.Perspective;
 import xoric.prism.com.PrismCommunicationLoader;
 import xoric.prism.data.PrismDataLoader;
@@ -27,7 +27,7 @@ public class PrismServerBootstrap
 			Prism.global = global;
 
 			// set message perspective
-			Message.perspective = Perspective.SERVER;
+			MessageBase.perspective = Perspective.SERVER;
 
 			// initialize
 			PrismDataLoader.loadAll();

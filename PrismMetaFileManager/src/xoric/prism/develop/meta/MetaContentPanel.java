@@ -14,11 +14,11 @@ import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.Prism;
 import xoric.prism.data.meta.AttachmentHeader;
 import xoric.prism.data.meta.AttachmentLoader;
-import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.meta.MetaBlock_in;
 import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.meta.MetaKey;
-import xoric.prism.data.meta.MetaLine;
-import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaLine_in;
+import xoric.prism.data.meta.MetaList_in;
 import xoric.prism.data.meta.MetaTimeStamp;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.tools.Common;
@@ -28,9 +28,9 @@ class MetaContentPanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 
-	private JLabel label2;
-	private JList<String> list0;
-	private JList<String> list;
+	private final JLabel label2;
+	private final JList<String> list0;
+	private final JList<String> list;
 
 	public MetaContentPanel()
 	{
@@ -74,9 +74,9 @@ class MetaContentPanel extends JPanel
 	private static String extractTargetFilename(IPath_r resPath) throws PrismException
 	{
 		File textFile = resPath.getFile("meta.txt");
-		MetaList metaList = MetaFileCreator.loadLocalMetaList(textFile);
-		MetaBlock mb = metaList.claimMetaBlock(MetaType.DEVELOP);
-		MetaLine targetLine = mb.claimLine(MetaKey.TARGET);
+		MetaList_in metaList = MetaFileCreator.loadLocalMetaList(textFile);
+		MetaBlock_in mb = metaList.claimMetaBlock(MetaType.DEVELOP);
+		MetaLine_in targetLine = mb.claimLine(MetaKey.TARGET);
 		targetLine.ensureMinima(0, 0, 1);
 		String targetFilename = targetLine.getHeap().texts.get(0).toString().toLowerCase();
 
@@ -104,7 +104,7 @@ class MetaContentPanel extends JPanel
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		for (int i = 0; i < n; ++i)
 		{
-			MetaBlock mb = mf.getMetaList().getMetaBlock(i);
+			MetaBlock_in mb = mf.getMetaList().getMetaBlock(i);
 
 			sb.setLength(0);
 			sb.append("[" + i + "] ");

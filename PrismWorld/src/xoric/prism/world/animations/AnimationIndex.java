@@ -1,8 +1,8 @@
 package xoric.prism.world.animations;
 
-import xoric.prism.data.heap.Heap;
-import xoric.prism.data.meta.MetaBlock;
-import xoric.prism.data.meta.MetaLine;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.meta.MetaBlock_in;
+import xoric.prism.data.meta.MetaLine_in;
 
 /**
  * First eight values are equivalent to {@link xoric.prism.world.movement.MoveType}.
@@ -174,6 +174,7 @@ public enum AnimationIndex
 
 	public static AnimationIndex valueOf(int i)
 	{
+		// TODO: make safe
 		return values[i];
 	}
 
@@ -213,7 +214,7 @@ public enum AnimationIndex
 		this.substitute = substitute;
 	}
 
-	private static boolean loadDevInfo(Heap h)
+	private static boolean loadDevInfo(Heap_in h)
 	{
 		boolean isOK;
 		try
@@ -233,13 +234,13 @@ public enum AnimationIndex
 		return isOK;
 	}
 
-	public static boolean loadDevInfoAll(MetaBlock metaBlock)
+	public static boolean loadDevInfoAll(MetaBlock_in metaBlock)
 	{
 		boolean isOK = true;
 
-		for (MetaLine metaLine : metaBlock.getMetaLines())
+		for (MetaLine_in metaLine : metaBlock.getMetaLines())
 		{
-			Heap h = metaLine.getHeap();
+			Heap_in h = metaLine.getHeap();
 			if (h.texts.size() == 2 && h.ints.size() == 1)
 				isOK &= loadDevInfo(h);
 		}

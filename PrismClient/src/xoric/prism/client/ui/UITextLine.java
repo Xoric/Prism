@@ -16,7 +16,7 @@ import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.materials.Materials;
 import xoric.prism.scene.materials.Printer;
 
-public class UITextLine implements IDrawableUI, IUITextComponent, IUIChild, IPackable
+public class UITextLine implements IDrawableUI, IUITextComponent, IUISubcomponent, IPackable
 {
 	private static final Text DEFAULT_TEXT = new Text("");
 

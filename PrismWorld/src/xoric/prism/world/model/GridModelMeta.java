@@ -5,11 +5,11 @@ import java.util.List;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
-import xoric.prism.data.heap.Heap;
-import xoric.prism.data.meta.MetaBlock;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.meta.MetaBlock_in;
 import xoric.prism.data.meta.MetaKey;
-import xoric.prism.data.meta.MetaLine;
-import xoric.prism.data.meta.MetaList;
+import xoric.prism.data.meta.MetaLine_in;
+import xoric.prism.data.meta.MetaList_in;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.IMetaChild;
 import xoric.prism.data.types.IPoint_r;
@@ -28,16 +28,16 @@ public class GridModelMeta implements IMetaChild
 	}
 
 	@Override
-	public void load(MetaList metaList) throws PrismException
+	public void load(MetaList_in metaList) throws PrismException
 	{
 		// reset
 		spriteSize = null;
 
 		// load animations
-		MetaBlock mb = metaList.claimMetaBlock(MetaType.MODEL_G);
+		MetaBlock_in mb = metaList.claimMetaBlock(MetaType.MODEL_G);
 		AnimationMeta currentAnimationMeta = null;
 
-		for (MetaLine l : mb.getMetaLines())
+		for (MetaLine_in l : mb.getMetaLines())
 		{
 			currentAnimationMeta = interpretLine(currentAnimationMeta, l);
 		}
@@ -47,7 +47,7 @@ public class GridModelMeta implements IMetaChild
 		ensureAnimations(mb);
 	}
 
-	private AnimationMeta interpretLine(AnimationMeta currentAnimationMeta, MetaLine metaLine) throws PrismException
+	private AnimationMeta interpretLine(AnimationMeta currentAnimationMeta, MetaLine_in metaLine) throws PrismException
 	{
 		MetaKey key = metaLine.getKey();
 
@@ -69,11 +69,11 @@ public class GridModelMeta implements IMetaChild
 		return currentAnimationMeta;
 	}
 
-	private AnimationMeta addAnimation(MetaLine metaLine) throws PrismException
+	private AnimationMeta addAnimation(MetaLine_in metaLine) throws PrismException
 	{
 		AnimationMeta animationMeta = null;
 		metaLine.ensureMinima(1, 0, 0);
-		Heap h = metaLine.getHeap();
+		Heap_in h = metaLine.getHeap();
 		int ai = h.ints.get(0);
 		AnimationIndex animationIndex;
 
@@ -101,7 +101,7 @@ public class GridModelMeta implements IMetaChild
 		return animationMeta;
 	}
 
-	private void addViewAngle(AnimationMeta currentAnimationMeta, MetaLine metaLine) throws PrismException
+	private void addViewAngle(AnimationMeta currentAnimationMeta, MetaLine_in metaLine) throws PrismException
 	{
 		if (currentAnimationMeta == null)
 		{
@@ -117,7 +117,7 @@ public class GridModelMeta implements IMetaChild
 		}
 
 		metaLine.ensureMinima(2, 0, 0);
-		Heap h = metaLine.getHeap();
+		Heap_in h = metaLine.getHeap();
 		int vi = h.ints.get(0);
 		ViewAngle viewAngle;
 
@@ -142,16 +142,16 @@ public class GridModelMeta implements IMetaChild
 		currentAnimationMeta.registerNextViewAngle(viewAngle, columnCount);
 	}
 
-	private void extractSpriteSize(MetaLine metaLine) throws PrismException
+	private void extractSpriteSize(MetaLine_in metaLine) throws PrismException
 	{
 		metaLine.ensureMinima(2, 0, 0);
-		Heap h = metaLine.getHeap();
+		Heap_in h = metaLine.getHeap();
 		int x = h.ints.get(0);
 		int y = h.ints.get(1);
 		spriteSize = new Point(x, y);
 	}
 
-	private void ensureSpriteSize(MetaBlock mb) throws PrismException
+	private void ensureSpriteSize(MetaBlock_in mb) throws PrismException
 	{
 		if (spriteSize == null)
 		{
@@ -179,7 +179,7 @@ public class GridModelMeta implements IMetaChild
 		}
 	}
 
-	private void ensureAnimations(MetaBlock mb) throws PrismException
+	private void ensureAnimations(MetaBlock_in mb) throws PrismException
 	{
 		if (animationCollections.size() == 0)
 		{

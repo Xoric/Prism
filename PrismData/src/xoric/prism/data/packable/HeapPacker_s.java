@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.heap.HeapBase;
 import xoric.prism.data.heap.Heap_in;
 import xoric.prism.data.heap.Heap_out;
 
@@ -128,7 +129,7 @@ public abstract class HeapPacker_s
 		return heap;
 	}
 
-	public static int calcPackedSize_s(Heap_out heap, int floatDecimals) throws PrismException
+	public static int calcPackedSize_s(HeapBase heap, int floatDecimals) throws PrismException
 	{
 		int mode = calcMode_s(heap);
 		int bytes;
@@ -146,18 +147,18 @@ public abstract class HeapPacker_s
 		for (int i = 0; i < heap.floats.size(); ++i)
 			bytes += FloatPacker3.calcPackedSize(heap.floats.get(i), floatDecimals);
 
-		for (int i = 0; i < heap.texts.size(); ++i)
-			bytes += TextPacker.calcPackedSize_s(heap.texts.get(i));
+		for (int i = 0; i < heap.getTextCount(); ++i)
+			bytes += TextPacker.calcPackedSize_s(heap.getText(i));
 
 		return bytes;
 	}
 
-	private static int calcMode_s(Heap_out heap)
+	private static int calcMode_s(HeapBase heap)
 	{
 		int mode;
 		int i = heap.ints.size();
 		int f = heap.floats.size();
-		int t = heap.texts.size();
+		int t = heap.getTextCount();
 
 		if (i < 8 && f < 4 && t < 4)
 			mode = 0;

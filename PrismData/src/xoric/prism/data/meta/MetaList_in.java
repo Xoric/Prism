@@ -24,10 +24,10 @@ public class MetaList_in extends MetaListBase implements IPackable_in, IInfoLaye
 
 	public MetaList_in(MetaList_out m)
 	{
-		blocks = new ArrayList<MetaBlock_in>(m.getBlockCount()		);
+		blocks = new ArrayList<MetaBlock_in>(m.getBlockCount());
 
-		for (int i = 0; i <  m.getBlockCount(); ++i) 
-			blocks.add(			new MetaBlock_in(m.getMetaBlock(i));
+		for (int i = 0; i < m.getBlockCount(); ++i)
+			blocks.add(new MetaBlock_in(m.getMetaBlock(i)));
 	}
 
 	public void addMetaBlock(MetaBlock_in b)
