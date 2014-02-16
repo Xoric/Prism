@@ -90,7 +90,7 @@ public class FontCreator
 			padding = 12;
 		else if (c == '$')
 			padding = 13;
-		else if (c == 'ï¿½')
+		else if (c == '§')
 			padding = 18;
 		else
 		{
@@ -156,7 +156,7 @@ public class FontCreator
 			}
 		}
 
-		if (c != '$' && c != 'ï¿½')
+		if (c != '$' && c != '§')
 		{
 			File f = path.getFile("sprite" + i + ".png");
 			ImageIO.write(letter, "png", f);
