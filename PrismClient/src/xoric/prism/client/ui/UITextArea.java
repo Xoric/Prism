@@ -12,14 +12,13 @@ import xoric.prism.data.types.Text;
 import xoric.prism.scene.IDrawableUI;
 import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.materials.Materials;
-import xoric.prism.scene.materials.Printer;
 
 public class UITextArea implements IDrawableUI, IUITextComponent, IUISubcomponent
 {
 	private static final float BORDER = 20.0f;
 
 	private Text text;
-	private float scale;
+	//	private float scale;
 	private final FloatRect rect;
 	private final List<Integer> stops;
 	private final FloatPoint tempPos;
@@ -29,14 +28,14 @@ public class UITextArea implements IDrawableUI, IUITextComponent, IUISubcomponen
 		text = new Text("");
 		rect = new FloatRect();
 		stops = new ArrayList<Integer>();
-		scale = Printer.DEFAULT_SCALE;
+		//		scale = Printer.DEFAULT_SCALE;
 		tempPos = new FloatPoint();
 	}
 
-	public void setScale(float scale)
-	{
-		this.scale = scale;
-	}
+	//	public void setScale(float scale)
+	//	{
+	//		this.scale = scale;
+	//	}
 
 	public void setText(IText_r text)
 	{
@@ -99,7 +98,7 @@ public class UITextArea implements IDrawableUI, IUITextComponent, IUISubcomponen
 
 			Materials.printer.setOnset(start, j);
 			Materials.printer.print(tempPos);
-			tempPos.y += Materials.printer.getHeight(scale);
+			tempPos.y += Materials.printer.getHeight();
 
 			start = j;
 		}

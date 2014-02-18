@@ -38,6 +38,7 @@ public class UIWindow extends UIFrame implements IUIButtonHost, IMetaChild
 	//	private FloatPoint cornerOnset;
 	private FloatRect cornerRect;
 	private boolean isResizing;
+	private boolean isMoveable;
 	private final List<UIComponent> components;
 
 	public UIWindow(IFloatPoint_r screenSize)
@@ -153,6 +154,7 @@ public class UIWindow extends UIFrame implements IUIButtonHost, IMetaChild
 				isResizing = (mouse.getY() > z * cornerRect.getY() + (1.0f - z) * cornerRect.getBottom());
 			}
 		}
+
 		return this;
 	}
 
@@ -314,6 +316,11 @@ public class UIWindow extends UIFrame implements IUIButtonHost, IMetaChild
 		return closeButton != null;
 	}
 
+	public boolean isMoveable()
+	{
+		return isMoveable;
+	}
+
 	//	@Override
 	//	public void pack(OutputStream stream) throws IOException, PrismException
 	//	{
@@ -359,6 +366,7 @@ public class UIWindow extends UIFrame implements IUIButtonHost, IMetaChild
 		// flags
 		h.bools.add(closeButton != null);
 		h.bools.add(cornerRect != null);
+		h.bools.add(isMoveable);
 
 		// components
 		//		h.ints.add(components.size());
@@ -374,6 +382,7 @@ public class UIWindow extends UIFrame implements IUIButtonHost, IMetaChild
 		// flags
 		makeClosable(h.nextBool());
 		makeResizable(h.nextBool());
+		isMoveable = h.nextBool();
 
 		// components
 		//		int n = h.nextInt();
@@ -435,5 +444,10 @@ public class UIWindow extends UIFrame implements IUIButtonHost, IMetaChild
 	public void executeAction(ButtonAction a) throws PrismException
 	{
 		actionExecuter.execute(this, a);
+	}
+
+	public void setMoveable(boolean b)
+	{
+		isMoveable = b;
 	}
 }

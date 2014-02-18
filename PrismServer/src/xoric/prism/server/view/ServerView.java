@@ -10,20 +10,19 @@ import xoric.prism.com.MessageDispatcher;
 import xoric.prism.data.global.Prism;
 import xoric.prism.data.tools.Common;
 import xoric.prism.server.control.IServerControl;
-import xoric.prism.server.model.ServerModel;
+import xoric.prism.server.net.INetworkStatus;
 import xoric.prism.swing.PrismFrame;
 
 public class ServerView extends PrismFrame implements IServerView
 {
 	private static final long serialVersionUID = 1L;
 
-	private final ServerModel model;
 	private IServerControl control;
 
-	private final INetView netView;
+	private final NetView netView;
 	private final ServerConsole console;
 
-	public ServerView(ServerModel m)
+	public ServerView()
 	{
 		super("Prism Server", 600, 400, true);
 
@@ -37,23 +36,20 @@ public class ServerView extends PrismFrame implements IServerView
 		this.setContentPane(p0);
 		this.centerOnScreen();
 
-		this.model = m;
-
 		c = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 15, 0), 0, 0);
 		p.add(console = new ServerConsole(), c);
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridy++;
 		c.weighty = 0.0;
-		NetView n = new NetView(m.net);
+		NetView n = new NetView();
 		this.netView = n;
 		p.add(n, c);
 	}
 
-	public void setControl(IServerControl control)
+	public void register(IServerControl control, INetworkStatus network)
 	{
-		this.control = control;
-		this.netView.setControl(control);
+		this.netView.register(control, network);
 	}
 
 	private void printFileVersions()

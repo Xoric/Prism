@@ -1,6 +1,5 @@
 package xoric.prism.server.control;
 
-public interface IServerControl
+public interface IServerControl extends ILoopControl, INetControl
 {
-	public void requestStartServer(boolean b);
 }

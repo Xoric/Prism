@@ -1,6 +1,6 @@
 package xoric.prism.server.control;
 
-import xoric.prism.server.net.ClientCore;
+import xoric.prism.server.client.ClientCore;
 
 public interface IDoorman
 {

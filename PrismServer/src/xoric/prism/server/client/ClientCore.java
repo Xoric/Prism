@@ -1,4 +1,4 @@
-package xoric.prism.server.net;
+package xoric.prism.server.client;
 
 import java.io.IOException;
 import java.net.Socket;

@@ -29,6 +29,13 @@ public class PrismColor implements IPackable
 		set(r, g, b, a);
 	}
 
+	public PrismColor(float r, float g, float b, float a)
+	{
+		rgba_f = new float[4];
+		rgba_i = new int[4];
+		set(r, g, b, a);
+	}
+
 	@Override
 	public String toString()
 	{
@@ -91,5 +98,27 @@ public class PrismColor implements IPackable
 	public int getAlpha()
 	{
 		return rgba_i[3];
+	}
+
+	public float getComponent_f(int i)
+	{
+		return rgba_f[i];
+	}
+
+	public float getComponent_i(int i)
+	{
+		return rgba_i[i];
+	}
+
+	public void setComponent(int i, int v)
+	{
+		rgba_i[i] = v;
+		rgba_f[i] = rgba_i[i] / 255.0f;
+	}
+
+	public void setComponent(int i, float f)
+	{
+		rgba_f[i] = f;
+		rgba_i[i] = (int) (255 * f);
 	}
 }

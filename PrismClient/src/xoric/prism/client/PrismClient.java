@@ -3,6 +3,7 @@ package xoric.prism.client;
 import java.net.Socket;
 
 import xoric.prism.client.net.Network;
+import xoric.prism.client.ui.BlinkColor;
 import xoric.prism.client.ui.PrismUI;
 import xoric.prism.client.ui.UIWindow;
 import xoric.prism.client.ui.button.ActionExecuter;
@@ -175,6 +176,7 @@ public class PrismClient implements ISceneListener, IActionParent
 		uiWindow.setText(new Text("WINDOW" + i));
 		uiWindow.makeClosable(true);
 		uiWindow.makeResizable(true);
+		uiWindow.setMoveable(true);
 
 		UIEdit e = new UIEdit();
 		e.setWidthRuler(-60.0f, 1.0f);
@@ -185,10 +187,13 @@ public class PrismClient implements ISceneListener, IActionParent
 		ui.addWindow(uiWindow);
 		//		}
 
-		MetaFile mf = Prism.global.loadMetaFile(FileTableDirectoryIndex.WINDOW, 0);
-		UIWindow loginWindow = new UIWindow(scene.getScreenSize());
-		loginWindow.load(mf.getMetaList());
-		ui.addWindow(loginWindow);
+		for (int j = 0; j < 2; ++j)
+		{
+			MetaFile mf = Prism.global.loadMetaFile(FileTableDirectoryIndex.WINDOW, j);
+			UIWindow w = new UIWindow(scene.getScreenSize());
+			w.load(mf.getMetaList());
+			ui.addWindow(w);
+		}
 
 		scene.initialize();
 		scene.startLoop(this, this);
@@ -234,6 +239,8 @@ public class PrismClient implements ISceneListener, IActionParent
 	@Override
 	public boolean update(int passedMs)
 	{
+		BlinkColor.selectionColor.update(passedMs); // TODO temp
+
 		boolean b = network.update(passedMs);
 
 		if (isSlopeGrowing)

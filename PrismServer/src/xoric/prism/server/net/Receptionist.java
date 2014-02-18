@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import xoric.prism.server.client.ClientCore;
 import xoric.prism.server.control.IDoorman;
 
 public class Receptionist extends Thread

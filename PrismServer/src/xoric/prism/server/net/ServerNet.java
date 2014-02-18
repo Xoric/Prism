@@ -4,33 +4,23 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 import xoric.prism.data.net.NetConstants;
-import xoric.prism.server.control.Doorman;
-import xoric.prism.server.control.ILoopListener;
 
-public class ServerNet implements IServerNet, ILoopListener
+public class ServerNet implements INetworkStatus
 {
 	private ServerSocket socket;
-	private Receptionist receptionist;
-	private Doorman doorman;
 
-	@Override
-	public void start() throws IOException
+	public void startSocket() throws IOException
 	{
-		stop();
-
+		stopSocket();
 		socket = new ServerSocket(NetConstants.port);
-		doorman = new Doorman();
-		receptionist = new Receptionist(socket, doorman);
-		receptionist.start();
 	}
 
-	@Override
-	public void stop() throws IOException
+	public void stopSocket() throws IOException
 	{
 		if (socket != null)
 		{
-			receptionist.interrupt();
 			socket.close();
+			socket = null;
 		}
 	}
 
@@ -46,9 +36,8 @@ public class ServerNet implements IServerNet, ILoopListener
 		return socket != null && socket.isBound() && !socket.isClosed();
 	}
 
-	@Override
-	public void update()
+	public ServerSocket getSocket()
 	{
-		doorman.update();
+		return socket;
 	}
 }

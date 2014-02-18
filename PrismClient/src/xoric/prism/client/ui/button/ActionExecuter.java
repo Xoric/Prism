@@ -5,6 +5,7 @@ import xoric.prism.client.ui.UIWindow;
 import xoric.prism.com.ClientLoginMessage_out;
 import xoric.prism.constants.Constants;
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.global.Prism;
 import xoric.prism.data.types.Text;
 
 /**
@@ -35,6 +36,10 @@ public class ActionExecuter implements IActionExecuter
 				executeLogin(a.getText(0), a.getText(1));
 				break;
 
+			case CREATE_ACC:
+				executeCreateAcc(a.getText(0), a.getText(1), a.getText(2), a.getText(3));
+				break;
+
 			default:
 				break;
 		}
@@ -50,13 +55,20 @@ public class ActionExecuter implements IActionExecuter
 
 		System.out.println("login requested, acc(" + acc.length() + ")=\"" + acc + "\", pw(" + pw.length() + ")=\"" + pw + "\"");
 
+		b = true; // TODO (for debugging) always send
+
 		if (b)
 		{
 			ClientLoginMessage_out m = new ClientLoginMessage_out();
-			m.getHeap().texts.add(acc);
 			m.setPassword(pw);
-
+			m.getHeap().texts.add(acc);
+			m.getHeap().ints.addAll(Prism.global.getVersionHeap().ints);
 			network.send(m);
 		}
+	}
+
+	private void executeCreateAcc(Text acc, Text pw1, Text pw2, Text email) throws PrismException
+	{
+		System.out.println("Create account: acc=" + acc + ", pw1=" + pw1 + ", pw2=" + pw2 + ", email=" + email);
 	}
 }

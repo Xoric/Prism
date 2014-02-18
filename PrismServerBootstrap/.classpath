@@ -8,5 +8,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismServer"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismSwing"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismCommunication"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PrismServerDatabase"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PrismServerMongo"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

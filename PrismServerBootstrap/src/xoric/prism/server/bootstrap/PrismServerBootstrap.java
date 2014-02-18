@@ -8,8 +8,11 @@ import xoric.prism.com.PrismCommunicationLoader;
 import xoric.prism.data.PrismDataLoader;
 import xoric.prism.data.global.Prism;
 import xoric.prism.global.PrismGlobal;
+import xoric.prism.server.control.Doorman;
 import xoric.prism.server.control.ServerControl;
-import xoric.prism.server.model.ServerModel;
+import xoric.prism.server.db.Database;
+import xoric.prism.server.db.mongo.MongoLoader;
+import xoric.prism.server.net.ServerNet;
 import xoric.prism.server.view.ServerView;
 import xoric.prism.world.PrismWorldLoader;
 
@@ -35,18 +38,25 @@ public class PrismServerBootstrap
 			PrismCommunicationLoader.loadAll();
 
 			// create scene and client
-			final ServerModel model = new ServerModel();
-			final ServerControl control = new ServerControl(model);
-			final ServerView view = new ServerView(model);
+			final ServerControl control = new ServerControl();
+			final ServerView view = new ServerView();
+			final Database db = MongoLoader.loadAll();
 
-			control.setView(view);
+			// create server objects
+			Doorman doorman = new Doorman();
+			ServerNet network = new ServerNet();
 
+			// register all objects
+			control.register(view, doorman, network);
+			view.register(control, network);
+			doorman.register(db.accounts);
+
+			// create server frame
 			SwingUtilities.invokeLater(new Runnable()
 			{
 				@Override
 				public void run()
 				{
-					view.setControl(control);
 					view.printWelcome();
 					view.displayAll();
 					view.setVisible(true);

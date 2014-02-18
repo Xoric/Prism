@@ -27,11 +27,13 @@ public class Printer implements IMetaChild
 
 	private final GridArt font;
 	private final GridMeta gridMeta;
-	private final float[] padding;
+	private final float[] defaultPadding;
 	private final FloatRect tempScreenRect;
 	private PrismColor color;
 	//	private float spriteHeight;
-	private float scale;
+	//	private float scale;
+
+	private final float defaultHeight;
 
 	private IText_r text;
 	private int startIndex;
@@ -42,9 +44,12 @@ public class Printer implements IMetaChild
 		this.font = font;
 		this.gridMeta = font.getMeta();
 		this.tempScreenRect = new FloatRect();
-		this.padding = new float[64];
+		this.defaultPadding = new float[64];
 		resetColor();
-		setScale(DEFAULT_SCALE);
+		//		setScale(DEFAULT_SCALE);
+		this.defaultHeight = gridMeta.getSpriteSize().getY() * DEFAULT_SCALE;
+		this.tempScreenRect.setSize(gridMeta.getSpriteSize());
+		this.tempScreenRect.multiply(DEFAULT_SCALE);
 	}
 
 	public void setColor(PrismColor color)
@@ -64,7 +69,7 @@ public class Printer implements IMetaChild
 	 * @param text
 	 * @return float
 	 */
-	public float calcTextWidth(IText_r text)
+	public float calcDefaultTextWidth(IText_r text)
 	{
 		return calcTextWidth(text, 0, text.length());
 	}
@@ -80,9 +85,9 @@ public class Printer implements IMetaChild
 	{
 		float w = 0.0f;
 		for (int i = startIndex; i < endIndex; ++i)
-			w += padding[text.symbolAt(i)];
+			w += defaultPadding[text.symbolAt(i)];
 
-		return w * DEFAULT_SCALE;
+		return w;
 	}
 
 	public float calcTextWidth(IText_r text, Word word)
@@ -101,31 +106,30 @@ public class Printer implements IMetaChild
 		this.color = PrismColor.opaqueWhite;
 	}
 
-	public void resetScale()
+	//	public void resetScale()
+	//	{
+	//		setScale(DEFAULT_SCALE);
+	//	}
+
+	//	public void setScale(float scale)
+	//	{
+	//		this.scale = scale;
+	//		this.tempScreenRect.setSize(gridMeta.getSpriteSize().getX() * scale, gridMeta.getSpriteSize().getY() * scale);
+	//	}
+
+	public float getHeight()
 	{
-		setScale(DEFAULT_SCALE);
+		return defaultHeight;
 	}
 
-	public void setScale(float scale)
-	{
-		this.scale = scale;
-		//		this.spriteHeight = gridMeta.getSpriteSize().getY() * scale;
-		this.tempScreenRect.setSize(gridMeta.getSpriteSize().getX() * scale, gridMeta.getSpriteSize().getY() * scale);
-	}
-
-	public float getHeight(float scale)
-	{
-		return gridMeta.getSpriteSize().getY() * scale;
-	}
-
-	@Deprecated
-	public void print(IFloatPoint_r screenPos, float scale) throws PrismException
-	{
-		float s = this.scale;
-		setScale(scale);
-		print(screenPos);
-		setScale(s);
-	}
+	//	@Deprecated
+	//	public void print(IFloatPoint_r screenPos, float scale) throws PrismException
+	//	{
+	//		float s = this.scale;
+	//		setScale(scale);
+	//		print(screenPos);
+	//		setScale(s);
+	//	}
 
 	public float print(IFloatPoint_r screenPos) throws PrismException
 	{
@@ -142,14 +146,14 @@ public class Printer implements IMetaChild
 			IFloatRect_r texRect = gridMeta.getRect(s);
 
 			renderer.drawSprite(texRect, tempScreenRect);
-			tempScreenRect.addX(padding[s] * scale);
+			tempScreenRect.addX(defaultPadding[s]);
 		}
 		return tempScreenRect.getX();
 	}
 
 	public float getDefaultPadding(int symbol)
 	{
-		return padding[symbol];
+		return defaultPadding[symbol];
 	}
 
 	@Override
@@ -157,14 +161,9 @@ public class Printer implements IMetaChild
 	{
 		MetaBlock_in mb = metaList.claimMetaBlock(MetaType.COMMON);
 		MetaLine_in ml = mb.claimLine(MetaKey.SIZE);
-		ml.ensureMinima(padding.length, 0, 0);
+		ml.ensureMinima(defaultPadding.length, 0, 0);
 
-		for (int i = 0; i < padding.length; ++i)
-			padding[i] = ml.getHeap().ints.get(i);
-	}
-
-	public float getWidth(int index, float scale)
-	{
-		return padding[index] * scale;
+		for (int i = 0; i < defaultPadding.length; ++i)
+			defaultPadding[i] = ml.getHeap().ints.get(i) * DEFAULT_SCALE;
 	}
 }

@@ -257,4 +257,12 @@ public class FloatRect implements IStackable, IFloatRect_r
 		bottomRight.x += dw;
 		bottomRight.y += dh;
 	}
+
+	public void multiply(float f)
+	{
+		size.x *= f;
+		size.y *= f;
+		bottomRight.x = topLeft.x + size.x;
+		bottomRight.y = topLeft.y + size.y;
+	}
 }

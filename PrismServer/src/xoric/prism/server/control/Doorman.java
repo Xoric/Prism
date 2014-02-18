@@ -4,16 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.server.net.ClientCore;
-import xoric.prism.server.net.ClientLink0;
+import xoric.prism.server.client.ClientCore;
+import xoric.prism.server.client.ClientLink0;
+import xoric.prism.server.db.IAccManager;
 
-public class Doorman implements IDoorman, ILoopListener//, IClient0Handler
+public class Doorman implements IDoorman, ILoopListener
 {
 	private volatile List<ClientLink0> links;
+	private IAccManager accManager;
 
 	public Doorman()
 	{
 		links = new ArrayList<ClientLink0>();
+	}
+
+	public void register(IAccManager accManager)
+	{
+		this.accManager = accManager;
 	}
 
 	@Override
@@ -55,27 +62,6 @@ public class Doorman implements IDoorman, ILoopListener//, IClient0Handler
 		}
 	}
 
-	//	private void test(Socket socket)
-	//	{
-	//		try
-	//		{
-	//			InputStreamReader in = new InputStreamReader(socket.getInputStream());
-	//			char[] buffer = new char[200];
-	//			do
-	//			{
-	//				int n = in.read(buffer, 0, 200); // blockiert bis Nachricht empfangen
-	//				String s = new String(buffer, 0, n);
-	//
-	//				System.out.println("message received - length: " + n + " - string: " + s);
-	//			}
-	//			while (true);
-	//		}
-	//		catch (Exception e0)
-	//		{
-	//			e0.printStackTrace();
-	//		}
-	//	}
-
 	private static String getMessage(Exception e)
 	{
 		String s;
@@ -92,7 +78,7 @@ public class Doorman implements IDoorman, ILoopListener//, IClient0Handler
 	@Override
 	public synchronized void passClient(ClientCore client)
 	{
-		ClientLink0 c = new ClientLink0(client);
+		ClientLink0 c = new ClientLink0(client, accManager);
 		links.add(c);
 	}
 }

@@ -1,10 +1,6 @@
 package xoric.prism.server.db.mongo;
 
 import java.net.UnknownHostException;
-import java.util.Date;
-
-import xoric.prism.data.types.Text;
-import xoric.prism.server.data.Account;
 
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
@@ -13,7 +9,7 @@ public class MongoLoader
 {
 	private static MongoClient mongoClient;
 
-	public static void loadAll() throws UnknownHostException
+	public static MongoDatabase loadAll() throws UnknownHostException
 	{
 		// initialize MongoClient (thread safe)
 		mongoClient = new MongoClient("localhost");
@@ -21,11 +17,11 @@ public class MongoLoader
 		//		boolean auth = dataBase.authenticate(myUserName, myPassword);
 
 		// initialize AccManager
-		AccManager am = new AccManager(dataBase);
+		MongoDatabase db = new MongoDatabase(dataBase);
 
-		String name = "lara";
-		Account a = new Account(new Text(name), new byte[32], name + "@gmx.de", new Date(), new Date());
-		am.createAccount(a);
+		//		String name = "lara";
+		//		Account a = new Account(new Text(name), new byte[32], name + "@gmx.de", new Date(), new Date());
+		//		am.createAccount(a);
 		//		am.findAccount(a.getAccName());
 		//
 		//		List<String> list = mongoClient.getDatabaseNames();
@@ -49,6 +45,8 @@ public class MongoLoader
 		//		// ----------------
 		//
 		//		System.out.print("done");
+
+		return db;
 	}
 
 	public static void main(String[] args)

@@ -12,26 +12,24 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import xoric.prism.server.control.IServerControl;
-import xoric.prism.server.net.ServerNet;
+import xoric.prism.server.net.INetworkStatus;
 import xoric.prism.swing.PrismPanel;
 
 public class NetView extends PrismPanel implements ActionListener, INetView
 {
 	private static final long serialVersionUID = 1L;
 
-	private final ServerNet net;
 	private IServerControl control;
+	private INetworkStatus network;
 
 	private final JLabel portLabel;
 	private final JLabel stateLabel;
 
 	private final JButton startButton;
 
-	public NetView(ServerNet net)
+	public NetView()
 	{
 		super("Network");
-
-		this.net = net;
 
 		JPanel p = new JPanel(new GridBagLayout());
 		this.setContent(p);
@@ -62,10 +60,10 @@ public class NetView extends PrismPanel implements ActionListener, INetView
 		p.add(startButton = createButton("", ""), c);
 	}
 
-	@Override
-	public void setControl(IServerControl control)
+	public void register(IServerControl control, INetworkStatus network)
 	{
 		this.control = control;
+		this.network = network;
 	}
 
 	private JButton createButton(String s, String tooltip)
@@ -99,15 +97,18 @@ public class NetView extends PrismPanel implements ActionListener, INetView
 	@Override
 	public void displayNetState()
 	{
-		boolean b = net.isActive();
+		boolean b = network.isActive();
 		stateLabel.setText(b ? "online" : "offline");
 		startButton.setText(b ? "Stop" : "Start");
-		portLabel.setText(net.getPort());
+		portLabel.setText(network.getPort());
 	}
 
 	private void onStartButton()
 	{
-		control.requestStartServer(startButton.getText().equals("Start"));
+		if (startButton.getText().equals("Start"))
+			control.requestStartServer();
+		else
+			control.requestStopServer();
 	}
 
 	@Override

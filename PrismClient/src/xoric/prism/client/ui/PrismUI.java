@@ -112,7 +112,7 @@ public class PrismUI implements IDrawableUI
 
 	public void mouseMove(IFloatPoint_r mouse)
 	{
-		if (isMouseDown && activeComponent instanceof UIWindow)
+		if (isMouseDown && activeComponent instanceof UIWindow && ((UIWindow) activeComponent).isMoveable())
 		{
 			UIWindow w = (UIWindow) activeComponent;
 			float dx = mouse.getX() - last.x;

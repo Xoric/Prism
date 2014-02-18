@@ -7,6 +7,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.KeyEvent;
 
+import xoric.prism.client.ui.BlinkColor;
 import xoric.prism.client.ui.IUISubcomponent;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.heap.Heap_in;
@@ -35,8 +36,9 @@ public class InputHandler implements IUISubcomponent, IStackable
 	private static final IText_r markRight = new Text(">");
 
 	private static final float HALF = 0.5f;
+	private static final float BORDER = 25.0f;
 	//	private static final float MAJOR_FAC = 0.95f;
-	private static final float ALIGN = 0.5f;
+	//	private static final float ALIGN = 0.5f;
 	private static final char PASSWORD_CHAR = '*';
 
 	private static final int COPY = 3;
@@ -88,6 +90,8 @@ public class InputHandler implements IUISubcomponent, IStackable
 	 */
 	public void mouseDown(IFloatPoint_r mouse)
 	{
+		// TODO: fix bugs with text selection when shift-clicking
+
 		final IText_r t = getDisplayedText();
 		final float x = mouse.getX() - rect.getX() - xOnset;
 		float wThis;
@@ -240,7 +244,7 @@ public class InputHandler implements IUISubcomponent, IStackable
 
 		selectionChanged = false;
 		//		float major = rect.getWidth() * MAJOR_FAC;
-		float major = rect.getWidth() - 25.0f;
+		float major = rect.getWidth() - BORDER;
 		int selStart = input.getSelectionStart();
 		int selLength = input.getSelectionLength();
 
@@ -268,7 +272,7 @@ public class InputHandler implements IUISubcomponent, IStackable
 			wm = trimWord(text, displayMiddle, rect.getWidth() - wl, false);
 			wr = trimWord(text, displayRight, rect.getWidth() - wl - wm, false);
 		}
-		xOnset = (rect.getWidth() - wl - wm - wr) * ALIGN;
+		xOnset = (rect.getWidth() - wl - wm - wr) * HALF;
 	}
 
 	public InputFormat getInputFormat()
@@ -414,7 +418,7 @@ public class InputHandler implements IUISubcomponent, IStackable
 		if (drawCursor)
 		{
 			//			Printer.pushColor(BlinkColor.selectionColor.getColor());
-			Materials.printer.setColor(PrismColor.temp);
+			Materials.printer.setColor(BlinkColor.selectionColor.getMixedColor());
 		}
 
 		//		float x = Printer.printCentered(renderer, r, getDisplayedText(), FontCenter.VERTICAL, displayMiddle);
@@ -443,7 +447,7 @@ public class InputHandler implements IUISubcomponent, IStackable
 		if (drawCursor)
 		{
 			//			Printer.pushColor(BlinkColor.cursorColor.getColor());
-			Materials.printer.setColor(PrismColor.temp);
+			Materials.printer.setColor(BlinkColor.selectionColor.getMixedColor());
 
 			tempCursor.x -= 3.0f;
 			tempCursor.y = rect.getY() + 9.0f;

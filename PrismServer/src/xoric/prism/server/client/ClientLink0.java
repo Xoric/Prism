@@ -1,4 +1,4 @@
-package xoric.prism.server.net;
+package xoric.prism.server.client;
 
 import java.util.List;
 
@@ -6,19 +6,23 @@ import xoric.prism.com.ClientLoginMessage_in;
 import xoric.prism.com.Message_in;
 import xoric.prism.com.Token;
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.global.Prism;
 import xoric.prism.data.heap.Heap_in;
 import xoric.prism.data.time.PrismClock;
 import xoric.prism.data.types.IText_r;
+import xoric.prism.server.db.IAccManager;
 
 public class ClientLink0
 {
 	private final ClientCore core;
 	private final PrismClock clock;
+	private final IAccManager accManager;
 
-	public ClientLink0(ClientCore core)
+	public ClientLink0(ClientCore core, IAccManager accManager)
 	{
 		this.core = core;
 		this.clock = new PrismClock();
+		this.accManager = accManager;
 	}
 
 	public void kick()
@@ -42,6 +46,46 @@ public class ClientLink0
 		return core.toString() + "/0";
 	}
 
+	private boolean checkAccData(IText_r acc, byte[] pw)
+	{
+		boolean b;
+		try
+		{
+			accManager.login(acc, pw);
+			b = true;
+		}
+		catch (PrismException e)
+		{
+			b = false;
+		}
+		return b;
+	}
+
+	private void checkVersion(int index, int vExpected, int vFound)
+	{
+		if (vFound != vExpected)
+		{
+			System.err.println(toString() + " - file[" + index + "] is out of date: version " + vExpected + " expected, " + vFound
+					+ " found");
+		}
+	}
+
+	private void checkVersions(List<Integer> versions)
+	{
+		if (Prism.global.getVersionHeap().ints.size() != versions.size())
+		{
+			// file table is outdated
+		}
+		else
+		{
+			// file table seems up to date, check individual versions
+			for (int i = 0; i < versions.size(); ++i)
+			{
+				checkVersion(i, Prism.global.getVersionHeap().ints.get(i), versions.get(i));
+			}
+		}
+	}
+
 	private void handleLogin(ClientLoginMessage_in lm) throws PrismException
 	{
 		try
@@ -51,7 +95,17 @@ public class ClientLink0
 			IText_r acc = h.texts.get(0);
 			List<Integer> versions = h.ints;
 
-			System.out.println(toString() + " wants to login with acc=" + acc.toString());
+			boolean b = checkAccData(acc, pw);
+			if (b)
+			{
+				System.out.print(toString() + " successfully logged in: " + acc.toString());
+
+				checkVersions(versions);
+			}
+			else
+			{
+				System.err.print(toString() + " issued a failed login attempt");
+			}
 		}
 		catch (Exception e0)
 		{

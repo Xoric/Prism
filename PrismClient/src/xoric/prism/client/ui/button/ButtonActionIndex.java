@@ -5,7 +5,7 @@ import xoric.prism.data.exceptions.UserErrorText;
 
 public enum ButtonActionIndex
 {
-	NONE, EXIT_GAME, LOGIN;
+	NONE, EXIT_GAME, LOGIN, CREATE_ACC;
 	// unlimited
 
 	public static final ButtonActionIndex[] VALUES = values();

@@ -11,7 +11,6 @@ import xoric.prism.data.types.Text;
 import xoric.prism.scene.IDrawableUI;
 import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.materials.Materials;
-import xoric.prism.scene.materials.Printer;
 
 public class UITextLine implements IDrawableUI, IUITextComponent, IUISubcomponent, IStackable
 {
@@ -19,10 +18,10 @@ public class UITextLine implements IDrawableUI, IUITextComponent, IUISubcomponen
 
 	private Text text;
 	private float defaultHalfTextWidth;
-	private float halfTextWidth;
-	private float halfTextHeight;
-	private float scale;
-	private boolean useScale;
+	//	private float halfTextWidth;
+	private float defaultHalfTextHeight;
+	//	private float scale;
+	//	private boolean useScale;
 	private IFloatRect_r parentRect;
 	private final FloatPoint textPosition;
 
@@ -31,19 +30,19 @@ public class UITextLine implements IDrawableUI, IUITextComponent, IUISubcomponen
 		textPosition = new FloatPoint();
 		text = defaultText;
 
-		setFontScale(Printer.DEFAULT_SCALE);
-		useScale = false;
+		//		setFontScale(Printer.DEFAULT_SCALE);
+		//		useScale = false;
 	}
 
 	@Override
 	public void setText(Text text)
 	{
 		this.text = text;
-		this.defaultHalfTextWidth = 0.5f * Materials.printer.calcTextWidth(text);
-		this.halfTextWidth = defaultHalfTextWidth;
+		this.defaultHalfTextWidth = 0.5f * Materials.printer.calcDefaultTextWidth(text);
+		//		this.halfTextWidth = defaultHalfTextWidth;
 
-		if (useScale)
-			halfTextWidth *= scale;
+		//		if (useScale)
+		//			halfTextWidth *= scale;
 
 		repositionText();
 	}
@@ -54,15 +53,15 @@ public class UITextLine implements IDrawableUI, IUITextComponent, IUISubcomponen
 		return text;
 	}
 
-	public void setFontScale(float scale)
-	{
-		this.scale = scale;
-		this.halfTextHeight = 0.5f * Materials.printer.getHeight(scale);
-		this.halfTextWidth = defaultHalfTextWidth * scale;
-		this.useScale = true;
-
-		repositionText();
-	}
+	//	public void setFontScale(float scale)
+	//	{
+	//		this.scale = scale;
+	//		this.halfTextHeight = 0.5f * Materials.printer.getHeight(scale);
+	//		this.halfTextWidth = defaultHalfTextWidth * scale;
+	//		this.useScale = true;
+	//
+	//		repositionText();
+	//	}
 
 	@Override
 	public void draw(IRendererUI renderer) throws PrismException
@@ -71,10 +70,10 @@ public class UITextLine implements IDrawableUI, IUITextComponent, IUISubcomponen
 		{
 			Materials.printer.setText(text);
 
-			if (useScale)
-				Materials.printer.print(textPosition, scale);
-			else
-				Materials.printer.print(textPosition);
+			//			if (useScale)
+			//				Materials.printer.print(textPosition, scale);
+			//			else
+			Materials.printer.print(textPosition);
 		}
 	}
 
@@ -89,8 +88,8 @@ public class UITextLine implements IDrawableUI, IUITextComponent, IUISubcomponen
 	{
 		if (parentRect != null)
 		{
-			textPosition.x = parentRect.getX() + parentRect.getWidth() * 0.5f - halfTextWidth;
-			textPosition.y = parentRect.getY() + halfTextHeight;
+			textPosition.x = parentRect.getX() + parentRect.getWidth() * 0.5f - defaultHalfTextWidth;
+			textPosition.y = parentRect.getY() + 7.0f;
 		}
 	}
 

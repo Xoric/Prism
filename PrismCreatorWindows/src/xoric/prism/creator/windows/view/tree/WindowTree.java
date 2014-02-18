@@ -89,6 +89,10 @@ public class WindowTree extends JPanel implements MouseListener, ITree
 		s.setUserObject(new ResizableWrapper(w, s));
 		r.add(s);
 
+		s = new DefaultMutableTreeNode();
+		s.setUserObject(new MoveableWrapper(w, s));
+		r.add(s);
+
 		for (int i = 0; i < w.getComponents().size(); ++i)
 		{
 			UIComponent c = w.getComponents().get(i);

@@ -1,6 +1,6 @@
 package xoric.prism.server.net;
 
-public interface IServerNet_r
+public interface INetworkStatus
 {
 	public String getPort();
 

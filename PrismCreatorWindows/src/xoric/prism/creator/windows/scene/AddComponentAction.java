@@ -52,7 +52,7 @@ public class AddComponentAction extends SceneAction
 		else if (align == Align.RIGHT)
 		{
 			c.setWidthRuler(defaultWidth, 0.0f);
-			c.setXRuler(-30.0f - 0.5f * defaultWidth, 1.0f);
+			c.setXRuler(-30.0f - defaultWidth, 1.0f);
 		}
 	}
 

@@ -1,39 +1,83 @@
 package xoric.prism.server.control;
 
-import xoric.prism.server.model.ServerModel;
+import java.io.IOException;
+
+import xoric.prism.server.net.Receptionist;
+import xoric.prism.server.net.ServerNet;
 import xoric.prism.server.view.IServerView;
 
 public class ServerControl implements IServerControl
 {
-	private final ServerModel model;
 	private IServerView view;
+	private Doorman doorman;
+	private Receptionist receptionist;
+	private ServerNet network;
 
-	public ServerControl(ServerModel m)
-	{
-		this.model = m;
-	}
-
-	public void setView(IServerView view)
+	public void register(IServerView view, Doorman doorman, ServerNet network)
 	{
 		this.view = view;
+		this.doorman = doorman;
+		this.network = network;
 	}
 
+	/*
+	 * ILoopControl
+	 */
 	@Override
-	public void requestStartServer(boolean b)
+	public void requestUpdateLoop()
 	{
-		// modify model
-		if (b && !model.net.isActive())
-			NetControl.startNet(model.net);
-		else if (!b && model.net.isActive())
-			NetControl.stopNet(model.net);
+		doorman.update();
+	}
+
+	/*
+	 * INetControl
+	 */
+	@Override
+	public void requestStartServer()
+	{
+		// start socket and receptionist
+		if (!network.isActive())
+		{
+			try
+			{
+				network.startSocket();
+				receptionist = new Receptionist(network.getSocket(), doorman);
+				receptionist.start();
+
+				System.out.println("server started");
+			}
+			catch (IOException e0)
+			{
+				System.err.print("error while activating server socket (" + e0.getMessage() + ")");
+			}
+		}
 
 		// update view
 		view.getNetView().displayNetState();
 
-		// start or stop the loop
-		if (b)
-			ServerLoop.startThread(model);
-		else
-			ServerLoop.requestStopThread();
+		// start server loop
+		ServerLoop.startThread(this);
+	}
+
+	@Override
+	public void requestStopServer()
+	{
+		// stop server loop
+		ServerLoop.requestStopThread();
+
+		// stop receptionist and socket
+		try
+		{
+			receptionist.interrupt();
+			network.stopSocket();
+			System.out.println("server stopped");
+		}
+		catch (IOException e0)
+		{
+			System.err.print("error while closing server socket (" + e0.getMessage() + ")");
+		}
+
+		// update view
+		view.getNetView().displayNetState();
 	}
 }
