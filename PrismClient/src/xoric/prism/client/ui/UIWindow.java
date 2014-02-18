@@ -1,30 +1,33 @@
 package xoric.prism.client.ui;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import xoric.prism.client.ui.actions.ButtonAction;
-import xoric.prism.client.ui.actions.ButtonActionIndex;
-import xoric.prism.client.ui.actions.IActionHandler;
+import xoric.prism.client.ui.button.ButtonAction;
+import xoric.prism.client.ui.button.IActionExecuter;
+import xoric.prism.client.ui.button.UIButton;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
-import xoric.prism.data.packable.IntPacker;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.heap.Heap_out;
+import xoric.prism.data.meta.MetaBlock_in;
+import xoric.prism.data.meta.MetaLine_in;
+import xoric.prism.data.meta.MetaList_in;
+import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IFloatRect_r;
+import xoric.prism.data.types.IMetaChild;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
 import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.materials.Materials;
 
-public class UIWindow extends UIFrame implements IUIButtonHost
+public class UIWindow extends UIFrame implements IUIButtonHost, IMetaChild
 {
 	private static final Text DEFAULT_TITLE = new Text("WINDOW");
 
-	private IActionHandler actionHandler;
+	private IActionExecuter actionExecuter;
 
 	private final FloatRect screenRect;
 	//	private IFloatPoint_r screenSize;
@@ -39,6 +42,8 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 
 	public UIWindow(IFloatPoint_r screenSize)
 	{
+		super(UIIdentifier.WINDOW);
+
 		components = new ArrayList<UIComponent>();
 
 		screenRect = new FloatRect();
@@ -93,17 +98,18 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 		if (b && closeButton == null)
 		{
 			closeButton = new UIButton(this);
-			closeButton.setActionIndex(ButtonActionIndex.CLOSE_WINDOW);
+			closeButton.setClosingWindow(true);
 			closeButton.setXRuler(-26.0f, 1.0f);
 			closeButton.setYRuler(0.5f, 0.0f);
 			closeButton.setWidthRuler(26.0f, 0.0f);
 			closeButton.setText(new Text("X"));
-			addComponent(closeButton);
+			//			addComponent(closeButton);
+			registerChild(closeButton);
 		}
 		else if (!b && closeButton != null)
 		{
 			unregisterChild(closeButton);
-			components.remove(closeButton);
+			//			components.remove(closeButton);
 			closeButton = null;
 		}
 	}
@@ -112,16 +118,24 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 	{
 		registerChild(c);
 		components.add(c);
+		c.rearrange(rect);
 	}
 
-	public void setActionHandler(IActionHandler actionHandler)
+	public void setActionExecuter(IActionExecuter actionExecuter)
 	{
-		this.actionHandler = actionHandler;
+		this.actionExecuter = actionExecuter;
 	}
 
 	@Override
 	protected IActiveUI mouseDownConfirmed(IFloatPoint_r mouse)
 	{
+		if (closeButton != null)
+		{
+			IActiveUI a = closeButton.mouseDown(mouse);
+			if (a != null)
+				return a;
+		}
+
 		for (UIComponent c : components)
 		{
 			IActiveUI a = c.mouseDown(mouse);
@@ -194,12 +208,6 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 	}
 
 	@Override
-	public void executeAction(ButtonAction a)
-	{
-		actionHandler.executeAction(this, a);
-	}
-
-	@Override
 	public void draw(IRendererUI renderer) throws PrismException
 	{
 		super.draw(renderer);
@@ -212,11 +220,15 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 
 		for (UIComponent c : components)
 			c.draw(renderer);
+
+		if (closeButton != null)
+			closeButton.draw(renderer);
 	}
 
 	@Override
 	public void rearrange(IFloatRect_r parentRect)
 	{
+		screenRect.setSize(parentRect.getSize());
 		super.rearrange(parentRect);
 
 		rearrangeCorner();
@@ -234,11 +246,13 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 
 		if (rect.getWidth() < 100.0f)
 			rect.setWidth(100.0f);
+		else if (rect.getWidth() > screenRect.getWidth())
+			rect.setWidth(screenRect.getWidth());
 
 		if (rect.getHeight() < 35.0f)
 			rect.setHeight(35.0f);
-
-		// TODO implement an upper limit for window size
+		else if (rect.getHeight() > screenRect.getHeight())
+			rect.setHeight(screenRect.getHeight());
 
 		rearrangeCorner();
 		rearrangeChildrenOnly();
@@ -300,40 +314,126 @@ public class UIWindow extends UIFrame implements IUIButtonHost
 		return closeButton != null;
 	}
 
+	//	@Override
+	//	public void pack(OutputStream stream) throws IOException, PrismException
+	//	{
+	//		super.pack(stream);
+	//
+	//		IntPacker.pack_s(stream, closeButton == null ? 0 : 1);
+	//		IntPacker.pack_s(stream, cornerRect == null ? 0 : 1);
+	//
+	//		final int n = components.size();
+	//		IntPacker.pack_s(stream, n);
+	//
+	//		for (int i = 0; i < n; ++i)
+	//		{
+	//			UIComponent c = components.get(i);
+	//			UIFactory.appendComponent(stream, c);
+	//		}
+	//	}
+	//
+	//	@Override
+	//	public void unpack(InputStream stream) throws IOException, PrismException
+	//	{
+	//		components.clear();
+	//
+	//		super.unpack(stream);
+	//
+	//		makeClosable(IntPacker.unpack_s(stream) > 0);
+	//		makeResizable(IntPacker.unpack_s(stream) > 0);
+	//
+	//		final int n = IntPacker.unpack_s(stream);
+	//
+	//		for (int i = 0; i < n; ++i)
+	//		{
+	//			UIComponent c = UIFactory.extractComponent(stream, this);
+	//			components.add(c);
+	//		}
+	//	}
+
 	@Override
-	public void unpack(InputStream stream) throws IOException, PrismException
+	public void appendTo(Heap_out h)
 	{
-		components.clear();
+		super.appendTo(h);
 
-		super.unpack(stream);
+		// flags
+		h.bools.add(closeButton != null);
+		h.bools.add(cornerRect != null);
 
-		makeClosable(IntPacker.unpack_s(stream) > 0);
-		makeResizable(IntPacker.unpack_s(stream) > 0);
-
-		final int n = IntPacker.unpack_s(stream);
-
-		for (int i = 0; i < n; ++i)
-		{
-			UIComponent c = UIFactory.unpackComponent(stream, this);
-			components.add(c);
-		}
+		// components
+		//		h.ints.add(components.size());
+		//		for (UIComponent c : components)
+		//			UIFactory.appendComponent(h, c);
 	}
 
 	@Override
-	public void pack(OutputStream stream) throws IOException, PrismException
+	public void extractFrom(Heap_in h) throws PrismException
 	{
-		super.pack(stream);
+		super.extractFrom(h);
 
-		IntPacker.pack_s(stream, closeButton == null ? 0 : 1);
-		IntPacker.pack_s(stream, cornerRect == null ? 0 : 1);
+		// flags
+		makeClosable(h.nextBool());
+		makeResizable(h.nextBool());
 
-		final int n = components.size();
-		IntPacker.pack_s(stream, n);
+		// components
+		//		int n = h.nextInt();
+		//		for (int i = 0; i < n; ++i)
+		//		{
+		//			UIComponent c = UIFactory.extractComponent(h, this);
+		//			components.add(c);
+		//		}
+	}
 
-		for (int i = 0; i < n; ++i)
+	public UIComponent findComponent(IFloatPoint_r mouseOnWindow)
+	{
+		for (int i = components.size() - 1; i >= 0; --i)
 		{
 			UIComponent c = components.get(i);
-			UIFactory.packComponent(stream, c);
+
+			if (c != closeButton)
+				if (c.rect.contains(mouseOnWindow))
+					return c;
 		}
+		return null;
+	}
+
+	public void removeComponent(UIComponent c)
+	{
+		components.remove(c);
+	}
+
+	@Override
+	public void load(MetaList_in metaList) throws PrismException
+	{
+		MetaBlock_in mb = metaList.claimMetaBlock(MetaType.WINDOW);
+		load(mb);
+	}
+
+	public void load(MetaBlock_in mb) throws PrismException
+	{
+		for (MetaLine_in ml : mb.getMetaLines())
+		{
+			// extract identifier
+			Heap_in h = ml.getHeap();
+			int v = h.nextInt();
+			UIIdentifier id = UIIdentifier.valueOf(v);
+
+			if (id == UIIdentifier.WINDOW)
+			{
+				this.extractFrom(h);
+			}
+			else
+			{
+				UIComponent c = UIFactory.loadComponent(id, h, screenRect.getSize(), this);
+				this.addComponent(c);
+			}
+		}
+		//		rearrange(screenRect);
+	}
+
+	@Override
+	public void executeAction(ButtonAction a) throws PrismException
+	{
+		actionExecuter.execute(this, a);
 	}
 }

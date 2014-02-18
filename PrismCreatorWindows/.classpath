@@ -9,5 +9,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismSceneLWJGL"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismSwing"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismGlobal"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PrismPublicDevelop"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

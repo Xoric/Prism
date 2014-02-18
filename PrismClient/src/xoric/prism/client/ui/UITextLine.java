@@ -1,12 +1,9 @@
 package xoric.prism.client.ui;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.packable.IPackable;
-import xoric.prism.data.packable.TextPacker;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.heap.Heap_out;
+import xoric.prism.data.heap.IStackable;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.IText_r;
@@ -16,9 +13,9 @@ import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.materials.Materials;
 import xoric.prism.scene.materials.Printer;
 
-public class UITextLine implements IDrawableUI, IUITextComponent, IUISubcomponent, IPackable
+public class UITextLine implements IDrawableUI, IUITextComponent, IUISubcomponent, IStackable
 {
-	private static final Text DEFAULT_TEXT = new Text("");
+	private static final Text defaultText = new Text("");
 
 	private Text text;
 	private float defaultHalfTextWidth;
@@ -32,7 +29,7 @@ public class UITextLine implements IDrawableUI, IUITextComponent, IUISubcomponen
 	public UITextLine()
 	{
 		textPosition = new FloatPoint();
-		text = DEFAULT_TEXT;
+		text = defaultText;
 
 		setFontScale(Printer.DEFAULT_SCALE);
 		useScale = false;
@@ -43,7 +40,10 @@ public class UITextLine implements IDrawableUI, IUITextComponent, IUISubcomponen
 	{
 		this.text = text;
 		this.defaultHalfTextWidth = 0.5f * Materials.printer.calcTextWidth(text);
-		this.halfTextWidth = defaultHalfTextWidth * scale;
+		this.halfTextWidth = defaultHalfTextWidth;
+
+		if (useScale)
+			halfTextWidth *= scale;
 
 		repositionText();
 	}
@@ -101,15 +101,27 @@ public class UITextLine implements IDrawableUI, IUITextComponent, IUISubcomponen
 		repositionText();
 	}
 
+	//	@Override
+	//	public void unpack(InputStream stream) throws IOException, PrismException
+	//	{
+	//		text = TextPacker.unpack_s(stream);
+	//	}
+	//
+	//	@Override
+	//	public void pack(OutputStream stream) throws IOException, PrismException
+	//	{
+	//		TextPacker.pack_s(stream, text);
+	//	}
+
 	@Override
-	public void unpack(InputStream stream) throws IOException, PrismException
+	public void appendTo(Heap_out h)
 	{
-		text = TextPacker.unpack_s(stream);
+		h.texts.add(text);
 	}
 
 	@Override
-	public void pack(OutputStream stream) throws IOException, PrismException
+	public void extractFrom(Heap_in h)
 	{
-		TextPacker.pack_s(stream, text);
+		setText(h.nextText());
 	}
 }

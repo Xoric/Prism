@@ -25,6 +25,7 @@ public class MetaLine_in extends MetaLineBase implements IInfoLayer, IPackable_i
 
 	public MetaLine_in(IInfoLayer uplink, MetaLine_out l)
 	{
+		this.key = l.key;
 		this.heap = new Heap_in(l.getHeap());
 		setUplink(uplink);
 	}

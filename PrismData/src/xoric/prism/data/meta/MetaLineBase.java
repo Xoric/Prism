@@ -11,7 +11,7 @@ abstract class MetaLineBase
 	@Override
 	public String toString()
 	{
-		return "key=" + key.toString() + ", heap=" + getHeap().toString();
+		return "key=" + key + ", heap=" + getHeap();
 	}
 
 	public MetaKey getKey()

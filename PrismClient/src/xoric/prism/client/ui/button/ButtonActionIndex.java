@@ -1,14 +1,15 @@
-package xoric.prism.client.ui.actions;
+package xoric.prism.client.ui.button;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
 
 public enum ButtonActionIndex
 {
-	NONE, CLOSE_WINDOW;
+	NONE, EXIT_GAME, LOGIN;
 	// unlimited
 
-	private static final ButtonActionIndex[] VALUES = values();
+	public static final ButtonActionIndex[] VALUES = values();
+	public static final int COUNT = VALUES.length;
 
 	public static ButtonActionIndex valueOf(int v) throws PrismException
 	{

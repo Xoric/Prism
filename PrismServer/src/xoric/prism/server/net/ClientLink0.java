@@ -49,7 +49,7 @@ public class ClientLink0
 		IText_r acc = h.texts.get(0);
 		List<Integer> versions = h.ints;
 
-		System.out.println("I (" + toString() + ") want to login with acc=" + acc.toString());
+		System.out.println(toString() + " wants to login with acc=" + acc.toString());
 	}
 
 	private void handleMessage(Message_in m) throws PrismException

@@ -15,7 +15,9 @@ public enum UserErrorText
 	PASSWORD_HASH("There was an error trying to encrypt your password. Your login attempt was therefore aborted."),
 	ACCOUNT_COULD_NOT_BE_CREATED("Account could not be created."),
 	ACCOUNT_ALREADY_EXISTS("This account name already exists."),
-	ACCOUNT_LOGIN_FAILED("Login failed.");
+	ACCOUNT_LOGIN_FAILED("Login failed."),
+	NETWORK_PROBLEM("An error occured while communicating with the server."),
+	CONNECTION_PROBLEM("Cannot connect to server.");
 
 	private final String text;
 

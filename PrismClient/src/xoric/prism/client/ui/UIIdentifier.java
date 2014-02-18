@@ -5,7 +5,7 @@ import xoric.prism.data.exceptions.UserErrorText;
 
 public enum UIIdentifier
 {
-	FRAME, BUTTON, LABEL;
+	WINDOW, FRAME, BUTTON, LABEL, EDIT;
 
 	private static final UIIdentifier[] VALUES = values();
 

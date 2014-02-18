@@ -4,13 +4,19 @@ import java.io.File;
 
 import javax.swing.JOptionPane;
 
+import xoric.prism.client.ui.UIComponent;
+import xoric.prism.client.ui.UIIdentifier;
 import xoric.prism.client.ui.UIWindow;
 import xoric.prism.creator.common.view.INewDialogResult;
 import xoric.prism.creator.windows.model.WindowModel;
+import xoric.prism.creator.windows.scene.AddComponentAction;
+import xoric.prism.creator.windows.scene.DeleteComponentAction;
+import xoric.prism.creator.windows.scene.SceneAction;
 import xoric.prism.creator.windows.view.IMainView;
 import xoric.prism.creator.windows.view.NewWindowData;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IPath_r;
+import xoric.prism.develop.meta.MetaNames;
 
 public class MainControl implements IMainControl
 {
@@ -45,31 +51,13 @@ public class MainControl implements IMainControl
 		requestSave();
 	}
 
-	private static String findModel(IPath_r path)
-	{
-		File dir = new File(path.toString());
-		File[] files = dir.listFiles();
-
-		for (File f : files)
-		{
-			String s = f.toString();
-			int i = s.lastIndexOf('.');
-			if (i > 0)
-			{
-				String extension = s.substring(i + 1).toLowerCase();
-				if (extension.equals("wn"))
-					return f.getName();
-			}
-		}
-		return null;
-	}
-
 	@Override
 	public void requestOpenProject(IPath_r path)
 	{
-		String filename = findModel(path);
+		String filename = MetaNames.makeMetaBlock("window");
+		File file = path.getFile(filename);
 
-		if (filename == null)
+		if (!file.exists())
 		{
 			JOptionPane.showMessageDialog(null, "No window could be found in the given directory.", "New Window",
 					JOptionPane.WARNING_MESSAGE);
@@ -124,5 +112,35 @@ public class MainControl implements IMainControl
 	{
 		model.getWindow().rearrange(view.getScreenRect());
 		requestSave();
+	}
+
+	@Override
+	public void requestAddComponent(UIComponent c)
+	{
+		model.getWindow().addComponent(c);
+		requestSave();
+		view.displayTree();
+	}
+
+	@Override
+	public void requestAddComponent(UIIdentifier id)
+	{
+		SceneAction a = new AddComponentAction(id);
+		view.setSceneAction(a);
+	}
+
+	@Override
+	public void requestDeleteComponent()
+	{
+		SceneAction a = new DeleteComponentAction();
+		view.setSceneAction(a);
+	}
+
+	@Override
+	public void requestDeleteComponent(UIComponent c)
+	{
+		model.getWindow().removeComponent(c);
+		requestSave();
+		view.displayTree();
 	}
 }

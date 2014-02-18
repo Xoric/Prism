@@ -33,10 +33,14 @@ class PrismIntFilter extends PrismDocumentFilter
 
 	private boolean test(String s)
 	{
+		if (s.equals("-"))
+			return true;
+
 		try
 		{
 			if (s.length() > 0)
 				Integer.parseInt(s);
+
 			return true;
 		}
 		catch (NumberFormatException e)

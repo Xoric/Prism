@@ -59,7 +59,7 @@ public class PrismClientBootstrap
 			client = new PrismClient(scene);
 
 			// start client
-			client.testConnect();
+			//			client.testConnect();
 			client.start();
 		}
 		catch (PrismException e)

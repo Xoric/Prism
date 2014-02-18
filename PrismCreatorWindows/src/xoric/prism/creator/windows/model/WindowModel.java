@@ -6,12 +6,18 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import xoric.prism.client.ui.UIComponent;
+import xoric.prism.client.ui.UIFactory;
 import xoric.prism.client.ui.UIWindow;
 import xoric.prism.creator.windows.view.NewWindowData;
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.meta.MetaBlock_in;
+import xoric.prism.data.meta.MetaBlock_out;
+import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IPath_r;
+import xoric.prism.develop.meta.MetaNames;
 
 public class WindowModel
 {
@@ -21,7 +27,7 @@ public class WindowModel
 	private final String filename;
 	private final File file;
 
-	private final UIWindow window;
+	private UIWindow window;
 
 	public WindowModel(IPath_r path, String filename, IFloatPoint_r screenSize)
 	{
@@ -31,8 +37,8 @@ public class WindowModel
 		this.filename = filename;
 		this.file = path.getFile(filename);
 
-		window = new UIWindow(screenRect.getSize());
-		window.rearrange(screenRect);
+		//		window = new UIWindow(screenRect.getSize());
+		//		window.rearrange(screenRect);
 	}
 
 	public WindowModel(NewWindowData result, IFloatPoint_r screenSize)
@@ -40,11 +46,17 @@ public class WindowModel
 		this.screenRect = new FloatRect(0.0f, 0.0f, screenSize.getX(), screenSize.getY());
 
 		path = result.getPath();
-		filename = result.getName().toString().toLowerCase() + ".wn";
+		filename = MetaNames.makeMetaBlock("window");
 		file = path.getFile(filename);
 
 		window = new UIWindow(screenRect.getSize());
+		window.setText(result.getName());
 		window.rearrange(screenRect);
+
+		window.setXRuler(-150.0f, 0.5f);
+		window.setYRuler(-175.0f, 0.5f);
+		window.setWidthRuler(300.0f, 0.0f);
+		window.setHeightRuler(350.0f, 0.0f);
 	}
 
 	public UIWindow getWindow()
@@ -54,11 +66,17 @@ public class WindowModel
 
 	public void load() throws PrismException
 	{
+		//		window = null;
+		MetaBlock_in mb;
+
 		try
 		{
 			FileInputStream stream = new FileInputStream(file);
-			window.unpack(stream);
+			mb = new MetaBlock_in();
+			mb.unpack(stream);
 			stream.close();
+
+			mb.claimMetaType(MetaType.WINDOW);
 		}
 		catch (FileNotFoundException e0)
 		{
@@ -74,14 +92,27 @@ public class WindowModel
 			e.addInfo("source file", filename);
 			throw e;
 		}
+
+		window = new UIWindow(null);
+		window.load(mb);
+		window.rearrange(screenRect);
 	}
 
 	public void save() throws PrismException
 	{
 		try
 		{
+			MetaBlock_out mb = new MetaBlock_out(MetaType.WINDOW, 0);
+
+			// save window
+			mb.addMetaLine(UIFactory.saveComponent(window));
+
+			// save components
+			for (UIComponent c : window.getComponents())
+				mb.addMetaLine(UIFactory.saveComponent(c));
+
 			FileOutputStream stream = new FileOutputStream(file);
-			window.pack(stream);
+			mb.pack(stream);
 			stream.close();
 		}
 		catch (Exception e0)

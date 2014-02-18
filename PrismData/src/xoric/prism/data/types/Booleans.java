@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.heap.Heap_out;
+import xoric.prism.data.heap.IStackable;
 import xoric.prism.data.packable.IPackable;
 import xoric.prism.data.packable.IntPacker;
 
@@ -11,7 +15,7 @@ import xoric.prism.data.packable.IntPacker;
  * @author XoricLee
  * @since 30.10.2011, 17:17:13
  */
-public class Booleans implements IPackable
+public class Booleans implements IPackable, IStackable
 {
 	private static final int[] MASKS = new int[] { 1, 2, 4, 8, 16, 32, 64, 128, -1 };
 	public static final int ALL_FALSE = 0;
@@ -173,9 +177,15 @@ public class Booleans implements IPackable
 		values = IntPacker.unpack_s(stream);
 	}
 
-	//	@Override
-	//	public int getPackedSize()
-	//	{
-	//		return IntPacker.getPackedSize_s(values);
-	//	}
+	@Override
+	public void appendTo(Heap_out h)
+	{
+		h.ints.add(values);
+	}
+
+	@Override
+	public void extractFrom(Heap_in h) throws PrismException
+	{
+		values = h.nextInt();
+	}
 }

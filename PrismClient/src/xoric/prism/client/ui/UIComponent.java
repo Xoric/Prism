@@ -1,20 +1,19 @@
 package xoric.prism.client.ui;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.packable.IPackable;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.heap.Heap_out;
+import xoric.prism.data.heap.IStackable;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.Text;
 import xoric.prism.scene.IDrawableUI;
 
-public abstract class UIComponent implements IDrawableUI, IUISubcomponent, IActiveUI, IPackable
+public abstract class UIComponent implements IDrawableUI, IUISubcomponent, IActiveUI, IStackable
 {
 	private final UIIdentifier identifier;
 
@@ -24,6 +23,7 @@ public abstract class UIComponent implements IDrawableUI, IUISubcomponent, IActi
 
 	protected final FloatRect rect;
 	protected boolean isMouseDown;
+	protected boolean hasFocus;
 
 	private final List<IUISubcomponent> children;
 
@@ -44,6 +44,11 @@ public abstract class UIComponent implements IDrawableUI, IUISubcomponent, IActi
 	public UIIdentifier getIdentifier()
 	{
 		return identifier;
+	}
+
+	public IFloatRect_r getCurrentRect()
+	{
+		return rect;
 	}
 
 	protected void registerChild(IUISubcomponent c)
@@ -124,9 +129,9 @@ public abstract class UIComponent implements IDrawableUI, IUISubcomponent, IActi
 			c.rearrange(rect);
 	}
 
-	protected int importInt()
+	protected Integer importInt()
 	{
-		return -1;
+		return null;
 	}
 
 	protected Text importText()
@@ -162,21 +167,21 @@ public abstract class UIComponent implements IDrawableUI, IUISubcomponent, IActi
 
 	protected abstract void mouseUpConfirmed();
 
-	@Override
-	public void pack(OutputStream stream) throws IOException, PrismException
-	{
-		xRuler.pack(stream);
-		yRuler.pack(stream);
-		widthRuler.pack(stream);
-	}
-
-	@Override
-	public void unpack(InputStream stream) throws IOException, PrismException
-	{
-		xRuler.unpack(stream);
-		yRuler.unpack(stream);
-		widthRuler.unpack(stream);
-	}
+	//	@Override
+	//	public void pack(OutputStream stream) throws IOException, PrismException
+	//	{
+	//		xRuler.pack(stream);
+	//		yRuler.pack(stream);
+	//		widthRuler.pack(stream);
+	//	}
+	//
+	//	@Override
+	//	public void unpack(InputStream stream) throws IOException, PrismException
+	//	{
+	//		xRuler.unpack(stream);
+	//		yRuler.unpack(stream);
+	//		widthRuler.unpack(stream);
+	//	}
 
 	@Override
 	public void moveBy(float dx, float dy)
@@ -185,5 +190,27 @@ public abstract class UIComponent implements IDrawableUI, IUISubcomponent, IActi
 
 		for (IUISubcomponent c : children)
 			c.moveBy(dx, dy);
+	}
+
+	@Override
+	public void appendTo(Heap_out h)
+	{
+		xRuler.appendTo(h);
+		yRuler.appendTo(h);
+		widthRuler.appendTo(h);
+	}
+
+	@Override
+	public void extractFrom(Heap_in h) throws PrismException
+	{
+		xRuler.extractFrom(h);
+		yRuler.extractFrom(h);
+		widthRuler.extractFrom(h);
+	}
+
+	@Override
+	public void setFocus(boolean hasFocus)
+	{
+		this.hasFocus = hasFocus;
 	}
 }

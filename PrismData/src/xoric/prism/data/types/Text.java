@@ -54,6 +54,11 @@ public class Text implements IText_r // TODO needs a rework
 			IText_r other = (IText_r) obj;
 			b = other.toString().equals(this.toString());
 		}
+		else if (obj instanceof String)
+		{
+			String other = (String) obj;
+			b = other.equals(this.toString());
+		}
 		else
 			b = false;
 		return b;
@@ -163,5 +168,12 @@ public class Text implements IText_r // TODO needs a rework
 	public Text subtext(int lastIndex, int index)
 	{
 		return new Text(substring(lastIndex, index)); // TODO reimplement 
+	}
+
+	public void fill(int len, char c)
+	{
+		set("");
+		for (int i = 0; i < len; ++i)
+			append(c);
 	}
 }

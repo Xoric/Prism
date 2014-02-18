@@ -11,6 +11,8 @@ import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.IMetaChild;
 import xoric.prism.data.types.IText_r;
+import xoric.prism.data.types.PrismColor;
+import xoric.prism.data.types.Word;
 import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.shaders.AllShaders;
 import xoric.prism.scene.textures.ITexture;
@@ -27,6 +29,7 @@ public class Printer implements IMetaChild
 	private final GridMeta gridMeta;
 	private final float[] padding;
 	private final FloatRect tempScreenRect;
+	private PrismColor color;
 	//	private float spriteHeight;
 	private float scale;
 
@@ -40,7 +43,13 @@ public class Printer implements IMetaChild
 		this.gridMeta = font.getMeta();
 		this.tempScreenRect = new FloatRect();
 		this.padding = new float[64];
+		resetColor();
 		setScale(DEFAULT_SCALE);
+	}
+
+	public void setColor(PrismColor color)
+	{
+		this.color = color;
 	}
 
 	public void setText(IText_r text)
@@ -73,13 +82,28 @@ public class Printer implements IMetaChild
 		for (int i = startIndex; i < endIndex; ++i)
 			w += padding[text.symbolAt(i)];
 
-		return w;
+		return w * DEFAULT_SCALE;
+	}
+
+	public float calcTextWidth(IText_r text, Word word)
+	{
+		return calcTextWidth(text, word.start, word.calcEnd());
 	}
 
 	public void setOnset(int startIndex, int endIndex)
 	{
 		this.startIndex = startIndex;
 		this.endIndex = endIndex;
+	}
+
+	public void resetColor()
+	{
+		this.color = PrismColor.opaqueWhite;
+	}
+
+	public void resetScale()
+	{
+		setScale(DEFAULT_SCALE);
 	}
 
 	public void setScale(float scale)
@@ -94,6 +118,7 @@ public class Printer implements IMetaChild
 		return gridMeta.getSpriteSize().getY() * scale;
 	}
 
+	@Deprecated
 	public void print(IFloatPoint_r screenPos, float scale) throws PrismException
 	{
 		float s = this.scale;
@@ -102,11 +127,12 @@ public class Printer implements IMetaChild
 		setScale(s);
 	}
 
-	public void print(IFloatPoint_r screenPos) throws PrismException
+	public float print(IFloatPoint_r screenPos) throws PrismException
 	{
 		ITexture texture = font.getTexture(0);
 		AllShaders.defaultShader.activate();
 		AllShaders.defaultShader.setTexture(texture);
+		AllShaders.defaultShader.setColor(color);
 
 		tempScreenRect.setTopLeft(screenPos);
 
@@ -118,6 +144,12 @@ public class Printer implements IMetaChild
 			renderer.drawSprite(texRect, tempScreenRect);
 			tempScreenRect.addX(padding[s] * scale);
 		}
+		return tempScreenRect.getX();
+	}
+
+	public float getDefaultPadding(int symbol)
+	{
+		return padding[symbol];
 	}
 
 	@Override

@@ -15,6 +15,8 @@ import xoric.prism.client.ui.IUITextComponent;
 import xoric.prism.client.ui.UIComponent;
 import xoric.prism.client.ui.UIComponentH;
 import xoric.prism.client.ui.UIWindow;
+import xoric.prism.client.ui.button.UIButton;
+import xoric.prism.client.ui.edit.UIEdit;
 import xoric.prism.creator.windows.control.IWindowControl;
 import xoric.prism.creator.windows.model.WindowModel;
 
@@ -67,11 +69,10 @@ public class WindowTree extends JPanel implements MouseListener, ITree
 		if (model != null)
 			addWindow(root, model.getWindow());
 
+		tree.updateUI();
+
 		for (int i = 0; i < tree.getRowCount(); i++)
 			tree.expandRow(i);
-
-		tree.revalidate();
-		tree.repaint();
 	}
 
 	private void addWindow(DefaultMutableTreeNode t, UIWindow w)
@@ -88,9 +89,11 @@ public class WindowTree extends JPanel implements MouseListener, ITree
 		s.setUserObject(new ResizableWrapper(w, s));
 		r.add(s);
 
-		for (UIComponent c : w.getComponents())
+		for (int i = 0; i < w.getComponents().size(); ++i)
 		{
-			s = new DefaultMutableTreeNode(c.getClass().getSimpleName());
+			UIComponent c = w.getComponents().get(i);
+			String name = c.getClass().getSimpleName() + " [index=" + i + "]";
+			s = new DefaultMutableTreeNode(name);
 			r.add(s);
 			addWrappers(s, c);
 		}
@@ -122,6 +125,32 @@ public class WindowTree extends JPanel implements MouseListener, ITree
 			IUITextComponent c2 = (IUITextComponent) c;
 			r = new DefaultMutableTreeNode();
 			r.setUserObject(new TextWrapper(c2, r));
+			t.add(r);
+		}
+
+		if (c instanceof UIButton)
+		{
+			r = new DefaultMutableTreeNode();
+			r.setUserObject(new ActionIndexWrapper((UIButton) c, r));
+			t.add(r);
+
+			r = new DefaultMutableTreeNode();
+			r.setUserObject(new IsClosingWrapper((UIButton) c, r));
+			t.add(r);
+
+			r = new DefaultMutableTreeNode();
+			r.setUserObject(new ActionMaskWrapper((UIButton) c, r));
+			t.add(r);
+		}
+
+		if (c instanceof UIEdit)
+		{
+			r = new DefaultMutableTreeNode();
+			r.setUserObject(new TitleWrapper((UIEdit) c, r));
+			t.add(r);
+
+			r = new DefaultMutableTreeNode();
+			r.setUserObject(new InputFormatWrapper((UIEdit) c, r));
 			t.add(r);
 		}
 	}
@@ -158,7 +187,7 @@ public class WindowTree extends JPanel implements MouseListener, ITree
 	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0)
+	public void mousePressed(MouseEvent e)
 	{
 	}
 

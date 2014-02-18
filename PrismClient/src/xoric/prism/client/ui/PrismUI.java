@@ -3,7 +3,7 @@ package xoric.prism.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import xoric.prism.client.ui.actions.IActionHandler;
+import xoric.prism.client.ui.button.IActionExecuter;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
@@ -13,7 +13,8 @@ import xoric.prism.scene.IRendererUI;
 
 public class PrismUI implements IDrawableUI
 {
-	private final IActionHandler client;
+	//	private final IActionParent client;
+	private final IActionExecuter actionExecuter;
 	private final FloatRect screenRect;
 
 	private final List<UIWindow> windows;
@@ -21,12 +22,14 @@ public class PrismUI implements IDrawableUI
 	private IActiveUI activeComponent;
 	private final FloatPoint last;
 
-	public PrismUI(IActionHandler executer)
+	private boolean isMouseDown;
+
+	public PrismUI(IActionExecuter actionExecuter)
 	{
-		client = executer;
-		screenRect = new FloatRect();
-		windows = new ArrayList<UIWindow>();
-		last = new FloatPoint();
+		this.actionExecuter = actionExecuter;
+		this.screenRect = new FloatRect();
+		this.windows = new ArrayList<UIWindow>();
+		this.last = new FloatPoint();
 	}
 
 	@Override
@@ -38,7 +41,7 @@ public class PrismUI implements IDrawableUI
 
 	public void addWindow(UIWindow w)
 	{
-		w.setActionHandler(client);
+		w.setActionExecuter(actionExecuter);
 		w.setScreenSize(screenRect.getSize());
 		w.rearrange(screenRect);
 		windows.add(w);
@@ -57,6 +60,7 @@ public class PrismUI implements IDrawableUI
 
 	public IActiveUI mouseDown(IFloatPoint_r mouse)
 	{
+		isMouseDown = true;
 		IActiveUI ac = null;
 
 		for (int i = windows.size() - 1; i >= 0; --i)
@@ -64,21 +68,35 @@ public class PrismUI implements IDrawableUI
 			UIWindow w = windows.get(i);
 			ac = w.mouseDown(mouse);
 
+			if (activeComponent != null)
+				activeComponent.setFocus(false);
+
 			if (ac != null)
 			{
 				activeComponentWindow = w;
 				activeComponent = ac;
+				activeComponent.setFocus(true);
 				sendToFront(activeComponentWindow);
 				return ac;
 			}
 		}
-		activeComponentWindow = null;
-		activeComponent = null;
+		releaseActiveComponent();
 		return null;
+	}
+
+	private void releaseActiveComponent()
+	{
+		if (activeComponent != null)
+		{
+			activeComponentWindow = null;
+			activeComponent = null;
+		}
 	}
 
 	public void mouseUp(IFloatPoint_r mouse) throws PrismException
 	{
+		isMouseDown = false;
+
 		if (activeComponent != null)
 		{
 			if (activeComponent.containsMouse(mouse))
@@ -87,14 +105,14 @@ public class PrismUI implements IDrawableUI
 			if (activeComponent != null)
 				activeComponent.mouseUp();
 
-			activeComponentWindow = null;
-			activeComponent = null;
+			//			activeComponentWindow = null;
+			//			activeComponent = null;
 		}
 	}
 
 	public void mouseMove(IFloatPoint_r mouse)
 	{
-		if (activeComponent instanceof UIWindow)
+		if (isMouseDown && activeComponent instanceof UIWindow)
 		{
 			UIWindow w = (UIWindow) activeComponent;
 			float dx = mouse.getX() - last.x;
@@ -116,10 +134,8 @@ public class PrismUI implements IDrawableUI
 		if (i >= 0)
 		{
 			if (w == activeComponentWindow)
-			{
-				activeComponentWindow = null;
-				activeComponent = null;
-			}
+				releaseActiveComponent();
+
 			windows.remove(i);
 		}
 	}
@@ -127,5 +143,21 @@ public class PrismUI implements IDrawableUI
 	public void setScreenSize(IFloatPoint_r screenSize)
 	{
 		screenRect.setSize(screenSize);
+	}
+
+	public void onControlKey(int keyCode, boolean isDown)
+	{
+		if (activeComponent != null)
+		{
+			activeComponent.onControlKey(keyCode, isDown);
+		}
+	}
+
+	public void onCharacterKey(char c, boolean isDown)
+	{
+		if (activeComponent != null)
+		{
+			activeComponent.onCharacterKey(c, isDown);
+		}
 	}
 }

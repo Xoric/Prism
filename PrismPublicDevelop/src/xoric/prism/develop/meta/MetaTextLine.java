@@ -24,6 +24,21 @@ class MetaTextLine
 		return new MetaLine_in(uplink, l);
 	}
 
+	@Override
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < params.length; ++i)
+		{
+			if (i > 0)
+				sb.append(", ");
+
+			sb.append(params[i]);
+		}
+		return "key=" + key + ", params: " + sb.toString();
+	}
+
 	private void addParam(String s, Heap_out heap)
 	{
 		// try to convert to int

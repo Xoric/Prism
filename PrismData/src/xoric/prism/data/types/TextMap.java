@@ -130,6 +130,11 @@ public abstract class TextMap
 		return c;
 	}
 
+	public static int symbolOf(char c)
+	{
+		return symbolOf(c, QUESTION_MARK);
+	}
+
 	/**
 	 * @param c
 	 *            Character

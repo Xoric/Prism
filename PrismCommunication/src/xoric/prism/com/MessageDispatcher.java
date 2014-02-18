@@ -15,18 +15,18 @@ public class MessageDispatcher
 	private class MessageEntry
 	{
 		public final Message_out message;
-		public final int threshold;
+		public final int ageThreshold;
 		public int ageMs;
 
 		public MessageEntry(Message_out message)
 		{
 			this.message = message;
-			this.threshold = thresholds[message.getToken().getUrgency()];
+			this.ageThreshold = thresholds[message.getToken().getUrgency()];
 		}
 
 		public boolean isExpired()
 		{
-			return ageMs > threshold;
+			return ageMs > ageThreshold;
 		}
 	}
 

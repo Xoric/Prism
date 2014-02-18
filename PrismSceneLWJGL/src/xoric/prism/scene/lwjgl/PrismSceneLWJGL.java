@@ -237,7 +237,7 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 			int passedMs = (int) (currentMs - lastMs);
 
 			// handle controls
-			inputHandler.update();
+			inputHandler.update(passedMs);
 
 			if (interval <= 0 || passedMs >= interval)
 			{
@@ -260,12 +260,17 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 						if (resumeTimer)
 						{
 							setStage(true);
-							resumeTimer = client.drawWorld(passedMs, this);
+							resumeTimer = client.update(passedMs);
+						}
+						if (resumeTimer)
+						{
+							setStage(true);
+							resumeTimer = client.drawWorld(this);
 						}
 						if (resumeTimer)
 						{
 							setStage(false);
-							resumeTimer = client.drawUI(passedMs, this);
+							resumeTimer = client.drawUI(this);
 						}
 					}
 					catch (Exception e0)

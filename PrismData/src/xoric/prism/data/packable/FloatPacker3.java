@@ -98,7 +98,7 @@ public class FloatPacker3
 		if (bytes > 1)
 			stream.read(buf, 1, bytes - 1);
 
-		int packed = 0;
+		int packed = k;
 		for (int i = 0; i < bytes; ++i)
 			packed |= (buf[i] & 0xFF /*required*/) << (8 * i);
 

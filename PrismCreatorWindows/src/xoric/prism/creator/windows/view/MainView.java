@@ -6,11 +6,13 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 
+import xoric.prism.creator.common.buttonpanel.IButtonPanelListener;
 import xoric.prism.creator.common.view.INewDialog;
 import xoric.prism.creator.common.view.PrismCreatorCommonView;
 import xoric.prism.creator.windows.control.IMainControl;
-import xoric.prism.creator.windows.control.SceneHandler;
 import xoric.prism.creator.windows.model.WindowModel;
+import xoric.prism.creator.windows.scene.SceneAction;
+import xoric.prism.creator.windows.scene.SceneHandler;
 import xoric.prism.creator.windows.view.tree.WindowTree;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
@@ -18,7 +20,7 @@ import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.scene.IScene;
 
-public class MainView extends PrismCreatorCommonView implements IMainView
+public class MainView extends PrismCreatorCommonView implements IMainView, IButtonPanelListener
 {
 	private static final long serialVersionUID = 1L;
 
@@ -28,6 +30,8 @@ public class MainView extends PrismCreatorCommonView implements IMainView
 	private final IScene scene;
 	private WindowModel model;
 	private IMainControl control;
+	//	private final AddComponentMenu addMenu;
+	private final ComponentsMenu windowMenu;
 
 	private final WindowTree tree;
 
@@ -41,12 +45,18 @@ public class MainView extends PrismCreatorCommonView implements IMainView
 		JPanel p = new JPanel(new GridBagLayout());
 		this.setContentPane(p);
 
+		//		addMenu = new AddComponentMenu();
+		//		this.getMainMenuBar().addMenu(addMenu);
+
+		windowMenu = new ComponentsMenu();
+		this.getMainMenuBar().addMenu(windowMenu);
+
 		this.scene = scene;
 		//		this.sceneHandler = new SceneHandler(scene, resolution);
 
 		tree = new WindowTree();
 
-		GridBagConstraints c = new GridBagConstraints(1, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(
 				30, 30, 30, 30), 0, 0);
 		p.add(tree, c);
 	}
@@ -60,6 +70,7 @@ public class MainView extends PrismCreatorCommonView implements IMainView
 			sceneHandler.setControl(control);
 
 		tree.setControl(control);
+		windowMenu.setControl(control);
 	}
 
 	@Override
@@ -122,5 +133,47 @@ public class MainView extends PrismCreatorCommonView implements IMainView
 	public IFloatRect_r getScreenRect()
 	{
 		return screenRect;
+	}
+
+	@Override
+	public void onAddButton()
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onEditButton()
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDeleteButton()
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onUpButton()
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDownButton()
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setSceneAction(SceneAction a)
+	{
+		if (sceneHandler != null)
+			sceneHandler.setAction(a);
 	}
 }

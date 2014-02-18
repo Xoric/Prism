@@ -7,7 +7,7 @@ public enum Token
 	static
 	{
 		LOGIN.setClientMinima(1, 0, 1);
-		LOGIN.setUrgency(3);
+		LOGIN.setUrgency(0);
 	}
 
 	private static Token[] VALUES = values();

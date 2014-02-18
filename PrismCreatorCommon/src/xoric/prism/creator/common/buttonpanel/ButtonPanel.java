@@ -48,6 +48,11 @@ public class ButtonPanel extends JPanel implements ActionListener, IButtonPanel
 		add(downButton);
 	}
 
+	public JButton getAddButton()
+	{
+		return addButton;
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{

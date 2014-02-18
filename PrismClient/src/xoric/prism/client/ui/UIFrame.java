@@ -1,11 +1,8 @@
 package xoric.prism.client.ui;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.packable.IntPacker;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.heap.Heap_out;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
@@ -15,6 +12,11 @@ import xoric.prism.scene.materials.Materials;
 public class UIFrame extends UIComponentH implements IUITextComponent
 {
 	protected UITextLine titleLine;
+
+	public UIFrame(UIIdentifier id)
+	{
+		super(id);
+	}
 
 	public UIFrame()
 	{
@@ -69,26 +71,64 @@ public class UIFrame extends UIComponentH implements IUITextComponent
 	{
 	}
 
-	@Override
-	public void pack(OutputStream stream) throws IOException, PrismException
-	{
-		super.pack(stream);
+	//	@Override
+	//	public void pack(OutputStream stream) throws IOException, PrismException
+	//	{
+	//		super.pack(stream);
+	//
+	//		int i = titleLine == null ? 0 : 1;
+	//		IntPacker.pack_s(stream, i);
+	//		if (titleLine != null)
+	//			titleLine.pack(stream);
+	//	}
+	//
+	//	@Override
+	//	public void unpack(InputStream stream) throws IOException, PrismException
+	//	{
+	//		super.unpack(stream);
+	//
+	//		int i = IntPacker.unpack_s(stream);
+	//		if (i > 0)
+	//			titleLine.unpack(stream);
+	//		else
+	//			titleLine = null;
+	//	}
 
-		int i = titleLine == null ? 0 : 1;
-		IntPacker.pack_s(stream, i);
+	@Override
+	public void appendTo(Heap_out h)
+	{
+		super.appendTo(h);
+
+		// title
+		h.bools.add(titleLine != null);
 		if (titleLine != null)
-			titleLine.pack(stream);
+			h.texts.add(titleLine.getText());
 	}
 
 	@Override
-	public void unpack(InputStream stream) throws IOException, PrismException
+	public void extractFrom(Heap_in h) throws PrismException
 	{
-		super.unpack(stream);
+		super.extractFrom(h);
 
-		int i = IntPacker.unpack_s(stream);
-		if (i > 0)
-			titleLine.unpack(stream);
+		// title
+		boolean b = h.nextBool();
+		if (b)
+			setText(h.nextText());
 		else
 			titleLine = null;
+	}
+
+	@Override
+	public void onControlKey(int keyCode, boolean isDown)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onCharacterKey(char c, boolean isDown)
+	{
+		// TODO Auto-generated method stub
+
 	}
 }

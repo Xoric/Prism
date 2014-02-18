@@ -26,6 +26,7 @@ public class UITextArea implements IDrawableUI, IUITextComponent, IUISubcomponen
 
 	public UITextArea()
 	{
+		text = new Text("");
 		rect = new FloatRect();
 		stops = new ArrayList<Integer>();
 		scale = Printer.DEFAULT_SCALE;
@@ -39,7 +40,7 @@ public class UITextArea implements IDrawableUI, IUITextComponent, IUISubcomponen
 
 	public void setText(IText_r text)
 	{
-		this.text = new Text(text);
+		this.text.set(text);
 	}
 
 	@Override
@@ -74,9 +75,14 @@ public class UITextArea implements IDrawableUI, IUITextComponent, IUISubcomponen
 			}
 			while (index >= 0);
 
-			int z = stops.get(stops.size() - 1);
-			if (z < text.length())
+			if (stops.size() == 0)
 				stops.add(text.length());
+			else
+			{
+				int z = stops.get(stops.size() - 1);
+				if (z < text.length())
+					stops.add(text.length());
+			}
 		}
 	}
 
@@ -120,6 +126,8 @@ public class UITextArea implements IDrawableUI, IUITextComponent, IUISubcomponen
 			rect.setY(parentRect.getY() + BORDER);
 			rect.setWidth(parentRect.getWidth() - 2.0f * BORDER);
 			rect.setHeight(parentRect.getHeight() - 2.0f * BORDER);
+
+			rearrangeLines();
 		}
 	}
 }

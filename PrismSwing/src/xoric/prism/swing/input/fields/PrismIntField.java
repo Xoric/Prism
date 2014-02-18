@@ -24,20 +24,25 @@ public class PrismIntField extends PrismField implements IValueController
 
 	public void setMaxValue(int max)
 	{
-		hasMax = true;
 		this.max = max;
+		hasMax = true;
 	}
 
 	public void setMinValue(int min)
 	{
-		hasMin = true;
 		this.min = min;
+		hasMin = true;
 	}
 
 	public int getInt()
 	{
 		String s = getText();
-		int i = s.length() == 0 ? 0 : Integer.valueOf(s);
+		int i;
+
+		if (s.equals("-"))
+			i = 0;
+		else
+			i = s.length() == 0 ? 0 : Integer.valueOf(s);
 		return i;
 	}
 

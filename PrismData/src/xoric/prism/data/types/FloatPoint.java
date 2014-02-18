@@ -94,4 +94,10 @@ public class FloatPoint implements IStackable, IFloatPoint_r
 		x = -x;
 		y = -y;
 	}
+
+	public void divide(IFloatPoint_r d)
+	{
+		x /= d.getX();
+		y /= d.getY();
+	}
 }

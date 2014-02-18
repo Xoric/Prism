@@ -13,7 +13,8 @@ public enum MetaType
 	MODEL_G,
 	URGENCY, /* message urgency */
 	COLLECTION, /* sprite collection */
-	GRID; /* sprite grid */
+	GRID, /* sprite grid */
+	WINDOW; /* UIWindow */
 	// max index: 255
 
 	private static final MetaType[] VALUES = values();

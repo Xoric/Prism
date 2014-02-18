@@ -2,13 +2,17 @@ package xoric.prism.client;
 
 import java.net.Socket;
 
+import xoric.prism.client.net.Network;
 import xoric.prism.client.ui.PrismUI;
 import xoric.prism.client.ui.UIWindow;
-import xoric.prism.client.ui.actions.ButtonAction;
-import xoric.prism.client.ui.actions.ButtonActionIndex;
-import xoric.prism.client.ui.actions.IActionHandler;
+import xoric.prism.client.ui.button.ActionExecuter;
+import xoric.prism.client.ui.button.IActionParent;
+import xoric.prism.client.ui.edit.UIEdit;
 import xoric.prism.com.ClientLoginMessage_out;
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.global.FileTableDirectoryIndex;
+import xoric.prism.data.global.Prism;
+import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.net.NetConstants;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
@@ -24,11 +28,14 @@ import xoric.prism.scene.textures.TextureInfo;
 import xoric.prism.world.entities.Movable;
 import xoric.prism.world.model.GridModelMeta;
 
-public class PrismClient implements ISceneListener, IActionHandler
+public class PrismClient implements ISceneListener, IActionParent
 {
 	private final IScene scene;
 	private final PrismUI ui;
+	private final ActionExecuter actionExecuter;
+	private final Network network;
 	private volatile Exception clientException;
+	private boolean exitGameRequested;
 
 	private int ni = 0;
 	private int nis = 0;
@@ -53,7 +60,9 @@ public class PrismClient implements ISceneListener, IActionHandler
 	public PrismClient(IScene scene)
 	{
 		this.scene = scene;
-		this.ui = new PrismUI(this);
+		this.network = new Network();
+		this.actionExecuter = new ActionExecuter(this, network);
+		this.ui = new PrismUI(actionExecuter);
 
 		testPlane = new FloatRect(0.0f, 0.0f, 800.0f, 480.0f);
 
@@ -82,9 +91,10 @@ public class PrismClient implements ISceneListener, IActionHandler
 	{
 		try
 		{
-			Socket socket = new Socket("127.0.0.1", NetConstants.port);
+			//			Socket socket = new Socket("127.0.0.1", NetConstants.port);
+			Socket socket = new Socket("192.168.178.24", NetConstants.port);
 
-			Thread.sleep(1500);
+			Thread.sleep(200);
 
 			ClientLoginMessage_out m = new ClientLoginMessage_out();
 			m.setPassword(new Text("JOHN'S PASSWORD!"));
@@ -94,10 +104,12 @@ public class PrismClient implements ISceneListener, IActionHandler
 
 			//			socket.getOutputStream()
 
+			System.out.println("connection to server established");
+
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			System.err.println("Cannot connect to server");
 		}
 	}
 
@@ -152,19 +164,31 @@ public class PrismClient implements ISceneListener, IActionHandler
 		IFloatPoint_r screenSize = scene.createWindow(800, 480, false);
 		ui.setScreenSize(screenSize);
 
-		for (int i = 0; i < 10; ++i)
-		{
-			UIWindow uiWindow = new UIWindow(null);
-			uiWindow.setXRuler(20.0f + i * 20, 0.0f);
-			uiWindow.setYRuler(40.0f + i * 5, 0.0f);
-			uiWindow.setWidthRuler(150.0f, 0.0f);
-			uiWindow.setHeightRuler(90.0f, 0.0f);
-			uiWindow.setText(new Text("WINDOW" + i));
-			uiWindow.makeClosable(true);
-			uiWindow.makeResizable(true);
+		//		for (int i = 0; i < 10; ++i)
+		//		{
+		int i = 0;
+		UIWindow uiWindow = new UIWindow(null);
+		uiWindow.setXRuler(20.0f + i * 20, 0.0f);
+		uiWindow.setYRuler(40.0f + i * 5, 0.0f);
+		uiWindow.setWidthRuler(150.0f, 0.0f);
+		uiWindow.setHeightRuler(90.0f, 0.0f);
+		uiWindow.setText(new Text("WINDOW" + i));
+		uiWindow.makeClosable(true);
+		uiWindow.makeResizable(true);
 
-			ui.addWindow(uiWindow);
-		}
+		UIEdit e = new UIEdit();
+		e.setWidthRuler(-60.0f, 1.0f);
+		e.setXRuler(30.0f, 0.0f);
+		e.setYRuler(50.0f, 0.0f);
+		uiWindow.addComponent(e);
+
+		ui.addWindow(uiWindow);
+		//		}
+
+		MetaFile mf = Prism.global.loadMetaFile(FileTableDirectoryIndex.WINDOW, 0);
+		UIWindow loginWindow = new UIWindow(scene.getScreenSize());
+		loginWindow.load(mf.getMetaList());
+		ui.addWindow(loginWindow);
 
 		scene.initialize();
 		scene.startLoop(this, this);
@@ -208,8 +232,10 @@ public class PrismClient implements ISceneListener, IActionHandler
 	}
 
 	@Override
-	public boolean drawWorld(int passedMs, IRendererWorld renderer) throws Exception
+	public boolean update(int passedMs)
 	{
+		boolean b = network.update(passedMs);
+
 		if (isSlopeGrowing)
 		{
 			slope += 0.01f;
@@ -229,12 +255,6 @@ public class PrismClient implements ISceneListener, IActionHandler
 			}
 		}
 		scene.setSlope(slope);
-
-		float seconds = 0.001f * passedMs;
-		movable.timeUpdate(passedMs, seconds);
-
-		//		nz = -3.0f;
-		//		renderer.setColor(0.8f, 0.2f, 0.2f);
 
 		// walk
 		walkingMan.x += walkingX;
@@ -257,6 +277,26 @@ public class PrismClient implements ISceneListener, IActionHandler
 		{
 			walkingY = -1.0f * (float) (1.0f + Math.random() * 4.0f);
 		}
+
+		float seconds = 0.001f * passedMs;
+		movable.timeUpdate(passedMs, seconds);
+
+		nis += passedMs;
+		if (nis > 1000)
+		{
+			nis = 0;
+			if (++ni > 2)
+				ni = 0;
+		}
+
+		return clientException == null && !exitGameRequested;
+	}
+
+	@Override
+	public boolean drawWorld(IRendererWorld renderer) throws Exception
+	{
+		//		nz = -3.0f;
+		//		renderer.setColor(0.8f, 0.2f, 0.2f);
 
 		// draw planes
 		cam.transformWithCameraBounds(testPlane.getTopLeft(), temp);
@@ -287,19 +327,11 @@ public class PrismClient implements ISceneListener, IActionHandler
 		texInfo = Materials.frames.getTextureInfo(0, 0, 3, ni);
 		renderer.drawObject(texInfo, temp, temp2, 0.0f);
 
-		nis += passedMs;
-		if (nis > 1000)
-		{
-			nis = 0;
-			if (++ni > 2)
-				ni = 0;
-		}
-
-		return clientException == null;
+		return clientException == null && !exitGameRequested;
 	}
 
 	@Override
-	public boolean drawUI(int passedMs, IRendererUI renderer) throws Exception
+	public boolean drawUI(IRendererUI renderer) throws Exception
 	{
 
 		// test art
@@ -318,7 +350,7 @@ public class PrismClient implements ISceneListener, IActionHandler
 
 		ui.draw(renderer);
 
-		return clientException == null;
+		return clientException == null && !exitGameRequested;
 	}
 
 	@Override
@@ -354,9 +386,26 @@ public class PrismClient implements ISceneListener, IActionHandler
 	}
 
 	@Override
-	public void executeAction(UIWindow w, ButtonAction a)
+	public void onControlKey(int keyCode, boolean isDown)
 	{
-		if (a.getActionIndex() == ButtonActionIndex.CLOSE_WINDOW)
-			ui.closeWindow(w);
+		ui.onControlKey(keyCode, isDown);
+	}
+
+	@Override
+	public void onCharacterKey(char c, boolean isDown)
+	{
+		ui.onCharacterKey(c, isDown);
+	}
+
+	@Override
+	public void executeExitGame()
+	{
+		exitGameRequested = true;
+	}
+
+	@Override
+	public void executeCloseWindow(UIWindow w)
+	{
+		ui.closeWindow(w);
 	}
 }

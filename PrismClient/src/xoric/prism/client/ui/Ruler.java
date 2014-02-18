@@ -5,11 +5,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.heap.Heap_out;
+import xoric.prism.data.heap.IStackable;
 import xoric.prism.data.packable.FloatPacker3;
 import xoric.prism.data.packable.IPackable;
 import xoric.prism.data.packable.IntPacker;
 
-public class Ruler implements IPackable
+public class Ruler implements IPackable, IStackable
 {
 	public float constant;
 	public float factor;
@@ -43,5 +46,19 @@ public class Ruler implements IPackable
 	{
 		IntPacker.pack_s(stream, (int) constant);
 		FloatPacker3.pack_s(stream, factor, 2);
+	}
+
+	@Override
+	public void extractFrom(Heap_in h)
+	{
+		constant = h.nextInt();
+		factor = h.nextFloat();
+	}
+
+	@Override
+	public void appendTo(Heap_out h)
+	{
+		h.ints.add((int) constant);
+		h.floats.add(factor);
 	}
 }

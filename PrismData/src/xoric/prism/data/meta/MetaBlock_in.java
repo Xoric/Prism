@@ -38,6 +38,27 @@ public class MetaBlock_in extends MetaBlockBase implements IPackable_in, IInfoLa
 			list.add(new MetaLine_in(this, l));
 	}
 
+	@Override
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+		boolean isFirst = true;
+
+		for (MetaLine_in ml : list)
+		{
+			if (ml != null)
+			{
+				if (isFirst)
+					isFirst = false;
+				else
+					sb.append("\n");
+
+				sb.append(ml.toString());
+			}
+		}
+		return sb.toString();
+	}
+
 	public void addMetaLine(MetaLine_in ml)
 	{
 		list.add(ml);
@@ -139,5 +160,22 @@ public class MetaBlock_in extends MetaBlockBase implements IPackable_in, IInfoLa
 			uplink.addExceptionInfoTo(e);
 
 		e.code.addInfo(MetaType.class.getSimpleName(), metaType.toString());
+	}
+
+	public void claimMetaType(MetaType metaType) throws PrismException
+	{
+		if (this.metaType != metaType)
+		{
+			PrismException e = new PrismException();
+			// ----
+			e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
+			// ----
+			e.code.setText("MetaBlock is of wrong type");
+			addExceptionInfoTo(e);
+			e.code.addInfo("expected", metaType.toString());
+			e.code.addInfo("found", this.metaType.toString());
+			// ----
+			throw e;
+		}
 	}
 }

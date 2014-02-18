@@ -6,29 +6,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import xoric.prism.data.types.BooleanList;
 import xoric.prism.data.types.IText_r;
 
 public abstract class HeapBase
 {
-	public final List<Integer> ints;
-	public final List<Float> floats;
+	public List<Integer> ints;
+	public List<Float> floats;
+	public BooleanList bools;
 
 	public HeapBase()
 	{
 		ints = new ArrayList<Integer>(5);
 		floats = new ArrayList<Float>(5);
+		bools = new BooleanList();
 	}
 
 	public HeapBase(int intCount, int floatCount)
 	{
 		ints = new ArrayList<Integer>(intCount);
 		floats = new ArrayList<Float>(floatCount);
+		bools = new BooleanList();
 	}
 
 	public void clear()
 	{
 		ints.clear();
 		floats.clear();
+		bools.clear();
 	}
 
 	public abstract IText_r getText(int index);
@@ -63,7 +68,7 @@ public abstract class HeapBase
 		{
 			sb.append((sb.length() > 0 ? " " : "") + "T:");
 			for (int i = 0; i < n; ++i)
-				sb.append((i > 0 ? "," : "") + "\"" + getText(i).cut(8) + "\"");
+				sb.append((i > 0 ? "," : "") + "\"" + getText(i).cut(20) + "\"");
 		}
 		sb.append("]");
 

@@ -36,4 +36,10 @@ public interface IActiveUI
 	 * @throws PrismException
 	 */
 	public abstract void mouseClick() throws PrismException;
+
+	public void setFocus(boolean hasFocus);
+
+	public void onControlKey(int keyCode, boolean isDown);
+
+	public void onCharacterKey(char c, boolean isDown);
 }
