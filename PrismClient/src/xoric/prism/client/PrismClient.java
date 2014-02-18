@@ -9,6 +9,7 @@ import xoric.prism.client.ui.UIWindow;
 import xoric.prism.client.ui.button.ActionExecuter;
 import xoric.prism.client.ui.button.IActionParent;
 import xoric.prism.client.ui.edit.UIEdit;
+import xoric.prism.client.ui.hints.ConnectionHint;
 import xoric.prism.com.ClientLoginMessage_out;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.FileTableDirectoryIndex;
@@ -29,8 +30,10 @@ import xoric.prism.scene.textures.TextureInfo;
 import xoric.prism.world.entities.Movable;
 import xoric.prism.world.model.GridModelMeta;
 
-public class PrismClient implements ISceneListener, IActionParent
+public class PrismClient implements ISceneListener, IActionParent, INetworkControl
 {
+	private final ConnectionHint connectionHint;
+
 	private final IScene scene;
 	private final PrismUI ui;
 	private final ActionExecuter actionExecuter;
@@ -60,8 +63,10 @@ public class PrismClient implements ISceneListener, IActionParent
 
 	public PrismClient(IScene scene)
 	{
+		this.connectionHint = new ConnectionHint();
+
 		this.scene = scene;
-		this.network = new Network();
+		this.network = new Network(this);
 		this.actionExecuter = new ActionExecuter(this, network);
 		this.ui = new PrismUI(actionExecuter);
 
@@ -165,6 +170,8 @@ public class PrismClient implements ISceneListener, IActionParent
 		IFloatPoint_r screenSize = scene.createWindow(800, 480, false);
 		ui.setScreenSize(screenSize);
 
+		connectionHint.setScreenSize(screenSize);
+
 		//		for (int i = 0; i < 10; ++i)
 		//		{
 		int i = 0;
@@ -240,6 +247,8 @@ public class PrismClient implements ISceneListener, IActionParent
 	public boolean update(int passedMs)
 	{
 		BlinkColor.selectionColor.update(passedMs); // TODO temp
+
+		connectionHint.update(passedMs);
 
 		boolean b = network.update(passedMs);
 
@@ -357,6 +366,11 @@ public class PrismClient implements ISceneListener, IActionParent
 
 		ui.draw(renderer);
 
+		if (network.isConnecting())
+		{
+			connectionHint.draw(renderer);
+		}
+
 		return clientException == null && !exitGameRequested;
 	}
 
@@ -414,5 +428,29 @@ public class PrismClient implements ISceneListener, IActionParent
 	public void executeCloseWindow(UIWindow w)
 	{
 		ui.closeWindow(w);
+	}
+
+	@Override
+	public void requestLoginScreen()
+	{
+		try
+		{
+			MetaFile mf = Prism.global.loadMetaFile(FileTableDirectoryIndex.WINDOW, 0);
+			UIWindow w = new UIWindow(scene.getScreenSize());
+			w.load(mf.getMetaList());
+			ui.addWindow(w);
+		}
+		catch (Exception e)
+		{
+			if (clientException == null)
+				clientException = e;
+		}
+	}
+
+	@Override
+	public void onNetworkException(Exception e)
+	{
+		if (clientException == null)
+			clientException = e;
 	}
 }

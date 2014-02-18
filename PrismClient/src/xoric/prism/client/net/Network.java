@@ -3,10 +3,10 @@ package xoric.prism.client.net;
 import java.io.IOException;
 import java.net.Socket;
 
+import xoric.prism.client.INetworkControl;
 import xoric.prism.com.MessageDispatcher;
 import xoric.prism.com.Message_out;
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.net.NetConstants;
 import xoric.prism.data.time.IUpdateListener;
 
@@ -16,74 +16,115 @@ import xoric.prism.data.time.IUpdateListener;
  */
 public class Network implements INetwork, IUpdateListener
 {
-	private Socket socket;
-	private MessageDispatcher dispatcher;
+	private final INetworkControl client;
 
-	@Override
-	public boolean connect()
+	private Socket socket;
+	private final MessageDispatcher dispatcher;
+	private Thread connectThread;
+
+	public Network(INetworkControl client)
 	{
-		if (socket == null)
+		this.client = client;
+		this.dispatcher = new MessageDispatcher();
+	}
+
+	private synchronized void startConnectThread()
+	{
+		Runnable r = new Runnable()
 		{
-			try
+			@Override
+			public void run()
 			{
-				//			Socket socket = new Socket("127.0.0.1", NetConstants.port);
-				socket = new Socket("192.168.178.24", NetConstants.port);
-				dispatcher = new MessageDispatcher(socket);
-				System.out.println("connection to server established: " + socket.toString());
+				try
+				{
+					//			Socket socket = new Socket("127.0.0.1", NetConstants.port);
+					Socket socket = new Socket("192.168.178.24", NetConstants.port);
+					dispatcher.setSocket(socket);
+					//				dispatcher = new MessageDispatcher(socket);
+					onConnectionSuccess(socket);
+				}
+				catch (Exception e)
+				{
+					onConnectionFailed();
+				}
 			}
-			catch (Exception e)
-			{
-				System.err.println("Cannot connect to server");
-				socket = null;
-				dispatcher = null;
-			}
+		};
+		connectThread = new Thread(r);
+		connectThread.start();
+	}
+
+	public boolean isConnecting()
+	{
+		return connectThread != null;
+	}
+
+	private synchronized void onConnectionSuccess(Socket socket)
+	{
+		System.out.println("connection to server established: " + socket.toString());
+
+		try
+		{
+			this.socket = socket;
+			this.dispatcher.setSocket(socket);
+			this.connectThread = null;
 		}
-		return socket != null;
+		catch (Exception e)
+		{
+			client.onNetworkException(e);
+		}
+	}
+
+	private synchronized void onConnectionFailed()
+	{
+		System.err.println("Cannot connect to server");
+
+		this.dispatcher.clear();
+		this.connectThread = null;
+
+		client.requestLoginScreen();
 	}
 
 	@Override
 	public void send(Message_out m) throws PrismException
 	{
-		if (connect())
-		{
-			dispatcher.addMessage(m);
-			System.out.println("message added to dispatcher: " + m.toString());
-		}
-		else
-		{
-			PrismException e = new PrismException();
-			e.user.setText(UserErrorText.CONNECTION_PROBLEM);
-			e.code.setText("error while trying to connect to server");
-			throw e;
-		}
+		dispatcher.addMessage(m);
+
+		if (socket == null && (connectThread == null || !connectThread.isAlive()))
+			startConnectThread();
+
+		//		if (connect())
+		//		{
+		//			System.out.println("message added to dispatcher: " + m.toString());
+		//		}
+		//		else
+		//		{
+		//			PrismException e = new PrismException();
+		//			e.user.setText(UserErrorText.CONNECTION_PROBLEM);
+		//			e.code.setText("error while trying to connect to server");
+		//			throw e;
+		//		}
 	}
 
 	@Override
 	public boolean update(int passedMs)
 	{
 		boolean b;
-		if (dispatcher != null)
+		try
 		{
-			try
-			{
-				dispatcher.updateAndSend(passedMs);
-				b = true;
-			}
-			catch (IOException e)
-			{
-				b = false;
-				e.printStackTrace();
-			}
-			catch (PrismException e)
-			{
-				b = false;
-				e.code.print();
-				e.user.showMessage();
-			}
-		}
-		else
+			dispatcher.updateAndSend(passedMs);
 			b = true;
-
+		}
+		catch (IOException e)
+		{
+			b = false;
+			e.printStackTrace();
+		}
+		catch (PrismException e)
+		{
+			b = false;
+			e.code.print();
+			e.user.showMessage();
+		}
 		return b;
 	}
 }

@@ -9,7 +9,5 @@ import xoric.prism.data.exceptions.PrismException;
  */
 public interface INetwork
 {
-	public boolean connect();
-
 	public void send(Message_out m) throws PrismException;
 }
