@@ -89,30 +89,23 @@ public class ClientLink0
 
 	private void handleLogin(ClientLoginMessage_in lm) throws PrismException
 	{
-		try
+		byte[] pw = lm.getPassword();
+		Heap_in h = lm.getHeap();
+		IText_r acc = h.texts.get(0);
+		List<Integer> versions = h.ints;
+
+		boolean b = checkAccData(acc, pw);
+		if (b)
 		{
-			byte[] pw = lm.getPassword();
-			Heap_in h = lm.getHeap();
-			IText_r acc = h.texts.get(0);
-			List<Integer> versions = h.ints;
+			System.out.println(toString() + " successfully logged in: " + acc.toString());
 
-			boolean b = checkAccData(acc, pw);
-			if (b)
-			{
-				System.out.println(toString() + " successfully logged in: " + acc.toString());
-
-				checkVersions(versions);
-			}
-			else
-			{
-				System.err.println(toString() + " issued a failed login attempt");
-			}
+			checkVersions(versions);
 		}
-		catch (Exception e0)
+		else
 		{
-			PrismException e = new PrismException(e0);
+			PrismException e = new PrismException();
 			// ----
-			e.setText("error while reading login message");
+			e.setText("failed login attempt");
 			// ----
 			throw e;
 		}

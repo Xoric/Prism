@@ -51,7 +51,7 @@ public class Doorman implements IDoorman, ILoopListener
 		}
 		catch (Exception e)
 		{
-			kickReason = "doorman watched " + client0 + " crash" + getMessage(e);
+			kickReason = "doorman kicked " + client0 + ": " + getMessage(e);
 		}
 
 		if (kickReason != null)
