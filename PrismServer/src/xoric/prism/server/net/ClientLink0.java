@@ -42,14 +42,25 @@ public class ClientLink0
 		return core.toString() + "/0";
 	}
 
-	private void handleLogin(ClientLoginMessage_in lm)
+	private void handleLogin(ClientLoginMessage_in lm) throws PrismException
 	{
-		byte[] pw = lm.getPassword();
-		Heap_in h = lm.getHeap();
-		IText_r acc = h.texts.get(0);
-		List<Integer> versions = h.ints;
+		try
+		{
+			byte[] pw = lm.getPassword();
+			Heap_in h = lm.getHeap();
+			IText_r acc = h.texts.get(0);
+			List<Integer> versions = h.ints;
 
-		System.out.println(toString() + " wants to login with acc=" + acc.toString());
+			System.out.println(toString() + " wants to login with acc=" + acc.toString());
+		}
+		catch (Exception e0)
+		{
+			PrismException e = new PrismException(e0);
+			// ----
+			e.setText("error while reading login message");
+			// ----
+			throw e;
+		}
 	}
 
 	private void handleMessage(Message_in m) throws PrismException
