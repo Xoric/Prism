@@ -424,6 +424,7 @@ public class UIWindow extends UIFrame implements IUIButtonHost, IMetaChild
 		{
 			// extract identifier
 			Heap_in h = ml.getHeap();
+			h.rewind();
 			int v = h.nextInt();
 			UIIdentifier id = UIIdentifier.valueOf(v);
 
