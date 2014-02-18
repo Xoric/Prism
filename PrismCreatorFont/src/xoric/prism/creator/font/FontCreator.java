@@ -21,8 +21,8 @@ import xoric.prism.data.types.TextMap;
 
 public class FontCreator
 {
-	private static final int width = 22;
-	private static final int height = 22;
+	private static final int width = 24;
+	private static final int height = 23;
 	private static final Path path = new Path("E:/Prism/work/ui/font");
 	private static final Font font = new Font("Arimo", Font.BOLD, 20);
 	private static final Font fontS = new Font("Arimo", Font.PLAIN, 16);
@@ -60,8 +60,8 @@ public class FontCreator
 	private static void writeChar(int i, Font font, IPath_r path, MetaLine_out ml) throws IOException
 	{
 		char c = TextMap.charOf(i);
-		final int X = 1;
-		final int Y = height - 6;
+		final int X = 2;
+		final int Y = height - 7;
 		System.out.print("writing '" + c + "'");
 
 		BufferedImage letter = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -121,8 +121,8 @@ public class FontCreator
 				Color t = new Color(bi.getRGB(x, y));
 
 				if (t.getRed() > 100)
-					for (int ix = -1; ix < 2; ++ix)
-						for (int iy = -1; iy < 2; ++iy)
+					for (int ix = -2; ix < 3; ++ix)
+						for (int iy = -2; iy < 3; ++iy)
 							letter.setRGB(x + ix, y + iy, genBlack());
 			}
 		}
@@ -196,7 +196,7 @@ public class FontCreator
 
 	private static int genBlack()
 	{
-		int a = (int) (100 + Math.random() * 20);
+		int a = (int) (160 + Math.random() * 30);
 		return a << 24;
 	}
 
