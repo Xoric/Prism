@@ -99,13 +99,13 @@ public class ClientLink0
 			boolean b = checkAccData(acc, pw);
 			if (b)
 			{
-				System.out.print(toString() + " successfully logged in: " + acc.toString());
+				System.out.println(toString() + " successfully logged in: " + acc.toString());
 
 				checkVersions(versions);
 			}
 			else
 			{
-				System.err.print(toString() + " issued a failed login attempt");
+				System.err.println(toString() + " issued a failed login attempt");
 			}
 		}
 		catch (Exception e0)
