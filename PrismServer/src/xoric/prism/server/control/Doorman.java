@@ -45,13 +45,13 @@ public class Doorman implements IDoorman, ILoopListener
 			else
 			{
 				int ms = client0.getClock().getTimeMs();
-				if (ms >= 3000)
+				if (ms >= 5000)
 					kickReason = "doorman kicked " + client0 + " for inactivity (" + ms + " ms)";
 			}
 		}
 		catch (Exception e)
 		{
-			kickReason = "doorman kicked " + client0 + ": " + getMessage(e);
+			kickReason = "doorman kicked " + client0 + getMessage(e);
 		}
 
 		if (kickReason != null)
