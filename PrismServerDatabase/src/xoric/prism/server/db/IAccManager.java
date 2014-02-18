@@ -19,8 +19,8 @@ public interface IAccManager
 	 * otherwise.
 	 * @param acc
 	 * @param pw
-	 * @return Object ({@link Account} or {@link UserErrorText})
+	 * @return IAccount
 	 * @throws PrismException
 	 */
-	public Object login(IText_r acc, byte[] pw) throws PrismException;
+	public IAccount login(IText_r acc, byte[] pw) throws PrismException;
 }

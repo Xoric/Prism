@@ -10,6 +10,7 @@ import xoric.prism.data.global.Prism;
 import xoric.prism.data.heap.Heap_in;
 import xoric.prism.data.time.PrismClock;
 import xoric.prism.data.types.IText_r;
+import xoric.prism.server.data.IAccount;
 import xoric.prism.server.db.IAccManager;
 
 public class ClientLink0
@@ -51,8 +52,8 @@ public class ClientLink0
 		boolean b;
 		try
 		{
-			accManager.login(acc, pw);
-			b = true;
+			IAccount a = accManager.login(acc, pw);
+			b = a != null;
 		}
 		catch (PrismException e)
 		{

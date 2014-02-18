@@ -76,7 +76,7 @@ public class AccManager implements IAccManager
 	}
 
 	@Override
-	public Object login(IText_r acc, byte[] pw)
+	public IAccount login(IText_r acc, byte[] pw)
 	{
 		// extract account name
 		BasicDBObject ref = new BasicDBObject();
@@ -95,7 +95,7 @@ public class AccManager implements IAccManager
 		}
 
 		// create Account object or set UserErrorText
-		Object result = null;
+		IAccount result = null;
 		if (b)
 		{
 			// load account data
@@ -114,11 +114,6 @@ public class AccManager implements IAccManager
 			upd.append("$set", new BasicDBObject().append(lastSeenField, new Date()));
 			upd.append("$inc", new BasicDBObject().append(loginsField, 1));
 			collection.update(ref, upd);
-		}
-		else
-		{
-			// set UserErrorText if no Account object was created
-			result = UserErrorText.ACCOUNT_LOGIN_FAILED;
 		}
 
 		// return the resulting object

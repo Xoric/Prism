@@ -6,5 +6,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismSwing"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismCommunication"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismServerDatabase"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PrismServerData"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
