@@ -32,12 +32,12 @@ public class MessageDispatcher
 
 	private final List<MessageEntry> list;
 	//	private final BufferedOutputStream stream;
-	private final OutputStream stream;
+	private OutputStream stream;
 
-	public MessageDispatcher(Socket socket) throws IOException
+	public MessageDispatcher()
 	{
 		//		this.stream = new BufferedOutputStream(socket.getOutputStream());
-		this.stream = socket.getOutputStream();
+		//		this.stream = socket.getOutputStream();
 		this.list = new ArrayList<MessageEntry>();
 	}
 
@@ -48,22 +48,36 @@ public class MessageDispatcher
 
 	public void updateAndSend(int ms) throws IOException, PrismException
 	{
-		boolean sendNow = false;
-
-		for (MessageEntry e : list)
+		if (stream != null)
 		{
-			e.ageMs += ms;
-			sendNow |= e.isExpired();
-		}
+			boolean sendNow = false;
 
-		if (sendNow)
-		{
 			for (MessageEntry e : list)
 			{
-				e.message.pack(stream);
+				e.ageMs += ms;
+				sendNow |= e.isExpired();
 			}
-			System.out.println(list.size() + " message(s) sent");
-			list.clear();
+
+			if (sendNow)
+			{
+				for (MessageEntry e : list)
+				{
+					e.message.pack(stream);
+				}
+				System.out.println(list.size() + " message(s) sent");
+				list.clear();
+			}
 		}
+	}
+
+	public synchronized void setSocket(Socket socket) throws IOException
+	{
+		this.stream = socket.getOutputStream();
+	}
+
+	public synchronized void clear()
+	{
+		this.stream = null;
+		this.list.clear();
 	}
 }
