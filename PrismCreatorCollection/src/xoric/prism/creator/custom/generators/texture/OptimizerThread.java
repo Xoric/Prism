@@ -35,7 +35,6 @@ class OptimizerThread extends Thread implements IOptimizerResults
 
 		for (ObjectImages o : objects)
 		{
-
 			for (BufferedImage bi : o.getImages())
 			{
 				Rect r = packer.findRectangle(bi);
@@ -47,7 +46,7 @@ class OptimizerThread extends Thread implements IOptimizerResults
 
 					if (x2 > maxWidth)
 						maxWidth = x2;
-					if (y2 > maxWidth)
+					if (y2 > maxHeight)
 						maxHeight = y2;
 				}
 				else
