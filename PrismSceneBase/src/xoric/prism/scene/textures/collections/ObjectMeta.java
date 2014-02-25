@@ -39,6 +39,10 @@ public class ObjectMeta
 		return name.toString();
 	}
 
+	/**
+	 * Returns the width and height of this object in pixels.
+	 * @return IFloatPoint_r
+	 */
 	public IFloatPoint_r getSize()
 	{
 		return sizePixels;
@@ -80,6 +84,8 @@ public class ObjectMeta
 		if (tempRects.size() == 0)
 		{
 			o.addRect(new FloatRect(fx, fy, objectFraction.x, objectFraction.y), sizePixels);
+
+			//			System.out.println("adding rect substitute: " + new FloatRect(fx, fy, objectFraction.x, objectFraction.y));
 		}
 		else
 		{

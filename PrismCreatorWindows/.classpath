@@ -10,5 +10,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismSwing"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismGlobal"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismPublicDevelop"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PrismUI"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PrismSceneMaterials"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

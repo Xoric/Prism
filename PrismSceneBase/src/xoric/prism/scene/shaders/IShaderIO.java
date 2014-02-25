@@ -6,7 +6,9 @@ import xoric.prism.data.exceptions.PrismException;
 
 public interface IShaderIO
 {
-	public IShader2 createShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException;
+	public IDefaultShader createDefaultShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException;
 
-	public IShader2 createShaderSubstitute();
+	public IMaskShader createMaskShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException;
+
+	public IDefaultShader createShaderSubstitute();
 }

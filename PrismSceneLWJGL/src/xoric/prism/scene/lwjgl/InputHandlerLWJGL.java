@@ -6,12 +6,14 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import xoric.prism.data.types.FloatPoint;
+import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.Point;
 import xoric.prism.scene.IInputListener;
 
 public class InputHandlerLWJGL
 {
 	private IInputListener listener;
+	private IFloatPoint_r frameSize;
 	private int windowHeight;
 
 	private final Point mouseInt;
@@ -29,11 +31,12 @@ public class InputHandlerLWJGL
 		repeater = new KeyRepeater();
 	}
 
-	public void initialize(IInputListener listener, int windowHeight)
+	public void initialize(IInputListener listener, IFloatPoint_r frameSize)//int windowHeight)
 	{
 		this.listener = listener;
 		this.repeater.setListener(listener);
-		this.windowHeight = windowHeight;
+		this.windowHeight = (int) frameSize.getY();// windowHeight;
+		this.frameSize = frameSize;
 	}
 
 	public void update(int passedMs)
@@ -44,12 +47,14 @@ public class InputHandlerLWJGL
 
 		if (x != mouse.x || y != mouse.y)
 		{
-			mouse.x = x;
-			mouse.y = y;
+			mouse.x = x / frameSize.getX();
+			mouse.y = y / frameSize.getY();
+			//			mouse.x = x;
+			//			mouse.y = y;
 			mouseInt.x = x;
 			mouseInt.y = y;
 
-			listener.mouseMove(mouse);
+			listener.onMouseMove(mouse);
 		}
 
 		// check left mouse button

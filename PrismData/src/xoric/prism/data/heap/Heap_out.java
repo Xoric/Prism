@@ -11,19 +11,14 @@ public class Heap_out extends HeapBase
 
 	public Heap_out()
 	{
-		texts = new ArrayList<IText_r>(5);
-	}
-
-	public Heap_out(int intCount, int floatCount, int textCount)
-	{
-		super(intCount, floatCount);
-		texts = new ArrayList<IText_r>(textCount);
+		this.texts = new ArrayList<IText_r>(5);
 	}
 
 	public Heap_out(Heap_in h)
 	{
 		super(h.ints.size(), h.floats.size());
-		texts = new ArrayList<IText_r>(h.getTextCount());
+
+		this.texts = new ArrayList<IText_r>(h.getTextCount());
 
 		this.ints = h.ints;
 		this.floats = h.floats;

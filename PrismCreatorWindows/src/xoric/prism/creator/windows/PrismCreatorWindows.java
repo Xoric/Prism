@@ -1,22 +1,30 @@
 package xoric.prism.creator.windows;
 
+import xoric.prism.client.PrismClient;
+import xoric.prism.client.settings.ClientSettings;
 import xoric.prism.creator.windows.control.MainControl;
 import xoric.prism.creator.windows.view.MainView;
 import xoric.prism.data.PrismDataLoader;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.Prism;
 import xoric.prism.global.PrismGlobal;
-import xoric.prism.scene.IScene;
+import xoric.prism.scene.fbo.FrameBufferIOLWJGL;
+import xoric.prism.scene.fbo.IFrameBufferIO;
 import xoric.prism.scene.lwjgl.PrismSceneLWJGL;
+import xoric.prism.scene.lwjgl.shaders.ShaderIOLWJGL;
 import xoric.prism.scene.lwjgl.textures.TextureBinderLWJGL;
-import xoric.prism.scene.materials.Drawer;
 import xoric.prism.scene.materials.Materials;
-import xoric.prism.scene.materials.Printer;
+import xoric.prism.scene.shaders.IShaderIO;
 import xoric.prism.scene.textures.ITextureBinder;
 
 public abstract class PrismCreatorWindows
 {
-	private static IScene scene;
+	private static PrismSceneLWJGL scene;
+	private static ITextureBinder textureBinder;
+	private static IShaderIO shaderIO;
+	private static IFrameBufferIO frameBufferIO;
+	private static PrismClient client;
+	private static ClientSettings settings;
 
 	public static void main(String[] args)
 	{
@@ -32,13 +40,15 @@ public abstract class PrismCreatorWindows
 			// initialize
 			PrismDataLoader.loadAll();
 
-			// create scene and initialize materials
-			PrismSceneLWJGL s = new PrismSceneLWJGL();
-			scene = s;
-			ITextureBinder textureBinder = new TextureBinderLWJGL();
-			Materials.load(textureBinder);
-			Drawer.renderer = s;
-			Printer.renderer = s;
+			// create scene objects
+			scene = new PrismSceneLWJGL();
+			scene.loadSettings(settings);
+			textureBinder = new TextureBinderLWJGL();
+			shaderIO = new ShaderIOLWJGL();
+			frameBufferIO = new FrameBufferIOLWJGL();
+
+			// load materials
+			Materials.loadAll(scene, textureBinder, shaderIO);
 
 			// create scene and client
 			MainView view = new MainView(scene);

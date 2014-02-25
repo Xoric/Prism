@@ -16,6 +16,7 @@ public abstract class HeapPacker_s
 
 	public static synchronized void pack_s(OutputStream stream, Heap_out heap, int floatDecimals) throws IOException, PrismException
 	{
+		// calculate mode
 		int mode = calcMode_s(heap);
 		int i = heap.ints.size();
 		int f = heap.floats.size();

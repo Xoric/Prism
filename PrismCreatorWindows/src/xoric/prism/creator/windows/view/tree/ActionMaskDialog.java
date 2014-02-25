@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import xoric.prism.client.ui.button.ButtonActionMask;
+import xoric.prism.ui.button.ButtonActionMask;
 
 /**
  * @author XoricLee

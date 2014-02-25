@@ -1,7 +1,6 @@
 package xoric.prism.scene.lwjgl;
 
 import java.awt.Dimension;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,9 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 
+import xoric.prism.data.exceptions.IExceptionSink;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.IFloatPoint_r;
@@ -22,30 +23,36 @@ import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.IRendererWorld;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
-import xoric.prism.scene.lwjgl.shaders.DefaultShaderSubstitute;
+import xoric.prism.scene.cleanup.TrashCan;
+import xoric.prism.scene.fbo.IFrameBufferParent;
 import xoric.prism.scene.lwjgl.textures.Texture;
 import xoric.prism.scene.settings.ISceneSettings;
-import xoric.prism.scene.shaders.AllShaders;
-import xoric.prism.scene.shaders.IShader2;
+import xoric.prism.scene.shaders.IDefaultShader;
 import xoric.prism.scene.textures.TextureInfo;
 
-public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
+public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IExceptionSink, IFrameBufferParent
 {
+	//	private final TrashCan trashCan;
 	private final InputHandlerLWJGL inputHandler;
+	//	private final ShaderIO2 shaderIO;
+	//	private final FrameBufferIO frameBufferIO;
 
-	private final ShaderIO2 shaderIO;
-	private FloatPoint screenSize;
+	private FloatPoint frameSize;
 	private Exception exception;
+
+	private int frameBufferID;
 
 	private float slope;
 
-	private TextureIO[] textures;
-	private IShader2 testingDefaultShader;
+	private IDefaultShader testingDefaultShader;
 	private Texture testingTexture;
 	private PrismColor testingColor2;
 	private final boolean[] brgba = new boolean[4];
 
 	private int interval;
+
+	private final FloatPoint temp;
+	private final FloatPoint temp2;
 
 	public PrismSceneLWJGL()
 	{
@@ -53,8 +60,14 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 
 		inputHandler = new InputHandlerLWJGL();
 
-		shaderIO = new ShaderIO2();
-		slope = 0.5f;
+		//		trashCan = new TrashCan();
+		//		shaderIO = new ShaderIO2();
+		//		frameBufferIO = new FrameBufferIO();
+
+		temp = new FloatPoint();
+		temp2 = new FloatPoint();
+
+		slope = 0.15f;
 	}
 
 	@Override
@@ -133,7 +146,7 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 		{
 			DisplayMode mode = findDisplay(width, height);
 			System.out.println("Setting display size to " + mode.getWidth() + " x " + height);
-			screenSize = new FloatPoint(mode.getWidth(), mode.getHeight());
+			frameSize = new FloatPoint(mode.getWidth(), mode.getHeight());
 			Display.setDisplayMode(mode);
 			Display.create();
 		}
@@ -143,7 +156,7 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 			e.setText("An error occured while trying to create a display window.");
 			throw e;
 		}
-		return screenSize;
+		return frameSize;
 	}
 
 	@Override
@@ -158,13 +171,8 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 		}
 	}
 
-	private void memorizeException(Exception e)
-	{
-		this.exception = e;
-	}
-
 	@Override
-	public void initialize()
+	public void initialize() throws PrismException
 	{
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -172,14 +180,31 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 
 		//		GL11.glEnable(GL11.GL_DEPTH_TEST); // Tiefentest (mit dem Z-Buffer) aktivieren
 
-		try
-		{
-			AllShaders.load(this);
-		}
-		catch (Exception e2)
-		{
-			memorizeException(e2);
-		}
+		// generate a frame buffer
+		//		boolean isFboEnabled = GLContext.getCapabilities().GL_EXT_framebuffer_object;
+		//		frameBufferID = 0;
+		//		if (isFboEnabled)
+		//		{
+		//			IntBuffer buffer = ByteBuffer.allocateDirect(1 * 4).order(ByteOrder.nativeOrder()).asIntBuffer(); // allocate a 1 int byte buffer
+		//			EXTFramebufferObject.glGenFramebuffersEXT(buffer); // generate
+		//			frameBufferID = buffer.get();
+		//			System.out.println("frame buffer id: " + frameBufferID);
+		//		}
+		//		if (frameBufferID <= 0)
+		//		{
+		//			PrismException e = new PrismException();
+		//			e.setText(UserErrorText.FRAME_BUFFER_ERROR);
+		//			throw e;
+		//		}
+
+		//		try
+		//		{
+		//			AllShaders.load(shaderIO);
+		//		}
+		//		catch (Exception e2)
+		//		{
+		//			receiveException(e2);
+		//		}
 
 		//		try
 		//		{
@@ -218,7 +243,7 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 	@Override
 	public void startLoop(ISceneListener client, IInputListener il)
 	{
-		inputHandler.initialize(il, (int) screenSize.y);
+		inputHandler.initialize(il, frameSize);
 
 		long lastMs = System.currentTimeMillis();
 		boolean resumeTimer = true;
@@ -255,28 +280,41 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 					GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
 					// client returns false if the scene should be closed
-					try
+					if (resumeTimer)
 					{
-						if (resumeTimer)
-						{
-							setStage(true);
-							resumeTimer = client.update(passedMs);
-						}
-						if (resumeTimer)
-						{
-							setStage(true);
-							resumeTimer = client.drawWorld(this);
-						}
-						if (resumeTimer)
-						{
-							setStage(false);
-							resumeTimer = client.drawUI(this);
-						}
+						setStage(true);
+						resumeTimer = client.update(passedMs);
 					}
-					catch (Exception e0)
+					if (resumeTimer)
 					{
-						resumeTimer = false;
-						exception = e0;
+						try
+						{
+							setStage(true);
+							client.drawWorld(this);
+
+							setStage(false);
+							client.drawUI(this);
+
+							// TEST FRAME BUFFER
+							/*
+							EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, frameBufferID); // set frame buffer as render target
+							int anyTextureID = Materials.env0.getTexture(0).getTextureID();
+							EXTFramebufferObject.glFramebufferTexture2DEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,
+									EXTFramebufferObject.GL_COLOR_ATTACHMENT0_EXT, GL11.GL_TEXTURE_2D, anyTextureID, 0);
+							EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, 0); // release frame buffer (target is window again)
+							int res = EXTFramebufferObject.glCheckFramebufferStatusEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT);
+							if (res != EXTFramebufferObject.GL_FRAMEBUFFER_COMPLETE_EXT)
+							{
+								PrismException e = new PrismException();
+								e.setText("frame buffer incomplete");
+								receiveException(e);
+							}
+							*/
+						}
+						catch (Exception e)
+						{
+							receiveException(e);
+						}
 					}
 
 					// update the scene
@@ -296,8 +334,7 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 				}
 				catch (InterruptedException e)
 				{
-					if (exception == null)
-						exception = e;
+					receiveException(e);
 				}
 			}
 
@@ -305,17 +342,14 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 		}
 		while (resumeTimer);
 
-		// clean up (TODO: move to client)
-		if (textures != null)
-			for (int i = 0; i < textures.length; ++i)
-				GL11.glDeleteTextures(textures[i].getProgramID());
-
 		// destroy scene
+		TrashCan.cleanUp();
 		Display.destroy();
 		client.onClosingScene(exception);
 	}
 
-	private void setStage(boolean isWorldStage)
+	@Override
+	public void setStage(boolean isWorldStage)
 	{
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
@@ -334,15 +368,6 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 
 	/* **************** IRenderer *************************** */
 
-	private float calcZ(float y)
-	{
-		float z = -1.5f - y * slope;
-		if (z > -1.499f)
-			z = -1.499f;
-
-		return z;
-	}
-
 	public void setInterpolationNearest()
 	{
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST_MIPMAP_NEAREST);
@@ -356,20 +381,14 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 	}
 
 	@Override
-	public IShader2 createShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException
-	{
-		return ShaderIO2.createShader(vertexShader, pixelShader);
-	}
-
-	@Override
 	public void drawSprite(TextureInfo texInfo, IFloatRect_r rect)
 	{
 		GL11.glBegin(GL11.GL_QUADS);
 
-		float x = rect.getTopLeft().getX() / screenSize.x;
-		float y = 1.0f - rect.getTopLeft().getY() / screenSize.y;
-		float w = rect.getSize().getX() / screenSize.x;
-		float h = -(rect.getSize().getY() / screenSize.y);
+		float x = rect.getTopLeft().getX() / frameSize.x;
+		float y = 1.0f - rect.getTopLeft().getY() / frameSize.y;
+		float w = rect.getSize().getX() / frameSize.x;
+		float h = -(rect.getSize().getY() / frameSize.y);
 
 		IFloatPoint_r tl = texInfo.getRect().getTopLeft();
 		IFloatPoint_r br = texInfo.getRect().getBottomRight();
@@ -430,10 +449,10 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 		GL11.glBegin(GL11.GL_QUADS);
 
 		/* checked */
-		float x = screenRect.getTopLeft().getX() / screenSize.x;
-		float y = 1.0f - screenRect.getTopLeft().getY() / screenSize.y;
-		float w = screenRect.getSize().getX() / screenSize.x;
-		float h = -screenRect.getSize().getY() / screenSize.y;
+		float x = screenRect.getTopLeft().getX() / frameSize.x;
+		float y = 1.0f - screenRect.getTopLeft().getY() / frameSize.y;
+		float w = screenRect.getSize().getX() / frameSize.x;
+		float h = -screenRect.getSize().getY() / frameSize.y;
 
 		IFloatPoint_r tl = texRect.getTopLeft();
 		IFloatPoint_r br = texRect.getBottomRight();
@@ -501,15 +520,15 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 	//		GL11.glEnd();
 	//	}
 	@Override
-	public void drawPlane(TextureInfo texInfo, IFloatRect_r rect)
+	public void drawPlane(TextureInfo texInfo, IFloatRect_r screenRect)
 	{
 		GL11.glBegin(GL11.GL_QUADS);
 
-		float x = -0.5f + rect.getTopLeft().getX();
-		float y0 = 1.0f - rect.getTopLeft().getY();
+		float x = -0.5f + screenRect.getTopLeft().getX();
+		float y0 = 1.0f - screenRect.getTopLeft().getY();
 		float y = -0.5f + y0;
-		float w = rect.getSize().getX();
-		float h = -rect.getSize().getY();
+		float w = screenRect.getSize().getX();
+		float h = -screenRect.getSize().getY();
 		float zFront = calcZ(y0);
 		float zBack = calcZ(y0 + h);
 
@@ -543,86 +562,175 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 	}
 
 	@Override
+	public void drawPlane(IFloatRect_r texRect, IFloatRect_r screenRect)
+	{
+		GL11.glBegin(GL11.GL_QUADS);
+
+		float x = -0.5f + screenRect.getTopLeft().getX(); // TODO code duplication (see implementation above)
+		float y0 = 1.0f - screenRect.getTopLeft().getY();
+		float y = -0.5f + y0;
+		float w = screenRect.getSize().getX();
+		float h = -screenRect.getSize().getY();
+		float zFront = calcZ(y0);
+		float zBack = calcZ(y0 + h);
+
+		IFloatPoint_r tl = texRect.getTopLeft();
+		IFloatPoint_r br = texRect.getBottomRight();
+
+		GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
+		GL11.glVertex3f(x, y, zFront);
+		GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
+		GL11.glVertex3f(x + w, y, zFront);
+		GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
+		GL11.glVertex3f(x + w, y + h, zBack);
+		GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
+		GL11.glVertex3f(x, y + h, zBack);
+
+		GL11.glEnd();
+	}
+
+	@Override
+	public void drawMaskPlane(IFloatRect_r texRect, IFloatRect_r maskRect, IFloatRect_r screenRect)
+	{
+		GL11.glBegin(GL11.GL_QUADS);
+
+		float x = -0.5f + screenRect.getTopLeft().getX(); // TODO code duplication (see implementations above)
+		float y0 = 1.0f - screenRect.getTopLeft().getY();
+		float y = -0.5f + y0;
+		float w = screenRect.getSize().getX();
+		float h = -screenRect.getSize().getY();
+		float zFront = calcZ(y0);
+		float zBack = calcZ(y0 + h);
+
+		IFloatPoint_r tl0 = texRect.getTopLeft();
+		IFloatPoint_r br0 = texRect.getBottomRight();
+
+		IFloatPoint_r tl1 = maskRect.getTopLeft();
+		IFloatPoint_r br1 = maskRect.getBottomRight();
+
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, tl0.getX(), 1.0f - tl0.getY());
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, tl1.getX(), 1.0f - tl1.getY());
+		GL11.glVertex3f(x, y, zFront);
+
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, br0.getX(), 1.0f - tl0.getY());
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, br1.getX(), 1.0f - tl1.getY());
+		GL11.glVertex3f(x + w, y, zFront);
+
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, br0.getX(), 1.0f - br0.getY());
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, br1.getX(), 1.0f - br1.getY());
+		GL11.glVertex3f(x + w, y + h, zBack);
+
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, tl0.getX(), 1.0f - br0.getY());
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, tl1.getX(), 1.0f - br1.getY());
+		GL11.glVertex3f(x, y + h, zBack);
+
+		GL11.glEnd();
+	}
+
+	@Override
 	public void drawObject(TextureInfo texInfo, IFloatPoint_r position, IFloatPoint_r size, float z)
 	{
-		//		float[] rgba = testingColor2.getRGBA();
-		//		for (int i = 0; i < 3; ++i)
-		//		{
-		//			if (brgba[i])
-		//			{
-		//				rgba[i] += 0.001f * i;
-		//				if (rgba[i] > 1.0f)
-		//				{
-		//					rgba[i] = 1.0f;
-		//					brgba[i] = false;
-		//				}
-		//			}
-		//			else
-		//			{
-		//				rgba[i] -= 0.001f * i;
-		//				if (rgba[i] < 0.0f)
-		//				{
-		//					rgba[i] = 0.0f;
-		//					brgba[i] = true;
-		//				}
-		//			}
-		//		}
-
-		//		bindTexture(textures[0].getProgramID(), false);
-		//		testingDefaultShader.activate();
-		//		testingDefaultShader.setTexture(testingTexture);
-		//		testingDefaultShader.setColor(testingColor2);
-
 		GL11.glBegin(GL11.GL_QUADS);
 
 		float x = -0.5f + position.getX();
 		float y0 = position.getY();
-		float y = -0.5f + y0;
+		// variation 1:
+		//		float y = -0.5f + y0; // TODO y is currently flipped
+		// variation 2:
+		float y = 0.5f - y0;
+		// --
 		float w = size.getX();
 		float h = size.getY();
-		z = calcZ(y0) + z;
+		// variation 1:
+		//		z = calcZ(y0) + z;
+		// variation 2:
+		z = calcZAlt(y0) + z;
+		// --
+		x -= w * 0.5f;
 
-		//		GL11.glTexCoord2f(0.0f, 0.0f);
-		//		GL11.glVertex3f(x, y, z);
-		//		GL11.glTexCoord2f(1.0f, 0.0f);
-		//		GL11.glVertex3f(x + w, y, z);
-		//		GL11.glTexCoord2f(1.0f, 1.0f);
-		//		GL11.glVertex3f(x + w, y + h, z);
-		//		GL11.glTexCoord2f(0.0f, 1.0f);
-		//		GL11.glVertex3f(x, y + h, z);
+		//		System.out.println("renderer received texture coordinates " + texInfo.getRect().getTopLeft());
 
 		IFloatPoint_r tl = texInfo.getRect().getTopLeft();
 		IFloatPoint_r br = texInfo.getRect().getBottomRight();
 
+		// flipping the texture's y-coordinates
+		// TODO: vertically flip textures before binding?
+		temp.y = 1.0f - tl.getY();
+		temp2.y = 1.0f - br.getY();
+
 		if (texInfo.isFlippedH())
 		{
-			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
+			GL11.glTexCoord2f(br.getX(), temp2.getY());
 			GL11.glVertex3f(x, y, z);
-			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
+			GL11.glTexCoord2f(tl.getX(), temp2.getY());
 			GL11.glVertex3f(x + w, y, z);
-			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
+			GL11.glTexCoord2f(tl.getX(), temp.getY());
 			GL11.glVertex3f(x + w, y + h, z);
-			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
+			GL11.glTexCoord2f(br.getX(), temp.getY());
 			GL11.glVertex3f(x, y + h, z);
 		}
 		else
 		{
-			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
+			GL11.glTexCoord2f(tl.getX(), temp2.getY());
 			GL11.glVertex3f(x, y, z);
-			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
+			GL11.glTexCoord2f(br.getX(), temp2.getY());
 			GL11.glVertex3f(x + w, y, z);
-			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
+			GL11.glTexCoord2f(br.getX(), temp.getY());
 			GL11.glVertex3f(x + w, y + h, z);
-			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
+			GL11.glTexCoord2f(tl.getX(), temp.getY());
 			GL11.glVertex3f(x, y + h, z);
 		}
+
+		//		if (texInfo.isFlippedH())
+		//		{
+		//			GL11.glTexCoord2f(br.getX(), tl.getY());
+		//			GL11.glVertex3f(x, y, z);
+		//			GL11.glTexCoord2f(tl.getX(), tl.getY());
+		//			GL11.glVertex3f(x + w, y, z);
+		//			GL11.glTexCoord2f(tl.getX(), br.getY());
+		//			GL11.glVertex3f(x + w, y + h, z);
+		//			GL11.glTexCoord2f(br.getX(), br.getY());
+		//			GL11.glVertex3f(x, y + h, z);
+		//		}
+		//		else
+		//		{
+		//			GL11.glTexCoord2f(tl.getX(), tl.getY());
+		//			GL11.glVertex3f(x, y, z);
+		//			GL11.glTexCoord2f(br.getX(), tl.getY());
+		//			GL11.glVertex3f(x + w, y, z);
+		//			GL11.glTexCoord2f(br.getX(), br.getY());
+		//			GL11.glVertex3f(x + w, y + h, z);
+		//			GL11.glTexCoord2f(tl.getX(), br.getY());
+		//			GL11.glVertex3f(x, y + h, z);
+		//		}
+
 		GL11.glEnd();
+	}
+
+	// variation 2:
+	private float calcZAlt(float y)
+	{
+		float z = -1.5f - (1.0f - y) * slope;
+		if (z > -1.499f)
+			z = -1.499f;
+
+		return z;
+	}
+
+	// variation 1:
+	private float calcZ(float y)
+	{
+		float z = -1.5f - y * slope;
+		if (z > -1.499f)
+			z = -1.499f;
+
+		return z;
 	}
 
 	@Override
 	public IFloatPoint_r getScreenSize()
 	{
-		return screenSize;
+		return frameSize;
 	}
 
 	@Override
@@ -631,12 +739,72 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI
 		Display.setTitle(title);
 	}
 
+	// IScene:
 	@Override
-	public IShader2 createShaderSubstitute()
+	public float getSlope()
 	{
-		DefaultShaderSubstitute.initialize();
-		DefaultShaderSubstitute d = new DefaultShaderSubstitute();
-
-		return d;
+		return slope;
 	}
+
+	// IScene:
+	@Override
+	public void applyPerspective(FloatPoint p)
+	{
+		p.y = (p.y - 0.048333f) * 1.050787723f;
+
+		float hollow = p.y < 0.5f ? p.y : 1.0f - p.y;
+		hollow *= 2.0f * 0.025f;
+
+		p.y += hollow;
+
+		float f = 1.0f - p.y / 1.0f;
+		float fx = 0.045f * f;
+		float s = 1.0f / (1.0f - fx * 2.0f);
+
+		p.x = (p.x - fx) * s;
+	}
+
+	// IExceptionSink:
+	@Override
+	public void receiveException(Exception e)
+	{
+		if (exception == null)
+			exception = e;
+	}
+
+	/*
+	public void draw(DrawInfo drawInfo, IFloatRect_r screenRect)
+	{
+		//		public void drawPlane(TextureInfo texInfo, IFloatRect_r rect);
+		//		public void drawPlane(IFloatRect_r texRect, IFloatRect_r rect);
+
+		GL11.glte
+		
+		FloatRectR quadRect = drawInfo.getQuadRect();
+
+		gl2.glBegin(GL2.GL_QUADS);
+		{
+			// gl2.glTexCoord2f(textureRect.getX(), textureRect.getY());
+			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE0, drawInfo.getTextureRect().getX(), drawInfo.getTextureRect().getY());
+			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE1, textureRect2.getX(), textureRect2.getY());
+			gl2.glVertex3f(quadRect.getX(), quadRect.getY(), 0.0f);
+
+			// gl2.glTexCoord2f(textureRect.calcX2(), textureRect.getY());
+			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE0, drawInfo.getTextureRect().calcX2(), drawInfo.getTextureRect().getY());
+			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE1, textureRect2.calcX2(), textureRect2.getY());
+			gl2.glVertex3f(quadRect.calcX2(), quadRect.getY(), 0.0f);
+
+			// gl2.glTexCoord2f(textureRect.calcX2(), textureRect.calcY2());
+			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE0, drawInfo.getTextureRect().calcX2(), drawInfo.getTextureRect().calcY2());
+			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE1, textureRect2.calcX2(), textureRect2.calcY2());
+			gl2.glVertex3f(quadRect.calcX2(), quadRect.calcY2(), 0.0f);
+
+			// gl2.glTexCoord2f(textureRect.getX(), textureRect.getY2());
+			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE0, drawInfo.getTextureRect().getX(), drawInfo.getTextureRect().calcY2());
+			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE1, textureRect2.getX(), textureRect2.calcY2());
+			gl2.glVertex3f(quadRect.getX(), quadRect.calcY2(), 0.0f);
+		}
+		gl2.glEnd();
+	}
+	*/
 }

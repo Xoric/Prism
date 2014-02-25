@@ -30,6 +30,22 @@ public class MetaLine_in extends MetaLineBase implements IInfoLayer, IPackable_i
 		setUplink(uplink);
 	}
 
+	public void assumeMetaKey(MetaKey key) throws PrismException
+	{
+		if (this.key != key)
+		{
+			PrismException e = new PrismException();
+			// ----
+			e.user.setText(UserErrorText.LOCAL_GAME_FILE_CAUSED_PROBLEM);
+			// ----
+			e.code.setText("wrong " + MetaKey.class.getSimpleName(), key.toString(), this.key.toString());
+			// ----
+			addExceptionInfoTo(e);
+			// ----
+			throw e;
+		}
+	}
+
 	@Override
 	public Heap_in getHeap()
 	{

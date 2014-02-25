@@ -6,7 +6,7 @@ import xoric.prism.data.types.PrismColor;
 import xoric.prism.data.types.Text;
 import xoric.prism.scene.IDrawableUI;
 import xoric.prism.scene.IRendererUI;
-import xoric.prism.scene.materials.Materials;
+import xoric.prism.scene.materials.tools.AllTools;
 
 public class Hint implements IDrawableUI
 {
@@ -28,10 +28,10 @@ public class Hint implements IDrawableUI
 	@Override
 	public void draw(IRendererUI renderer) throws PrismException
 	{
-		Materials.printer.setText(text);
-		Materials.printer.setColor(color);
-		Materials.printer.print(pos);
-		Materials.printer.resetColor();
+		AllTools.printer.setText(text);
+		AllTools.printer.setColor(color);
+		AllTools.printer.print(pos);
+		AllTools.printer.resetColor();
 	}
 
 	public boolean update(int passedMs)

@@ -95,6 +95,12 @@ public class PrismColor implements IPackable
 		rgba_f[3] = rgba_i[3] / 255.0f;
 	}
 
+	public void setAlpha(float a)
+	{
+		rgba_f[3] = a;
+		rgba_i[3] = (int) (255 * a);
+	}
+
 	public int getAlpha()
 	{
 		return rgba_i[3];
@@ -120,5 +126,14 @@ public class PrismColor implements IPackable
 	{
 		rgba_f[i] = f;
 		rgba_i[i] = (int) (255 * f);
+	}
+
+	public void set(PrismColor color)
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			rgba_f[i] = color.rgba_f[i];
+			rgba_i[i] = color.rgba_i[i];
+		}
 	}
 }

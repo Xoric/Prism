@@ -91,7 +91,7 @@ public class TextureGenerator
 		int cBest = 0;
 		int rBest = 0;
 
-		for (int c = 1; c < n; ++c)
+		for (int c = 1; c < n + 1; ++c)
 		{
 			int r = n / c + (n % c > 0 ? 1 : 0);
 			int s = calcNextPowerOfTwo(c * w) + calcNextPowerOfTwo(r * h);

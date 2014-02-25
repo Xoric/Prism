@@ -1,16 +1,16 @@
 package xoric.prism.client;
 
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
+import xoric.prism.client.control.INetworkControl;
 import xoric.prism.client.net.Network;
-import xoric.prism.client.ui.BlinkColor;
-import xoric.prism.client.ui.PrismUI;
-import xoric.prism.client.ui.UIWindow;
-import xoric.prism.client.ui.button.ActionExecuter;
-import xoric.prism.client.ui.button.IActionParent;
-import xoric.prism.client.ui.edit.UIEdit;
-import xoric.prism.client.ui.hints.ConnectionHint;
+import xoric.prism.client.ui.ActionExecuter;
+import xoric.prism.client.ui.ConnectionHint;
 import xoric.prism.com.ClientLoginMessage_out;
+import xoric.prism.data.exceptions.IExceptionSink;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.FileTableDirectoryIndex;
 import xoric.prism.data.global.Prism;
@@ -19,33 +19,56 @@ import xoric.prism.data.net.NetConstants;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
+import xoric.prism.data.types.IFloatRect_r;
+import xoric.prism.data.types.Point;
+import xoric.prism.data.types.PrismColor;
 import xoric.prism.data.types.Text;
 import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.IRendererWorld;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
 import xoric.prism.scene.camera.Camera;
-import xoric.prism.scene.materials.Materials;
+import xoric.prism.scene.materials.art.AllArt;
+import xoric.prism.scene.materials.shaders.AllShaders;
+import xoric.prism.scene.materials.tools.AllTools;
 import xoric.prism.scene.textures.TextureInfo;
+import xoric.prism.ui.BlinkColor;
+import xoric.prism.ui.PrismUI;
+import xoric.prism.ui.UIWindow;
+import xoric.prism.ui.button.IActionParent;
+import xoric.prism.ui.edit.UIEdit;
+import xoric.prism.world.client.DrawableWeatherTile;
+import xoric.prism.world.client.Mushroom;
+import xoric.prism.world.client.WeatherMark;
 import xoric.prism.world.entities.Movable;
+import xoric.prism.world.map.Ground;
 import xoric.prism.world.model.GridModelMeta;
 
-public class PrismClient implements ISceneListener, IActionParent, INetworkControl
+public class PrismClient implements ISceneListener, IActionParent, INetworkControl, IExceptionSink
 {
 	private final ConnectionHint connectionHint;
 
 	private final IScene scene;
+	private IFloatPoint_r frameSize;
 	private final PrismUI ui;
 	private final ActionExecuter actionExecuter;
 	private final Network network;
 	private volatile Exception clientException;
 	private boolean exitGameRequested;
 
+	private boolean isDebugDecoActive;
+
 	private int ni = 0;
 	private int nis = 0;
 
-	private float slope = 0.1f;
+	private float slope;
 	private boolean isSlopeGrowing = true;
+	private boolean isSlopeFixed = true;
+
+	private FloatRect testMouse;
+
+	private final FloatPoint perspectiveMouse;
+	private final FloatPoint worldMouse;
 
 	private FloatRect testPlane;
 	private FloatPoint testMan[];
@@ -55,11 +78,33 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 	private float walkingY;
 	private static final FloatPoint manSize = new FloatPoint(20.0f, 40.0f);
 
+	//	private FloatRect testGround = new FloatRect(40.0f, 40.0f, 160.0f, 120.0f);
+	private FloatRect testGround = new FloatRect(40.0f, 40.0f, 160.0f, 120.0f);
+
 	private GridModelMeta gm;
 
 	private FloatPoint temp;
 	private FloatPoint temp2;
 	private Camera cam;
+
+	private FloatRect tempRect;
+	//	private FloatRect tempMushroom;
+	//	private FloatRect tempMushroom2;
+	//	private PrismColor mushroomColor;
+	//	private float mushroomState = 0.5f;
+	//	private boolean isMushroomGrowing = true;
+	private Text mushroomText;
+	private FloatPoint mushroomTextPos;
+
+	private FloatRect testRect;
+
+	private List<Mushroom> mush;
+
+	private Text testText = new Text();
+
+	private DrawableWeatherTile[][] testTile;
+
+	private WeatherMark tempMark;
 
 	public PrismClient(IScene scene)
 	{
@@ -68,7 +113,7 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		this.scene = scene;
 		this.network = new Network(this);
 		this.actionExecuter = new ActionExecuter(this, network);
-		this.ui = new PrismUI(actionExecuter);
+		this.ui = new PrismUI(this, actionExecuter);
 
 		testPlane = new FloatRect(0.0f, 0.0f, 800.0f, 480.0f);
 
@@ -77,6 +122,12 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		testMan[1] = new FloatPoint(800.0f - manSize.getX(), 0.0f);
 		testMan[2] = new FloatPoint(0.0f, 480.0f);
 		testMan[3] = new FloatPoint(800.0f - manSize.getX(), 480.0f);
+
+		testMouse = new FloatRect(0.0f, 0.0f, 10.0f, 25.0f);
+		perspectiveMouse = new FloatPoint();
+		worldMouse = new FloatPoint();
+
+		testRect = new FloatRect(640.0f, 80.0f, 120.0f, 80.0f);
 
 		walkingMan = new FloatPoint(400.0f, 300.0f);
 		walkingX = 4.0f;
@@ -90,7 +141,24 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		temp2 = new FloatPoint();
 		cam = new Camera(0.0f, 0.0f, 800.0f, 480.0f);
 
+		mush = new ArrayList<Mushroom>();
+
+		tempRect = new FloatRect(30.0f, 30.0f, 100.0f, 50.0f);
+
+		tempMark = new WeatherMark(new FloatRect(90.0f, 40.0f, 180.0f, 180.0f), 20000);
+
+		//		tempMushroom = new FloatRect(10.0f, 90.0f, 35.0f, 42.0f);
+		//		tempMushroom2 = new FloatRect();
+		//		mushroomColor = new PrismColor();
+		mushroomText = new Text();
+		mushroomTextPos = new FloatPoint(30.0f, 300.0f);
+
 		//		ta.test();
+
+		testTile = new DrawableWeatherTile[6][3];
+		for (int y = 0; y < 6; ++y)
+			for (int x = 0; x < 3; ++x)
+				testTile[y][x] = new DrawableWeatherTile(new Point(x, y), new Ground(y < 3 ? 0 : 1));
 	}
 
 	public void testConnect()
@@ -163,14 +231,19 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 	//		}
 	//	}
 
+	public void createWindow() throws PrismException
+	{
+		frameSize = scene.createWindow(900, 500, false);
+	}
+
 	public void start() throws PrismException
 	{
 		//		testModelMeta();
 
-		IFloatPoint_r screenSize = scene.createWindow(800, 480, false);
-		ui.setScreenSize(screenSize);
+		//		IFloatPoint_r screenSize = scene.createWindow(800, 480, false);
+		ui.setScreenSize(frameSize);
 
-		connectionHint.setScreenSize(screenSize);
+		connectionHint.setScreenSize(frameSize);
 
 		//		for (int i = 0; i < 10; ++i)
 		//		{
@@ -184,6 +257,31 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		uiWindow.makeClosable(true);
 		uiWindow.makeResizable(true);
 		uiWindow.setMoveable(true);
+
+		try
+		{
+			int n = AllArt.mush0.getMeta().getObjectCount();
+			for (int j = 0; j < n * 2; ++j)
+			{
+				int k = j % n;
+
+				//				System.out.println();
+				//				System.out.println("mushroom instance " + j);
+
+				Mushroom m = new Mushroom(k, j >= n);
+				//				m.setDebug(j == 5);
+				m.setPosition(10.0f + 36.0f * j, 170.0f + 10.0f * j);
+				m.setTolerableDamage(50);
+				m.setLifespan(60);
+				m.update(60);
+				mush.add(m);
+			}
+		}
+		catch (PrismException e)
+		{
+			e.code.print();
+			e.user.showMessage();
+		}
 
 		UIEdit e = new UIEdit();
 		e.setWidthRuler(-60.0f, 1.0f);
@@ -203,6 +301,7 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		}
 
 		scene.initialize();
+		slope = scene.getSlope();
 		scene.startLoop(this, this);
 	}
 
@@ -248,29 +347,53 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 	{
 		BlinkColor.selectionColor.update(passedMs); // TODO temp
 
+		tempMark.update(passedMs);
+
 		connectionHint.update(passedMs);
 
 		boolean b = network.update(passedMs);
 
-		if (isSlopeGrowing)
+		if (!isSlopeFixed)
 		{
-			slope += 0.01f;
-			if (slope > 4.4f)
+			if (isSlopeGrowing)
 			{
-				slope = 4.5f;
-				isSlopeGrowing = false;
+				slope += 0.001f;
+				if (slope > 1.5f)
+				{
+					slope = 1.5f;
+					isSlopeGrowing = false;
+				}
 			}
-		}
-		else
-		{
-			slope -= 0.01f;
-			if (slope < 0.0f)
+			else
 			{
-				slope = 0.0f;
-				isSlopeGrowing = true;
+				slope -= 0.001f;
+				if (slope < 0.3f)
+				{
+					slope = 0.3f;
+					isSlopeGrowing = true;
+				}
 			}
+			scene.setSlope(slope);
 		}
-		scene.setSlope(slope);
+
+		//		if (isMushroomGrowing)
+		//		{
+		//			mushroomState += 0.001f;
+		//			if (mushroomState > 1.0f)
+		//			{
+		//				mushroomState = 1.0f;
+		//				isMushroomGrowing = false;
+		//			}
+		//		}
+		//		else
+		//		{
+		//			mushroomState -= 0.001f;
+		//			if (mushroomState < 0.0f)
+		//			{
+		//				mushroomState = 0.0f;
+		//				isMushroomGrowing = true;
+		//			}
+		//		}
 
 		// walk
 		walkingMan.x += walkingX;
@@ -309,7 +432,7 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 	}
 
 	@Override
-	public boolean drawWorld(IRendererWorld renderer) throws Exception
+	public void drawWorld(IRendererWorld renderer) throws PrismException
 	{
 		//		nz = -3.0f;
 		//		renderer.setColor(0.8f, 0.2f, 0.2f);
@@ -317,37 +440,130 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		// draw planes
 		cam.transformWithCameraBounds(testPlane.getTopLeft(), temp);
 		cam.transformWithCameraBounds(testPlane.getSize(), temp2);
-		TextureInfo texInfo = Materials.frames.getTextureInfo(0, 0, 0, ni);
+		TextureInfo texInfo = AllArt.frames.getTextureInfo(0, 0, 0, ni);
 		//		temp.y += 0.1f;
 		renderer.drawPlane(texInfo, new FloatRect(temp, temp2));
 
+		//
+		//
+		//
+		//
+
 		// draw edges
 		//		renderer.setColor(0.3f, 0.5f, 0.2f);
-		cam.transformWithCameraBounds(manSize, temp2);
-		for (int i = 0; i < 4; ++i)
+		if (isDebugDecoActive)
 		{
-			cam.transformWithCameraBounds(testMan[i], temp);
-			texInfo = Materials.frames.getTextureInfo(0, 0, 1, ni);
-			renderer.drawObject(texInfo, temp, temp2, 0.0f);
+			cam.transformWithCameraBounds(manSize, temp2);
+			for (int i = 0; i < 4; ++i)
+			{
+				cam.transformWithCameraBounds(testMan[i], temp);
+				texInfo = AllArt.frames.getTextureInfo(0, 0, 1, ni);
+
+				renderer.drawObject(texInfo, temp, temp2, 0.0f);
+			}
 		}
 
 		// draw walking man
 		//		renderer.setColor(0.3f, 0.2f, 0.8f);
-		cam.transformWithCameraBounds(walkingMan, temp);
-		texInfo = Materials.frames.getTextureInfo(0, 0, 2, ni);
-		renderer.drawObject(texInfo, temp, temp2, 0.0f);
+		if (isDebugDecoActive)
+		{
+			cam.transformWithCameraBounds(walkingMan, temp);
+			texInfo = AllArt.frames.getTextureInfo(0, 0, 2, ni);
+			renderer.drawObject(texInfo, temp, temp2, 0.0f);
+		}
 
 		// draw movable
 		//		renderer.setColor(0.3f, 0.2f, 0.5f);
-		cam.transformWithCameraBounds(movable.getPosition(), temp);
-		texInfo = Materials.frames.getTextureInfo(0, 0, 3, ni);
-		renderer.drawObject(texInfo, temp, temp2, 0.0f);
+		if (isDebugDecoActive)
+		{
+			cam.transformWithCameraBounds(movable.getPosition(), temp);
+			texInfo = AllArt.frames.getTextureInfo(0, 0, 3, ni);
+			renderer.drawObject(texInfo, temp, temp2, 0.0f);
+		}
 
-		return clientException == null && !exitGameRequested;
+		//		ITexture tex = Materials.env0.getTexture(0);
+		//		IFloatRect_r texRect = Materials.env0.getMeta().getRect(0);
+		//		AllShaders.defaultShader.activate();
+		//		AllShaders.defaultShader.setTexture(tex);
+		//		cam.transformWithCameraBounds(testGround, tempRect);
+		//		renderer.drawPlane(texRect, tempRect);
+
+		for (int y = 0; y < 6; ++y)
+			for (int x = 0; x < 3; ++x)
+				testTile[y][x].draw(renderer, cam);
+
+		if (isDebugDecoActive)
+			tempMark.draw(renderer, cam);
+
+		// draw mushrooms
+		//		tempMushroom2.copyFrom(tempMushroom);
+		//		tempMushroom2.multiplySize(0.7f * (float) Math.sqrt(mushroomState));
+		//		tempMushroom2.multiplyHeight(mushroomState);
+		//		mushroomColor.set(0.3f + mushroomState * 0.7f, 0.3f + mushroomState * 0.7f, 0.3f + mushroomState * 0.7f, 0.7f * (float) Math
+		//				.sqrt(mushroomState));
+		//		AllShaders.defaultShader.activate();
+		//		AllShaders.defaultShader.setColor(mushroomColor);
+		//
+		//		for (int i = 0; i < 3; ++i)
+		//		{
+		//			for (int j = 0; j < 9; ++j)
+		//			{
+		//				texInfo = Materials.mush0.getTextureInfo(0, 0, i, j == 0 ? 1 : 0);
+		//				AllShaders.defaultShader.setTexture(texInfo.getTexture());
+		//
+		//				cam.transformWithCameraBounds(tempMushroom2, tempRect);
+		//				renderer.drawObject(texInfo, tempRect.getTopLeft(), tempRect.getSize(), 0.0f);
+		//
+		//				texInfo.flipH();
+		//
+		//				tempMushroom2.addX(tempMushroom.getWidth());
+		//				tempMushroom2.addY(5.0f);
+		//			}
+		//			tempMushroom2.setX(tempMushroom.getX());
+		//			tempMushroom2.addY(tempMushroom.getHeight());
+		//		}
+
+		//		System.out.println();
+		//		System.out.println("----");
+
+		for (int i = 0; i < mush.size(); ++i)
+		{
+			Mushroom m = mush.get(i);
+			//			System.out.println();
+			//			System.out.println(m.toString());
+
+			//			System.out.println("mushroom " + i);
+
+			m.draw(renderer, cam);
+		}
+
+		//		System.out.println(".");
+
+		if (isDebugDecoActive)
+		{
+			texInfo = AllArt.frames.getTextureInfo(0, 3, 0, 0);
+			AllShaders.defaultShader.activate();
+			AllShaders.defaultShader.setTexture(texInfo.getTexture());
+			AllShaders.defaultShader.setColor(PrismColor.opaqueWhite);
+			cam.transformWithCameraBounds(testMouse.getTopLeft(), temp);
+			cam.transformWithCameraBounds(testMouse.getSize(), temp2);
+			renderer.drawObject(texInfo, temp, temp2, 0.0f);
+		}
+
+		// simulate a mask ground
+		IFloatRect_r texRectA = AllArt.env0.getMeta().getRect(1);
+		int n = AllArt.masks.getMeta().getSpriteCount();
+		int i = Calendar.getInstance().get(Calendar.SECOND) % n;
+		IFloatRect_r texRectM = AllArt.masks.getMeta().getRect(i);
+		cam.transformWithCameraBounds(testRect, tempRect);
+		AllShaders.maskShader.activate();
+		AllShaders.maskShader.setTexture(AllArt.env0.getTexture(0));
+		AllShaders.maskShader.setMask(AllArt.masks.getTexture(0));
+		renderer.drawMaskPlane(texRectA, texRectM, tempRect);
 	}
 
 	@Override
-	public boolean drawUI(IRendererUI renderer) throws Exception
+	public void drawUI(IRendererUI renderer) throws PrismException
 	{
 
 		// test art
@@ -366,56 +582,146 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 
 		ui.draw(renderer);
 
+		testText.set("SLOPE=" + slope);
+		AllTools.printer.setText(testText);
+		AllTools.printer.print(tempRect.getTopLeft());
+		//		tempRect
+
 		if (network.isConnecting())
 		{
 			connectionHint.draw(renderer);
 		}
 
-		return clientException == null && !exitGameRequested;
+		mushroomText.set("GROWTH: " + mush.get(0).getCurrentGrowth() + "/" + mush.get(0).getLifespan() + ", DAMAGE: "
+				+ mush.get(0).getCurrentDamage() + (mush.get(0).isDead() ? ", DEAD" : ""));
+		AllTools.printer.setText(mushroomText);
+		AllTools.printer.setColor(PrismColor.opaqueWhite);
+		AllTools.printer.print(mushroomTextPos);
 	}
 
 	@Override
-	public void mouseMove(IFloatPoint_r mouse)
+	public void onMouseMove(IFloatPoint_r mouse)
 	{
-		ui.mouseMove(mouse);
+		ui.onMouseMove(mouse);
+
+		//		perspectiveMouse.copyFrom(mouse);
+		//		scene.applyPerspective(perspectiveMouse);
+		//		cam.transformFrameFractionToWorld(perspectiveMouse, mousePixels);
+		//
+		//		testMouse.setTopLeft(mousePixels);
 	}
 
 	@Override
-	public void onMouseDown(IFloatPoint_r mouse, boolean isLeft)
+	public boolean onMouseDown(IFloatPoint_r mouse, boolean isLeft)
 	{
 		scene.setWindowTitle(mouse.toString());
 
+		boolean b = false;
+
 		if (isLeft)
-			ui.mouseDown(mouse);
+			b = ui.onMouseDown(mouse, true);
+
+		if (!b)
+		{
+			perspectiveMouse.copyFrom(mouse);
+			scene.applyPerspective(perspectiveMouse);
+			cam.transformFrameFractionToWorld(perspectiveMouse, worldMouse);
+
+			// TODO ...
+			testMouse.setTopLeft(worldMouse);
+			testMouse.addY(2.5f);
+		}
+		return true;
 	}
 
 	@Override
 	public void onMouseUp(IFloatPoint_r mouse, boolean isLeft)
 	{
 		if (isLeft)
+			ui.onMouseUp(mouse, true);
+	}
+
+	@Override
+	public boolean onControlKey(int keyCode, boolean isDown)
+	{
+		ui.onControlKey(keyCode, isDown);
+		return true;
+	}
+
+	@Override
+	public boolean onCharacterKey(char c, boolean isDown)
+	{
+		ui.onCharacterKey(c, isDown);
+
+		if (c == 'P')
+			for (int y = 0; y < testTile.length; ++y)
+				for (int x = 0; x < testTile[y].length; ++x)
+					testTile[y][x].getWeatherFader().setWeather(0);
+
+		if (c == 'L')
+			isSlopeFixed = !isSlopeFixed;
+
+		if (c == 'Y')
+			isDebugDecoActive = !isDebugDecoActive;
+
+		for (Mushroom m : mush)
 		{
+			if (c == 'M')
+				m.update(2);
+			else if (c == 'N')
+				m.update(-2);
+			else if (c == 'O')
+				m.reset();
+			else if (c == 'D')
+				m.damage(5);
+		}
+
+		if (c == 'Q')
+		{
+			mush.clear();
 			try
 			{
-				ui.mouseUp(mouse);
+				float y = 40.0f;
+
+				for (int i = 0; i < 180; ++i)
+				{
+					int o = (int) (Math.random() * AllArt.mush0.getMeta().getObjectCount());
+					boolean flipH = Math.random() < 0.5;
+
+					float x = (float) (Math.random() * 400.0f);
+
+					Mushroom m = new Mushroom(o, flipH);
+					m.setPosition(x, y);
+					m.setTolerableDamage(50);
+					m.setLifespan(60);
+					m.update(25 + (int) (Math.random() * 35));
+					mush.add(m);
+
+					y += 2.0f + Math.random() * 3.0f;
+				}
 			}
 			catch (PrismException e)
 			{
-				if (clientException == null)
-					clientException = e;
+				e.code.print();
+				e.user.showMessage();
 			}
 		}
-	}
 
-	@Override
-	public void onControlKey(int keyCode, boolean isDown)
-	{
-		ui.onControlKey(keyCode, isDown);
-	}
+		for (int i = 0; i < testTile.length; ++i)
+		{
+			for (int j = 0; j < testTile[i].length; ++j)
+			{
+				DrawableWeatherTile t = testTile[i][j];
 
-	@Override
-	public void onCharacterKey(char c, boolean isDown)
-	{
-		ui.onCharacterKey(c, isDown);
+				if (c == 'S')
+					t.getWeatherFader().applySnow(20);
+				else if (c == 'R')
+					t.getWeatherFader().applyRain(20);
+				else if (c == 'F' || c == 'H' || c == 'B')
+					t.getWeatherFader().applyHeat(20);
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -447,8 +753,9 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		}
 	}
 
+	// IExceptionSink:
 	@Override
-	public void onNetworkException(Exception e)
+	public void receiveException(Exception e)
 	{
 		if (clientException == null)
 			clientException = e;

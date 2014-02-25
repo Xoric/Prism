@@ -9,24 +9,30 @@ import xoric.prism.data.types.IFloatRect_r;
 
 public class ObjectInstance
 {
-	private final List<FloatRect> eects;
+	private final List<FloatRect> rects;
 	private final List<IFloatPoint_r> sizes;
 
 	public ObjectInstance()
 	{
-		eects = new ArrayList<FloatRect>();
+		rects = new ArrayList<FloatRect>();
 		sizes = new ArrayList<IFloatPoint_r>();
 	}
 
-	public void addRect(FloatRect Rect, IFloatPoint_r size)
+	public void addRect(FloatRect rect, IFloatPoint_r size)
 	{
-		eects.add(Rect);
+		rects.add(rect);
 		sizes.add(size);
+	}
+
+	@Override
+	public String toString()
+	{
+		return rects.size() + " rect(s)";
 	}
 
 	public IFloatRect_r getRect(int index)
 	{
-		return eects.get(index);
+		return rects.get(index);
 	}
 
 	public IFloatPoint_r getSize(int index)
@@ -36,6 +42,6 @@ public class ObjectInstance
 
 	public int getRectCount()
 	{
-		return eects.size();
+		return rects.size();
 	}
 }

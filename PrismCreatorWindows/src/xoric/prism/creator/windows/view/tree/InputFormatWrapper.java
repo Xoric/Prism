@@ -2,8 +2,8 @@ package xoric.prism.creator.windows.view.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import xoric.prism.client.ui.edit.InputFormat;
-import xoric.prism.client.ui.edit.UIEdit;
+import xoric.prism.ui.edit.InputFormat;
+import xoric.prism.ui.edit.UIEdit;
 
 class InputFormatWrapper extends Wrapper
 {

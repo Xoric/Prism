@@ -2,9 +2,9 @@ package xoric.prism.creator.windows.view.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import xoric.prism.client.ui.edit.UIEdit;
 import xoric.prism.data.types.Text;
 import xoric.prism.swing.input.PrismTextDialog;
+import xoric.prism.ui.edit.UIEdit;
 
 class TitleWrapper extends Wrapper
 {

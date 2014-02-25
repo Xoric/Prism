@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import xoric.prism.client.ui.UIIdentifier;
 import xoric.prism.creator.windows.control.ISceneControl;
+import xoric.prism.ui.UIIdentifier;
 
 public class AddComponentMenu extends JMenu implements ActionListener
 {

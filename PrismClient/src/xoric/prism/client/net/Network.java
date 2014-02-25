@@ -3,7 +3,7 @@ package xoric.prism.client.net;
 import java.io.IOException;
 import java.net.Socket;
 
-import xoric.prism.client.INetworkControl;
+import xoric.prism.client.control.INetworkControl;
 import xoric.prism.com.MessageDispatcher;
 import xoric.prism.com.Message_out;
 import xoric.prism.data.exceptions.PrismException;
@@ -70,7 +70,7 @@ public class Network implements INetwork, IUpdateListener
 		}
 		catch (Exception e)
 		{
-			client.onNetworkException(e);
+			client.receiveException(e);
 		}
 	}
 

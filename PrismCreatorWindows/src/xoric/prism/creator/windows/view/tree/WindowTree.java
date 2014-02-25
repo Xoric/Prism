@@ -11,14 +11,14 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
-import xoric.prism.client.ui.IUITextComponent;
-import xoric.prism.client.ui.UIComponent;
-import xoric.prism.client.ui.UIComponentH;
-import xoric.prism.client.ui.UIWindow;
-import xoric.prism.client.ui.button.UIButton;
-import xoric.prism.client.ui.edit.UIEdit;
 import xoric.prism.creator.windows.control.IWindowControl;
 import xoric.prism.creator.windows.model.WindowModel;
+import xoric.prism.ui.IUITextComponent;
+import xoric.prism.ui.UIComponent;
+import xoric.prism.ui.UIComponentH;
+import xoric.prism.ui.UIWindow;
+import xoric.prism.ui.button.UIButton;
+import xoric.prism.ui.edit.UIEdit;
 
 public class WindowTree extends JPanel implements MouseListener, ITree
 {

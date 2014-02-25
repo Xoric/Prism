@@ -265,4 +265,45 @@ public class FloatRect implements IStackable, IFloatRect_r
 		bottomRight.x = topLeft.x + size.x;
 		bottomRight.y = topLeft.y + size.y;
 	}
+
+	public void multiplyAll(IFloatPoint_r d)
+	{
+		topLeft.x *= d.getX();
+		topLeft.y *= d.getY();
+		size.x *= d.getX();
+		size.y *= d.getY();
+		updateBottomRight();
+	}
+
+	public void divideAll(IFloatPoint_r d)
+	{
+		topLeft.x /= d.getX();
+		topLeft.y /= d.getY();
+		size.x /= d.getX();
+		size.y /= d.getY();
+		updateBottomRight();
+	}
+
+	public void multiplySize(float f)
+	{
+		size.x *= f;
+		size.y *= f;
+		updateBottomRight();
+	}
+
+	public void addPosition(IFloatPoint_r p)
+	{
+		topLeft.x += p.getX();
+		topLeft.y += p.getY();
+		bottomRight.x += p.getX();
+		bottomRight.y += p.getY();
+	}
+
+	public void subtractPosition(IFloatPoint_r p)
+	{
+		topLeft.x -= p.getX();
+		topLeft.y -= p.getY();
+		bottomRight.x -= p.getX();
+		bottomRight.y -= p.getY();
+	}
 }

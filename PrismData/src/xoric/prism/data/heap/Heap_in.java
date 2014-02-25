@@ -21,15 +21,9 @@ public class Heap_in extends HeapBase
 		texts = new ArrayList<Text>(5);
 	}
 
-	public Heap_in(int intCount, int floatCount, int textCount)
-	{
-		super(intCount, floatCount);
-		texts = new ArrayList<Text>(textCount);
-	}
-
 	public Heap_in(Heap_out h)
 	{
-		texts = new ArrayList<Text>(h.getTextCount());
+		this.texts = new ArrayList<Text>(h.getTextCount());
 
 		this.ints = h.ints;
 		this.floats = h.floats;

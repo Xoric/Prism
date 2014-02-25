@@ -27,6 +27,12 @@ class InfoContainer implements IInfoContainer
 	}
 
 	@Override
+	public void setText(String text, String expected, String found)
+	{
+		this.text = text + " (" + expected + " expected, " + found + " found)";
+	}
+
+	@Override
 	public void addInfo(String key, String value)
 	{
 		this.infoPairs.add(new InfoPair(key, value));

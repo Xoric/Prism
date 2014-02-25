@@ -1,12 +1,15 @@
 package xoric.prism.scene.lwjgl.textures;
 
+import org.lwjgl.opengl.GL11;
+
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.Point;
+import xoric.prism.scene.lwjgl.ICleanUp;
 import xoric.prism.scene.textures.ITexture;
 
-public class Texture implements ITexture
+public class Texture implements ITexture, ICleanUp
 {
-	private final int programID;
+	private int programID;
 	private final Point size;
 
 	public Texture(int programID, int width, int height)
@@ -15,6 +18,7 @@ public class Texture implements ITexture
 		this.size = new Point(width, height);
 	}
 
+	@Override
 	public IPoint_r getSize()
 	{
 		return size;
@@ -24,5 +28,22 @@ public class Texture implements ITexture
 	public int getTextureID()
 	{
 		return programID;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "texture w=" + size.x + ", h=" + size.y;
+	}
+
+	// ICleanUp:
+	@Override
+	public void cleanUp() throws Exception
+	{
+		if (programID > 0)
+		{
+			GL11.glDeleteTextures(programID);
+			programID = 0;
+		}
 	}
 }

@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import xoric.prism.client.ui.button.ButtonActionMask;
-import xoric.prism.client.ui.button.UIButton;
+import xoric.prism.ui.button.ButtonActionMask;
+import xoric.prism.ui.button.UIButton;
 
 class ActionMaskWrapper extends Wrapper
 {

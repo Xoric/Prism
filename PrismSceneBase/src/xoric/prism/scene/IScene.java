@@ -4,12 +4,12 @@ import java.awt.Dimension;
 import java.util.List;
 
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.scene.settings.ISceneSettings;
-import xoric.prism.scene.shaders.IShaderIO;
 
-public interface IScene extends IShaderIO
+public interface IScene //extends IShaderIO
 {
 	/**
 	 * Returns a list of available resolutions.
@@ -39,11 +39,15 @@ public interface IScene extends IShaderIO
 	 */
 	public void setFullScreen(boolean fullscreen);
 
-	public void initialize();
+	public void initialize() throws PrismException;
 
 	public void startLoop(ISceneListener sceneListener, IInputListener inputListener);
 
 	public void setSlope(float slope);
 
 	public void setWindowTitle(String title);
+
+	public float getSlope();
+
+	public void applyPerspective(FloatPoint p);
 }

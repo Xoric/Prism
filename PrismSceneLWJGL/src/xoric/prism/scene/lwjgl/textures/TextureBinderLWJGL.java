@@ -16,6 +16,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import xoric.prism.scene.cleanup.TrashCan;
 import xoric.prism.scene.textures.ITexture;
 import xoric.prism.scene.textures.ITextureBinder;
 
@@ -65,6 +66,7 @@ public class TextureBinderLWJGL implements ITextureBinder
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
 
 		Texture t = new Texture(programID, width, height);
+		TrashCan.addResource(t);
 		return t;
 	}
 

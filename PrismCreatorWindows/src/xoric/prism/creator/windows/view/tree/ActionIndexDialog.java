@@ -7,7 +7,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
-import xoric.prism.client.ui.button.ButtonActionIndex;
+import xoric.prism.client.ui.ClientActionCommand;
+import xoric.prism.data.types.IText_r;
 
 /**
  * @author XoricLee
@@ -18,37 +19,37 @@ class ActionIndexDialog
 	private final List<JRadioButton> radioButtons;
 	private final Object[] message;
 
-	public ActionIndexDialog(ButtonActionIndex actionIndex)
+	public ActionIndexDialog(IText_r actionCommand)
 	{
 		radioButtons = new ArrayList<JRadioButton>();
 		ButtonGroup group = new ButtonGroup();
-		message = new Object[2 + ButtonActionIndex.COUNT];
+		message = new Object[2 + ClientActionCommand.COUNT];
 
-		for (int i = 0; i < ButtonActionIndex.COUNT; ++i)
+		for (int i = 0; i < ClientActionCommand.COUNT; ++i)
 		{
-			ButtonActionIndex a = ButtonActionIndex.VALUES[i];
+			ClientActionCommand a = ClientActionCommand.VALUES[i];
 			JRadioButton b = new JRadioButton(a.toString());
-			b.setSelected(a == actionIndex);
+			b.setSelected(a.toString().equals(actionCommand.toString()));
 			group.add(b);
 			radioButtons.add(b);
 			message[2 + i] = b;
 		}
 	}
 
-	public ButtonActionIndex getResult()
+	public ClientActionCommand getResult()
 	{
-		ButtonActionIndex a = ButtonActionIndex.NONE;
+		ClientActionCommand a = ClientActionCommand.NONE;
 
 		for (int i = 0; i < radioButtons.size(); ++i)
 			if (radioButtons.get(i).isSelected())
-				a = ButtonActionIndex.VALUES[i];
+				a = ClientActionCommand.VALUES[i];
 
 		return a;
 	}
 
 	public boolean showDialog()
 	{
-		int n = JOptionPane.showConfirmDialog(null, message, "Select action index", JOptionPane.OK_CANCEL_OPTION,
+		int n = JOptionPane.showConfirmDialog(null, message, "Select action command", JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.INFORMATION_MESSAGE);
 		return n == JOptionPane.OK_OPTION;
 	}

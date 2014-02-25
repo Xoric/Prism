@@ -2,8 +2,10 @@ package xoric.prism.creator.windows.view.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import xoric.prism.client.ui.button.ButtonActionIndex;
-import xoric.prism.client.ui.button.UIButton;
+import xoric.prism.client.ui.ClientActionCommand;
+import xoric.prism.data.types.IText_r;
+import xoric.prism.data.types.Text;
+import xoric.prism.ui.button.UIButton;
 
 class ActionIndexWrapper extends Wrapper
 {
@@ -18,20 +20,20 @@ class ActionIndexWrapper extends Wrapper
 	@Override
 	public void showDialog()
 	{
-		ActionIndexDialog d = new ActionIndexDialog(button.getActionIndex());
+		ActionIndexDialog d = new ActionIndexDialog(button.getActionCommand());
 		boolean b = d.showDialog();
 
 		if (b)
 		{
-			ButtonActionIndex a = d.getResult();
-			button.setActionIndex(a);
+			ClientActionCommand a = d.getResult();
+			button.setActionCommand(new Text(a.toString()));
 		}
 	}
 
 	@Override
 	protected String getValue()
 	{
-		ButtonActionIndex a = button.getActionIndex();
-		return a == null ? "null" : a.toString();
+		IText_r t = button.getActionCommand();
+		return t == null ? "null" : t.toString();
 	}
 }

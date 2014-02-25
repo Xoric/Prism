@@ -1,7 +1,7 @@
 package xoric.prism.creator.windows.control;
 
-import xoric.prism.client.ui.UIComponent;
-import xoric.prism.client.ui.UIIdentifier;
+import xoric.prism.ui.UIComponent;
+import xoric.prism.ui.UIIdentifier;
 
 public interface ISceneControl
 {

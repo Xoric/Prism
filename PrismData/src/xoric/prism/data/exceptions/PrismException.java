@@ -53,4 +53,11 @@ public class PrismException extends Exception implements IInfoContainer
 		user.addInfo(key, value);
 		code.addInfo(key, value);
 	}
+
+	@Override
+	public void setText(String text, String expected, String found)
+	{
+		user.setText(text, expected, found);
+		code.setText(text, expected, found);
+	}
 }

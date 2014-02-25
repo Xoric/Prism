@@ -3,7 +3,6 @@ package xoric.prism.creator.windows.scene;
 import java.util.ArrayList;
 import java.util.List;
 
-import xoric.prism.client.ui.UIWindow;
 import xoric.prism.creator.windows.control.ISceneControl;
 import xoric.prism.creator.windows.model.WindowModel;
 import xoric.prism.data.exceptions.PrismException;
@@ -18,7 +17,8 @@ import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.IRendererWorld;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
-import xoric.prism.scene.materials.Materials;
+import xoric.prism.scene.materials.tools.AllTools;
+import xoric.prism.ui.UIWindow;
 
 public class SceneHandler extends Thread implements ISceneListener, IInputListener
 {
@@ -129,7 +129,7 @@ public class SceneHandler extends Thread implements ISceneListener, IInputListen
 	}
 
 	@Override
-	public void mouseMove(IFloatPoint_r mouse)
+	public void onMouseMove(IFloatPoint_r mouse)
 	{
 		if (action != null)
 		{
@@ -141,7 +141,7 @@ public class SceneHandler extends Thread implements ISceneListener, IInputListen
 	}
 
 	@Override
-	public void onMouseDown(IFloatPoint_r mouse, boolean isLeft)
+	public boolean onMouseDown(IFloatPoint_r mouse, boolean isLeft)
 	{
 		FloatPoint m = calcMouseOnWindow(mouse);
 
@@ -155,6 +155,7 @@ public class SceneHandler extends Thread implements ISceneListener, IInputListen
 				if (!action.onMouseDown(mouse, m))
 					action = null;
 		}
+		return true;
 	}
 
 	@Override
@@ -177,17 +178,15 @@ public class SceneHandler extends Thread implements ISceneListener, IInputListen
 	}
 
 	@Override
-	public void onControlKey(int keyCode, boolean isDown)
+	public boolean onControlKey(int keyCode, boolean isDown)
 	{
-		// TODO Auto-generated method stub
-
+		return true;
 	}
 
 	@Override
-	public void onCharacterKey(char c, boolean isDown)
+	public boolean onCharacterKey(char c, boolean isDown)
 	{
-		// TODO Auto-generated method stub
-
+		return true;
 	}
 
 	@Override
@@ -205,13 +204,12 @@ public class SceneHandler extends Thread implements ISceneListener, IInputListen
 	}
 
 	@Override
-	public boolean drawWorld(IRendererWorld renderer) throws Exception
+	public void drawWorld(IRendererWorld renderer)
 	{
-		return !isStopRequested;
 	}
 
 	@Override
-	public boolean drawUI(IRendererUI renderer) throws Exception
+	public void drawUI(IRendererUI renderer) throws PrismException
 	{
 		if (model != null)
 		{
@@ -221,13 +219,12 @@ public class SceneHandler extends Thread implements ISceneListener, IInputListen
 
 			if (action != null)
 			{
-				Materials.printer.setText(action.getTitle());
-				Materials.printer.print(actionPos);
+				AllTools.printer.setText(action.getTitle());
+				AllTools.printer.print(actionPos);
 			}
 
 			for (Hint h : hints)
 				h.draw(renderer);
 		}
-		return !isStopRequested;
 	}
 }

@@ -17,7 +17,8 @@ public enum UserErrorText
 	ACCOUNT_ALREADY_EXISTS("This account name already exists."),
 	ACCOUNT_LOGIN_FAILED("Login failed."),
 	NETWORK_PROBLEM("An error occured while communicating with the server."),
-	CONNECTION_PROBLEM("Cannot connect to server.");
+	CONNECTION_PROBLEM("Cannot connect to server."),
+	FRAME_BUFFER_ERROR("There was a problem allocating a frame buffer.");
 
 	private final String text;
 

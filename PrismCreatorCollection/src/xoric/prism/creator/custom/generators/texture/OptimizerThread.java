@@ -53,31 +53,36 @@ class OptimizerThread extends Thread implements IOptimizerResults
 					return;
 			}
 		}
-		actualSize = new Point(maxWidth, maxHeight);
+		setActualSize(new Point(maxWidth, maxHeight));
+	}
+
+	private synchronized void setActualSize(Point actualSize)
+	{
+		this.actualSize = actualSize;
 	}
 
 	@Override
-	public boolean wasSuccessful()
+	public synchronized boolean wasSuccessful()
 	{
 		return actualSize != null;
 	}
 
 	@Override
-	public IPoint_r getOriginalSize()
+	public synchronized IPoint_r getOriginalSize()
 	{
 		return originalSize;
 	}
 
 	@Override
-	public Point getActualSize()
+	public synchronized Point getActualSize()
 	{
 		return actualSize;
 	}
 
 	@Override
-	public boolean isBetterThan(IOptimizerResults other)
+	public synchronized boolean isBetterThan(IOptimizerResults other)
 	{
-		if (actualSize != null)
+		if (actualSize == null)
 			return false;
 
 		IPoint_r s = other.getActualSize();

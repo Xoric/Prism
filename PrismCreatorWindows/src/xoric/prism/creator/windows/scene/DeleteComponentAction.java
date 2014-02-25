@@ -1,7 +1,7 @@
 package xoric.prism.creator.windows.scene;
 
-import xoric.prism.client.ui.UIComponent;
 import xoric.prism.data.types.IFloatPoint_r;
+import xoric.prism.ui.UIComponent;
 
 public class DeleteComponentAction extends SceneAction
 {

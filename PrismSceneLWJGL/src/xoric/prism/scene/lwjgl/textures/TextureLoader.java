@@ -7,6 +7,7 @@ import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
 import xoric.prism.data.meta.AttachmentLoader;
 
+@Deprecated
 public class TextureLoader
 {
 	private final AttachmentLoader attachmentLoader;

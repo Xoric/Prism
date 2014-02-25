@@ -2,7 +2,7 @@ package xoric.prism.creator.windows.view.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import xoric.prism.client.ui.UIWindow;
+import xoric.prism.ui.UIWindow;
 
 class MoveableWrapper extends Wrapper
 {

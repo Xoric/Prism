@@ -4,9 +4,6 @@ import java.io.File;
 
 import javax.swing.JOptionPane;
 
-import xoric.prism.client.ui.UIComponent;
-import xoric.prism.client.ui.UIIdentifier;
-import xoric.prism.client.ui.UIWindow;
 import xoric.prism.creator.common.view.INewDialogResult;
 import xoric.prism.creator.windows.model.WindowModel;
 import xoric.prism.creator.windows.scene.AddComponentAction;
@@ -17,6 +14,9 @@ import xoric.prism.creator.windows.view.NewWindowData;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.develop.meta.MetaNames;
+import xoric.prism.ui.UIComponent;
+import xoric.prism.ui.UIIdentifier;
+import xoric.prism.ui.UIWindow;
 
 public class MainControl implements IMainControl
 {

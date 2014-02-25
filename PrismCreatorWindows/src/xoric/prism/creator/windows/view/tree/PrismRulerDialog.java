@@ -8,10 +8,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import xoric.prism.client.ui.Ruler;
 import xoric.prism.swing.input.RequestFocusListener;
 import xoric.prism.swing.input.fields.PrismFloatField;
 import xoric.prism.swing.input.fields.PrismIntField;
+import xoric.prism.ui.Ruler;
 
 public class PrismRulerDialog
 {

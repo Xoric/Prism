@@ -1,6 +1,6 @@
 package xoric.prism.creator.windows.view.tree;
 
-import xoric.prism.client.ui.edit.InputFormat;
+import xoric.prism.ui.edit.InputFormat;
 
 /**
  * @author XoricLee

@@ -4,13 +4,13 @@ import xoric.prism.data.types.IFloatPoint_r;
 
 public interface IInputListener
 {
-	public void mouseMove(IFloatPoint_r mouse);
-
-	public void onMouseDown(IFloatPoint_r mouse, boolean isLeft);
+	public boolean onMouseDown(IFloatPoint_r mouse, boolean isLeft);
 
 	public void onMouseUp(IFloatPoint_r mouse, boolean isLeft);
 
-	public void onControlKey(int keyCode, boolean isDown);
+	public void onMouseMove(IFloatPoint_r mouse);
 
-	public void onCharacterKey(char c, boolean isDown);
+	public boolean onControlKey(int keyCode, boolean isDown);
+
+	public boolean onCharacterKey(char c, boolean isDown);
 }

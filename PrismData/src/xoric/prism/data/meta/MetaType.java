@@ -14,7 +14,9 @@ public enum MetaType
 	URGENCY, /* message urgency */
 	COLLECTION, /* sprite collection */
 	GRID, /* sprite grid */
-	WINDOW; /* UIWindow */
+	WINDOW, /* UIWindow */
+	MAP, /* world map */
+	GROUND; /* ground types */
 	// max index: 255
 
 	private static final MetaType[] VALUES = values();

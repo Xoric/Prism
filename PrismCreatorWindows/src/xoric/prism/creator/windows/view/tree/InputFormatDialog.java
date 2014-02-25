@@ -10,8 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import xoric.prism.client.ui.edit.InputFormat;
 import xoric.prism.swing.input.fields.PrismIntField;
+import xoric.prism.ui.edit.InputFormat;
 
 /**
  * @author XoricLee

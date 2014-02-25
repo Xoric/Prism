@@ -2,7 +2,7 @@ package xoric.prism.creator.windows.view.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import xoric.prism.client.ui.button.UIButton;
+import xoric.prism.ui.button.UIButton;
 
 class IsClosingWrapper extends Wrapper
 {

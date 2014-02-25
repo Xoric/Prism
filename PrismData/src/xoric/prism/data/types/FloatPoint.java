@@ -100,4 +100,10 @@ public class FloatPoint implements IStackable, IFloatPoint_r
 		x /= d.getX();
 		y /= d.getY();
 	}
+
+	public void multiply(float f)
+	{
+		x *= f;
+		y *= f;
+	}
 }

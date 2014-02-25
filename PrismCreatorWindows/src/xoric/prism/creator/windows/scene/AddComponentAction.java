@@ -1,11 +1,11 @@
 package xoric.prism.creator.windows.scene;
 
-import xoric.prism.client.ui.UIComponent;
-import xoric.prism.client.ui.UIComponentH;
-import xoric.prism.client.ui.UIFactory;
-import xoric.prism.client.ui.UIIdentifier;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IFloatPoint_r;
+import xoric.prism.ui.UIComponent;
+import xoric.prism.ui.UIComponentH;
+import xoric.prism.ui.UIFactory;
+import xoric.prism.ui.UIIdentifier;
 
 public class AddComponentAction extends SceneAction
 {

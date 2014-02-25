@@ -35,9 +35,7 @@ public class CollectionMeta extends ArtMeta
 		ObjectMeta om = null;
 
 		for (MetaLine_in ml : mb.getMetaLines())
-		{
 			om = interpretLine(om, ml);
-		}
 
 		for (ObjectMeta o : objects)
 			o.finish();
@@ -109,6 +107,9 @@ public class CollectionMeta extends ArtMeta
 		float fh = height / textureSize.y;
 		FloatPoint objectFraction = new FloatPoint(fw, fh);
 		FloatPoint size = new FloatPoint(width, height);
+
+		//		System.out.println("creating ObjectMeta with objectFraction=" + objectFraction);
+
 		ObjectMeta om = new ObjectMeta(name, objectFraction, size);
 		objects.add(om);
 

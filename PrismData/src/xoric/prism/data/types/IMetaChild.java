@@ -1,9 +1,9 @@
 package xoric.prism.data.types;
 
-import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.meta.MetaList_in;
-
-public interface IMetaChild
+/**
+ * @author XoricLee
+ * @since 24.02.2014, 00:28:10
+ */
+public interface IMetaChild extends IMetaChild_out, IMetaChild_in
 {
-	public void load(MetaList_in metaList) throws PrismException;
 }

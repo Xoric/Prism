@@ -2,8 +2,8 @@ package xoric.prism.creator.windows.view.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import xoric.prism.client.ui.Ruler;
-import xoric.prism.client.ui.UIComponent;
+import xoric.prism.ui.Ruler;
+import xoric.prism.ui.UIComponent;
 
 class XWrapper extends Wrapper
 {
