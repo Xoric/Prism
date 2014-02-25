@@ -17,7 +17,6 @@ import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.Point;
-import xoric.prism.data.types.PrismColor;
 import xoric.prism.scene.IInputListener;
 import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.IRendererWorld;
@@ -25,9 +24,7 @@ import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
 import xoric.prism.scene.cleanup.TrashCan;
 import xoric.prism.scene.fbo.IFrameBufferParent;
-import xoric.prism.scene.lwjgl.textures.Texture;
 import xoric.prism.scene.settings.ISceneSettings;
-import xoric.prism.scene.shaders.IDefaultShader;
 import xoric.prism.scene.textures.TextureInfo;
 
 public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IExceptionSink, IFrameBufferParent
@@ -44,10 +41,10 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 
 	private float slope;
 
-	private IDefaultShader testingDefaultShader;
-	private Texture testingTexture;
-	private PrismColor testingColor2;
-	private final boolean[] brgba = new boolean[4];
+	//	private IDefaultShader testingDefaultShader;
+	//	private Texture testingTexture;
+	//	private PrismColor testingColor2;
+	//	private final boolean[] brgba = new boolean[4];
 
 	private int interval;
 
