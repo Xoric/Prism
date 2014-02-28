@@ -1,8 +1,8 @@
 package xoric.prism.client;
 
+import java.awt.event.KeyEvent;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import xoric.prism.client.control.INetworkControl;
@@ -19,29 +19,27 @@ import xoric.prism.data.net.NetConstants;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
-import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.Point;
-import xoric.prism.data.types.PrismColor;
 import xoric.prism.data.types.Text;
-import xoric.prism.scene.IRendererUI;
-import xoric.prism.scene.IRendererWorld;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
 import xoric.prism.scene.camera.Camera;
+import xoric.prism.scene.camera.CameraOld;
 import xoric.prism.scene.materials.art.AllArt;
 import xoric.prism.scene.materials.shaders.AllShaders;
-import xoric.prism.scene.materials.tools.AllTools;
-import xoric.prism.scene.textures.TextureInfo;
+import xoric.prism.scene.renderer.IUIRenderer2;
+import xoric.prism.scene.renderer.IWorldRenderer2;
 import xoric.prism.ui.BlinkColor;
 import xoric.prism.ui.PrismUI;
 import xoric.prism.ui.UIWindow;
 import xoric.prism.ui.button.IActionParent;
 import xoric.prism.ui.edit.UIEdit;
-import xoric.prism.world.client.DrawableWeatherTile;
-import xoric.prism.world.client.Mushroom;
-import xoric.prism.world.client.WeatherMark;
+import xoric.prism.world.client.map2.DrawableGround2;
+import xoric.prism.world.client.map2.Mushroom;
+import xoric.prism.world.client.map2.WeatherMark;
 import xoric.prism.world.entities.Movable;
-import xoric.prism.world.map.Ground;
+import xoric.prism.world.map.AllGrounds;
+import xoric.prism.world.map2.GroundType2;
 import xoric.prism.world.model.GridModelMeta;
 
 public class PrismClient implements ISceneListener, IActionParent, INetworkControl, IExceptionSink
@@ -65,12 +63,21 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 	private boolean isSlopeGrowing = true;
 	private boolean isSlopeFixed = true;
 
+	private final FloatPoint target;
+
 	private FloatRect testMouse;
+
+	private FloatRect testRectZ1;
+	private FloatRect testRectZ2;
+	private FloatRect testRectZ3;
 
 	private final FloatPoint perspectiveMouse;
 	private final FloatPoint worldMouse;
 
 	private FloatRect testPlane;
+	private FloatRect testSprite;
+	private FloatRect testSpriteTemp;
+
 	private FloatPoint testMan[];
 	private FloatPoint walkingMan;
 	private Movable movable;
@@ -85,7 +92,7 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 
 	private FloatPoint temp;
 	private FloatPoint temp2;
-	private Camera cam;
+	private final Camera cam;
 
 	private FloatRect tempRect;
 	//	private FloatRect tempMushroom;
@@ -102,12 +109,15 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 
 	private Text testText = new Text();
 
-	private DrawableWeatherTile[][] testTile;
+	private DrawableGround2[][] testTile;
+	private DrawableGround2[][] testSubTile;
 
 	private WeatherMark tempMark;
 
-	public PrismClient(IScene scene)
+	public PrismClient(IScene scene, Camera cam)
 	{
+		this.cam = cam;
+
 		this.connectionHint = new ConnectionHint();
 
 		this.scene = scene;
@@ -115,7 +125,12 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		this.actionExecuter = new ActionExecuter(this, network);
 		this.ui = new PrismUI(this, actionExecuter);
 
-		testPlane = new FloatRect(0.0f, 0.0f, 800.0f, 480.0f);
+		//		testPlane = new FloatRect(200.0f, 100.0f, 120.0f, 80.0f);
+		testPlane = new FloatRect(0.0f, 0.0f, 120.0f, 80.0f);
+		testSprite = new FloatRect(0.0f, 0.0f, 35.0f, 34.0f);
+		testSpriteTemp = new FloatRect(0.0f, 0.0f, 35.0f, 34.0f);
+
+		target = new FloatPoint();
 
 		testMan = new FloatPoint[4];
 		testMan[0] = new FloatPoint(0.0f, 0.0f);
@@ -128,6 +143,9 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		worldMouse = new FloatPoint();
 
 		testRect = new FloatRect(640.0f, 80.0f, 120.0f, 80.0f);
+		testRectZ1 = new FloatRect(0.0f, 0.0f, 120.0f, 80.0f);
+		testRectZ2 = new FloatRect(0.0f, 0.0f, 1.0f, 1.0f);
+		testRectZ3 = new FloatRect(380.0f, 290.0f, 120.0f, 80.0f);
 
 		walkingMan = new FloatPoint(400.0f, 300.0f);
 		walkingX = 4.0f;
@@ -139,7 +157,7 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 
 		temp = new FloatPoint();
 		temp2 = new FloatPoint();
-		cam = new Camera(0.0f, 0.0f, 800.0f, 480.0f);
+		cam = new CameraOld(0.0f, 0.0f, 800.0f, 480.0f);
 
 		mush = new ArrayList<Mushroom>();
 
@@ -154,11 +172,6 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		mushroomTextPos = new FloatPoint(30.0f, 300.0f);
 
 		//		ta.test();
-
-		testTile = new DrawableWeatherTile[6][3];
-		for (int y = 0; y < 6; ++y)
-			for (int x = 0; x < 3; ++x)
-				testTile[y][x] = new DrawableWeatherTile(new Point(x, y), new Ground(y < 3 ? 0 : 1));
 	}
 
 	public void testConnect()
@@ -238,6 +251,46 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 
 	public void start() throws PrismException
 	{
+		try
+		// TODO: remove (only temporary)
+		{
+			testTile = new DrawableGround2[20][20];
+			testSubTile = new DrawableGround2[testTile.length][testTile[0].length];
+			for (int y = 0; y < testTile.length; ++y)
+			{
+				for (int x = 0; x < testTile[y].length; ++x)
+				{
+
+					int i = (x + y) % (AllGrounds.list.size() - 1);
+					int j = i + 1;
+
+					int k = (x - y);
+					if (k < 0)
+						k = -k;
+					k = k % (AllGrounds.list.size() - 1);
+
+					if (x >= 9 && x <= 10)
+					{
+						i = 3;
+						j = 3;
+					}
+					GroundType2 g1 = AllGrounds.getGroundType(i);
+					GroundType2 g2 = AllGrounds.getGroundType(j);
+					testTile[y][x] = new DrawableGround2(g1, g2, new Point(x, y), 0.0f);
+
+					testSubTile[y][x] = new DrawableGround2(AllGrounds.getGroundType(k), AllGrounds.getGroundType(k), new Point(x, y),
+							-0.1f);
+
+					//					if (y == 3 && x == 7)
+					testTile[y][x].setHoleInGround(true);
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
 		//		testModelMeta();
 
 		//		IFloatPoint_r screenSize = scene.createWindow(800, 480, false);
@@ -376,6 +429,16 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 			scene.setSlope(slope);
 		}
 
+		if (cam.getX() < target.x - 1.0f)
+			cam.addX(1.0f);
+		else if (cam.getX() > target.x + 1.0f)
+			cam.addX(-1.0f);
+
+		if (cam.getY() < target.y - 1.0f)
+			cam.addY(1.0f);
+		else if (cam.getY() > target.y + 1.0f)
+			cam.addY(-1.0f);
+
 		//		if (isMushroomGrowing)
 		//		{
 		//			mushroomState += 0.001f;
@@ -432,31 +495,59 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 	}
 
 	@Override
-	public void drawWorld(IRendererWorld renderer) throws PrismException
+	public void drawWorld(IWorldRenderer2 ren) throws PrismException
 	{
-		//		nz = -3.0f;
-		//		renderer.setColor(0.8f, 0.2f, 0.2f);
+		AllShaders.color.activate();
+		AllShaders.color.setTexture(AllArt.env0.getTexture(0));
 
-		// draw planes
-		cam.transformWithCameraBounds(testPlane.getTopLeft(), temp);
-		cam.transformWithCameraBounds(testPlane.getSize(), temp2);
-		TextureInfo texInfo = AllArt.frames.getTextureInfo(0, 0, 0, ni);
-		//		temp.y += 0.1f;
-		renderer.drawPlane(texInfo, new FloatRect(temp, temp2));
+		ren.reset();
+		ren.setupTexture(0, AllArt.env0.getMeta().getRect(1));
+		ren.setupSprite(testPlane);
+		ren.drawPlane(1);
 
-		//
-		//
-		//
-		//
+		AllShaders.color.activate();
+		AllShaders.color.setTexture(AllArt.mush0.getTexture(0));
 
+		ren.reset();
+		//		testSpriteTemp.setTopLeft(testSprite.getTopLeft());
+		//		for (int i = 0; i < AllArt.mush0.getMeta().getObjectCount(); ++i)
+		//		{
+		//			ren.setupTexture(0, AllArt.mush0.getTextureInfo(0, i, 0, 0));
+		//			ren.setupSprite(testSpriteTemp);
+		//			ren.drawObject(1);
+		//			testSpriteTemp.addX(39.0f);
+		//			testSpriteTemp.addY(10.0f);
+		//		}
+		ren.setupTexture(0, AllArt.mush0.getTextureInfo(0, 1, 0, 0));
+		testSpriteTemp.setTopLeft(0.0f, 0.0f);
+		ren.setupSprite(testSpriteTemp);
+		ren.drawObject(1);
+		//
+		ren.setupTexture(0, AllArt.mush0.getTextureInfo(0, 2, 0, 0));
+		testSpriteTemp.setTopLeft(120.0f, 0.0f);
+		ren.setupSprite(testSpriteTemp);
+		ren.drawObject(1);
+		//
+		ren.setupTexture(0, AllArt.mush0.getTextureInfo(0, 3, 0, 0));
+		testSpriteTemp.setTopLeft(0.0f, 80.0f);
+		ren.setupSprite(testSpriteTemp);
+		ren.drawObject(1);
+		//
+		ren.setupTexture(0, AllArt.mush0.getTextureInfo(0, 4, 0, 0));
+		testSpriteTemp.setTopLeft(120.0f, 80.0f);
+		ren.setupSprite(testSpriteTemp);
+		ren.drawObject(1);
+
+		/* ********************
+		
 		// draw edges
 		//		renderer.setColor(0.3f, 0.5f, 0.2f);
 		if (isDebugDecoActive)
 		{
-			cam.transformWithCameraBounds(manSize, temp2);
+			cam.transformPosition(manSize, temp2);
 			for (int i = 0; i < 4; ++i)
 			{
-				cam.transformWithCameraBounds(testMan[i], temp);
+				cam.transformPosition(testMan[i], temp);
 				texInfo = AllArt.frames.getTextureInfo(0, 0, 1, ni);
 
 				renderer.drawObject(texInfo, temp, temp2, 0.0f);
@@ -467,7 +558,7 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		//		renderer.setColor(0.3f, 0.2f, 0.8f);
 		if (isDebugDecoActive)
 		{
-			cam.transformWithCameraBounds(walkingMan, temp);
+			cam.transformPosition(walkingMan, temp);
 			texInfo = AllArt.frames.getTextureInfo(0, 0, 2, ni);
 			renderer.drawObject(texInfo, temp, temp2, 0.0f);
 		}
@@ -476,7 +567,7 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		//		renderer.setColor(0.3f, 0.2f, 0.5f);
 		if (isDebugDecoActive)
 		{
-			cam.transformWithCameraBounds(movable.getPosition(), temp);
+			cam.transformPosition(movable.getPosition(), temp);
 			texInfo = AllArt.frames.getTextureInfo(0, 0, 3, ni);
 			renderer.drawObject(texInfo, temp, temp2, 0.0f);
 		}
@@ -488,8 +579,12 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		//		cam.transformWithCameraBounds(testGround, tempRect);
 		//		renderer.drawPlane(texRect, tempRect);
 
-		for (int y = 0; y < 6; ++y)
-			for (int x = 0; x < 3; ++x)
+		for (int y = 0; y < testTile.length; ++y)
+			for (int x = 0; x < testTile[y].length; ++x)
+				testSubTile[y][x].draw(renderer, cam);
+
+		for (int y = 0; y < testTile.length; ++y)
+			for (int x = 0; x < testTile[y].length; ++x)
 				testTile[y][x].draw(renderer, cam);
 
 		if (isDebugDecoActive)
@@ -542,30 +637,33 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		if (isDebugDecoActive)
 		{
 			texInfo = AllArt.frames.getTextureInfo(0, 3, 0, 0);
-			AllShaders.defaultShader.activate();
-			AllShaders.defaultShader.setTexture(texInfo.getTexture());
-			AllShaders.defaultShader.setColor(PrismColor.opaqueWhite);
-			cam.transformWithCameraBounds(testMouse.getTopLeft(), temp);
-			cam.transformWithCameraBounds(testMouse.getSize(), temp2);
+			AllShaders.color.activate();
+			AllShaders.color.setTexture(texInfo.getTexture());
+			AllShaders.color.setColor(PrismColor.opaqueWhite);
+			cam.transformPosition(testMouse.getTopLeft(), temp);
+			cam.transformPosition(testMouse.getSize(), temp2);
 			renderer.drawObject(texInfo, temp, temp2, 0.0f);
 		}
 
 		// simulate a mask ground
 		IFloatRect_r texRectA = AllArt.env0.getMeta().getRect(1);
-		int n = AllArt.masks.getMeta().getSpriteCount();
+		int n = AllArt.groundMasks.getMeta().getSpriteCount();
 		int i = Calendar.getInstance().get(Calendar.SECOND) % n;
-		IFloatRect_r texRectM = AllArt.masks.getMeta().getRect(i);
-		cam.transformWithCameraBounds(testRect, tempRect);
-		AllShaders.maskShader.activate();
-		AllShaders.maskShader.setTexture(AllArt.env0.getTexture(0));
-		AllShaders.maskShader.setMask(AllArt.masks.getTexture(0));
+		IFloatRect_r texRectM = AllArt.groundMasks.getMeta().getRect(i);
+		cam.transformRect(testRect, tempRect);
+		AllShaders.mask.activate();
+		AllShaders.mask.setTexture(AllArt.env0.getTexture(0));
+		AllShaders.mask.setMask(AllArt.groundMasks.getTexture(0));
 		renderer.drawMaskPlane(texRectA, texRectM, tempRect);
+		
+		
+		** ********************  */
 	}
 
 	@Override
-	public void drawUI(IRendererUI renderer) throws PrismException
+	public void drawUI(IUIRenderer2 renderer) throws PrismException
 	{
-
+		/* **************************
 		// test art
 
 		//		testRect.addY(-0.1f);
@@ -580,6 +678,7 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 
 		//		ta.draw(renderer);
 
+		//		AllShaders.color.activate();
 		ui.draw(renderer);
 
 		testText.set("SLOPE=" + slope);
@@ -597,6 +696,39 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		AllTools.printer.setText(mushroomText);
 		AllTools.printer.setColor(PrismColor.opaqueWhite);
 		AllTools.printer.print(mushroomTextPos);
+
+		// ----------------
+
+		//		AllBuffers.groundBuffer.activate();
+		//		AllShaders.defaultShader.activate();
+		//		AllShaders.defaultShader.setTexture(AllArt.env0.getTexture(0));
+		//		int n = AllArt.env0.getMeta().getSpriteCount();
+		//		int i = Calendar.getInstance().get(Calendar.SECOND) % n;
+		//		renderer.drawSprite(AllArt.env0.getMeta().getRect(i), testRectZ1);
+		//		AllBuffers.groundBuffer.resetToUI();
+		//
+		//		AllShaders.defaultShader.activate();
+		//		AllShaders.defaultShader.setTexture(AllBuffers.groundBuffer.getTextureID());
+		//		renderer.drawSprite(AllBuffers.groundBuffer.getRect(), testRectZ3);
+
+		//		AllShaders.defaultShader.activate();
+		//		AllShaders.defaultShader.setTexture(AllArt.env0.getTexture(0));
+		//		int n = AllArt.env0.getMeta().getSpriteCount();
+		//		int i = Calendar.getInstance().get(Calendar.SECOND) % n;
+		//		AllBuffers.groundBuffer.activate();
+		//		AllBuffers.groundBuffer.drawSprite(AllArt.env0.getMeta().getRect(i), testRectZ1);
+		//		//		renderer.drawSprite(AllArt.env0.getMeta().getRect(i), testRectZ1);
+		//		AllBuffers.groundBuffer.resetToUI();
+		
+
+		//		AllBuffers.groundBuffer.activate();
+		//		AllBuffers.groundBuffer.drawBlue();
+		//		AllBuffers.groundBuffer.resetToUI();
+		//		AllShaders.defaultShader.activate();
+		//		AllShaders.defaultShader.setTexture(AllBuffers.groundBuffer.getTextureID());
+		//		renderer.drawSprite(AllBuffers.groundBuffer.getRect(), testRectZ3);
+		
+		****************************************** */
 	}
 
 	@Override
@@ -644,7 +776,20 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 	@Override
 	public boolean onControlKey(int keyCode, boolean isDown)
 	{
-		ui.onControlKey(keyCode, isDown);
+		boolean b = ui.onControlKey(keyCode, isDown);
+
+		if (!b && isDown)
+		{
+			if (keyCode == KeyEvent.VK_DOWN)
+				target.y += 160.0f;
+			else if (keyCode == KeyEvent.VK_UP)
+				target.y -= 160.0f;
+			else if (keyCode == KeyEvent.VK_LEFT)
+				target.x -= 120.0f;
+			else if (keyCode == KeyEvent.VK_RIGHT)
+				target.x += 120.0f;
+		}
+
 		return true;
 	}
 
@@ -711,7 +856,7 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		{
 			for (int j = 0; j < testTile[i].length; ++j)
 			{
-				DrawableWeatherTile t = testTile[i][j];
+				DrawableGround2 t = testTile[i][j];
 
 				if (c == 'S')
 					t.getWeatherFader().applySnow(20);

@@ -22,8 +22,11 @@ import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.IRendererWorld;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
-import xoric.prism.scene.cleanup.TrashCan;
-import xoric.prism.scene.fbo.IFrameBufferParent;
+import xoric.prism.scene.camera.ICameraTransform;
+import xoric.prism.scene.lwjgl.cleanup.TrashCan;
+import xoric.prism.scene.lwjgl.fbo.IFrameBufferParent;
+import xoric.prism.scene.lwjgl.renderers.UIRendererLWJGL;
+import xoric.prism.scene.lwjgl.renderers.WorldRendererLWJGL;
 import xoric.prism.scene.settings.ISceneSettings;
 import xoric.prism.scene.textures.TextureInfo;
 
@@ -33,6 +36,9 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 	private final InputHandlerLWJGL inputHandler;
 	//	private final ShaderIO2 shaderIO;
 	//	private final FrameBufferIO frameBufferIO;
+
+	private final WorldRendererLWJGL worldRenderer;
+	private final UIRendererLWJGL uiRenderer;
 
 	private FloatPoint frameSize;
 	private Exception exception;
@@ -46,14 +52,19 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 	//	private PrismColor testingColor2;
 	//	private final boolean[] brgba = new boolean[4];
 
-	private int interval;
+	private int fps;
 
 	private final FloatPoint temp;
 	private final FloatPoint temp2;
 
-	public PrismSceneLWJGL()
+	public PrismSceneLWJGL(ICameraTransform cam)
 	{
 		setFps(60);
+
+		slope = 0.15f;
+
+		worldRenderer = new WorldRendererLWJGL(slope, cam);
+		uiRenderer = new UIRendererLWJGL();
 
 		inputHandler = new InputHandlerLWJGL();
 
@@ -64,7 +75,6 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 		temp = new FloatPoint();
 		temp2 = new FloatPoint();
 
-		slope = 0.15f;
 	}
 
 	@Override
@@ -80,7 +90,7 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 		else if (fps > 90)
 			fps = 90;
 
-		interval = 1000 / fps;
+		this.fps = fps;
 	}
 
 	private static DisplayMode findDisplay(int width, int height) throws LWJGLException
@@ -144,6 +154,7 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 			DisplayMode mode = findDisplay(width, height);
 			System.out.println("Setting display size to " + mode.getWidth() + " x " + height);
 			frameSize = new FloatPoint(mode.getWidth(), mode.getHeight());
+			uiRenderer.setScreenSize(frameSize);
 			Display.setDisplayMode(mode);
 			Display.create();
 		}
@@ -261,79 +272,67 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 			// handle controls
 			inputHandler.update(passedMs);
 
-			if (interval <= 0 || passedMs >= interval)
+			if (passedMs > 0)
 			{
-				if (passedMs > 0)
+				frameTimerMs += passedMs;
+				if (frameTimerMs >= 3000)
 				{
-					frameTimerMs += passedMs;
-					if (frameTimerMs >= 3000)
-					{
-						int fps = (frameCounter * 1000) / frameTimerMs;
-						Display.setTitle(fps + " fps");
-						frameCounter = 0;
-						frameTimerMs = 0;
-					}
+					int fps = (frameCounter * 1000) / frameTimerMs;
+					Display.setTitle(fps + " fps");
+					frameCounter = 0;
+					frameTimerMs = 0;
+				}
 
-					GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
-					// client returns false if the scene should be closed
-					if (resumeTimer)
+				// client returns false if the scene should be closed
+				if (resumeTimer)
+				{
+					setStage(true);
+					resumeTimer = client.update(passedMs);
+				}
+				if (resumeTimer)
+				{
+					try
 					{
 						setStage(true);
-						resumeTimer = client.update(passedMs);
-					}
-					if (resumeTimer)
-					{
-						try
-						{
-							setStage(true);
-							client.drawWorld(this);
+						client.drawWorld(worldRenderer);
 
-							setStage(false);
-							client.drawUI(this);
+						setStage(false);
+						client.drawUI(uiRenderer);
 
-							// TEST FRAME BUFFER
-							/*
-							EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, frameBufferID); // set frame buffer as render target
-							int anyTextureID = Materials.env0.getTexture(0).getTextureID();
-							EXTFramebufferObject.glFramebufferTexture2DEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,
-									EXTFramebufferObject.GL_COLOR_ATTACHMENT0_EXT, GL11.GL_TEXTURE_2D, anyTextureID, 0);
-							EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, 0); // release frame buffer (target is window again)
-							int res = EXTFramebufferObject.glCheckFramebufferStatusEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT);
-							if (res != EXTFramebufferObject.GL_FRAMEBUFFER_COMPLETE_EXT)
-							{
-								PrismException e = new PrismException();
-								e.setText("frame buffer incomplete");
-								receiveException(e);
-							}
-							*/
-						}
-						catch (Exception e)
+						// TEST FRAME BUFFER
+						/*
+						EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, frameBufferID); // set frame buffer as render target
+						int anyTextureID = Materials.env0.getTexture(0).getTextureID();
+						EXTFramebufferObject.glFramebufferTexture2DEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,
+								EXTFramebufferObject.GL_COLOR_ATTACHMENT0_EXT, GL11.GL_TEXTURE_2D, anyTextureID, 0);
+						EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, 0); // release frame buffer (target is window again)
+						int res = EXTFramebufferObject.glCheckFramebufferStatusEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT);
+						if (res != EXTFramebufferObject.GL_FRAMEBUFFER_COMPLETE_EXT)
 						{
+							PrismException e = new PrismException();
+							e.setText("frame buffer incomplete");
 							receiveException(e);
 						}
+						*/
 					}
+					catch (Exception e)
+					{
+						receiveException(e);
+					}
+				}
 
-					// update the scene
-					Display.update();
-					++frameCounter;
-					resumeTimer &= !Display.isCloseRequested();
+				// update the scene
+				Display.update();
+				++frameCounter;
+				resumeTimer &= !Display.isCloseRequested();
 
-					// keep track of time passed
-					lastMs = currentMs;
-				}
+				// keep track of time passed
+				lastMs = currentMs;
 			}
-			else
-			{
-				try
-				{
-					Thread.sleep(interval - passedMs);
-				}
-				catch (InterruptedException e)
-				{
-					receiveException(e);
-				}
-			}
+
+			Display.sync(fps); // cap fps
 
 			resumeTimer &= exception == null;
 		}
@@ -375,6 +374,7 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 	public void setSlope(float slope)
 	{
 		this.slope = slope;
+		worldRenderer.setSlope(slope);
 	}
 
 	@Override
@@ -559,7 +559,7 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 	}
 
 	@Override
-	public void drawPlane(IFloatRect_r texRect, IFloatRect_r screenRect)
+	public void drawPlane(IFloatRect_r texRect, IFloatRect_r screenRect, float z)
 	{
 		GL11.glBegin(GL11.GL_QUADS);
 
@@ -568,8 +568,8 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 		float y = -0.5f + y0;
 		float w = screenRect.getSize().getX();
 		float h = -screenRect.getSize().getY();
-		float zFront = calcZ(y0);
-		float zBack = calcZ(y0 + h);
+		float zFront = calcZ(y0) + z;
+		float zBack = calcZ(y0 + h) + z;
 
 		IFloatPoint_r tl = texRect.getTopLeft();
 		IFloatPoint_r br = texRect.getBottomRight();
@@ -619,6 +619,52 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 
 		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, tl0.getX(), 1.0f - br0.getY());
 		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, tl1.getX(), 1.0f - br1.getY());
+		GL11.glVertex3f(x, y + h, zBack);
+
+		GL11.glEnd();
+	}
+
+	// IRendererWorld:
+	@Override
+	public void drawMask2Plane(IFloatRect_r texRect, IFloatRect_r mask1Rect, IFloatRect_r mask2Rect, IFloatRect_r screenRect)
+	{
+		GL11.glBegin(GL11.GL_QUADS);
+
+		float x = -0.5f + screenRect.getTopLeft().getX(); // TODO code duplication (see implementations above)
+		float y0 = 1.0f - screenRect.getTopLeft().getY();
+		float y = -0.5f + y0;
+		float w = screenRect.getSize().getX();
+		float h = -screenRect.getSize().getY();
+		float zFront = calcZ(y0);
+		float zBack = calcZ(y0 + h);
+
+		IFloatPoint_r tl0 = texRect.getTopLeft();
+		IFloatPoint_r br0 = texRect.getBottomRight();
+
+		IFloatPoint_r tl1 = mask1Rect.getTopLeft();
+		IFloatPoint_r br1 = mask1Rect.getBottomRight();
+
+		IFloatPoint_r tl2 = mask2Rect.getTopLeft();
+		IFloatPoint_r br2 = mask2Rect.getBottomRight();
+
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, tl0.getX(), 1.0f - tl0.getY());
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, tl1.getX(), 1.0f - tl1.getY());
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE2, tl2.getX(), 1.0f - tl2.getY());
+		GL11.glVertex3f(x, y, zFront);
+
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, br0.getX(), 1.0f - tl0.getY());
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, br1.getX(), 1.0f - tl1.getY());
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE2, br2.getX(), 1.0f - tl2.getY());
+		GL11.glVertex3f(x + w, y, zFront);
+
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, br0.getX(), 1.0f - br0.getY());
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, br1.getX(), 1.0f - br1.getY());
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE2, br2.getX(), 1.0f - br2.getY());
+		GL11.glVertex3f(x + w, y + h, zBack);
+
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, tl0.getX(), 1.0f - br0.getY());
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, tl1.getX(), 1.0f - br1.getY());
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE2, tl2.getX(), 1.0f - br2.getY());
 		GL11.glVertex3f(x, y + h, zBack);
 
 		GL11.glEnd();
@@ -704,6 +750,58 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 		GL11.glEnd();
 	}
 
+	// IRendererWorld:
+	@Override
+	public void drawObject(TextureInfo texInfo, TextureInfo maskInfo, IFloatPoint_r position, IFloatPoint_r size)
+	{
+		GL11.glBegin(GL11.GL_QUADS);
+
+		float x = -0.5f + position.getX();
+		float y0 = position.getY();
+		float y = 0.5f - y0;
+		// --
+		float w = size.getX();
+		float h = size.getY();
+		float z = calcZAlt(y0);
+		// --
+		x -= w * 0.5f;
+
+		float ya = y;
+		float yb = y - h;
+
+		//		System.out.println("renderer received texture coordinates " + texInfo.getRect().getTopLeft());
+
+		IFloatPoint_r tl0 = texInfo.getRect().getTopLeft();
+		IFloatPoint_r br0 = texInfo.getRect().getBottomRight();
+
+		IFloatPoint_r tl1 = maskInfo.getRect().getTopLeft();
+		IFloatPoint_r br1 = maskInfo.getRect().getBottomRight();
+
+		// flipping the texture's y-coordinates
+		// TODO: vertically flip textures before binding?
+
+		// TODO: consider flipH
+
+		temp.y = 1.0f - tl0.getY();
+		temp2.y = 1.0f - br0.getY();
+
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, tl0.getX(), temp.y);
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, tl1.getX(), 1.0f - tl1.getY());
+		GL11.glVertex3f(x, ya, z);
+
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, br0.getX(), temp.y);
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, br1.getX(), 1.0f - tl1.getY());
+		GL11.glVertex3f(x + w, ya, z);
+
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, br0.getX(), temp2.y);
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, br1.getX(), 1.0f - br1.getY());
+		GL11.glVertex3f(x + w, yb, z);
+
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, tl0.getX(), temp2.y);
+		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, tl1.getX(), 1.0f - br1.getY());
+		GL11.glVertex3f(x, yb, z);
+	}
+
 	// variation 2:
 	private float calcZAlt(float y)
 	{
@@ -767,6 +865,14 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 	{
 		if (exception == null)
 			exception = e;
+	}
+
+	// IFrameBufferParent:
+	@Override
+	public void resetOrthoExperimental()
+	{
+		GL11.glLoadIdentity();
+		GL11.glOrtho(0, frameSize.x, frameSize.y, 0, 0, 1);
 	}
 
 	/*

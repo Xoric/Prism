@@ -17,7 +17,7 @@ import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.IRendererWorld;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
-import xoric.prism.scene.camera.Camera;
+import xoric.prism.scene.camera.CameraOld;
 import xoric.prism.scene.materials.art.AllArt;
 import xoric.prism.scene.materials.shaders.AllShaders;
 import xoric.prism.scene.materials.tools.AllTools;
@@ -57,7 +57,7 @@ public class SceneHandler extends Thread implements ISceneListener // ,IActionEx
 	private FloatRect screenRect;
 
 	private final IScene scene;
-	private final Camera camera;
+	private final CameraOld camera;
 
 	private FloatRect tempRect;
 
@@ -66,7 +66,7 @@ public class SceneHandler extends Thread implements ISceneListener // ,IActionEx
 	public SceneHandler(IScene scene)
 	{
 		this.scene = scene;
-		this.camera = new Camera(0, 0, 0, 0);
+		this.camera = new CameraOld(0, 0, 0, 0);
 
 		this.screenRect = new FloatRect();
 
@@ -220,10 +220,10 @@ public class SceneHandler extends Thread implements ISceneListener // ,IActionEx
 
 			if (i == selectedIndex)
 			{
-				AllShaders.defaultShader.setColor(blinkColor.getMixedColor());
+				AllShaders.color.setColor(blinkColor.getMixedColor());
 				IFloatRect_r texRect = AllArt.env0.getMeta().getRect(g.getGroundType().getAnimationStart());
-				camera.transformWithCameraBounds(g.getRect(), tempRect);
-				renderer.drawPlane(texRect, tempRect);
+				camera.transformRect(g.getRect(), tempRect);
+				renderer.drawPlane(texRect, tempRect, 0.0f);
 			}
 		}
 	}

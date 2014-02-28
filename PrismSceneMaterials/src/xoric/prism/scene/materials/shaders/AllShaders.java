@@ -10,14 +10,18 @@ import xoric.prism.data.meta.AttachmentLoader;
 import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.meta.MetaList_in;
 import xoric.prism.data.meta.MetaType;
-import xoric.prism.scene.shaders.IDefaultShader;
+import xoric.prism.scene.shaders.IColorMaskShader;
+import xoric.prism.scene.shaders.IColorShader;
+import xoric.prism.scene.shaders.IMaskMaskShader;
 import xoric.prism.scene.shaders.IMaskShader;
 import xoric.prism.scene.shaders.IShaderIO;
 
 public class AllShaders
 {
-	public static IDefaultShader defaultShader;
-	public static IMaskShader maskShader;
+	public static IColorShader color;
+	public static IMaskShader mask;
+	public static IMaskMaskShader hole;
+	public static IColorMaskShader growth;
 
 	public static void loadAll(IShaderIO shaderIO) throws PrismException
 	{
@@ -25,16 +29,24 @@ public class AllShaders
 		{
 			ByteBuffer v = loadBytes(ShaderIndex.DEFAULT, 0); // vertex buffer
 			ByteBuffer f = loadBytes(ShaderIndex.DEFAULT, 1); // fragment buffer
-			defaultShader = shaderIO.createDefaultShader(v, f);
+			color = shaderIO.createDefaultShader(v, f);
 
 			v = loadBytes(ShaderIndex.MASK, 0);
 			f = loadBytes(ShaderIndex.MASK, 1);
-			maskShader = shaderIO.createMaskShader(v, f);
+			mask = shaderIO.createMaskShader(v, f);
+
+			v = loadBytes(ShaderIndex.HOLE, 0);
+			f = loadBytes(ShaderIndex.HOLE, 1);
+			hole = shaderIO.createMaskMaskShader(v, f);
+
+			v = loadBytes(ShaderIndex.GROWTH, 0);
+			f = loadBytes(ShaderIndex.GROWTH, 1);
+			growth = shaderIO.createColorMaskShader(v, f);
 		}
 		catch (Exception e)
 		{
 			System.out.println("using shader substitute");
-			defaultShader = shaderIO.createShaderSubstitute();
+			color = shaderIO.createShaderSubstitute();
 		}
 	}
 

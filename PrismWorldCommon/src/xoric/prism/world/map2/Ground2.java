@@ -19,11 +19,14 @@ public class Ground2
 	protected final IPoint_r coordinates;
 	protected final IFloatRect_r rect;
 
-	private GroundType2 groundType;
+	private GroundType2 groundTypeLower;
+	private GroundType2 groundTypeUpper;
 
-	public Ground2(GroundType2 groundType, Point coordinates)
+	public Ground2(GroundType2 lower, GroundType2 upper, Point coordinates)
 	{
-		this.groundType = groundType;
+		this.groundTypeLower = lower;
+		this.groundTypeUpper = upper;
+
 		this.weatherFader = new WeatherFader();
 
 		this.coordinates = coordinates;
@@ -37,7 +40,7 @@ public class Ground2
 
 	public GroundType2 getGroundType()
 	{
-		return groundType;
+		return groundTypeLower;
 	}
 
 	public IPoint_r getCoordinates()

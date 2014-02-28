@@ -34,18 +34,6 @@ public class AllGrounds
 			g.extractFrom(ml.getHeap());
 			list.add(g);
 		}
-
-		//		GroundType2 g = new GroundType2(1);
-		//		g.initialize(1, 1, 0);
-		//		list.add(g);
-		//
-		//		g = new GroundType2(2);
-		//		g.initialize(2, 1, 0);
-		//		list.add(g);
-		//
-		//		g = new GroundType2(3);
-		//		g.initialize(3, 2, 400);
-		//		list.add(g);
 	}
 
 	public static GroundType2 getGroundType(int index) throws PrismException

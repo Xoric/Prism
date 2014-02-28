@@ -132,10 +132,13 @@ public class TextureGenerator
 		ml.getHeap().ints.add(counts.getX());
 		mb.addMetaLine(ml);
 
-		// update meta data: add  count
+		// update meta data: add count
 		ml = new MetaLine_out(MetaKey.COUNT);
 		ml.getHeap().ints.add(n);
 		mb.addMetaLine(ml);
+
+		// update meta data: add hot spots
+		// TODO
 
 		for (int i = 0; i < n; ++i)
 		{

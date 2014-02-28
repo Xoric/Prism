@@ -134,9 +134,9 @@ public class Printer implements IMetaChild_in
 	public float print(IFloatPoint_r screenPos) throws PrismException
 	{
 		ITexture texture = font.getTexture(0);
-		AllShaders.defaultShader.activate();
-		AllShaders.defaultShader.setTexture(texture);
-		AllShaders.defaultShader.setColor(color);
+		AllShaders.color.activate();
+		AllShaders.color.setTexture(texture);
+		AllShaders.color.setColor(color);
 
 		tempScreenRect.setTopLeft(screenPos);
 

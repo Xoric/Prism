@@ -1,6 +1,7 @@
 package xoric.prism.scene;
 
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.scene.camera.ICameraTransform;
 
 public interface IDrawableWorld
 {

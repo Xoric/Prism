@@ -8,6 +8,8 @@ public interface ISpriteMenuListener
 
 	public void requestInsertSpriteFromClipboard();
 
+	public void requestSetSpriteHotspot();
+
 	public void requestEditSprite();
 
 	public void requestDeleteSprites();

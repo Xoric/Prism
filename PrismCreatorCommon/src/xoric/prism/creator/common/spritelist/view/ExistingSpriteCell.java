@@ -26,6 +26,7 @@ public class ExistingSpriteCell extends SpriteCell
 		return frameName;
 	}
 
+	@Deprecated
 	public void loadIcon(IPath_r path)
 	{
 		try

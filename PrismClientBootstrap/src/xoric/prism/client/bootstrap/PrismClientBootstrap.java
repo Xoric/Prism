@@ -9,9 +9,11 @@ import xoric.prism.data.PrismDataLoader;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.Prism;
 import xoric.prism.global.PrismGlobal;
-import xoric.prism.scene.fbo.FrameBufferIOLWJGL;
+import xoric.prism.scene.camera.Camera;
+import xoric.prism.scene.camera.CameraGL;
 import xoric.prism.scene.fbo.IFrameBufferIO;
 import xoric.prism.scene.lwjgl.PrismSceneLWJGL;
+import xoric.prism.scene.lwjgl.fbo.FrameBufferIOLWJGL;
 import xoric.prism.scene.lwjgl.shaders.ShaderIOLWJGL;
 import xoric.prism.scene.lwjgl.textures.TextureBinderLWJGL;
 import xoric.prism.scene.materials.Materials;
@@ -50,19 +52,24 @@ public class PrismClientBootstrap
 			// create client settings
 			settings = new ClientSettings();
 
+			// create camera
+			Camera cam = new CameraGL(0.0f, 0.0f, 640.0f, 400.0f);
+			//			Camera cam = new CameraOld(0.0f, 0.0f, 640.0f, 400.0f);
+			//			cam.set(settings., size);
+
 			// create scene objects
-			scene = new PrismSceneLWJGL();
+			scene = new PrismSceneLWJGL(cam);
 			scene.loadSettings(settings);
 			textureBinder = new TextureBinderLWJGL();
 			shaderIO = new ShaderIOLWJGL();
-			frameBufferIO = new FrameBufferIOLWJGL();
+			frameBufferIO = new FrameBufferIOLWJGL(scene);
 
 			// create window and GL context
-			client = new PrismClient(scene);
+			client = new PrismClient(scene, cam);
 			client.createWindow();
 
 			// load materials
-			Materials.loadAll(scene, textureBinder, shaderIO);
+			Materials.loadAll(scene, textureBinder, shaderIO, frameBufferIO);
 
 			// initialize materials
 			//			AllShaders.load(scene); 

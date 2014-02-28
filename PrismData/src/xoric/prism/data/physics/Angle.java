@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.heap.Heap_out;
+import xoric.prism.data.heap.IStackable;
 import xoric.prism.data.packable.IPackable;
 import xoric.prism.data.packable.IntPacker;
 import xoric.prism.data.types.FloatPoint;
@@ -13,7 +17,7 @@ import xoric.prism.data.types.IFloatPoint_r;
  * @author XoricLee
  * @since 02.01.2012, 15:56:13
  */
-public class Angle implements IAngle_r, IPackable
+public class Angle implements IAngle_r, IPackable, IStackable
 {
 	private static final int RD = 15;
 	private static final int THRES_RIGHT_MAX = 90 - RD;
@@ -153,21 +157,15 @@ public class Angle implements IAngle_r, IPackable
 		return degree + "°";
 	}
 
-	public static Angle calcDirection(IFloatPoint_r from, IFloatPoint_r to)
+	public void set(IFloatPoint_r from, IFloatPoint_r to)
 	{
-		return calcDirection(from, new FloatPoint(to));
-	}
+		float x = to.getX() - from.getX();
+		float y = to.getY() - from.getY();
 
-	public static Angle calcDirection(IFloatPoint_r from, FloatPoint to)
-	{
-		to.subtract(from);
+		int minuend = x > 0.0f ? 360 : 180;
+		int degree = minuend - (int) (RAD_TO_DEG * Math.atan(y / x));
 
-		int minuend = to.getX() > 0.0f ? 360 : 180;
-		int degree = minuend - (int) (RAD_TO_DEG * Math.atan(to.getY() / to.getX()));
-
-		Angle direction = new Angle(degree);
-
-		return direction;
+		this.set(degree);
 	}
 
 	@Override
@@ -179,13 +177,20 @@ public class Angle implements IAngle_r, IPackable
 	@Override
 	public void unpack(InputStream stream) throws IOException
 	{
-		int degree = IntPacker.unpack_s(stream);
-		set(degree);
+		set(IntPacker.unpack_s(stream));
 	}
 
-	//	@Override
-	//	public int getPackedSize()
-	//	{
-	//		return IntPacker.getPackedSize_s(degree);
-	//	}
+	// IStackable_out:
+	@Override
+	public void appendTo(Heap_out h)
+	{
+		h.ints.add(degree);
+	}
+
+	// IStackable_in:
+	@Override
+	public void extractFrom(Heap_in h) throws PrismException
+	{
+		set(h.nextInt());
+	}
 }

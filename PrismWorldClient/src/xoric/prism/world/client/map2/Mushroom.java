@@ -1,7 +1,8 @@
-package xoric.prism.world.client;
+package xoric.prism.world.client.map2;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.scene.materials.art.AllArt;
+import xoric.prism.world.client.DrawableGrowth;
 
 /**
  * @author XoricLee
@@ -31,6 +32,7 @@ public class Mushroom extends DrawableGrowth
 		//		return f;
 	}
 
+	/*
 	@Override
 	protected void updateColors(float f, float d)
 	{
@@ -44,6 +46,7 @@ public class Mushroom extends DrawableGrowth
 		currentDamageColor.set(currentColor);
 		currentDamageColor.setAlpha(d);
 	}
+	*/
 
 	/**
 	 * @return

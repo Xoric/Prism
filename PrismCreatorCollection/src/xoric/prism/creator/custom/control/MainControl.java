@@ -1,5 +1,6 @@
 package xoric.prism.creator.custom.control;
 
+import xoric.prism.creator.common.spritelist.view.HotSpotList;
 import xoric.prism.creator.common.view.INewDialogResult;
 import xoric.prism.creator.custom.generators.collection.CollectionGenerator;
 import xoric.prism.creator.custom.generators.texture.TextureGenerator;
@@ -133,5 +134,19 @@ public class MainControl implements IMainControl
 	{
 		if (model != null)
 			CollectionControl.saveModel(model);
+	}
+
+	// IHotSpotListener:
+	@Override
+	public void setHotSpot(int spriteIndex, HotSpotList list)
+	{
+		System.out.println("set hotspot");
+	}
+
+	// IHotSpotListener:
+	@Override
+	public HotSpotList getHotSpotList(int spriteIndex)
+	{
+		return model.getHotSpotList(spriteIndex);
 	}
 }

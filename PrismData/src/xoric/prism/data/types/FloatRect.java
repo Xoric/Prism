@@ -40,6 +40,14 @@ public class FloatRect implements IStackable, IFloatRect_r
 		updateBottomRight();
 	}
 
+	public FloatRect(FloatPoint topLeft, FloatPoint size)
+	{
+		this.topLeft = topLeft;
+		this.size = size;
+		this.bottomRight = new FloatPoint();
+		updateBottomRight();
+	}
+
 	private void updateBottomRight()
 	{
 		bottomRight.x = topLeft.x + size.x;
@@ -305,5 +313,58 @@ public class FloatRect implements IStackable, IFloatRect_r
 		topLeft.y -= p.getY();
 		bottomRight.x -= p.getX();
 		bottomRight.y -= p.getY();
+	}
+
+	public void flipH()
+	{
+		float x = topLeft.x;
+		topLeft.x = bottomRight.x;
+		size.x = -size.x;
+		bottomRight.x = x;
+	}
+
+	public void copyAndFlip(IFloatRect_r r, boolean flipH, boolean flipV)
+	{
+		if (!flipH && !flipV)
+		{
+			copyFrom(r);
+		}
+		else
+		{
+			topLeft.x = flipH ? r.getRight() : r.getX();
+			bottomRight.x = flipH ? r.getX() : r.getRight();
+			size.x = flipH ? -r.getWidth() : r.getWidth();
+
+			topLeft.y = flipV ? r.getBottom() : r.getY();
+			bottomRight.y = flipV ? r.getY() : r.getBottom();
+			size.y = flipV ? -r.getHeight() : r.getHeight();
+		}
+	}
+
+	/**
+	 * Special implementation for OpenGL where {@code top} is {@code 1.0} and {@code bottom} is {@code 0.0}.
+	 * @param r
+	 *            rect to copy from
+	 * @param flipH
+	 *            left and right will be swapped if true
+	 * @param transformY
+	 *            will transform {@code Y} to {@code 1.0 - Y} if true
+	 */
+	public void copyAndTransformGL(IFloatRect_r r, boolean flipH, boolean transformY)
+	{
+		if (!flipH && !transformY)
+		{
+			copyFrom(r);
+		}
+		else
+		{
+			topLeft.x = flipH ? r.getRight() : r.getX();
+			bottomRight.x = flipH ? r.getX() : r.getRight();
+			size.x = flipH ? -r.getWidth() : r.getWidth();
+
+			topLeft.y = transformY ? 1.0f - r.getY() : r.getY();
+			bottomRight.y = transformY ? 1.0f - r.getBottom() : r.getBottom();
+			size.y = transformY ? -r.getHeight() : r.getHeight();
+		}
 	}
 }

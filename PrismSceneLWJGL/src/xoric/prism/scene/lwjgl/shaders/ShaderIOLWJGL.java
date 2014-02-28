@@ -9,8 +9,10 @@ import org.lwjgl.opengl.GL11;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.exceptions.UserErrorText;
-import xoric.prism.scene.cleanup.TrashCan;
-import xoric.prism.scene.shaders.IDefaultShader;
+import xoric.prism.scene.lwjgl.cleanup.TrashCan;
+import xoric.prism.scene.shaders.IColorMaskShader;
+import xoric.prism.scene.shaders.IColorShader;
+import xoric.prism.scene.shaders.IMaskMaskShader;
 import xoric.prism.scene.shaders.IMaskShader;
 import xoric.prism.scene.shaders.IShaderIO;
 
@@ -174,11 +176,11 @@ public class ShaderIOLWJGL implements IShaderIO
 
 	// IShaderIO:
 	@Override
-	public IDefaultShader createDefaultShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException
+	public IColorShader createDefaultShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException
 	{
 		// create and initialize shader object
 		int program = createProgram(vertexShader, pixelShader);
-		DefaultShader shader = new DefaultShader(program);
+		ColorShader shader = new ColorShader(program);
 		shader.initialize();
 		TrashCan.addResource(shader);
 
@@ -201,11 +203,37 @@ public class ShaderIOLWJGL implements IShaderIO
 	// IShaderIO:
 	@Override
 	@Deprecated
-	public IDefaultShader createShaderSubstitute()
+	public IColorShader createShaderSubstitute()
 	{
 		DefaultShaderSubstitute d = new DefaultShaderSubstitute();
 		d.initialize();
 
 		return d;
+	}
+
+	// IShaderIO:
+	@Override
+	public IMaskMaskShader createMaskMaskShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException
+	{
+		// create and initialize shader object
+		int program = createProgram(vertexShader, pixelShader);
+		MaskMaskShader shader = new MaskMaskShader(program);
+		shader.initialize();
+		TrashCan.addResource(shader);
+
+		return shader;
+	}
+
+	// IShaderIO:
+	@Override
+	public IColorMaskShader createColorMaskShader(ByteBuffer vertexShader, ByteBuffer pixelShader) throws PrismException
+	{
+		// create and initialize shader object
+		int program = createProgram(vertexShader, pixelShader);
+		ColorMaskShader shader = new ColorMaskShader(program);
+		shader.initialize();
+		TrashCan.addResource(shader);
+
+		return shader;
 	}
 }

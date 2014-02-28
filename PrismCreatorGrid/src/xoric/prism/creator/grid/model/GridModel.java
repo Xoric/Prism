@@ -6,8 +6,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
+import xoric.prism.creator.common.spritelist.view.HotSpotList;
 import xoric.prism.creator.grid.view.NewGridData;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.packable.IPackable;
@@ -27,18 +30,42 @@ public class GridModel implements IPackable
 	private IPath_r path;
 	private SpriteNameGenerator spriteNameGenerator;
 
+	private final List<HotSpotList> hotSpotLists;
+	private boolean isHotSpotListEnabled;
+
 	public GridModel(IPath_r path)
 	{
 		this.path = path;
 		this.spriteNameGenerator = new SpriteNameGenerator(path, "sprite", ".png");
+		this.hotSpotLists = new ArrayList<HotSpotList>();
 	}
 
 	public GridModel(NewGridData d)
 	{
-		name = d.getName();
-		spriteSize = new Point(d.getSpriteSize());
-		path = d.getPath();
-		spriteNameGenerator = new SpriteNameGenerator(path, "sprite", ".png");
+		this.name = d.getName();
+		this.spriteSize = new Point(d.getSpriteSize());
+		this.path = d.getPath();
+		this.spriteNameGenerator = new SpriteNameGenerator(path, "sprite", ".png");
+		this.hotSpotLists = new ArrayList<HotSpotList>();
+	}
+
+	public HotSpotList getHotSpotList(int spriteIndex)
+	{
+		HotSpotList h = null;
+
+		if (isHotSpotListEnabled)
+		{
+			if (spriteIndex < hotSpotLists.size())
+				h = hotSpotLists.get(spriteIndex);
+
+			if (h == null)
+			{
+				h = new HotSpotList();
+				h.hotSpot.x = spriteSize.x / 2;
+				h.hotSpot.y = spriteSize.y - 2;
+			}
+		}
+		return h;
 	}
 
 	public SpriteNameGenerator getSpriteNameGenerator()
@@ -103,5 +130,23 @@ public class GridModel implements IPackable
 	public void setSpriteSize(IPoint_r spriteSize)
 	{
 		this.spriteSize = new Point(spriteSize);
+	}
+
+	public void setHotSpotList(int spriteIndex, HotSpotList list)
+	{
+		while (hotSpotLists.size() <= spriteIndex)
+			hotSpotLists.add(null);
+
+		hotSpotLists.set(spriteIndex, list);
+	}
+
+	public void setHotSpotsEnabled(boolean b)
+	{
+		isHotSpotListEnabled = b;
+	}
+
+	public boolean isHotSpotListEnabled()
+	{
+		return isHotSpotListEnabled;
 	}
 }

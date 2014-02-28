@@ -17,6 +17,7 @@ import xoric.prism.creator.grid.control.IGridControl;
 import xoric.prism.creator.grid.model.GridModel;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
+import xoric.prism.swing.input.BooleanInputPanel;
 import xoric.prism.swing.input.IValueInputListener;
 import xoric.prism.swing.input.PointInputPanel;
 import xoric.prism.swing.input.TextInputPanel;
@@ -33,6 +34,7 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 
 	private final TextInputPanel nameInput;
 	private final PointInputPanel sizeInput;
+	private final BooleanInputPanel hotSpotInput;
 
 	private final ISpriteList spriteList;
 
@@ -61,9 +63,17 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 		c.gridy++;
 		add(sizeInput, c);
 
+		hotSpotInput = new BooleanInputPanel("Use hotspots and action points", this);
+		hotSpotInput.setPrompt("Choose whether or not to use hotspots and action points.");
+		hotSpotInput
+				.setToolTipText(ToolTipFormatter
+						.split("Hotspots are used to manipulate the individual placement of sprites when drawing. Action points are used to mark limbs etc."));
+		c.gridy++;
+		add(hotSpotInput, c);
+
 		SpriteList s = new SpriteList();
 		spriteList = s;
-		c = new GridBagConstraints(1, 0, 1, 2, 0.85, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
+		c = new GridBagConstraints(1, 0, 1, 3, 0.85, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
 		add(s, c);
 
 		mnuItemCreateTexture = new JMenuItem("Combined texture (.png)");
@@ -76,6 +86,7 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 		m.addCreationItem(mnuItemCreateTexture);
 		m.addCreationItem(mnuItemCreateCollection);
 
+		updateHotSpotsEnabled();
 		setModel(null);
 	}
 
@@ -95,6 +106,16 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 	{
 		super.getMainMenuBar().setMainMenuListener(control);
 		this.control = control;
+		updateHotSpotsEnabled();
+	}
+
+	@Override
+	public void updateHotSpotsEnabled()
+	{
+		if (model == null || !model.isHotSpotListEnabled())
+			spriteList.registerHotSpotListener(null);
+		else
+			spriteList.registerHotSpotListener(control);
 	}
 
 	@Override
@@ -107,6 +128,8 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 		spriteList.setEnabled(b);
 		nameInput.setEnabled(b);
 		sizeInput.setEnabled(b);
+
+		updateHotSpotsEnabled();
 	}
 
 	@Override
@@ -155,5 +178,13 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 			control.requestRenameGrid(nameInput.getValue());
 		else if (input == sizeInput)
 			control.requestSetSpriteSize(sizeInput.getValue());
+		else if (input == hotSpotInput)
+			control.requestEnableHotSpots(hotSpotInput.getValue());
+	}
+
+	@Override
+	public void updatedHotSpots()
+	{
+		spriteList.requestReloadSprites();
 	}
 }

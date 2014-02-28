@@ -49,7 +49,7 @@ public class MainControl implements IMainControl
 
 			int x = n % 3;
 			int y = n / 3;
-			DrawableGround2 d = new DrawableGround2(g, new Point(x, y));
+			DrawableGround2 d = new DrawableGround2(g, g, new Point(x, y), 0.0f);
 			AllDrawableGrounds.add(d);
 		}
 		catch (PrismException e)

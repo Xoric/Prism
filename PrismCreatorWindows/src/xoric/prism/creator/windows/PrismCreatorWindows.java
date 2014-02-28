@@ -8,9 +8,9 @@ import xoric.prism.data.PrismDataLoader;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.Prism;
 import xoric.prism.global.PrismGlobal;
-import xoric.prism.scene.fbo.FrameBufferIOLWJGL;
 import xoric.prism.scene.fbo.IFrameBufferIO;
 import xoric.prism.scene.lwjgl.PrismSceneLWJGL;
+import xoric.prism.scene.lwjgl.fbo.FrameBufferIOLWJGL;
 import xoric.prism.scene.lwjgl.shaders.ShaderIOLWJGL;
 import xoric.prism.scene.lwjgl.textures.TextureBinderLWJGL;
 import xoric.prism.scene.materials.Materials;
@@ -45,10 +45,10 @@ public abstract class PrismCreatorWindows
 			scene.loadSettings(settings);
 			textureBinder = new TextureBinderLWJGL();
 			shaderIO = new ShaderIOLWJGL();
-			frameBufferIO = new FrameBufferIOLWJGL();
+			frameBufferIO = new FrameBufferIOLWJGL(scene);
 
 			// load materials
-			Materials.loadAll(scene, textureBinder, shaderIO);
+			Materials.loadAll(scene, textureBinder, shaderIO, frameBufferIO);
 
 			// create scene and client
 			MainView view = new MainView(scene);

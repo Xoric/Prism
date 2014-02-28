@@ -18,7 +18,8 @@ public abstract class AllArt
 {
 	public static CollectionArt frames;
 	public static GridArt mark0;
-	public static GridArt masks;
+	public static GridArt groundMasks;
+	public static CollectionArt otherMasks;
 	public static CollectionArt mush0;
 	public static GridArt env0;
 	public static GridArt font;
@@ -33,8 +34,11 @@ public abstract class AllArt
 		mark0 = new GridArt(Prism.global.loadMetaFile(FileTableDirectoryIndex.WORLD, WorldIndex.MARK0.ordinal()));
 		mark0.load();
 
-		masks = new GridArt(Prism.global.loadMetaFile(FileTableDirectoryIndex.WORLD, WorldIndex.MASKS.ordinal()));
-		masks.load();
+		groundMasks = new GridArt(Prism.global.loadMetaFile(FileTableDirectoryIndex.WORLD, WorldIndex.GMASKS.ordinal()));
+		groundMasks.load();
+
+		otherMasks = new CollectionArt(Prism.global.loadMetaFile(FileTableDirectoryIndex.WORLD, WorldIndex.OMASKS.ordinal()));
+		otherMasks.load();
 
 		mush0 = new CollectionArt(Prism.global.loadMetaFile(FileTableDirectoryIndex.WORLD, WorldIndex.MUSH0.ordinal()));
 		mush0.load();

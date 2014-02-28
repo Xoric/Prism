@@ -87,7 +87,7 @@ public class UIEdit extends UIComponent
 			AllTools.printer.setColor(titleColor1);
 			titleLine.draw(renderer);
 		}
-		AllShaders.defaultShader.setColor(PrismColor.opaqueWhite); // TODO temp
+		AllShaders.color.setColor(PrismColor.opaqueWhite); // TODO temp
 		AllTools.printer.setColor(PrismColor.opaqueWhite); // TODO temp
 	}
 

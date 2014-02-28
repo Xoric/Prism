@@ -56,8 +56,8 @@ public class Drawer
 
 		// bind texture
 		ITexture t = collection.getTexture(texture);
-		AllShaders.defaultShader.activate();
-		AllShaders.defaultShader.setTexture(t);
+		AllShaders.color.activate();
+		AllShaders.color.setTexture(t);
 
 		return this;
 	}

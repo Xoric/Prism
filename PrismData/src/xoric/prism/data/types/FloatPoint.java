@@ -28,6 +28,23 @@ public class FloatPoint implements IStackable, IFloatPoint_r
 	}
 
 	@Override
+	public boolean equals(Object o)
+	{
+		boolean b = o instanceof IFloatPoint_r;
+
+		if (b)
+		{
+			IFloatPoint_r p = (IFloatPoint_r) o;
+
+			b &= p.getX() >= x - 0.0001;
+			b &= p.getX() <= x + 0.0001;
+			b &= p.getY() >= y - 0.0001;
+			b &= p.getY() <= y + 0.0001;
+		}
+		return b;
+	}
+
+	@Override
 	public String toString()
 	{
 		return "x=" + x + ", y=" + y;

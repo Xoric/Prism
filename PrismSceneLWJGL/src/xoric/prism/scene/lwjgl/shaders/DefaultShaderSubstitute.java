@@ -3,10 +3,10 @@ package xoric.prism.scene.lwjgl.shaders;
 import org.lwjgl.opengl.GL11;
 
 import xoric.prism.data.types.PrismColor;
-import xoric.prism.scene.shaders.IDefaultShader;
+import xoric.prism.scene.shaders.IColorShader;
 import xoric.prism.scene.textures.ITexture;
 
-public class DefaultShaderSubstitute implements IDefaultShader
+public class DefaultShaderSubstitute implements IColorShader
 {
 	@Override
 	public void activate()
@@ -29,5 +29,12 @@ public class DefaultShaderSubstitute implements IDefaultShader
 	public void initialize()
 	{
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
+	}
+
+	// IDefaultShader:
+	@Override
+	public void setTexture(int textureID)
+	{
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
 	}
 }

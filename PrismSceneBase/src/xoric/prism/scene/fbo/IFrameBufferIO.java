@@ -1,5 +1,6 @@
 package xoric.prism.scene.fbo;
 
+import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.FloatPoint;
 
 /**
@@ -8,5 +9,5 @@ import xoric.prism.data.types.FloatPoint;
  */
 public interface IFrameBufferIO
 {
-	public IFrameBuffer createFrameBuffer(FloatPoint size);
+	public IFrameBuffer createFrameBuffer(FloatPoint size) throws PrismException;
 }

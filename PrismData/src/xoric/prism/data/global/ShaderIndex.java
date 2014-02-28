@@ -2,5 +2,5 @@ package xoric.prism.data.global;
 
 public enum ShaderIndex
 {
-	DEFAULT, MASK
+	DEFAULT, MASK, HOLE, GROWTH
 }

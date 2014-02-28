@@ -15,7 +15,7 @@ public abstract class SpriteCell
 		this.filename = filename;
 	}
 
-	protected void setIcon(ImageIcon icon)
+	public void setIcon(ImageIcon icon)
 	{
 		this.icon = icon;
 	}

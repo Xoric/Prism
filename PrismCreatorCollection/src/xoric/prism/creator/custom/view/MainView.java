@@ -146,6 +146,7 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 		this.control = control;
 		this.objectList.setControl(control);
 		this.rectView.setControl(control);
+		spriteList.registerHotSpotListener(control);
 	}
 
 	@Override

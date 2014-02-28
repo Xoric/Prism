@@ -7,20 +7,20 @@ import org.lwjgl.opengl.GL20;
 import xoric.prism.scene.shaders.IMaskShader;
 import xoric.prism.scene.textures.ITexture;
 
-public class MaskShader extends DefaultShader implements IMaskShader
+public class MaskShader extends TextureShader implements IMaskShader
 {
 	private int maskLocation;
 
-	public MaskShader(int program)
+	public MaskShader(int programID)
 	{
-		super(program);
+		super(programID);
 	}
 
 	@Override
 	public void initialize()
 	{
 		super.initialize();
-		maskLocation = GL20.glGetUniformLocation(this.programID, "mask");
+		maskLocation = GL20.glGetUniformLocation(super.programID, "mask");
 	}
 
 	@Override

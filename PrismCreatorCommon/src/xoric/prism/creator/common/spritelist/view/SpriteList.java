@@ -12,10 +12,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -30,6 +32,9 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	private static final long serialVersionUID = 1L;
 
 	private SpriteNameGenerator spriteNameGenerator;
+
+	private final HotSpotView hotSpotView;
+	private IHotSpotListener hotSpotListener;
 
 	private ImageIcon newIcon;
 	private final SpriteMenu menu;
@@ -47,6 +52,8 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 
 		hintLabel = new JLabel("Double click on a sprite in order to edit it.");
 		hintLabel2 = new JLabel("Right click on the list below for further options.");
+
+		hotSpotView = new HotSpotView();
 
 		list = new JList<SpriteCell>();
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
@@ -79,6 +86,18 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 		super.setEnabled(b);
 		list.setEnabled(b);
 		menu.setEnabled(b);
+	}
+
+	@Override
+	public void registerHotSpotListener(IHotSpotListener hotSpotListener)
+	{
+		boolean b = hotSpotListener != this.hotSpotListener;
+
+		this.hotSpotListener = hotSpotListener;
+		this.menu.registerHotSpotListener(hotSpotListener);
+
+		if (b)
+			requestReloadSprites();
 	}
 
 	private List<Integer> getValidSelectedIndices()
@@ -168,6 +187,32 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	}
 
 	@Override
+	public void requestSetSpriteHotspot()
+	{
+		if (hotSpotListener != null)
+		{
+			int index = list.getSelectedIndex();
+			if (isValidIndex(index))
+			{
+				File f = spriteNameGenerator.getFile(index);
+				try
+				{
+					hotSpotView.loadSprite(f, null /* TODO: pass hotspot list */);
+					boolean b = hotSpotView.showDialog();
+
+					if (b)
+						hotSpotListener.setHotSpot(index, hotSpotView.getResult());
+				}
+				catch (Exception e)
+				{
+					JOptionPane.showMessageDialog(null, "There was a problem loading a sprite\n" + f.toString() + "\n\n" + e.toString(),
+							"Set hotspot", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		}
+	}
+
+	@Override
 	public void requestEditSprite()
 	{
 		int index = list.getSelectedIndex();
@@ -189,6 +234,27 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 		}
 	}
 
+	private ImageIcon createIcon(int spriteIndex)
+	{
+		ImageIcon icon;
+		try
+		{
+			String filename = spriteNameGenerator.getFilename(spriteIndex);
+			File f = spriteNameGenerator.getFile(filename);
+			BufferedImage bi = ImageIO.read(f);
+
+			if (hotSpotListener != null)
+				SpriteDecorator.decorateSprite(bi, hotSpotListener.getHotSpotList(spriteIndex));
+
+			icon = new ImageIcon(bi);
+		}
+		catch (Exception e)
+		{
+			icon = null;
+		}
+		return icon;
+	}
+
 	@Override
 	public void requestReloadSprites()
 	{
@@ -197,25 +263,29 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 		Point t = null;
 		int i = 0;
 
-		do
+		if (spriteNameGenerator != null)
 		{
-			String filename = spriteNameGenerator.getFilename(i);
-			File f = spriteNameGenerator.getFile(filename);
-			resume = f.exists();
-
-			if (resume)
+			do
 			{
-				// add an existing cell
-				ExistingSpriteCell c = new ExistingSpriteCell(filename, i);
-				c.loadIcon(spriteNameGenerator.getPath());
-				if (t == null)
-					t = new Point(c.getIcon().getIconWidth(), c.getIcon().getIconHeight());
+				String filename = spriteNameGenerator.getFilename(i);
+				File f = spriteNameGenerator.getFile(filename);
+				resume = f.exists();
 
-				model.addElement(c);
+				if (resume)
+				{
+					// add an existing cell
+					ExistingSpriteCell c = new ExistingSpriteCell(filename, i);
+					ImageIcon icon = createIcon(i);
+					c.setIcon(icon);
+					if (t == null && icon != null)
+						t = new Point(icon.getIconWidth(), icon.getIconHeight());
+
+					model.addElement(c);
+				}
+				++i;
 			}
-			++i;
+			while (resume);
 		}
-		while (resume);
 
 		// memorize sprite size
 		if (t != null)
@@ -266,22 +336,24 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2)
+		if (e.getButton() == MouseEvent.BUTTON2)
+			menu.requestHotSpot();
+		else if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2)
 			requestEditSprite();
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0)
+	public void mouseEntered(MouseEvent e)
 	{
 	}
 
 	@Override
-	public void mouseExited(MouseEvent arg0)
+	public void mouseExited(MouseEvent e)
 	{
 	}
 
 	@Override
-	public void mousePressed(MouseEvent arg0)
+	public void mousePressed(MouseEvent e)
 	{
 	}
 

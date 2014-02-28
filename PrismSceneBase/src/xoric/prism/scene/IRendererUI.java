@@ -8,6 +8,4 @@ public interface IRendererUI
 	public void drawSprite(TextureInfo texInfo, IFloatRect_r screenRect);
 
 	public void drawSprite(IFloatRect_r texRect, IFloatRect_r screenRect);
-
-	//	public void drawSprite(IFloatRect_r texRect, IFloatPoint_r position, IFloatPoint_r size);
 }

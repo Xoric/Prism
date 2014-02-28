@@ -1,4 +1,4 @@
-package xoric.prism.scene.cleanup;
+package xoric.prism.scene.lwjgl.cleanup;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,6 +6,7 @@ import xoric.prism.data.heap.Heap_out;
 import xoric.prism.data.types.Point;
 import xoric.prism.world.map.AllGrounds;
 import xoric.prism.world.map2.Ground2;
+import xoric.prism.world.map2.GroundType2;
 import xoric.prism.world.map2.Map2;
 
 /**
@@ -44,7 +45,12 @@ public class ServerMap2 extends Map2
 	protected void loadGrounds(int y, Heap_in h) throws PrismException
 	{
 		for (int x = 0; x < grounds[y].length; ++x)
-			grounds[y][x] = new Ground2(AllGrounds.getGroundType(h.nextInt()), new Point(x, y));
+		{
+			int i = h.nextInt();
+			GroundType2 g0 = AllGrounds.getGroundType(i);
+			GroundType2 g1 = AllGrounds.getGroundType(i + 1);
+			grounds[y][x] = new Ground2(g0, g1, new Point(x, y));
+		}
 	}
 
 	// Map:

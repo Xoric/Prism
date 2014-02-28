@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import xoric.prism.creator.common.spritelist.view.HotSpotList;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.packable.IPackable;
 import xoric.prism.data.packable.IntPacker;
@@ -35,6 +36,12 @@ public class CollectionModel implements IPackable
 	public void setName(IText_r name)
 	{
 		this.name = new Text(name);
+	}
+
+	public HotSpotList getHotSpotList(int spriteIndex)
+	{
+		// TODO implement
+		return null;
 	}
 
 	public void load() throws IOException, PrismException

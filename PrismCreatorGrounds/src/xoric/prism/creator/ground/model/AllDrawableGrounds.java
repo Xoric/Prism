@@ -26,7 +26,7 @@ public class AllDrawableGrounds
 		list.clear();
 		for (GroundType2 g : AllGrounds.list)
 		{
-			list.add(new DrawableGround2(g, new Point(x, y)));
+			list.add(new DrawableGround2(g, g, new Point(x, y), 0.0f));
 			if (++x >= columns)
 			{
 				x = 0;
