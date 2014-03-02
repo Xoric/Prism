@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
+import xoric.prism.creator.common.spritelist.tools.HotspotsPanel;
 import xoric.prism.creator.common.spritelist.view.ISpriteList;
 import xoric.prism.creator.common.spritelist.view.SpriteList;
 import xoric.prism.creator.common.view.IMainMenuBar;
@@ -17,7 +18,6 @@ import xoric.prism.creator.grid.control.IGridControl;
 import xoric.prism.creator.grid.model.GridModel;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
-import xoric.prism.swing.input.BooleanInputPanel;
 import xoric.prism.swing.input.IValueInputListener;
 import xoric.prism.swing.input.PointInputPanel;
 import xoric.prism.swing.input.TextInputPanel;
@@ -34,7 +34,7 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 
 	private final TextInputPanel nameInput;
 	private final PointInputPanel sizeInput;
-	private final BooleanInputPanel hotSpotInput;
+	private final HotspotsPanel hotSpotInput;
 
 	private final ISpriteList spriteList;
 
@@ -63,11 +63,7 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 		c.gridy++;
 		add(sizeInput, c);
 
-		hotSpotInput = new BooleanInputPanel("Use hotspots and action points", this);
-		hotSpotInput.setPrompt("Choose whether or not to use hotspots and action points.");
-		hotSpotInput
-				.setToolTipText(ToolTipFormatter
-						.split("Hotspots are used to manipulate the individual placement of sprites when drawing. Action points are used to mark limbs etc."));
+		hotSpotInput = new HotspotsPanel(this);
 		c.gridy++;
 		add(hotSpotInput, c);
 

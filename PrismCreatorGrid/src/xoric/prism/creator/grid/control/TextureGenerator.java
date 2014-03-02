@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import javax.imageio.ImageIO;
 
 import xoric.prism.creator.common.factory.SuccessMessage;
+import xoric.prism.creator.common.spritelist.tools.HotSpotWriter;
 import xoric.prism.creator.grid.model.GridModel;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.meta.MetaBlock_out;
@@ -17,6 +18,7 @@ import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
+import xoric.prism.develop.meta.MetaNames;
 
 public class TextureGenerator
 {
@@ -52,16 +54,26 @@ public class TextureGenerator
 		Point counts = calcColumnsAndRows(w, h, n);
 
 		// create the texture
-		MetaBlock_out mb = new MetaBlock_out(MetaType.GRID, 0);
-		BufferedImage bi = createTexture(counts, n, mb);
+		MetaBlock_out gridBlock = new MetaBlock_out(MetaType.GRID, 0);
+		BufferedImage bi = createTexture(counts, n, gridBlock);
+
+		// create MetaBlock for hotspots
+		MetaBlock_out hotspotBlock = model.isHotSpotListEnabled() ? HotSpotWriter.createMetaBlock(model, n) : null;
 
 		// write the texture
 		File textureFile = model.getPath().getFile("texture.png");
 		writeImage(textureFile, bi);
 
-		// write the MetaFile
-		File metaFile = model.getPath().getFile("texture.meta");
-		writeMeta(metaFile, mb);
+		// write grid meta
+		File f = model.getPath().getFile(MetaNames.makeMetaBlock(MetaType.GRID));
+		writeMeta(f, gridBlock);
+
+		// write hotspot meta
+		f = model.getPath().getFile(MetaNames.makeMetaBlock(MetaType.HOTSPOTS));
+		if (hotspotBlock != null)
+			writeMeta(f, hotspotBlock);
+		else
+			deleteFile(f);
 
 		// show success
 		showSuccess(textureFile, bi, n);
@@ -106,7 +118,7 @@ public class TextureGenerator
 		return new Point(cBest, rBest);
 	}
 
-	private BufferedImage createTexture(IPoint_r counts, int n, MetaBlock_out mb) throws PrismException
+	private BufferedImage createTexture(IPoint_r counts, int n, MetaBlock_out gridBlock) throws PrismException
 	{
 		IPoint_r spriteSize = model.getSpriteSize();
 		int width = spriteSize.getX() * counts.getX();
@@ -115,9 +127,9 @@ public class TextureGenerator
 		Graphics2D g = out.createGraphics();
 
 		// update meta data: add name
-		MetaLine_out ml = new MetaLine_out(MetaKey.ITEM);
+		MetaLine_out ml = new MetaLine_out(MetaKey.TEXT);
 		ml.getHeap().texts.add(new Text(model.getName()));
-		mb.addMetaLine(ml);
+		gridBlock.addMetaLine(ml);
 
 		// update meta data: add texture and sprite size
 		ml = new MetaLine_out(MetaKey.SIZE);
@@ -125,20 +137,17 @@ public class TextureGenerator
 		ml.getHeap().ints.add(height);
 		ml.getHeap().ints.add(spriteSize.getX());
 		ml.getHeap().ints.add(spriteSize.getY());
-		mb.addMetaLine(ml);
+		gridBlock.addMetaLine(ml);
 
 		// update meta data: add column count
 		ml = new MetaLine_out(MetaKey.ALT);
 		ml.getHeap().ints.add(counts.getX());
-		mb.addMetaLine(ml);
+		gridBlock.addMetaLine(ml);
 
 		// update meta data: add count
 		ml = new MetaLine_out(MetaKey.COUNT);
 		ml.getHeap().ints.add(n);
-		mb.addMetaLine(ml);
-
-		// update meta data: add hot spots
-		// TODO
+		gridBlock.addMetaLine(ml);
 
 		for (int i = 0; i < n; ++i)
 		{
@@ -201,6 +210,21 @@ public class TextureGenerator
 			PrismException e = new PrismException(e0);
 			e.setText("There was a problem writing information about the generated texture.");
 			e.addInfo("file", metaFile.toString());
+			throw e;
+		}
+	}
+
+	private void deleteFile(File f) throws PrismException
+	{
+		try
+		{
+			f.delete();
+		}
+		catch (Exception e0)
+		{
+			PrismException e = new PrismException(e0);
+			e.setText("There was a problem deleting a file.");
+			e.addInfo("file", f.toString());
 			throw e;
 		}
 	}

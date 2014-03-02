@@ -13,7 +13,8 @@ public enum MetaKey
 	ALT,
 	COUNT,
 	SIZE,
-	IMPORT;
+	IMPORT,
+	TEXT;
 
 	private static final MetaKey[] VALUES = values();
 

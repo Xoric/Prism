@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
+import xoric.prism.creator.common.spritelist.tools.IHotSpotSupplier;
 import xoric.prism.creator.common.spritelist.view.HotSpotList;
 import xoric.prism.creator.grid.view.NewGridData;
 import xoric.prism.data.exceptions.PrismException;
@@ -21,14 +22,14 @@ import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
 
-public class GridModel implements IPackable
+public class GridModel implements IPackable, IHotSpotSupplier
 {
 	private static final String metaName = "grid.meta";
 
 	private Text name;
 	private Point spriteSize;
-	private IPath_r path;
-	private SpriteNameGenerator spriteNameGenerator;
+	private final IPath_r path;
+	private final SpriteNameGenerator spriteNameGenerator;
 
 	private final List<HotSpotList> hotSpotLists;
 	private boolean isHotSpotListEnabled;
@@ -49,6 +50,7 @@ public class GridModel implements IPackable
 		this.hotSpotLists = new ArrayList<HotSpotList>();
 	}
 
+	@Override
 	public HotSpotList getHotSpotList(int spriteIndex)
 	{
 		HotSpotList h = null;

@@ -9,14 +9,15 @@ public enum MetaType
 	TOC /* file table */,
 	SHADER,
 	DEVELOP /* contains attachments and targetFile */,
-	ANIM_D /* animation-names for ModelCreator etc. */,
+	ANIM_D /* animation-descriptions for ModelCreator etc. */,
 	MODEL_G,
 	URGENCY, /* message urgency */
 	COLLECTION, /* sprite collection */
 	GRID, /* sprite grid */
 	WINDOW, /* UIWindow */
 	MAP, /* world map */
-	GROUND; /* ground types */
+	GROUND, /* ground types */
+	HOTSPOTS; /* hotspots and action points */
 	// max index: 255
 
 	private static final MetaType[] VALUES = values();
