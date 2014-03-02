@@ -13,7 +13,7 @@ public interface ISpriteList
 
 	public void setEnabled(boolean b);
 
-	public void registerHotSpotListener(IHotSpotListener hotSpotListener);
+	public void registerHotSpotListener(IHotspotListener hotSpotListener);
 
 	public void requestReloadSprites();
 }

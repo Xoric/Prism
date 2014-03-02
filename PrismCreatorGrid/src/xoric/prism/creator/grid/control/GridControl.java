@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-import xoric.prism.creator.common.spritelist.view.HotSpotList;
+import xoric.prism.creator.common.spritelist.view.HotspotList;
 import xoric.prism.creator.common.view.INewDialogResult;
 import xoric.prism.creator.grid.model.GridModel;
 import xoric.prism.creator.grid.view.IGridView;
@@ -133,26 +133,26 @@ public class GridControl implements IGridControl
 		g.create();
 	}
 
-	// IHotSpotListener:
+	// IHotspotListener:
 	@Override
-	public void setHotSpot(int spriteIndex, HotSpotList list)
+	public void setHotspotList(int spriteIndex, HotspotList list)
 	{
-		model.setHotSpotList(spriteIndex, list);
+		model.setHotspotList(spriteIndex, list);
 		view.updatedHotSpots();
 	}
 
-	// IHotSpotListener:
+	// IHotspotListener:
 	@Override
-	public HotSpotList getHotSpotList(int spriteIndex)
+	public HotspotList getHotspotList(int spriteIndex)
 	{
-		return model.getHotSpotList(spriteIndex);
+		return model.getHotspotList(spriteIndex);
 	}
 
 	// IGridControl:
 	@Override
-	public void requestEnableHotSpots(boolean b)
+	public void requestEnableHotspots(boolean b)
 	{
-		model.setHotSpotsEnabled(b);
-		view.updateHotSpotsEnabled();
+		model.setHotspotListEnabled(b);
+		view.updateHotspotsEnabled();
 	}
 }

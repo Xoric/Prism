@@ -34,7 +34,7 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	private SpriteNameGenerator spriteNameGenerator;
 
 	private final HotSpotView hotSpotView;
-	private IHotSpotListener hotSpotListener;
+	private IHotspotListener hotSpotListener;
 
 	private ImageIcon newIcon;
 	private final SpriteMenu menu;
@@ -89,7 +89,7 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	}
 
 	@Override
-	public void registerHotSpotListener(IHotSpotListener hotSpotListener)
+	public void registerHotSpotListener(IHotspotListener hotSpotListener)
 	{
 		boolean b = hotSpotListener != this.hotSpotListener;
 
@@ -201,7 +201,7 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 					boolean b = hotSpotView.showDialog();
 
 					if (b)
-						hotSpotListener.setHotSpot(index, hotSpotView.getResult());
+						hotSpotListener.setHotspotList(index, hotSpotView.getResult());
 				}
 				catch (Exception e)
 				{
@@ -244,7 +244,7 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 			BufferedImage bi = ImageIO.read(f);
 
 			if (hotSpotListener != null)
-				SpriteDecorator.decorateSprite(bi, hotSpotListener.getHotSpotList(spriteIndex));
+				SpriteDecorator.decorateSprite(bi, hotSpotListener.getHotspotList(spriteIndex));
 
 			icon = new ImageIcon(bi);
 		}

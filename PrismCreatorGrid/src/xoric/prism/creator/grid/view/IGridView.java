@@ -17,7 +17,7 @@ public interface IGridView
 
 	public void displaySprites();
 
-	public void updateHotSpotsEnabled();
+	public void updateHotspotsEnabled();
 
 	public void updatedHotSpots();
 }

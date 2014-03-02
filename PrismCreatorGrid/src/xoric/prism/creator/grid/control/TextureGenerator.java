@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import javax.imageio.ImageIO;
 
 import xoric.prism.creator.common.factory.SuccessMessage;
-import xoric.prism.creator.common.spritelist.tools.HotSpotWriter;
+import xoric.prism.creator.common.spritelist.tools.HotspotWriter;
 import xoric.prism.creator.grid.model.GridModel;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.meta.MetaBlock_out;
@@ -58,7 +58,7 @@ public class TextureGenerator
 		BufferedImage bi = createTexture(counts, n, gridBlock);
 
 		// create MetaBlock for hotspots
-		MetaBlock_out hotspotBlock = model.isHotSpotListEnabled() ? HotSpotWriter.createMetaBlock(model, n) : null;
+		MetaBlock_out hotspotBlock = model.isHotspotListEnabled() ? HotspotWriter.createMetaBlock(model, n) : null;
 
 		// write the texture
 		File textureFile = model.getPath().getFile("texture.png");

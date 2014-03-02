@@ -31,7 +31,7 @@ public class SceneHandler extends Thread implements ISceneListener, IInputListen
 	private SceneAction action;
 
 	private WindowModel model;
-	private List<Hint> hints;
+	private final List<Hint> hints;
 	private Align align;
 
 	private volatile boolean isStopRequested;

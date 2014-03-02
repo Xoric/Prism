@@ -62,7 +62,7 @@ public class SpriteMenu extends JPopupMenu implements ActionListener
 		registerHotSpotListener(null);
 	}
 
-	public void registerHotSpotListener(IHotSpotListener hotSpotListener)
+	public void registerHotSpotListener(IHotspotListener hotSpotListener)
 	{
 		boolean b = hotSpotListener != null;
 

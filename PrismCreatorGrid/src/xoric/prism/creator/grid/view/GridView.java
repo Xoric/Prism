@@ -34,7 +34,7 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 
 	private final TextInputPanel nameInput;
 	private final PointInputPanel sizeInput;
-	private final HotspotsPanel hotSpotInput;
+	private final HotspotsPanel hotspotInput;
 
 	private final ISpriteList spriteList;
 
@@ -63,9 +63,9 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 		c.gridy++;
 		add(sizeInput, c);
 
-		hotSpotInput = new HotspotsPanel(this);
+		hotspotInput = new HotspotsPanel(this);
 		c.gridy++;
-		add(hotSpotInput, c);
+		add(hotspotInput, c);
 
 		SpriteList s = new SpriteList();
 		spriteList = s;
@@ -82,7 +82,7 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 		m.addCreationItem(mnuItemCreateTexture);
 		m.addCreationItem(mnuItemCreateCollection);
 
-		updateHotSpotsEnabled();
+		updateHotspotsEnabled();
 		setModel(null);
 	}
 
@@ -102,11 +102,11 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 	{
 		super.getMainMenuBar().setMainMenuListener(control);
 		this.control = control;
-		updateHotSpotsEnabled();
+		updateHotspotsEnabled();
 	}
 
 	@Override
-	public void updateHotSpotsEnabled()
+	public void updateHotspotsEnabled()
 	{
 		if (model == null || !model.isHotSpotListEnabled())
 			spriteList.registerHotSpotListener(null);
@@ -125,7 +125,7 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 		nameInput.setEnabled(b);
 		sizeInput.setEnabled(b);
 
-		updateHotSpotsEnabled();
+		updateHotspotsEnabled();
 	}
 
 	@Override
@@ -174,8 +174,8 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 			control.requestRenameGrid(nameInput.getValue());
 		else if (input == sizeInput)
 			control.requestSetSpriteSize(sizeInput.getValue());
-		else if (input == hotSpotInput)
-			control.requestEnableHotSpots(hotSpotInput.getValue());
+		else if (input == hotspotInput)
+			control.requestEnableHotspots(hotspotInput.getValue());
 	}
 
 	@Override

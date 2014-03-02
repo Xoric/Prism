@@ -34,7 +34,7 @@ public class HotSpotView implements MouseListener, ActionListener
 
 	private FloatPoint rightDown;
 
-	private HotSpotList result;
+	private HotspotList result;
 	private final FloatPoint hotSpotCopy;
 
 	private final JButton copyHotSpotButton;
@@ -49,7 +49,7 @@ public class HotSpotView implements MouseListener, ActionListener
 		imageLabel = new JLabel();
 		imageLabel.addMouseListener(this);
 
-		result = new HotSpotList();
+		result = new HotspotList();
 		hotSpotCopy = new FloatPoint();
 
 		JPanel q0 = new JPanel(new FlowLayout());
@@ -86,13 +86,13 @@ public class HotSpotView implements MouseListener, ActionListener
 		return b;
 	}
 
-	public void loadSprite(File f, HotSpotList list) throws IOException
+	public void loadSprite(File f, HotspotList list) throws IOException
 	{
 		original = ImageIO.read(f);
 
 		if (list == null)
 		{
-			list = new HotSpotList();
+			list = new HotspotList();
 			list.hotSpot.x = original.getWidth() / 2;
 			list.hotSpot.y = original.getHeight() - 2;
 		}
@@ -216,7 +216,7 @@ public class HotSpotView implements MouseListener, ActionListener
 		}
 	}
 
-	public HotSpotList getResult()
+	public HotspotList getResult()
 	{
 		return result;
 	}

@@ -12,7 +12,7 @@ import xoric.prism.data.types.IFloatPoint_r;
  */
 abstract class SpriteDecorator
 {
-	public static void decorateSprite(BufferedImage sprite, HotSpotList list)
+	public static void decorateSprite(BufferedImage sprite, HotspotList list)
 	{
 		if (list != null)
 		{

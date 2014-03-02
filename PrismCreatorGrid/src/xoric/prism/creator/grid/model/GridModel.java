@@ -6,12 +6,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
-import xoric.prism.creator.common.spritelist.tools.IHotSpotSupplier;
-import xoric.prism.creator.common.spritelist.view.HotSpotList;
+import xoric.prism.creator.common.spritelist.tools.HotspotModel;
+import xoric.prism.creator.common.spritelist.view.HotspotList;
 import xoric.prism.creator.grid.view.NewGridData;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.packable.IPackable;
@@ -22,7 +20,7 @@ import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
 
-public class GridModel implements IPackable, IHotSpotSupplier
+public class GridModel extends HotspotModel implements IPackable
 {
 	private static final String metaName = "grid.meta";
 
@@ -31,14 +29,10 @@ public class GridModel implements IPackable, IHotSpotSupplier
 	private final IPath_r path;
 	private final SpriteNameGenerator spriteNameGenerator;
 
-	private final List<HotSpotList> hotSpotLists;
-	private boolean isHotSpotListEnabled;
-
 	public GridModel(IPath_r path)
 	{
 		this.path = path;
 		this.spriteNameGenerator = new SpriteNameGenerator(path, "sprite", ".png");
-		this.hotSpotLists = new ArrayList<HotSpotList>();
 	}
 
 	public GridModel(NewGridData d)
@@ -47,26 +41,15 @@ public class GridModel implements IPackable, IHotSpotSupplier
 		this.spriteSize = new Point(d.getSpriteSize());
 		this.path = d.getPath();
 		this.spriteNameGenerator = new SpriteNameGenerator(path, "sprite", ".png");
-		this.hotSpotLists = new ArrayList<HotSpotList>();
 	}
 
 	@Override
-	public HotSpotList getHotSpotList(int spriteIndex)
+	protected HotspotList createHotspotList(int index)
 	{
-		HotSpotList h = null;
+		HotspotList h = new HotspotList();
+		h.hotSpot.x = spriteSize.x / 2;
+		h.hotSpot.y = spriteSize.y - 2;
 
-		if (isHotSpotListEnabled)
-		{
-			if (spriteIndex < hotSpotLists.size())
-				h = hotSpotLists.get(spriteIndex);
-
-			if (h == null)
-			{
-				h = new HotSpotList();
-				h.hotSpot.x = spriteSize.x / 2;
-				h.hotSpot.y = spriteSize.y - 2;
-			}
-		}
 		return h;
 	}
 
@@ -132,23 +115,5 @@ public class GridModel implements IPackable, IHotSpotSupplier
 	public void setSpriteSize(IPoint_r spriteSize)
 	{
 		this.spriteSize = new Point(spriteSize);
-	}
-
-	public void setHotSpotList(int spriteIndex, HotSpotList list)
-	{
-		while (hotSpotLists.size() <= spriteIndex)
-			hotSpotLists.add(null);
-
-		hotSpotLists.set(spriteIndex, list);
-	}
-
-	public void setHotSpotsEnabled(boolean b)
-	{
-		isHotSpotListEnabled = b;
-	}
-
-	public boolean isHotSpotListEnabled()
-	{
-		return isHotSpotListEnabled;
 	}
 }

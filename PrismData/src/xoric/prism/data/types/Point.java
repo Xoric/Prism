@@ -82,6 +82,19 @@ public class Point implements IStackable, IPackable, IPoint_r
 	}
 
 	@Override
+	public boolean equals(Object o)
+	{
+		boolean b = false;
+
+		if (o instanceof IPoint_r)
+		{
+			IPoint_r p = (IPoint_r) o;
+			b = x == p.getX() && y == p.getY();
+		}
+		return b;
+	}
+
+	@Override
 	public void pack(OutputStream stream) throws IOException
 	{
 		IntPacker.pack_s(stream, x);

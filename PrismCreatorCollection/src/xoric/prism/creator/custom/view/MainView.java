@@ -16,6 +16,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextPane;
 
 import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
+import xoric.prism.creator.common.spritelist.tools.HotspotsPanel;
 import xoric.prism.creator.common.spritelist.view.ISpriteList;
 import xoric.prism.creator.common.spritelist.view.SpriteList;
 import xoric.prism.creator.common.view.IMainMenuBar;
@@ -41,6 +42,7 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 	private CollectionModel model;
 
 	private final TextInputPanel nameInput;
+	private final HotspotsPanel hotspotInput;
 	private final IObjectList objectList;
 	private final ISpriteList spriteList;
 	private final IRectView rectView;
@@ -62,16 +64,23 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 		//				0);
 		//		add(nameInput, c);
 
+		hotspotInput = new HotspotsPanel(this);
+
 		ObjectList o = new ObjectList(this);
 		objectList = o;
 		//		c = new GridBagConstraints(0, 1, 1, 1, 0.15, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
 		//		add(o, c);
 
-		JPanel p = new JPanel(new BorderLayout());
-		p.add(BorderLayout.NORTH, nameInput);
-		p.add(BorderLayout.CENTER, o);
-		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 2, 0.15, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0,
-				0);
+		JPanel p = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(
+				5, 0, 5, 0), 0, 0);
+		p.add(nameInput, c);
+		c.gridy++;
+		p.add(hotspotInput, c);
+		c.gridy++;
+		c.weighty = 1.0;
+		p.add(o, c);
+		c = new GridBagConstraints(0, 0, 1, 2, 0.15, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
 		add(p, c);
 
 		SpriteList s = new SpriteList();
@@ -161,6 +170,7 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 		spriteList.setEnabled(b);
 		rectView.enableControls();
 		nameInput.setEnabled(b);
+		hotspotInput.setEnabled(b);
 	}
 
 	@Override
