@@ -58,7 +58,7 @@ public class TextureGenerator
 		BufferedImage bi = createTexture(counts, n, gridBlock);
 
 		// create MetaBlock for hotspots
-		MetaBlock_out hotspotBlock = model.isHotspotListEnabled() ? HotspotWriter.createMetaBlock(model, n) : null;
+		MetaBlock_out hotspotBlock = model.isHotspotListEnabled() ? HotspotWriter.createMetaBlock(model) : null;
 
 		// write the texture
 		File textureFile = model.getPath().getFile("texture.png");
@@ -70,10 +70,7 @@ public class TextureGenerator
 
 		// write hotspot meta
 		f = model.getPath().getFile(MetaNames.makeMetaBlock(MetaType.HOTSPOTS));
-		if (hotspotBlock != null)
-			writeMeta(f, hotspotBlock);
-		else
-			deleteFile(f);
+		writeMeta(f, hotspotBlock);
 
 		// show success
 		showSuccess(textureFile, bi, n);
@@ -202,7 +199,8 @@ public class TextureGenerator
 		try
 		{
 			FileOutputStream stream = new FileOutputStream(metaFile);
-			mb.pack(stream);
+			if (mb != null)
+				mb.pack(stream);
 			stream.close();
 		}
 		catch (Exception e0)
@@ -210,21 +208,6 @@ public class TextureGenerator
 			PrismException e = new PrismException(e0);
 			e.setText("There was a problem writing information about the generated texture.");
 			e.addInfo("file", metaFile.toString());
-			throw e;
-		}
-	}
-
-	private void deleteFile(File f) throws PrismException
-	{
-		try
-		{
-			f.delete();
-		}
-		catch (Exception e0)
-		{
-			PrismException e = new PrismException(e0);
-			e.setText("There was a problem deleting a file.");
-			e.addInfo("file", f.toString());
 			throw e;
 		}
 	}

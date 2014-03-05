@@ -47,7 +47,7 @@ public class MetaFileCreator
 		this.infusedMetaList = null;
 	}
 
-	public void create() throws PrismException
+	public void create(boolean resetVersion) throws PrismException
 	{
 		// check if path exists
 		if (!sourcePath.exists())
@@ -119,8 +119,16 @@ public class MetaFileCreator
 		}
 
 		// read current file version
-		int currentVersion = readVersion(targetPath, targetFilename);
-		int newVersion = currentVersion + 1;
+		int newVersion;
+		if (resetVersion)
+		{
+			newVersion = 0;
+		}
+		else
+		{
+			int currentVersion = readVersion(targetPath, targetFilename);
+			newVersion = currentVersion + 1;
+		}
 
 		// create directories
 		targetFile = targetPath.getFile(targetFilename);
@@ -527,6 +535,10 @@ public class MetaFileCreator
 					FileInputStream stream = new FileInputStream(f);
 					mb.unpack(stream);
 					metaList.addMetaBlock(mb);
+				}
+				catch (PrismException e)
+				{
+					throw e;
 				}
 				catch (Exception e0)
 				{

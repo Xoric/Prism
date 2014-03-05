@@ -88,7 +88,7 @@ public class ObjectList extends PrismPanel implements ListSelectionListener, IOb
 		}
 		else
 		{
-			final int n = model.getObjectCount();
+			final int n = model.getCategoryCount();
 
 			for (int i = 0; i < n; ++i)
 			{

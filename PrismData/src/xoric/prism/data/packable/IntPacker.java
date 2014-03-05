@@ -89,7 +89,7 @@ public class IntPacker implements IPredictablePackable
 		instance.pack(stream);
 	}
 
-	public static synchronized void pack_s(OutputStream stream, int[] values) throws IOException
+	public static synchronized void pack_s(OutputStream stream, int... values) throws IOException
 	{
 		for (int v : values)
 		{

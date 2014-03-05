@@ -22,15 +22,19 @@ public class UIRendererLWJGL extends UIRenderer
 	{
 		IFloatRect_r screenRect = super.getScreenRect();
 		float sx1 = screenRect.getX();
+		//		float sy1 = screenRect.getY();
 		float sy1 = 1.0f - screenRect.getY();
 		float sx2 = screenRect.getRight();
+		//		float sy2 =  screenRect.getBottom();
 		float sy2 = 1.0f - screenRect.getBottom();
 
 		IFloatRect_r texRect = super.getTexRect(0);
 		float tx1 = texRect.getX();
-		float ty1 = 1.0f - texRect.getY();
+		float ty1 = texRect.getY();
+		//		float ty1 = 1.0f - texRect.getY();
 		float tx2 = texRect.getRight();
-		float ty2 = 1.0f - texRect.getBottom();
+		float ty2 = texRect.getBottom();
+		//		float ty2 = 1.0f - texRect.getBottom();
 
 		GL11.glBegin(GL11.GL_QUADS);
 		// ==========================

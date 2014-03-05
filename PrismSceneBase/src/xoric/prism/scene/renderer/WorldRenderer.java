@@ -3,6 +3,7 @@ package xoric.prism.scene.renderer;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IFloatRect_r;
+import xoric.prism.scene.art.hotspots.Marker;
 import xoric.prism.scene.camera.ICameraTransform;
 
 /**
@@ -19,6 +20,7 @@ public abstract class WorldRenderer extends BaseRenderer implements IWorldRender
 
 	private IFloatPoint_r screenPos;
 	private IFloatPoint_r spriteSize;
+	private Marker marker;
 
 	public WorldRenderer(boolean transformGL)
 	{
@@ -39,6 +41,11 @@ public abstract class WorldRenderer extends BaseRenderer implements IWorldRender
 		return useTransform ? transformedSize : spriteSize;
 	}
 
+	protected Marker getMarker()
+	{
+		return marker;
+	}
+
 	@Override
 	public void setCamera(ICameraTransform cam)
 	{
@@ -54,16 +61,17 @@ public abstract class WorldRenderer extends BaseRenderer implements IWorldRender
 
 		screenPos = null;
 		spriteSize = null;
+		marker = null;
 	}
 
 	@Override
-	public void setupSprite(IFloatRect_r spriteRect)
+	public void setSprite(IFloatRect_r spriteRect)
 	{
-		setupSprite(spriteRect.getTopLeft(), spriteRect.getSize());
+		setSprite(spriteRect.getTopLeft(), spriteRect.getSize());
 	}
 
 	@Override
-	public void setupSprite(IFloatPoint_r screenPos, IFloatPoint_r spriteSize)
+	public void setSprite(IFloatPoint_r screenPos, IFloatPoint_r spriteSize)
 	{
 		if (useTransform)
 		{
@@ -89,5 +97,10 @@ public abstract class WorldRenderer extends BaseRenderer implements IWorldRender
 			this.screenPos = screenPos;
 			this.spriteSize = spriteSize;
 		}
+	}
+
+	public void setMarker(Marker m)
+	{
+		this.marker = m;
 	}
 }

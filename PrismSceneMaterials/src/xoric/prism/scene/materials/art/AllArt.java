@@ -5,10 +5,10 @@ import xoric.prism.data.global.FileTableDirectoryIndex;
 import xoric.prism.data.global.Prism;
 import xoric.prism.data.global.UIIndex;
 import xoric.prism.data.global.WorldIndex;
-import xoric.prism.scene.textures.Art;
-import xoric.prism.scene.textures.ITextureBinder;
-import xoric.prism.scene.textures.collections.CollectionArt;
-import xoric.prism.scene.textures.grid.GridArt;
+import xoric.prism.scene.art.Art;
+import xoric.prism.scene.art.ITextureBinder;
+import xoric.prism.scene.art.collections.CollectionArt;
+import xoric.prism.scene.art.grid.GridArt;
 
 /**
  * @author XoricLee
@@ -17,7 +17,7 @@ import xoric.prism.scene.textures.grid.GridArt;
 public abstract class AllArt
 {
 	public static CollectionArt frames;
-	public static GridArt mark0;
+	public static CollectionArt marks0;
 	public static GridArt groundMasks;
 	public static CollectionArt otherMasks;
 	public static CollectionArt mush0;
@@ -31,8 +31,8 @@ public abstract class AllArt
 		frames = new CollectionArt(Prism.global.loadMetaFile(FileTableDirectoryIndex.UI, UIIndex.FRAMES.ordinal()));
 		frames.load();
 
-		mark0 = new GridArt(Prism.global.loadMetaFile(FileTableDirectoryIndex.WORLD, WorldIndex.MARK0.ordinal()));
-		mark0.load();
+		marks0 = new CollectionArt(Prism.global.loadMetaFile(FileTableDirectoryIndex.WORLD, WorldIndex.MARK0.ordinal()));
+		marks0.load();
 
 		groundMasks = new GridArt(Prism.global.loadMetaFile(FileTableDirectoryIndex.WORLD, WorldIndex.GMASKS.ordinal()));
 		groundMasks.load();

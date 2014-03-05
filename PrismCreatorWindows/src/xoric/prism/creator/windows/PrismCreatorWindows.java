@@ -8,6 +8,7 @@ import xoric.prism.data.PrismDataLoader;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.Prism;
 import xoric.prism.global.PrismGlobal;
+import xoric.prism.scene.art.ITextureBinder;
 import xoric.prism.scene.fbo.IFrameBufferIO;
 import xoric.prism.scene.lwjgl.PrismSceneLWJGL;
 import xoric.prism.scene.lwjgl.fbo.FrameBufferIOLWJGL;
@@ -15,7 +16,6 @@ import xoric.prism.scene.lwjgl.shaders.ShaderIOLWJGL;
 import xoric.prism.scene.lwjgl.textures.TextureBinderLWJGL;
 import xoric.prism.scene.materials.Materials;
 import xoric.prism.scene.shaders.IShaderIO;
-import xoric.prism.scene.textures.ITextureBinder;
 
 public abstract class PrismCreatorWindows
 {

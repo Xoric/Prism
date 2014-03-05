@@ -1,6 +1,6 @@
 package xoric.prism.scene.shaders;
 
-import xoric.prism.scene.textures.ITexture;
+import xoric.prism.scene.art.ITexture;
 
 public interface IMaskMaskShader extends IMaskShader
 {

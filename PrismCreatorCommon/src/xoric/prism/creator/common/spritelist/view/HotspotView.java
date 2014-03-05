@@ -25,7 +25,7 @@ import xoric.prism.data.types.FloatPoint;
  * @author XoricLee
  * @since 28.02.2014, 16:11:52
  */
-public class HotSpotView implements MouseListener, ActionListener
+public class HotspotView implements MouseListener, ActionListener
 {
 	private final JLabel imageLabel;
 
@@ -44,7 +44,7 @@ public class HotSpotView implements MouseListener, ActionListener
 
 	private final Object[] message;
 
-	public HotSpotView()
+	public HotspotView()
 	{
 		imageLabel = new JLabel();
 		imageLabel.addMouseListener(this);
@@ -93,8 +93,8 @@ public class HotSpotView implements MouseListener, ActionListener
 		if (list == null)
 		{
 			list = new HotspotList();
-			list.hotSpot.x = original.getWidth() / 2;
-			list.hotSpot.y = original.getHeight() - 2;
+			list.hotspot.x = original.getWidth() / 2;
+			list.hotspot.y = original.getHeight() - 2;
 		}
 
 		result = list;
@@ -155,8 +155,8 @@ public class HotSpotView implements MouseListener, ActionListener
 
 			if (b == MouseEvent.BUTTON1)
 			{
-				result.hotSpot.x = p.x;
-				result.hotSpot.y = p.y;
+				result.hotspot.x = p.x;
+				result.hotspot.y = p.y;
 				decorateImage();
 				updateImage();
 			}
@@ -205,12 +205,12 @@ public class HotSpotView implements MouseListener, ActionListener
 		}
 		else if (o == copyHotSpotButton)
 		{
-			hotSpotCopy.copyFrom(result.hotSpot);
+			hotSpotCopy.copyFrom(result.hotspot);
 			pasteHotSpotButton.setEnabled(true);
 		}
 		else if (o == pasteHotSpotButton)
 		{
-			result.hotSpot.copyFrom(hotSpotCopy);
+			result.hotspot.copyFrom(hotSpotCopy);
 			decorateImage();
 			updateImage();
 		}

@@ -36,4 +36,18 @@ public class SpriteNameGenerator
 	{
 		return path;
 	}
+
+	public int countSprites()
+	{
+		int i = 0;
+		do
+		{
+			File f = getFile(i);
+			if (!f.exists())
+				return i;
+
+			++i;
+		}
+		while (true);
+	}
 }

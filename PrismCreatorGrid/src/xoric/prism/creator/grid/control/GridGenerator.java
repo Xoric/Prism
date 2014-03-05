@@ -75,7 +75,7 @@ public class GridGenerator
 		IPath_r path = model.getPath();
 		MetaFileCreator c = new MetaFileCreator(path, path);
 		c.infuseMetaList(metaList_in);
-		c.create();
+		c.create(false);
 
 		// get target file
 		File targetFile = c.getResultingTargetFile();

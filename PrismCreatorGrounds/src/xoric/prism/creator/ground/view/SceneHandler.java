@@ -13,16 +13,20 @@ import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.PrismColor;
 import xoric.prism.data.types.Text;
-import xoric.prism.scene.IRendererUI;
-import xoric.prism.scene.IRendererWorld;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
+import xoric.prism.scene.art.ITextureBinder;
 import xoric.prism.scene.camera.CameraOld;
+import xoric.prism.scene.materials.Materials;
 import xoric.prism.scene.materials.art.AllArt;
 import xoric.prism.scene.materials.shaders.AllShaders;
 import xoric.prism.scene.materials.tools.AllTools;
+import xoric.prism.scene.renderer.IUIRenderer2;
+import xoric.prism.scene.renderer.IWorldRenderer2;
+import xoric.prism.scene.shaders.IShaderIO;
 import xoric.prism.ui.BlinkColor;
 import xoric.prism.world.client.map2.DrawableGround2;
+import xoric.prism.world.map.AllGrounds;
 import xoric.prism.world.map2.Ground2;
 
 /**
@@ -31,11 +35,14 @@ import xoric.prism.world.map2.Ground2;
  */
 public class SceneHandler extends Thread implements ISceneListener // ,IActionExecuter,IUIButtonHost,IExceptionSink
 {
+	public static final int columns = 5;
+
 	private ISceneControl control;
 
 	//	private Exception exception;
 
 	private final FloatPoint textPos;
+	private final Text groundCountText;
 	private final Text selectedGroundText;
 	private final List<Text> textLines;
 
@@ -54,16 +61,20 @@ public class SceneHandler extends Thread implements ISceneListener // ,IActionEx
 	private FloatPoint tempPoint;
 	//	private final FloatPoint tempMouse;
 
+	private int lastGroundCount;
+
 	private FloatRect screenRect;
 
 	private final IScene scene;
 	private final CameraOld camera;
 
-	private FloatRect tempRect;
-
 	private volatile int selectedIndex;
 
-	public SceneHandler(IScene scene)
+	private final IUIRenderer2 renderer;
+	private final ITextureBinder textureBinder;
+	private final IShaderIO shaderIO;
+
+	public SceneHandler(IScene scene, IUIRenderer2 ren, ITextureBinder textureBinder, IShaderIO shaderIO)
 	{
 		this.scene = scene;
 		this.camera = new CameraOld(0, 0, 0, 0);
@@ -72,15 +83,17 @@ public class SceneHandler extends Thread implements ISceneListener // ,IActionEx
 
 		selectedIndex = -1;
 
-		tempRect = new FloatRect();
-
 		weatherTarget = 200;
 
 		textPos = new FloatPoint(10.0f, 10.0f);
 		textLines = new ArrayList<Text>();
+		textLines.add(groundCountText = new Text());
 		textLines.add(selectedGroundText = new Text());
 		textLines.add(new Text("USE THE ARROW KEYS TO SCROLL UP AND DOWN"));
 		textLines.add(new Text("S: SNOW, R: RAIN, N: NORMAL, B: BURN"));
+
+		lastGroundCount = -1;
+		updateGroundCount();
 
 		perspectiveMouse = new FloatPoint();
 		worldMouse = new FloatPoint();
@@ -88,6 +101,10 @@ public class SceneHandler extends Thread implements ISceneListener // ,IActionEx
 		tempPoint = new FloatPoint();
 
 		targetY = -50.0f;
+
+		this.renderer = ren;
+		this.textureBinder = textureBinder;
+		this.shaderIO = shaderIO;
 
 		setSelectedGround(-1);
 	}
@@ -97,6 +114,16 @@ public class SceneHandler extends Thread implements ISceneListener // ,IActionEx
 		this.control = control;
 	}
 
+	private void updateGroundCount()
+	{
+		int n = AllGrounds.list.size();
+		if (lastGroundCount != n)
+		{
+			groundCountText.set("GROUND COUNT: " + n);
+			lastGroundCount = n;
+		}
+	}
+
 	@Override
 	public void run()
 	{
@@ -104,14 +131,23 @@ public class SceneHandler extends Thread implements ISceneListener // ,IActionEx
 		{
 			IFloatPoint_r size = scene.createWindow(700, 480, false);
 			screenRect.setSize(size);
-			camera.set(-20.0f, -50.0f, Ground2.WIDTH * 3 + 40.0f, Ground2.HEIGHT * 3 + 100.0f);
+			camera.set(-20.0f, -50.0f, Ground2.WIDTH * columns + 40.0f, Ground2.HEIGHT * columns + 100.0f);
 			scene.initialize();
+
+			// load materials
+			Materials.loadAll(renderer, textureBinder, shaderIO);
+			AllDrawableGrounds.loadAll(columns);
+
 			scene.startLoop(this, this);
 		}
 		catch (PrismException e)
 		{
 			e.code.print();
 			e.user.showMessage();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 
@@ -133,9 +169,9 @@ public class SceneHandler extends Thread implements ISceneListener // ,IActionEx
 		y = y < 0 ? -1 : y / Ground2.HEIGHT;
 		int newIndex = -1;
 
-		if (x >= 0 && x <= 2 && y >= 0)
+		if (x >= 0 && x < columns && y >= 0)
 		{
-			int index = y * 3 + x;
+			int index = y * columns + x;
 			if (index >= 0 && index < AllDrawableGrounds.getCount())
 				newIndex = index;
 		}
@@ -207,38 +243,9 @@ public class SceneHandler extends Thread implements ISceneListener // ,IActionEx
 		else if (camera.getY() > targetY + step)
 			camera.addY(-step);
 
+		updateGroundCount();
+
 		return true;
-	}
-
-	@Override
-	public void drawWorld(IRendererWorld renderer) throws PrismException
-	{
-		for (int i = 0; i < AllDrawableGrounds.getCount(); ++i)
-		{
-			DrawableGround2 g = AllDrawableGrounds.get(i);
-			g.draw(renderer, camera);
-
-			if (i == selectedIndex)
-			{
-				AllShaders.color.setColor(blinkColor.getMixedColor());
-				IFloatRect_r texRect = AllArt.env0.getMeta().getRect(g.getGroundType().getAnimationStart());
-				camera.transformRect(g.getRect(), tempRect);
-				renderer.drawPlane(texRect, tempRect, 0.0f);
-			}
-		}
-	}
-
-	@Override
-	public void drawUI(IRendererUI renderer) throws PrismException
-	{
-		tempPoint.copyFrom(textPos);
-
-		for (Text t : textLines)
-		{
-			AllTools.printer.setText(t);
-			AllTools.printer.print(tempPoint);
-			tempPoint.y += 20.0f;
-		}
 	}
 
 	@Override
@@ -252,6 +259,40 @@ public class SceneHandler extends Thread implements ISceneListener // ,IActionEx
 		else if (e != null)
 		{
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void drawWorld(IWorldRenderer2 ren) throws PrismException
+	{
+		for (int i = 0; i < AllDrawableGrounds.getCount(); ++i)
+		{
+			DrawableGround2 g = AllDrawableGrounds.get(i);
+			g.draw(ren);
+
+			if (i == selectedIndex)
+			{
+				AllShaders.color.activate();
+				AllShaders.color.setColor(blinkColor.getMixedColor());
+				IFloatRect_r texRect = AllArt.env0.getMeta().getRect(g.getGroundType().getAnimationStart());
+				ren.reset();
+				ren.setTexInfo(0, texRect);
+				ren.setSprite(g.getRect());
+				ren.drawPlane(1);
+			}
+		}
+	}
+
+	@Override
+	public void drawUI(IUIRenderer2 ren) throws PrismException
+	{
+		tempPoint.copyFrom(textPos);
+
+		for (Text t : textLines)
+		{
+			AllTools.printer.setText(t);
+			AllTools.printer.print(tempPoint);
+			tempPoint.y += 20.0f;
 		}
 	}
 }

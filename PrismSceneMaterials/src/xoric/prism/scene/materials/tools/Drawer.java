@@ -4,13 +4,13 @@ import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IFloatRect_r;
-import xoric.prism.scene.IRendererUI;
+import xoric.prism.scene.art.ITexture;
+import xoric.prism.scene.art.collections.CollectionArt;
+import xoric.prism.scene.art.collections.CollectionMeta;
+import xoric.prism.scene.art.collections.ObjectInstance;
+import xoric.prism.scene.art.collections.ObjectMeta;
 import xoric.prism.scene.materials.shaders.AllShaders;
-import xoric.prism.scene.textures.ITexture;
-import xoric.prism.scene.textures.collections.CollectionArt;
-import xoric.prism.scene.textures.collections.CollectionMeta;
-import xoric.prism.scene.textures.collections.ObjectInstance;
-import xoric.prism.scene.textures.collections.ObjectMeta;
+import xoric.prism.scene.renderer.IUIRenderer2;
 
 /**
  * Non thread-safe class for drawing simple composite objects. This class was designed to perform well under heavy load disregarding
@@ -19,7 +19,7 @@ import xoric.prism.scene.textures.collections.ObjectMeta;
  */
 public class Drawer
 {
-	public static IRendererUI renderer;
+	public static IUIRenderer2 renderer;
 
 	private final CollectionArt collection;
 	private final CollectionMeta meta;
@@ -73,7 +73,10 @@ public class Drawer
 		this.screenRect.setTopLeft(screenPos);
 		this.screenRect.setSize(size);
 
-		renderer.drawSprite(texRect, screenRect);
+		renderer.reset();
+		renderer.setTexInfo(0, texRect);
+		renderer.setupSprite(screenRect);
+		renderer.drawSprite(1);
 	}
 
 	public void drawThreeParts(IFloatPoint_r screenPos, float width) throws PrismException
@@ -115,7 +118,11 @@ public class Drawer
 		else
 			t = oi.getRect(rectOnset);
 
-		renderer.drawSprite(t, screenRect);
+		renderer.reset();
+		renderer.setTexInfo(0, t);
+		renderer.setupSprite(screenRect);
+		renderer.drawSprite(1);
+
 		screenRect.addX(size0.getX());
 
 		// draw middle piece
@@ -138,7 +145,10 @@ public class Drawer
 				screenRect.setWidth(w);
 				w = 0.0f;
 			}
-			renderer.drawSprite(tempTexRect, screenRect);
+			renderer.setTexInfo(0, tempTexRect);
+			renderer.setupSprite(screenRect);
+			renderer.drawSprite(1);
+
 			screenRect.addX(screenRect.getWidth());
 		}
 
@@ -155,7 +165,9 @@ public class Drawer
 		else
 			t = oi.getRect(rectOnset + 2);
 
-		renderer.drawSprite(t, screenRect);
+		renderer.setTexInfo(0, t);
+		renderer.setupSprite(screenRect);
+		renderer.drawSprite(1);
 
 		// reset screen rectangle
 		screenRect.set(x0, y0, w0, h0);

@@ -1,4 +1,4 @@
-package xoric.prism.scene.textures.grid;
+package xoric.prism.scene.art.grid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.IText_r;
-import xoric.prism.scene.textures.ArtMeta;
+import xoric.prism.scene.art.ArtMeta;
 
 public class GridMeta extends ArtMeta
 {
@@ -32,6 +32,8 @@ public class GridMeta extends ArtMeta
 	@Override
 	public void load(MetaList_in metaList) throws PrismException
 	{
+		super.load(metaList);
+
 		rects.clear();
 		columnCount = 0;
 

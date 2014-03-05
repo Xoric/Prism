@@ -9,9 +9,9 @@ import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.PrismColor;
 import xoric.prism.data.types.Text;
-import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.materials.shaders.AllShaders;
 import xoric.prism.scene.materials.tools.AllTools;
+import xoric.prism.scene.renderer.IUIRenderer2;
 import xoric.prism.ui.IActiveUI;
 import xoric.prism.ui.UIComponent;
 import xoric.prism.ui.UIIdentifier;
@@ -65,7 +65,7 @@ public class UIEdit extends UIComponent
 	}
 
 	@Override
-	public void draw(IRendererUI renderer) throws PrismException
+	public void draw(IUIRenderer2 ren) throws PrismException
 	{
 		AllTools.uiDrawer.setup(0, 5, 0);
 		AllTools.uiDrawer.drawThreeParts(rect.getTopLeft(), rect.getWidth());
@@ -74,18 +74,18 @@ public class UIEdit extends UIComponent
 
 		if (n > 0 || hasFocus)
 		{
-			input.draw(renderer, hasFocus);
+			input.draw(ren, hasFocus);
 
 			if (n == 0)
 			{
 				AllTools.printer.setColor(titleColor2);
-				titleLine.draw(renderer);
+				titleLine.draw(ren);
 			}
 		}
 		else
 		{
 			AllTools.printer.setColor(titleColor1);
-			titleLine.draw(renderer);
+			titleLine.draw(ren);
 		}
 		AllShaders.color.setColor(PrismColor.opaqueWhite); // TODO temp
 		AllTools.printer.setColor(PrismColor.opaqueWhite); // TODO temp

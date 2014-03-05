@@ -28,6 +28,7 @@ import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Path;
 import xoric.prism.global.PrismGlobal;
 import xoric.prism.swing.PrismFrame;
+import xoric.prism.swing.tooltips.ToolTipFormatter;
 
 public class MetaFileManager extends PrismFrame implements MouseListener, ActionListener, TreeSelectionListener
 {
@@ -37,13 +38,14 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 	private final JTree tree;
 	private final DefaultMutableTreeNode root;
 
-	private JToolBar toolBar;
-	private JToolBar toolBar2;
-	private JButton reloadButton;
-	private JButton expandButton;
-	private JButton collapseButton;
-	private JButton createButton;
-	private JButton createAllButton;
+	private final JToolBar toolBar;
+	private final JToolBar toolBar2;
+	private final JButton reloadButton;
+	private final JButton expandButton;
+	private final JButton collapseButton;
+	private final JButton createButton;
+	private final JButton createAllButton;
+	private final JButton recreateAllButton;
 
 	private MetaContentPanel metaContentPanel;
 
@@ -65,6 +67,11 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 		toolBar2.add(createButton = createButton("Create selected"));
 		toolBar2.addSeparator();
 		toolBar2.add(createAllButton = createButton("Create all"));
+		toolBar2.addSeparator();
+		toolBar2.add(recreateAllButton = createButton("Recreate all"));
+
+		createAllButton.setToolTipText(ToolTipFormatter.split("Create all files and increase their versions by one."));
+		recreateAllButton.setToolTipText(ToolTipFormatter.split("Recreate all files and set their versions to zero."));
 
 		// MetaContentPanel
 		metaContentPanel = new MetaContentPanel();
@@ -103,11 +110,11 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 		return b;
 	}
 
-	private void tryLoadDir(boolean autoCreate)
+	private void tryLoadDir(boolean autoCreate, boolean resetVersions)
 	{
 		try
 		{
-			loadDir(autoCreate);
+			loadDir(autoCreate, resetVersions);
 			onExpandAll();
 		}
 		catch (PrismException e)
@@ -117,20 +124,21 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 		}
 	}
 
-	public void loadDir(boolean autoCreate) throws PrismException
+	public void loadDir(boolean autoCreate, boolean resetVersions) throws PrismException
 	{
 		if (autoCreate)
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 		root.removeAllChildren();
-		loadSubdirs(resPath, root, autoCreate);
+		loadSubdirs(resPath, root, autoCreate, resetVersions);
 		tree.updateUI();
 
 		if (autoCreate)
 			setCursor(Cursor.getDefaultCursor());
 	}
 
-	private boolean loadSubdirs(IPath_r path, DefaultMutableTreeNode parent, boolean autoCreate) throws PrismException
+	private boolean loadSubdirs(IPath_r path, DefaultMutableTreeNode parent, boolean autoCreate, boolean resetVersions)
+			throws PrismException
 	{
 		boolean found = false;
 		File[] subDirs = path.listFiles();
@@ -150,11 +158,11 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 					if (autoCreate)
 					{
 						MetaFileCreator creator = new MetaFileCreator(subPath, Prism.global.getDataPath());
-						creator.create();
+						creator.create(resetVersions);
 					}
 				}
 				else
-					ok = loadSubdirs(subPath, node, autoCreate);
+					ok = loadSubdirs(subPath, node, autoCreate, resetVersions);
 
 				if (ok)
 				{
@@ -201,7 +209,7 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 		MetaFileCreator creator = new MetaFileCreator(new Path(resPath.getFile(subdir)), Prism.global.getDataPath());
 		try
 		{
-			creator.create();
+			creator.create(false);
 		}
 		catch (PrismException e)
 		{
@@ -239,7 +247,7 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 
 	private void onReload()
 	{
-		tryLoadDir(false);
+		tryLoadDir(false, false);
 	}
 
 	private void onExpandAll()
@@ -254,12 +262,12 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 			tree.collapseRow(i);
 	}
 
-	private void onCreateAll()
+	private void onCreateAll(boolean resetVersions)
 	{
 		int result = JOptionPane.showConfirmDialog(null, "Please confirm creating all resources.", "Create all", JOptionPane.YES_NO_OPTION);
 
 		if (result == JOptionPane.YES_OPTION)
-			tryLoadDir(true);
+			tryLoadDir(true, resetVersions);
 	}
 
 	@Override
@@ -276,7 +284,9 @@ public class MetaFileManager extends PrismFrame implements MouseListener, Action
 		else if (source == createButton)
 			onCreateSelected();
 		else if (source == createAllButton)
-			onCreateAll();
+			onCreateAll(false);
+		else if (source == recreateAllButton)
+			onCreateAll(true);
 	}
 
 	@Override

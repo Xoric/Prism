@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import xoric.prism.creator.common.spritelist.control.SpriteListControl;
 import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
 import xoric.prism.creator.common.tools.ExternalImageEditor;
+import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.Point;
 
@@ -33,8 +34,8 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 
 	private SpriteNameGenerator spriteNameGenerator;
 
-	private final HotSpotView hotSpotView;
-	private IHotspotListener hotSpotListener;
+	private final HotspotView hotspotView;
+	private IHotspotListener hotspotListener;
 
 	private ImageIcon newIcon;
 	private final SpriteMenu menu;
@@ -53,7 +54,7 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 		hintLabel = new JLabel("Double click on a sprite in order to edit it.");
 		hintLabel2 = new JLabel("Right click on the list below for further options.");
 
-		hotSpotView = new HotSpotView();
+		hotspotView = new HotspotView();
 
 		list = new JList<SpriteCell>();
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
@@ -91,9 +92,9 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	@Override
 	public void registerHotSpotListener(IHotspotListener hotSpotListener)
 	{
-		boolean b = hotSpotListener != this.hotSpotListener;
+		boolean b = hotSpotListener != this.hotspotListener;
 
-		this.hotSpotListener = hotSpotListener;
+		this.hotspotListener = hotSpotListener;
 		this.menu.registerHotSpotListener(hotSpotListener);
 
 		if (b)
@@ -149,6 +150,7 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	{
 		DefaultListModel<SpriteCell> model = new DefaultListModel<SpriteCell>();
 		list.setModel(model);
+		spriteNameGenerator = null;
 	}
 
 	/* *************** ISpriteMenuListener ************** */
@@ -189,7 +191,7 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 	@Override
 	public void requestSetSpriteHotspot()
 	{
-		if (hotSpotListener != null)
+		if (hotspotListener != null)
 		{
 			int index = list.getSelectedIndex();
 			if (isValidIndex(index))
@@ -197,11 +199,12 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 				File f = spriteNameGenerator.getFile(index);
 				try
 				{
-					hotSpotView.loadSprite(f, null /* TODO: pass hotspot list */);
-					boolean b = hotSpotView.showDialog();
+					HotspotList h = hotspotListener.getHotspotList(index);
+					hotspotView.loadSprite(f, h);
+					boolean b = hotspotView.showDialog();
 
 					if (b)
-						hotSpotListener.setHotspotList(index, hotSpotView.getResult());
+						hotspotListener.setHotspotList(index, hotspotView.getResult());
 				}
 				catch (Exception e)
 				{
@@ -234,24 +237,30 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 		}
 	}
 
-	private ImageIcon createIcon(int spriteIndex)
+	private ImageIcon createIcon(int spriteIndex, File f)
 	{
-		ImageIcon icon;
+		BufferedImage bi;
 		try
 		{
-			String filename = spriteNameGenerator.getFilename(spriteIndex);
-			File f = spriteNameGenerator.getFile(filename);
-			BufferedImage bi = ImageIO.read(f);
-
-			if (hotSpotListener != null)
-				SpriteDecorator.decorateSprite(bi, hotSpotListener.getHotspotList(spriteIndex));
-
-			icon = new ImageIcon(bi);
+			bi = ImageIO.read(f);
 		}
 		catch (Exception e)
 		{
-			icon = null;
+			return null;
 		}
+
+		try
+		{
+			if (hotspotListener != null)
+				SpriteDecorator.decorateSprite(bi, hotspotListener.getHotspotList(spriteIndex));
+		}
+		catch (PrismException e)
+		{
+			e.code.print();
+			e.user.showMessage();
+		}
+
+		ImageIcon icon = new ImageIcon(bi);
 		return icon;
 	}
 
@@ -275,7 +284,7 @@ public class SpriteList extends JPanel implements MouseListener, ISpriteList, IS
 				{
 					// add an existing cell
 					ExistingSpriteCell c = new ExistingSpriteCell(filename, i);
-					ImageIcon icon = createIcon(i);
+					ImageIcon icon = createIcon(i, f);
 					c.setIcon(icon);
 					if (t == null && icon != null)
 						t = new Point(icon.getIconWidth(), icon.getIconHeight());

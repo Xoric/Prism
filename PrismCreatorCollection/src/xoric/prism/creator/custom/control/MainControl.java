@@ -6,6 +6,7 @@ import xoric.prism.creator.custom.generators.collection.CollectionGenerator;
 import xoric.prism.creator.custom.generators.texture.TextureGenerator;
 import xoric.prism.creator.custom.model.CollectionModel;
 import xoric.prism.creator.custom.view.ISpriteCollectionView;
+import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.IText_r;
 
@@ -56,6 +57,7 @@ public class MainControl implements IMainControl
 		{
 			view.setModel(model);
 			view.displayAll();
+			view.updatedHotspots();
 		}
 	}
 
@@ -68,6 +70,7 @@ public class MainControl implements IMainControl
 		{
 			view.setModel(model);
 			view.displayAll();
+			view.updatedHotspots();
 		}
 	}
 
@@ -136,17 +139,27 @@ public class MainControl implements IMainControl
 			CollectionControl.saveModel(model);
 	}
 
-	// IHotSpotListener:
 	@Override
 	public void setHotspotList(int spriteIndex, HotspotList list)
 	{
-		System.out.println("set hotspot");
+		int objectIndex = view.getSelectedObjectIndex();
+		model.setHotspotList(objectIndex, spriteIndex, list);
+		view.updatedHotspots();
+		requestSaveCollection();
 	}
 
-	// IHotSpotListener:
 	@Override
-	public HotspotList getHotspotList(int spriteIndex)
+	public HotspotList getHotspotList(int spriteIndex) throws PrismException
 	{
-		return model.getHotSpotList(spriteIndex);
+		int objectIndex = view.getSelectedObjectIndex();
+		return model.getHotspotList(objectIndex, spriteIndex);
+	}
+
+	@Override
+	public void requestEnableHotspots(boolean b)
+	{
+		model.setHotspotListEnabled(b);
+		view.updatedHotspots();
+		requestSaveCollection();
 	}
 }

@@ -131,15 +131,13 @@ public class MetaBlock_in extends MetaBlockBase implements IPackable_in, IInfoLa
 	@Override
 	public void unpack(InputStream stream) throws IOException, PrismException
 	{
-		// read metaType
 		int value = IntPacker.unpack_s(stream);
 		metaType = MetaType.valueOf(value);
-
-		// read number of lines
-		value = IntPacker.unpack_s(stream);
+		version = IntPacker.unpack_s(stream);
+		final int n = IntPacker.unpack_s(stream);
 
 		// read lines
-		for (int i = 0; i < value; ++i)
+		for (int i = 0; i < n; ++i)
 		{
 			MetaLine_in l = new MetaLine_in(this);
 			l.unpack(stream);

@@ -20,7 +20,7 @@ abstract class SpriteDecorator
 
 			// hotspot
 			g.setColor(Color.red);
-			g.drawRect((int) list.hotSpot.x - 1, (int) list.hotSpot.y - 1, 3, 3);
+			g.drawRect((int) list.hotspot.x - 1, (int) list.hotspot.y - 1, 3, 3);
 
 			// action points
 			final float steps = 600.0f;

@@ -3,8 +3,8 @@ package xoric.prism.scene.lwjgl.shaders;
 import org.lwjgl.opengl.GL11;
 
 import xoric.prism.data.types.PrismColor;
+import xoric.prism.scene.art.ITexture;
 import xoric.prism.scene.shaders.IColorShader;
-import xoric.prism.scene.textures.ITexture;
 
 public class DefaultShaderSubstitute implements IColorShader
 {

@@ -13,17 +13,17 @@ import xoric.prism.data.types.IMetaChild_in;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.PrismColor;
 import xoric.prism.data.types.Word;
-import xoric.prism.scene.IRendererUI;
+import xoric.prism.scene.art.ITexture;
+import xoric.prism.scene.art.grid.GridArt;
+import xoric.prism.scene.art.grid.GridMeta;
 import xoric.prism.scene.materials.shaders.AllShaders;
-import xoric.prism.scene.textures.ITexture;
-import xoric.prism.scene.textures.grid.GridArt;
-import xoric.prism.scene.textures.grid.GridMeta;
+import xoric.prism.scene.renderer.IUIRenderer2;
 
 public class Printer implements IMetaChild_in
 {
 	public static final float DEFAULT_SCALE = 0.62f;
 
-	public static IRendererUI renderer;
+	public static IUIRenderer2 renderer;
 
 	private final GridArt font;
 	private final GridMeta gridMeta;
@@ -138,6 +138,8 @@ public class Printer implements IMetaChild_in
 		AllShaders.color.setTexture(texture);
 		AllShaders.color.setColor(color);
 
+		renderer.reset();
+
 		tempScreenRect.setTopLeft(screenPos);
 
 		for (int i = startIndex; i < endIndex; ++i)
@@ -145,7 +147,10 @@ public class Printer implements IMetaChild_in
 			int s = text.symbolAt(i);
 			IFloatRect_r texRect = gridMeta.getRect(s);
 
-			renderer.drawSprite(texRect, tempScreenRect);
+			renderer.setTexInfo(0, texRect);
+			renderer.setupSprite(tempScreenRect);
+			renderer.drawSprite(1);
+
 			tempScreenRect.addX(defaultPadding[s]);
 		}
 		return tempScreenRect.getX();

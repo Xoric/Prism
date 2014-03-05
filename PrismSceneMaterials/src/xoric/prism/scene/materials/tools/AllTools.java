@@ -4,9 +4,9 @@ import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.global.FileTableDirectoryIndex;
 import xoric.prism.data.global.Prism;
 import xoric.prism.data.global.UIIndex;
-import xoric.prism.scene.IRendererUI;
-import xoric.prism.scene.textures.collections.CollectionArt;
-import xoric.prism.scene.textures.grid.GridArt;
+import xoric.prism.scene.art.collections.CollectionArt;
+import xoric.prism.scene.art.grid.GridArt;
+import xoric.prism.scene.renderer.IUIRenderer2;
 
 /**
  * @author XoricLee
@@ -17,7 +17,7 @@ public abstract class AllTools
 	public static Printer printer;
 	public static Drawer uiDrawer;
 
-	public static void loadAll(IRendererUI renderer, CollectionArt frames, GridArt font) throws PrismException
+	public static void loadAll(IUIRenderer2 renderer, CollectionArt frames, GridArt font) throws PrismException
 	{
 		uiDrawer = new Drawer(frames);
 

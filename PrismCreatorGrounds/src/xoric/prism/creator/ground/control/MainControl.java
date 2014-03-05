@@ -9,6 +9,7 @@ import xoric.prism.creator.common.view.INewDialogResult;
 import xoric.prism.creator.ground.model.AllDrawableGrounds;
 import xoric.prism.creator.ground.model.GroundModel;
 import xoric.prism.creator.ground.view.IMainView;
+import xoric.prism.creator.ground.view.SceneHandler;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.meta.MetaBlock_out;
 import xoric.prism.data.meta.MetaKey;
@@ -109,7 +110,7 @@ public class MainControl implements IMainControl
 	{
 		try
 		{
-			AllDrawableGrounds.loadAll();
+			AllDrawableGrounds.loadAll(SceneHandler.columns);
 			saveGrounds();
 		}
 		catch (PrismException e)

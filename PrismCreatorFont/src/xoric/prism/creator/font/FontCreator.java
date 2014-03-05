@@ -18,12 +18,13 @@ import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Path;
 import xoric.prism.data.types.TextMap;
+import xoric.prism.develop.meta.MetaNames;
 
 public class FontCreator
 {
-	private static final int width = 24;
-	private static final int height = 23;
-	private static final Path path = new Path("E:/Prism/work/ui/font");
+	private static final int width = 26;
+	private static final int height = 24;
+	private static final Path path = new Path("E:/Prism/resource/ui/font/grid");
 	private static final Font font = new Font("Arimo", Font.BOLD, 20);
 	private static final Font fontS = new Font("Arimo", Font.PLAIN, 16);
 
@@ -31,10 +32,6 @@ public class FontCreator
 
 	public static void main(String args[])
 	{
-		//		listFonts();
-
-		//		Font font = new Font("Arial", Font.PLAIN, 20.0f);
-
 		try
 		{
 			MetaLine_out ml = new MetaLine_out(MetaKey.SIZE);
@@ -45,7 +42,7 @@ public class FontCreator
 			MetaBlock_out mb = new MetaBlock_out(MetaType.COMMON, 0);
 			mb.addMetaLine(ml);
 
-			File f = path.getFile("padding.meta");
+			File f = path.getFile(MetaNames.makeMetaBlock(MetaType.COMMON));
 			System.out.println("writing " + f.toString());
 			FileOutputStream stream = new FileOutputStream(f);
 			mb.pack(stream);

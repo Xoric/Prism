@@ -19,11 +19,10 @@ import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
+import xoric.prism.develop.meta.MetaNames;
 
 public class GridModel extends HotspotModel implements IPackable
 {
-	private static final String metaName = "grid.meta";
-
 	private Text name;
 	private Point spriteSize;
 	private final IPath_r path;
@@ -41,16 +40,6 @@ public class GridModel extends HotspotModel implements IPackable
 		this.spriteSize = new Point(d.getSpriteSize());
 		this.path = d.getPath();
 		this.spriteNameGenerator = new SpriteNameGenerator(path, "sprite", ".png");
-	}
-
-	@Override
-	protected HotspotList createHotspotList(int index)
-	{
-		HotspotList h = new HotspotList();
-		h.hotSpot.x = spriteSize.x / 2;
-		h.hotSpot.y = spriteSize.y - 2;
-
-		return h;
 	}
 
 	public SpriteNameGenerator getSpriteNameGenerator()
@@ -75,7 +64,7 @@ public class GridModel extends HotspotModel implements IPackable
 
 	public void load() throws IOException, PrismException
 	{
-		File f = path.getFile(metaName);
+		File f = path.getFile(MetaNames.projectGrid);
 
 		if (f.exists())
 		{
@@ -87,7 +76,7 @@ public class GridModel extends HotspotModel implements IPackable
 
 	public void save() throws IOException
 	{
-		FileOutputStream stream = new FileOutputStream(path.getFile(metaName));
+		FileOutputStream stream = new FileOutputStream(path.getFile(MetaNames.projectGrid));
 		pack(stream);
 		stream.close();
 	}
@@ -115,5 +104,25 @@ public class GridModel extends HotspotModel implements IPackable
 	public void setSpriteSize(IPoint_r spriteSize)
 	{
 		this.spriteSize = new Point(spriteSize);
+	}
+
+	@Override
+	public int getCategoryCount()
+	{
+		return 1;
+	}
+
+	@Override
+	public int getElementCount(int categoryIndex)
+	{
+		return spriteNameGenerator.countSprites();
+	}
+
+	@Override
+	protected HotspotList createHotspotList(int categoryIndex, int elementIndex) throws PrismException
+	{
+		HotspotList hl = new HotspotList();
+		hl.setDefaultHotspot(spriteSize.x, spriteSize.y);
+		return hl;
 	}
 }

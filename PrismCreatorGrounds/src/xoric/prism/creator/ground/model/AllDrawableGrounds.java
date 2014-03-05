@@ -17,9 +17,8 @@ public class AllDrawableGrounds
 {
 	private static List<DrawableGround2> list = new ArrayList<DrawableGround2>();
 
-	public static synchronized void loadAll() throws PrismException
+	public static synchronized void loadAll(int columns) throws PrismException
 	{
-		final int columns = 3;
 		int x = 0;
 		int y = 0;
 

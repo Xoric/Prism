@@ -177,6 +177,7 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 	public void displayAll()
 	{
 		displayName();
+		displayHotspotsEnabled();
 		displayObjects();
 		displayObject();
 	}
@@ -185,6 +186,12 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 	public void displayName()
 	{
 		nameInput.setValue(model == null ? new Text("") : model.getName());
+	}
+
+	@Override
+	public void displayHotspotsEnabled()
+	{
+		hotspotInput.setValue(model == null ? false : model.isHotspotListEnabled());
 	}
 
 	@Override
@@ -241,11 +248,27 @@ public class MainView extends PrismCreatorCommonView implements ActionListener, 
 	{
 		if (input == nameInput)
 			control.requestSetName(nameInput.getValue());
+		else if (input == hotspotInput)
+			control.requestEnableHotspots(hotspotInput.getValue());
 	}
 
 	@Override
 	public void selectObject(int index)
 	{
 		objectList.selectObject(index);
+	}
+
+	// ISpriteCollectionView:
+	@Override
+	public void updatedHotspots()
+	{
+		spriteList.requestReloadSprites();
+	}
+
+	// IObjectSelection:
+	@Override
+	public int getSelectedObjectIndex()
+	{
+		return objectList.getSelectedIndex();
 	}
 }

@@ -1,4 +1,4 @@
-package xoric.prism.scene.textures;
+package xoric.prism.scene.art;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;

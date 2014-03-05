@@ -501,8 +501,8 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		AllShaders.color.setTexture(AllArt.env0.getTexture(0));
 
 		ren.reset();
-		ren.setupTexture(0, AllArt.env0.getMeta().getRect(1));
-		ren.setupSprite(testPlane);
+		ren.setTexInfo(0, AllArt.env0.getMeta().getRect(1));
+		ren.setSprite(testPlane);
 		ren.drawPlane(1);
 
 		AllShaders.color.activate();
@@ -518,24 +518,24 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		//			testSpriteTemp.addX(39.0f);
 		//			testSpriteTemp.addY(10.0f);
 		//		}
-		ren.setupTexture(0, AllArt.mush0.getTextureInfo(0, 1, 0, 0));
+		ren.setTexInfo(0, AllArt.mush0.getTextureInfo(0, 1, 0, 0));
 		testSpriteTemp.setTopLeft(0.0f, 0.0f);
-		ren.setupSprite(testSpriteTemp);
+		ren.setSprite(testSpriteTemp);
 		ren.drawObject(1);
 		//
-		ren.setupTexture(0, AllArt.mush0.getTextureInfo(0, 2, 0, 0));
+		ren.setTexInfo(0, AllArt.mush0.getTextureInfo(0, 2, 0, 0));
 		testSpriteTemp.setTopLeft(120.0f, 0.0f);
-		ren.setupSprite(testSpriteTemp);
+		ren.setSprite(testSpriteTemp);
 		ren.drawObject(1);
 		//
-		ren.setupTexture(0, AllArt.mush0.getTextureInfo(0, 3, 0, 0));
+		ren.setTexInfo(0, AllArt.mush0.getTextureInfo(0, 3, 0, 0));
 		testSpriteTemp.setTopLeft(0.0f, 80.0f);
-		ren.setupSprite(testSpriteTemp);
+		ren.setSprite(testSpriteTemp);
 		ren.drawObject(1);
 		//
-		ren.setupTexture(0, AllArt.mush0.getTextureInfo(0, 4, 0, 0));
+		ren.setTexInfo(0, AllArt.mush0.getTextureInfo(0, 0, 0, 0));
 		testSpriteTemp.setTopLeft(120.0f, 80.0f);
-		ren.setupSprite(testSpriteTemp);
+		ren.setSprite(testSpriteTemp);
 		ren.drawObject(1);
 
 		/* ********************
@@ -661,8 +661,10 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 	}
 
 	@Override
-	public void drawUI(IUIRenderer2 renderer) throws PrismException
+	public void drawUI(IUIRenderer2 ren) throws PrismException
 	{
+		ui.draw(ren);
+
 		/* **************************
 		// test art
 
@@ -679,7 +681,7 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		//		ta.draw(renderer);
 
 		//		AllShaders.color.activate();
-		ui.draw(renderer);
+		//				ui.draw(renderer);
 
 		testText.set("SLOPE=" + slope);
 		AllTools.printer.setText(testText);

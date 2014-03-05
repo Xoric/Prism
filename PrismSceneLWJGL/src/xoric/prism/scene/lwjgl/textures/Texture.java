@@ -4,8 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.Point;
+import xoric.prism.scene.art.ITexture;
 import xoric.prism.scene.lwjgl.ICleanUp;
-import xoric.prism.scene.textures.ITexture;
 
 public class Texture implements ITexture, ICleanUp
 {

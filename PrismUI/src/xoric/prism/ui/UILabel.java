@@ -7,7 +7,7 @@ import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
 import xoric.prism.scene.IDrawableUI;
-import xoric.prism.scene.IRendererUI;
+import xoric.prism.scene.renderer.IUIRenderer2;
 
 public class UILabel extends UIComponent implements IDrawableUI, IUITextComponent
 {
@@ -36,9 +36,9 @@ public class UILabel extends UIComponent implements IDrawableUI, IUITextComponen
 	}
 
 	@Override
-	public void draw(IRendererUI renderer) throws PrismException
+	public void draw(IUIRenderer2 ren) throws PrismException
 	{
-		textArea.draw(renderer);
+		textArea.draw(ren);
 	}
 
 	@Override

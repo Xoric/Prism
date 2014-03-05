@@ -1,7 +1,6 @@
 package xoric.prism.scene.materials.fbo;
 
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.scene.fbo.IFrameBuffer;
 import xoric.prism.scene.fbo.IFrameBufferIO;
 
 /**
@@ -10,7 +9,7 @@ import xoric.prism.scene.fbo.IFrameBufferIO;
  */
 public abstract class AllBuffers
 {
-	public static IFrameBuffer groundBuffer;
+	//	public static IFrameBuffer groundBuffer;
 
 	public static void loadAll(IFrameBufferIO frameBufferIO) throws PrismException
 	{

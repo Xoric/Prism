@@ -137,15 +137,15 @@ public class GridControl implements IGridControl
 	@Override
 	public void setHotspotList(int spriteIndex, HotspotList list)
 	{
-		model.setHotspotList(spriteIndex, list);
+		model.setHotspotList(0, spriteIndex, list);
 		view.updatedHotSpots();
 	}
 
 	// IHotspotListener:
 	@Override
-	public HotspotList getHotspotList(int spriteIndex)
+	public HotspotList getHotspotList(int spriteIndex) throws PrismException
 	{
-		return model.getHotspotList(spriteIndex);
+		return model.getHotspotList(0, spriteIndex);
 	}
 
 	// IGridControl:

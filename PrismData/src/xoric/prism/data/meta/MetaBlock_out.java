@@ -48,8 +48,7 @@ public class MetaBlock_out extends MetaBlockBase implements IPackable_out
 	public void pack(OutputStream stream) throws IOException, PrismException
 	{
 		// write metaType and number of lines
-		IntPacker.pack_s(stream, metaType.ordinal());
-		IntPacker.pack_s(stream, list.size());
+		IntPacker.pack_s(stream, metaType.ordinal(), version, list.size());
 
 		// write lines
 		for (MetaLine_out l : list)

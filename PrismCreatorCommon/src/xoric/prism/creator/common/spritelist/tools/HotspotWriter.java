@@ -5,6 +5,7 @@ import java.util.List;
 
 import xoric.prism.creator.common.spritelist.view.ActionPoint;
 import xoric.prism.creator.common.spritelist.view.HotspotList;
+import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.heap.Heap_out;
 import xoric.prism.data.meta.MetaBlock_out;
 import xoric.prism.data.meta.MetaKey;
@@ -33,44 +34,51 @@ public abstract class HotspotWriter
 		return coordinates.size() - 1;
 	}
 
-	public static MetaBlock_out createMetaBlock(IHotspotSupplier host, int count)
+	public static MetaBlock_out createMetaBlock(IHotspotSupplier host) throws PrismException
 	{
 		MetaBlock_out hotspotBlock = new MetaBlock_out(MetaType.HOTSPOTS, 0);
 		List<Point> coordinates = new ArrayList<Point>();
 
-		// add a hotspot list for each sprite
-		for (int i = 0; i < count; ++i)
+		for (int k = 0; k < host.getCategoryCount(); ++k)
 		{
-			// add hotspot
+			final int elementCount = host.getElementCount(k);
 			MetaLine_out ml = new MetaLine_out(MetaKey.SUB);
 			Heap_out heap = ml.getHeap();
-			HotspotList h = host.getHotspotList(i);
-			int hotspotIndex = makeIndex(coordinates, h.hotSpot);
-			heap.ints.add(hotspotIndex);
+			heap.ints.add(elementCount);
 
-			// add number of action points
-			final int n = h.actionPoints.size();
-			heap.ints.add(n);
-
-			// add action points
-			for (int j = 0; j < n; ++j)
+			for (int i = 0; i < elementCount; ++i)
 			{
-				ActionPoint p = h.actionPoints.get(j);
-				int actionPointIndex = makeIndex(coordinates, p.down);
-				heap.ints.add(actionPointIndex);
-				p.angle.appendTo(heap);
+				HotspotList h = host.getHotspotList(k, i);
+				int hotspotIndex = makeIndex(coordinates, h.hotspot);
+				heap.ints.add(hotspotIndex);
+
+				// add number of action points
+				final int actionPointCount = h.actionPoints.size();
+				heap.ints.add(actionPointCount);
+
+				// add action points
+				for (int j = 0; j < actionPointCount; ++j)
+				{
+					ActionPoint p = h.actionPoints.get(j);
+					int actionPointIndex = makeIndex(coordinates, p.down);
+					heap.ints.add(actionPointIndex);
+					p.angle.appendTo(heap);
+				}
 			}
 			hotspotBlock.addMetaLine(ml);
 		}
 
 		// insert coordinates
-		MetaLine_out coordinateLine = new MetaLine_out(MetaKey.ITEM);
-		hotspotBlock.insertMetaLine(0, coordinateLine);
-		Heap_out heap = coordinateLine.getHeap();
+		MetaLine_out coordinatesLine = new MetaLine_out(MetaKey.ITEM);
+		hotspotBlock.insertMetaLine(0, coordinatesLine);
+		Heap_out heap = coordinatesLine.getHeap();
 		final int n = coordinates.size();
 		heap.ints.add(n);
 		for (Point p : coordinates)
-			p.appendTo(heap);
+		{
+			heap.ints.add(p.x);
+			heap.ints.add(p.y);
+		}
 
 		// return MetaBlock
 		return hotspotBlock;

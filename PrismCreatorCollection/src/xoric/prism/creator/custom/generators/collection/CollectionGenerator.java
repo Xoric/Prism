@@ -1,12 +1,12 @@
 package xoric.prism.creator.custom.generators.collection;
 
 import java.io.File;
-import java.io.FileInputStream;
+
+import javax.swing.JOptionPane;
 
 import xoric.prism.creator.common.factory.SuccessMessage;
 import xoric.prism.creator.custom.model.CollectionModel;
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.meta.MetaBlock_in;
 import xoric.prism.data.meta.MetaBlock_out;
 import xoric.prism.data.meta.MetaKey;
 import xoric.prism.data.meta.MetaLine_out;
@@ -16,6 +16,7 @@ import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.IPath_r;
 import xoric.prism.data.types.Text;
 import xoric.prism.develop.meta.MetaFileCreator;
+import xoric.prism.develop.meta.MetaNames;
 
 public class CollectionGenerator
 {
@@ -31,7 +32,7 @@ public class CollectionGenerator
 		try
 		{
 			// generate model and show success message
-			String targetFilename = model.getName().toString().toLowerCase() + ".cl";
+			String targetFilename = MetaNames.makeCollection(model.getName());
 			File targetFile = tryGenerate(targetFilename);
 			showSuccess(targetFile);
 		}
@@ -75,7 +76,7 @@ public class CollectionGenerator
 		IPath_r path = model.getPath();
 		MetaFileCreator c = new MetaFileCreator(path, path);
 		c.infuseMetaList(metaList_in);
-		c.create();
+		c.create(false);
 
 		// get target file
 		File targetFile = c.getResultingTargetFile();
@@ -84,6 +85,7 @@ public class CollectionGenerator
 
 	private MetaBlock_out loadCollectionBlock() throws PrismException
 	{
+		/*
 		File file = model.getPath().getFile("texture.meta");
 		MetaBlock_in collectionBlock;
 		try
@@ -105,6 +107,10 @@ public class CollectionGenerator
 		MetaBlock_out c = new MetaBlock_out(collectionBlock);
 
 		return c;
+		*/
+		JOptionPane.showMessageDialog(null, "Not implemented.", "Error", JOptionPane.WARNING_MESSAGE);
+
+		return null; // TODO
 	}
 
 	private void ensureTexture() throws PrismException

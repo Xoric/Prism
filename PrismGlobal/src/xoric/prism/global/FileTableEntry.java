@@ -26,6 +26,11 @@ class FileTableEntry
 	{
 		if (metaFile == null)
 		{
+			if (filename.equals("ui/frames.cl"))
+			{
+				System.out.println("!");
+			}
+
 			metaFile = new MetaFile(path, filename);
 			metaFile.load();
 		}

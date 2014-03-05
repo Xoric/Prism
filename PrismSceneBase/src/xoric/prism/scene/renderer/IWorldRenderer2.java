@@ -12,9 +12,9 @@ public interface IWorldRenderer2 extends IBaseRenderer2
 {
 	public void setCamera(ICameraTransform cam);
 
-	public void setupSprite(IFloatPoint_r screenPos, IFloatPoint_r spriteSize);
+	public void setSprite(IFloatPoint_r screenPos, IFloatPoint_r spriteSize);
 
-	public void setupSprite(IFloatRect_r spriteRect);
+	public void setSprite(IFloatRect_r spriteRect);
 
 	public void drawPlane(int texCount);
 

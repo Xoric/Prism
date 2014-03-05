@@ -6,11 +6,10 @@ import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.PrismColor;
 import xoric.prism.scene.IDrawableWorld;
-import xoric.prism.scene.IRendererWorld;
-import xoric.prism.scene.camera.ICameraTransform;
+import xoric.prism.scene.art.ITexture;
 import xoric.prism.scene.materials.art.AllArt;
 import xoric.prism.scene.materials.shaders.AllShaders;
-import xoric.prism.scene.textures.ITexture;
+import xoric.prism.scene.renderer.IWorldRenderer2;
 
 /**
  * @author XoricLee
@@ -19,7 +18,6 @@ import xoric.prism.scene.textures.ITexture;
 public class WeatherMark implements IDrawableWorld, IUpdateListener
 {
 	private final FloatRect rect;
-	private final FloatRect tempRect;
 	private final PrismColor color;
 	private final int durationMs;
 	private int ageMs;
@@ -27,22 +25,22 @@ public class WeatherMark implements IDrawableWorld, IUpdateListener
 	public WeatherMark(FloatRect rect, int durationMs)
 	{
 		this.rect = rect;
-		this.tempRect = new FloatRect();
 		this.color = new PrismColor(1.0f, 1.0f, 1.0f, 1.0f);
 		this.durationMs = durationMs;
 	}
 
 	@Override
-	public void draw(IRendererWorld renderer, ICameraTransform cam) throws PrismException
+	public void draw(IWorldRenderer2 ren) throws PrismException
 	{
-		cam.transformRect(rect, tempRect);
-
-		ITexture texture = AllArt.mark0.getTexture(0);
-		IFloatRect_r texRect = AllArt.mark0.getMeta().getRect(0);
+		ITexture texture = AllArt.marks0.getTexture(0);
+		IFloatRect_r texRect = AllArt.marks0.getMeta().getObject(0).getInstance(0).getRect(0); // TODO replace
 		AllShaders.color.activate();
 		AllShaders.color.setTexture(texture);
 		AllShaders.color.setColor(color);
-		renderer.drawPlane(texRect, tempRect, 0.0f);
+		ren.reset();
+		ren.setTexInfo(0, texRect);
+		ren.setSprite(rect);
+		ren.drawPlane(1);
 	}
 
 	@Override

@@ -6,8 +6,8 @@ import xoric.prism.data.heap.Heap_out;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
-import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.materials.tools.AllTools;
+import xoric.prism.scene.renderer.IUIRenderer2;
 
 public class UIFrame extends UIComponentH implements IUITextComponent
 {
@@ -40,7 +40,7 @@ public class UIFrame extends UIComponentH implements IUITextComponent
 	}
 
 	@Override
-	public void draw(IRendererUI renderer) throws PrismException
+	public void draw(IUIRenderer2 ren) throws PrismException
 	{
 		AllTools.uiDrawer.setup(0, 1, 0);
 		AllTools.uiDrawer.drawNineParts(rect);
@@ -51,7 +51,7 @@ public class UIFrame extends UIComponentH implements IUITextComponent
 			AllTools.uiDrawer.setup(2, i);
 			AllTools.uiDrawer.drawThreeParts(rect.getTopLeft(), rect.getWidth());
 
-			titleLine.draw(renderer);
+			titleLine.draw(ren);
 		}
 	}
 

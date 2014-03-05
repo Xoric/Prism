@@ -4,8 +4,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 
+import xoric.prism.scene.art.ITexture;
 import xoric.prism.scene.shaders.IMaskShader;
-import xoric.prism.scene.textures.ITexture;
 
 public class MaskShader extends TextureShader implements IMaskShader
 {

@@ -18,7 +18,6 @@ public enum MetaType
 	MAP, /* world map */
 	GROUND, /* ground types */
 	HOTSPOTS; /* hotspots and action points */
-	// max index: 255
 
 	private static final MetaType[] VALUES = values();
 

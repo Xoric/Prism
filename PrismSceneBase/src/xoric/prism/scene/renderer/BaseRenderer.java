@@ -2,7 +2,7 @@ package xoric.prism.scene.renderer;
 
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatRect_r;
-import xoric.prism.scene.textures.TextureInfo;
+import xoric.prism.scene.art.TextureInfo;
 
 /**
  * @author XoricLee
@@ -65,19 +65,19 @@ abstract class BaseRenderer implements IBaseRenderer2
 	}
 
 	@Override
-	public void setupTexture(int index, TextureInfo texInfo)
+	public void setTexInfo(int index, TextureInfo texInfo)
 	{
-		setupTexture(index, texInfo.getRect(), texInfo.isFlippedH());
+		setTexInfo(index, texInfo.getRect(), texInfo.isFlippedH());
 	}
 
 	@Override
-	public void setupTexture(int index, IFloatRect_r texRect)
+	public void setTexInfo(int index, IFloatRect_r texRect)
 	{
-		setupTexture(index, texRect, false);
+		setTexInfo(index, texRect, false);
 	}
 
 	@Override
-	public void setupTexture(int index, IFloatRect_r texRect, boolean flipH)
+	public void setTexInfo(int index, IFloatRect_r texRect, boolean flipH)
 	{
 		boolean useTransform = flipH || transformGL;
 		this.useTransform[index] = useTransform;

@@ -16,9 +16,9 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import xoric.prism.scene.art.ITexture;
+import xoric.prism.scene.art.ITextureBinder;
 import xoric.prism.scene.lwjgl.cleanup.TrashCan;
-import xoric.prism.scene.textures.ITexture;
-import xoric.prism.scene.textures.ITextureBinder;
 
 public class TextureBinderLWJGL implements ITextureBinder
 {

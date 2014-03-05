@@ -10,8 +10,8 @@ import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
 import xoric.prism.scene.IDrawableUI;
-import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.materials.tools.AllTools;
+import xoric.prism.scene.renderer.IUIRenderer2;
 
 public class UITextArea implements IDrawableUI, IUITextComponent, IUISubcomponent
 {
@@ -86,7 +86,7 @@ public class UITextArea implements IDrawableUI, IUITextComponent, IUISubcomponen
 	}
 
 	@Override
-	public void draw(IRendererUI renderer) throws PrismException
+	public void draw(IUIRenderer2 ren) throws PrismException
 	{
 		tempPos.copyFrom(rect.getTopLeft());
 		AllTools.printer.setText(text);

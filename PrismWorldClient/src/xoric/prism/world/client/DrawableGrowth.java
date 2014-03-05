@@ -5,12 +5,11 @@ import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.PrismColor;
 import xoric.prism.scene.IDrawableWorld;
-import xoric.prism.scene.IRendererWorld;
-import xoric.prism.scene.camera.ICameraTransform;
+import xoric.prism.scene.art.TextureInfo;
+import xoric.prism.scene.art.collections.CollectionArt;
 import xoric.prism.scene.materials.art.AllArt;
 import xoric.prism.scene.materials.shaders.AllShaders;
-import xoric.prism.scene.textures.TextureInfo;
-import xoric.prism.scene.textures.collections.CollectionArt;
+import xoric.prism.scene.renderer.IWorldRenderer2;
 import xoric.prism.world.growth.Growth;
 
 /**
@@ -108,19 +107,20 @@ public abstract class DrawableGrowth extends Growth implements IDrawableWorld
 	}
 
 	@Override
-	public void draw(IRendererWorld renderer, ICameraTransform cam) throws PrismException
+	public void draw(IWorldRenderer2 ren) throws PrismException
 	{
 		if (texInfoNormal != null)
 		{
-			cam.transformPosition(position, tempPosition);
-			cam.transformSize(currentSize, tempSize);
-
 			AllShaders.growth.activate();
 			AllShaders.growth.setTexture(texInfoNormal.getTexture());
 			AllShaders.growth.setMask(AllArt.otherMasks.getTexture(0));
 			AllShaders.growth.setColor(currentColor);
 			TextureInfo maskInfo = AllArt.otherMasks.getTextureInfo(0, 0, 0, 0);
-			renderer.drawObject(texInfoNormal, maskInfo, tempPosition, tempSize);
+			ren.reset();
+			ren.setTexInfo(0, texInfoNormal);
+			ren.setTexInfo(1, maskInfo);
+			ren.setSprite(position, currentSize);
+			ren.drawObject(2);
 		}
 	}
 

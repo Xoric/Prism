@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
 import xoric.prism.data.types.IFloatPoint_r;
+import xoric.prism.scene.art.hotspots.Marker;
 import xoric.prism.scene.camera.ICameraTransform;
 import xoric.prism.scene.renderer.WorldRenderer;
 
@@ -143,18 +144,34 @@ public class WorldRendererLWJGL extends WorldRenderer
 		float sy2 = sy1 - h;
 		*/
 		IFloatPoint_r screenPos = super.getScreenPos();
-		float sxCenter = screenPos.getX();
-		float sy0 = screenPos.getY();
 
+		float sx0 = screenPos.getX();
+		Marker marker = getMarker();
 		IFloatPoint_r spriteSize = super.getSpriteSize();
-		float wHalf = spriteSize.getX() * 0.5f;
-		float h = spriteSize.getY();
-		float z = calcNewZ(sy0) + getZ();
+		float sx1, sx2;
 
-		float sx1 = sxCenter - wHalf;
-		float sx2 = sxCenter + wHalf;
-		float sy1 = sy0 - h;
-		float sy2 = sy1 + h;
+		float sy0 = screenPos.getY();
+		float h = spriteSize.getY();
+		float sy1, sy2;
+
+		if (marker == null)
+		{
+			float wHalf = spriteSize.getX() * 0.5f;
+			sx1 = sx0 - wHalf;
+			sx2 = sx0 + wHalf;
+
+			sy1 = sy0 - h;
+			sy2 = sy1 + h;
+		}
+		else
+		{
+			sx1 = sx0 - marker.getHotspot().getX();
+			sx2 = sx1 + spriteSize.getX();
+
+			sy1 = sy0 - h - marker.getHotspot().getY();
+			sy2 = sy1 + h;
+		}
+		float z = calcNewZ(sy0) + getZ();
 
 		GL11.glBegin(GL11.GL_QUADS);
 		// ==========================

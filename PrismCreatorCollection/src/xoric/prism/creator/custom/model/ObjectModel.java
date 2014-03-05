@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xoric.prism.data.exceptions.PrismException;
+import xoric.prism.data.heap.Heap_in;
+import xoric.prism.data.heap.Heap_out;
+import xoric.prism.data.heap.IStackable;
 import xoric.prism.data.packable.IPackable;
 import xoric.prism.data.packable.IntPacker;
 import xoric.prism.data.packable.TextPacker;
@@ -14,7 +17,7 @@ import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Rect;
 import xoric.prism.data.types.Text;
 
-public class ObjectModel implements IPackable
+public class ObjectModel implements IPackable, IStackable
 {
 	private Text name;
 	private List<Rect> rects;
@@ -84,5 +87,31 @@ public class ObjectModel implements IPackable
 	public void removeRect(int index)
 	{
 		rects.remove(index);
+	}
+
+	@Override
+	public void appendTo(Heap_out h)
+	{
+		h.texts.add(name);
+		h.ints.add(rects.size());
+
+		for (Rect r : rects)
+			r.appendTo(h);
+	}
+
+	@Override
+	public void extractFrom(Heap_in h) throws PrismException
+	{
+		rects.clear();
+
+		name = h.nextText();
+		final int n = h.nextInt();
+
+		for (int i = 0; i < n; ++i)
+		{
+			Rect r = new Rect();
+			r.extractFrom(h);
+			rects.add(r);
+		}
 	}
 }

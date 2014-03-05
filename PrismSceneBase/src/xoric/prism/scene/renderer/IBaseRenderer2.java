@@ -1,7 +1,7 @@
 package xoric.prism.scene.renderer;
 
 import xoric.prism.data.types.IFloatRect_r;
-import xoric.prism.scene.textures.TextureInfo;
+import xoric.prism.scene.art.TextureInfo;
 
 /**
  * @author XoricLee
@@ -15,9 +15,9 @@ public interface IBaseRenderer2
 
 	public void flipTextureH(int index);
 
-	public void setupTexture(int index, TextureInfo texInfo);
+	public void setTexInfo(int index, TextureInfo texInfo);
 
-	public void setupTexture(int index, IFloatRect_r texRect);
+	public void setTexInfo(int index, IFloatRect_r texRect);
 
-	public void setupTexture(int index, IFloatRect_r texRect, boolean flipH);
+	public void setTexInfo(int index, IFloatRect_r texRect, boolean flipH);
 }

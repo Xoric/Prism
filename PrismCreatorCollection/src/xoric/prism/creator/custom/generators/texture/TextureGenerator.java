@@ -10,6 +10,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import xoric.prism.creator.common.factory.SuccessMessage;
+import xoric.prism.creator.common.spritelist.tools.HotspotWriter;
 import xoric.prism.creator.custom.control.CollectionSpriteNameGenerator;
 import xoric.prism.creator.custom.model.CollectionModel;
 import xoric.prism.creator.custom.model.ObjectModel;
@@ -21,6 +22,7 @@ import xoric.prism.data.meta.MetaLine_out;
 import xoric.prism.data.meta.MetaType;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.Rect;
+import xoric.prism.develop.meta.MetaNames;
 
 import com.ryanm.droid.rugl.util.RectanglePacker;
 
@@ -100,8 +102,8 @@ public class TextureGenerator implements Runnable
 
 		// create the texture
 		frame.increaseChapter();
-		MetaBlock_out mb = new MetaBlock_out(MetaType.COLLECTION, 0);
-		BufferedImage bi = createTexture(bestSolution, objects, n, mb);
+		MetaBlock_out collectionBlock = new MetaBlock_out(MetaType.COLLECTION, 0);
+		BufferedImage bi = createTexture(bestSolution, objects, n, collectionBlock);
 
 		// write the texture
 		frame.increaseChapter();
@@ -109,9 +111,16 @@ public class TextureGenerator implements Runnable
 		File textureFile = model.getPath().getFile("texture.png");
 		writeImage(textureFile, bi);
 
-		// write the MetaFile
-		File metaFile = model.getPath().getFile("texture.meta");
-		writeMeta(metaFile, mb);
+		// write collection MetaBlock
+		String filename = MetaNames.makeMetaBlock(MetaType.COLLECTION);
+		File f = model.getPath().getFile(filename);
+		writeMeta(f, collectionBlock);
+
+		// create MetaBlock for hotspots
+		MetaBlock_out hotspotBlock = model.isHotspotListEnabled() ? HotspotWriter.createMetaBlock(model) : null;
+		filename = MetaNames.makeMetaBlock(MetaType.HOTSPOTS);
+		f = model.getPath().getFile(filename);
+		writeMeta(f, hotspotBlock);
 
 		// show success
 		showSuccess(textureFile, bi, n);
@@ -236,7 +245,8 @@ public class TextureGenerator implements Runnable
 		try
 		{
 			FileOutputStream stream = new FileOutputStream(metaFile);
-			mb.pack(stream);
+			if (mb != null)
+				mb.pack(stream);
 			stream.close();
 		}
 		catch (Exception e0)

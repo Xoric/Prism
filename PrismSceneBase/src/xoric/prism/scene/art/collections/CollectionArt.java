@@ -1,12 +1,12 @@
-package xoric.prism.scene.textures.collections;
+package xoric.prism.scene.art.collections;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.meta.MetaList_in;
 import xoric.prism.data.types.IFloatRect_r;
-import xoric.prism.scene.textures.Art;
-import xoric.prism.scene.textures.ITexture;
-import xoric.prism.scene.textures.TextureInfo;
+import xoric.prism.scene.art.Art;
+import xoric.prism.scene.art.ITexture;
+import xoric.prism.scene.art.TextureInfo;
 
 public class CollectionArt extends Art
 {

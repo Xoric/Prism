@@ -22,13 +22,15 @@ import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.IRendererWorld;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
+import xoric.prism.scene.art.TextureInfo;
 import xoric.prism.scene.camera.ICameraTransform;
 import xoric.prism.scene.lwjgl.cleanup.TrashCan;
 import xoric.prism.scene.lwjgl.fbo.IFrameBufferParent;
 import xoric.prism.scene.lwjgl.renderers.UIRendererLWJGL;
 import xoric.prism.scene.lwjgl.renderers.WorldRendererLWJGL;
+import xoric.prism.scene.renderer.IUIRenderer2;
+import xoric.prism.scene.renderer.IWorldRenderer2;
 import xoric.prism.scene.settings.ISceneSettings;
-import xoric.prism.scene.textures.TextureInfo;
 
 public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IExceptionSink, IFrameBufferParent
 {
@@ -109,6 +111,16 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 			}
 		}
 		return result;
+	}
+
+	public IWorldRenderer2 getWorldRenderer()
+	{
+		return worldRenderer;
+	}
+
+	public IUIRenderer2 getUIRenderer()
+	{
+		return uiRenderer;
 	}
 
 	/* **************** IScene *************************** */

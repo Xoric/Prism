@@ -1,19 +1,16 @@
 package xoric.prism.creator.ground.view;
 
-import xoric.prism.creator.common.view.PrismCreatorCommonView;
+import javax.swing.JMenuBar;
+
 import xoric.prism.creator.ground.control.IMainControl;
-import xoric.prism.creator.ground.model.AllDrawableGrounds;
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.global.FileTableDirectoryIndex;
-import xoric.prism.data.global.Prism;
-import xoric.prism.data.global.WorldIndex;
-import xoric.prism.world.map.AllGrounds;
+import xoric.prism.swing.PrismFrame;
 
 /**
  * @author XoricLee
  * @since 22.02.2014, 20:17:24
  */
-public class MainView extends PrismCreatorCommonView implements IMainView
+public class MainView extends PrismFrame implements IMainView
 {
 	private static final long serialVersionUID = 1L;
 
@@ -26,12 +23,15 @@ public class MainView extends PrismCreatorCommonView implements IMainView
 
 	public MainView(SceneHandler sceneHandler) throws PrismException
 	{
-		super("ground", false);
+		super("Ground Creator", 640, 400, true);
+
 		this.sceneHandler = sceneHandler;
 		this.actionMenu = new ActionMenu();
 		this.groundPanel = new GroundPanel();
 
-		super.getMainMenuBar().addMenu(actionMenu);
+		JMenuBar mb = new JMenuBar();
+		mb.add(actionMenu);
+		this.setJMenuBar(mb);
 
 		this.setContentPane(groundPanel);
 
@@ -41,20 +41,18 @@ public class MainView extends PrismCreatorCommonView implements IMainView
 	public void setControl(IMainControl control)
 	{
 		this.control = control;
-		this.getMainMenuBar().setMainMenuListener(control);
 		actionMenu.setControl(control);
 		sceneHandler.setControl(control);
 		groundPanel.setControl(control);
 	}
 
-	public void start() throws PrismException
-	{
-		AllGrounds.loadAll(Prism.global.loadMetaFile(FileTableDirectoryIndex.WORLD, WorldIndex.GROUND.ordinal()));
-		AllDrawableGrounds.loadAll();
-		sceneHandler.start();
-	}
+	//	public void start() throws PrismException
+	//	{
+	//		AllGrounds.loadAll(Prism.global.loadMetaFile(FileTableDirectoryIndex.WORLD, WorldIndex.GROUND.ordinal()));
+	//		AllDrawableGrounds.loadAll();
+	//		sceneHandler.start();
+	//	}
 
-	// IMainView:
 	@Override
 	public void selectGround(int index) throws PrismException
 	{

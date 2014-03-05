@@ -16,7 +16,7 @@ public abstract class CollectionControl
 	public static CollectionModel createNewModel(INewDialogResult result)
 	{
 		NewCollectionData d = (NewCollectionData) result;
-		CollectionModel m = openModel(result.getPath());
+		CollectionModel m = new CollectionModel(new Text(""), d.getPath());// openModel(result.getPath(), objectSelection);
 		m.setName(d.getName());
 		return m;
 	}

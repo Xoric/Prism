@@ -10,7 +10,7 @@ import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.scene.IDrawableUI;
 import xoric.prism.scene.IInputListener;
-import xoric.prism.scene.IRendererUI;
+import xoric.prism.scene.renderer.IUIRenderer2;
 import xoric.prism.ui.action.IActionExecuter;
 
 public class PrismUI implements IDrawableUI, IInputListener
@@ -40,10 +40,10 @@ public class PrismUI implements IDrawableUI, IInputListener
 	}
 
 	@Override
-	public void draw(IRendererUI renderer) throws PrismException
+	public void draw(IUIRenderer2 ren) throws PrismException
 	{
 		for (UIWindow w : windows)
-			w.draw(renderer);
+			w.draw(ren);
 	}
 
 	public void addWindow(UIWindow w)

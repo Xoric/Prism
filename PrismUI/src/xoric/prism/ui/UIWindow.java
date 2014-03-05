@@ -17,9 +17,9 @@ import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.IMetaChild_in;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
-import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.materials.art.AllArt;
 import xoric.prism.scene.materials.tools.AllTools;
+import xoric.prism.scene.renderer.IUIRenderer2;
 import xoric.prism.ui.action.IActionExecuter;
 import xoric.prism.ui.button.ButtonAction;
 import xoric.prism.ui.button.UIButton;
@@ -211,9 +211,9 @@ public class UIWindow extends UIFrame implements IUIButtonHost, IMetaChild_in
 	}
 
 	@Override
-	public void draw(IRendererUI renderer) throws PrismException
+	public void draw(IUIRenderer2 ren) throws PrismException
 	{
-		super.draw(renderer);
+		super.draw(ren);
 
 		if (cornerRect != null)
 		{
@@ -222,10 +222,10 @@ public class UIWindow extends UIFrame implements IUIButtonHost, IMetaChild_in
 		}
 
 		for (UIComponent c : components)
-			c.draw(renderer);
+			c.draw(ren);
 
 		if (closeButton != null)
-			closeButton.draw(renderer);
+			closeButton.draw(ren);
 	}
 
 	@Override

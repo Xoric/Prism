@@ -1,9 +1,9 @@
-package xoric.prism.scene.textures.grid;
+package xoric.prism.scene.art.grid;
 
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.meta.MetaFile;
 import xoric.prism.data.meta.MetaList_in;
-import xoric.prism.scene.textures.Art;
+import xoric.prism.scene.art.Art;
 
 public class GridArt extends Art
 {

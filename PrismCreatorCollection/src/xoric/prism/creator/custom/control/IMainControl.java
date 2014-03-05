@@ -12,4 +12,6 @@ public interface IMainControl extends IMainMenuListener, IObjectControl, IRectCo
 	public void requestCreateCollection();
 
 	public void requestSetName(IText_r name);
+
+	public void requestEnableHotspots(boolean b);
 }

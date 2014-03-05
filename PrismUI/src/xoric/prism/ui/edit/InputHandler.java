@@ -20,8 +20,8 @@ import xoric.prism.data.types.PrismColor;
 import xoric.prism.data.types.Text;
 import xoric.prism.data.types.TextMap;
 import xoric.prism.data.types.Word;
-import xoric.prism.scene.IRendererUI;
 import xoric.prism.scene.materials.tools.AllTools;
+import xoric.prism.scene.renderer.IUIRenderer2;
 import xoric.prism.ui.BlinkColor;
 import xoric.prism.ui.IUISubcomponent;
 
@@ -389,7 +389,7 @@ public class InputHandler implements IUISubcomponent, IStackable
 		return (inputFormat == InputFormat.PASSWORD) ? passwordText : text;
 	}
 
-	public void draw(IRendererUI renderer, boolean drawCursor) throws PrismException
+	public void draw(IUIRenderer2 renderer, boolean drawCursor) throws PrismException
 	{
 		if (inputChanged)
 			refreshInput();

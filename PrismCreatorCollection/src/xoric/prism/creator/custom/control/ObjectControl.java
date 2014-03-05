@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import xoric.prism.creator.common.spritelist.control.SpriteNameGenerator;
 import xoric.prism.creator.custom.model.CollectionModel;
 import xoric.prism.creator.custom.model.ObjectModel;
+import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.IText_r;
 import xoric.prism.data.types.Text;
 import xoric.prism.swing.input.PrismTextDialog;
@@ -27,6 +28,11 @@ public abstract class ObjectControl
 			try
 			{
 				model.save();
+			}
+			catch (PrismException e)
+			{
+				e.code.print();
+				e.user.showMessage();
 			}
 			catch (IOException e)
 			{

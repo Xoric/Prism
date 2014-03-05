@@ -108,7 +108,7 @@ public class GridView extends PrismCreatorCommonView implements ActionListener, 
 	@Override
 	public void updateHotspotsEnabled()
 	{
-		if (model == null || !model.isHotSpotListEnabled())
+		if (model == null || !model.isHotspotListEnabled())
 			spriteList.registerHotSpotListener(null);
 		else
 			spriteList.registerHotSpotListener(control);
