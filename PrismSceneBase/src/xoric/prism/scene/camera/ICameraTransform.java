@@ -13,5 +13,5 @@ public interface ICameraTransform
 
 	public void transformRect(IFloatRect_r in, FloatRect out);
 
-	public void transformFrameFractionToWorld(IFloatPoint_r in, FloatPoint out);
+	public void transformNormalizedScreenToWorld(IFloatPoint_r in, FloatPoint out);
 }

@@ -4,12 +4,11 @@ import java.awt.Dimension;
 import java.util.List;
 
 import xoric.prism.data.exceptions.PrismException;
-import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.scene.settings.ISceneSettings;
 
-public interface IScene //extends IShaderIO
+public interface IScene
 {
 	/**
 	 * Returns a list of available resolutions.
@@ -49,5 +48,7 @@ public interface IScene //extends IShaderIO
 
 	public float getSlope();
 
-	public void applyPerspective(FloatPoint p);
+	public IFloatPoint_r getMouseOnScreen();
+
+	public IFloatPoint_r getMouseInWorld();
 }

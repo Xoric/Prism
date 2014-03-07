@@ -1,14 +1,12 @@
 package xoric.prism.scene;
 
-import xoric.prism.data.types.IFloatPoint_r;
-
 public interface IInputListener
 {
-	public boolean onMouseDown(IFloatPoint_r mouse, boolean isLeft);
+	public boolean onMouseDown(int button);
 
-	public void onMouseUp(IFloatPoint_r mouse, boolean isLeft);
+	public void onMouseUp(int button);
 
-	public void onMouseMove(IFloatPoint_r mouse);
+	public void onMouseMove();
 
 	public boolean onControlKey(int keyCode, boolean isDown);
 

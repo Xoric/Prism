@@ -1,19 +1,19 @@
-package xoric.prism.scene.camera;
+package xoric.prism.scene.lwjgl.renderers;
 
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.IFloatRect_r;
+import xoric.prism.scene.camera.Camera;
 
-@Deprecated
-public class CameraOld extends Camera
+public class CameraGL extends Camera
 {
-	public CameraOld(IFloatPoint_r topLeft, IFloatPoint_r size)
+	public CameraGL(IFloatPoint_r topLeft, IFloatPoint_r size)
 	{
 		super(topLeft, size);
 	}
 
-	public CameraOld(float x, float y, float width, float height)
+	public CameraGL(float x, float y, float width, float height)
 	{
 		super(x, y, width, height);
 	}
@@ -21,8 +21,9 @@ public class CameraOld extends Camera
 	@Override
 	public void transformPosition(IFloatPoint_r in, FloatPoint out)
 	{
-		out.x = (in.getX() - topLeft.x) / size.getX();
-		out.y = (in.getY() - topLeft.y) / size.getY();
+		out.x = -0.5f + (in.getX() - topLeft.x) / size.getX();
+		out.y = 0.5f - (in.getY() - topLeft.y) / size.getY();
+		//		out.y = 1.0f - (in.getY() - topLeft.y) / size.getY();
 	}
 
 	@Override
@@ -30,14 +31,18 @@ public class CameraOld extends Camera
 	{
 		out.copyFrom(in);
 		out.divide(size);
+		out.y = -out.y;
 	}
 
 	@Override
 	public void transformRect(IFloatRect_r in, FloatRect out)
 	{
-		out.copyFrom(in);
-		out.subtractPosition(topLeft);
-		out.divideAll(size);
+		float x = -0.5f + (in.getX() - topLeft.x) / size.getX();
+		float y = 0.5f - (in.getY() - topLeft.y) / size.getY();
+		//		float y = 1.0f - (in.getY() - topLeft.y) / size.getY();
+		float w = in.getWidth() / size.x;
+		float h = -in.getHeight() / size.y;
+		out.set(x, y, w, h);
 	}
 
 	@Override
