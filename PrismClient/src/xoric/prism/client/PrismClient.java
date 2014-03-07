@@ -21,12 +21,14 @@ import xoric.prism.data.types.FloatRect;
 import xoric.prism.data.types.IFloatPoint_r;
 import xoric.prism.data.types.Point;
 import xoric.prism.data.types.Text;
+import xoric.prism.mouse.MouseButton;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
 import xoric.prism.scene.camera.Camera;
 import xoric.prism.scene.camera.CameraOld;
 import xoric.prism.scene.materials.art.AllArt;
 import xoric.prism.scene.materials.shaders.AllShaders;
+import xoric.prism.scene.materials.tools.AllTools;
 import xoric.prism.scene.renderer.IUIRenderer2;
 import xoric.prism.scene.renderer.IWorldRenderer2;
 import xoric.prism.ui.BlinkColor;
@@ -44,7 +46,15 @@ import xoric.prism.world.model.GridModelMeta;
 
 public class PrismClient implements ISceneListener, IActionParent, INetworkControl, IExceptionSink
 {
+	private final IFloatPoint_r mouseOnScreen;
+	private final IFloatPoint_r mouseInWorld;
+
 	private final ConnectionHint connectionHint;
+
+	private final Text mouseText1;
+	private final Text mouseText2;
+	private final FloatPoint mouseTextPos1;
+	private final FloatPoint mouseTextPos2;
 
 	private final IScene scene;
 	private IFloatPoint_r frameSize;
@@ -66,6 +76,7 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 	private final FloatPoint target;
 
 	private FloatRect testMouse;
+	private FloatRect camZeroRect;
 
 	private FloatRect testRectZ1;
 	private FloatRect testRectZ2;
@@ -75,8 +86,11 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 	private final FloatPoint worldMouse;
 
 	private FloatRect testPlane;
+	private FloatRect testPlane2;
 	private FloatRect testSprite;
 	private FloatRect testSpriteTemp;
+
+	private IFloatPoint_r mouseRef;
 
 	private FloatPoint testMan[];
 	private FloatPoint walkingMan;
@@ -116,17 +130,25 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 
 	public PrismClient(IScene scene, Camera cam)
 	{
+		this.mouseOnScreen = scene.getMouseOnScreen();
+		this.mouseInWorld = scene.getMouseInWorld();
 		this.cam = cam;
 
 		this.connectionHint = new ConnectionHint();
 
+		mouseText1 = new Text();
+		mouseText2 = new Text();
+		mouseTextPos1 = new FloatPoint(25.0f, 350.0f);
+		mouseTextPos2 = new FloatPoint(25.0f, 375.0f);
+
 		this.scene = scene;
 		this.network = new Network(this);
 		this.actionExecuter = new ActionExecuter(this, network);
-		this.ui = new PrismUI(this, actionExecuter);
+		this.ui = new PrismUI(this, actionExecuter, mouseOnScreen);
 
 		//		testPlane = new FloatRect(200.0f, 100.0f, 120.0f, 80.0f);
 		testPlane = new FloatRect(0.0f, 0.0f, 120.0f, 80.0f);
+		testPlane2 = new FloatRect(0.0f, 0.0f, 120.0f, 80.0f);
 		testSprite = new FloatRect(0.0f, 0.0f, 35.0f, 34.0f);
 		testSpriteTemp = new FloatRect(0.0f, 0.0f, 35.0f, 34.0f);
 
@@ -137,6 +159,8 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		testMan[1] = new FloatPoint(800.0f - manSize.getX(), 0.0f);
 		testMan[2] = new FloatPoint(0.0f, 480.0f);
 		testMan[3] = new FloatPoint(800.0f - manSize.getX(), 480.0f);
+
+		camZeroRect = new FloatRect(0.0f, 0.0f, 10.0f, 25.0f);
 
 		testMouse = new FloatRect(0.0f, 0.0f, 10.0f, 25.0f);
 		perspectiveMouse = new FloatPoint();
@@ -411,18 +435,18 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 			if (isSlopeGrowing)
 			{
 				slope += 0.001f;
-				if (slope > 1.5f)
+				if (slope > 1.0f)
 				{
-					slope = 1.5f;
+					slope = 1.0f;
 					isSlopeGrowing = false;
 				}
 			}
 			else
 			{
 				slope -= 0.001f;
-				if (slope < 0.3f)
+				if (slope < 0.0f)
 				{
-					slope = 0.3f;
+					slope = 0.0f;
 					isSlopeGrowing = true;
 				}
 			}
@@ -491,6 +515,9 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 				ni = 0;
 		}
 
+		camZeroRect.setX(cam.getX());
+		camZeroRect.setY(cam.getY());
+
 		return clientException == null && !exitGameRequested;
 	}
 
@@ -502,8 +529,18 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 
 		ren.reset();
 		ren.setTexInfo(0, AllArt.env0.getMeta().getRect(1));
-		ren.setSprite(testPlane);
-		ren.drawPlane(1);
+		testPlane2.copyFrom(testPlane);
+		for (int y = 0; y < 10; ++y)
+		{
+			for (int x = 0; x < 10; ++x)
+			{
+				ren.setSprite(testPlane2);
+				testPlane2.addX(120.0f);
+				ren.drawPlane(1);
+			}
+			testPlane2.setX(testPlane.getX());
+			testPlane2.addY(80.0f);
+		}
 
 		AllShaders.color.activate();
 		AllShaders.color.setTexture(AllArt.mush0.getTexture(0));
@@ -518,6 +555,7 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		//			testSpriteTemp.addX(39.0f);
 		//			testSpriteTemp.addY(10.0f);
 		//		}
+
 		ren.setTexInfo(0, AllArt.mush0.getTextureInfo(0, 1, 0, 0));
 		testSpriteTemp.setTopLeft(0.0f, 0.0f);
 		ren.setSprite(testSpriteTemp);
@@ -538,7 +576,17 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		ren.setSprite(testSpriteTemp);
 		ren.drawObject(1);
 
+		ren.setSprite(camZeroRect);
+		ren.drawObject(1);
+
+		ren.setSprite(testMouse);
+		ren.drawObject(1);
+
+		/* ******************** */
+
 		/* ********************
+		 * 
+		 * 
 		
 		// draw edges
 		//		renderer.setColor(0.3f, 0.5f, 0.2f);
@@ -731,48 +779,39 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 		//		renderer.drawSprite(AllBuffers.groundBuffer.getRect(), testRectZ3);
 		
 		****************************************** */
+
+		AllShaders.color.activate();
+		AllTools.printer.setText(mouseText1);
+		AllTools.printer.print(mouseTextPos1);
+		AllTools.printer.setText(mouseText2);
+		AllTools.printer.print(mouseTextPos2);
 	}
 
 	@Override
-	public void onMouseMove(IFloatPoint_r mouse)
+	public void onMouseMove()
 	{
-		ui.onMouseMove(mouse);
+		ui.onMouseMove();
 
-		//		perspectiveMouse.copyFrom(mouse);
-		//		scene.applyPerspective(perspectiveMouse);
-		//		cam.transformFrameFractionToWorld(perspectiveMouse, mousePixels);
-		//
-		//		testMouse.setTopLeft(mousePixels);
+		mouseText1.set("SCREEN: X=" + (int) mouseOnScreen.getX() + ", Y=" + (int) mouseOnScreen.getY());
+		mouseText2.set("WORLD: X=" + (int) mouseInWorld.getX() + ", Y=" + (int) mouseInWorld.getY());
 	}
 
 	@Override
-	public boolean onMouseDown(IFloatPoint_r mouse, boolean isLeft)
+	public boolean onMouseDown(int button)
 	{
-		scene.setWindowTitle(mouse.toString());
-
 		boolean b = false;
 
-		if (isLeft)
-			b = ui.onMouseDown(mouse, true);
+		if (button == MouseButton.left)
+			b = ui.onMouseDown(button);
 
-		if (!b)
-		{
-			perspectiveMouse.copyFrom(mouse);
-			scene.applyPerspective(perspectiveMouse);
-			cam.transformFrameFractionToWorld(perspectiveMouse, worldMouse);
-
-			// TODO ...
-			testMouse.setTopLeft(worldMouse);
-			testMouse.addY(2.5f);
-		}
 		return true;
 	}
 
 	@Override
-	public void onMouseUp(IFloatPoint_r mouse, boolean isLeft)
+	public void onMouseUp(int button)
 	{
-		if (isLeft)
-			ui.onMouseUp(mouse, true);
+		if (button == MouseButton.left)
+			ui.onMouseUp(button);
 	}
 
 	@Override
@@ -807,6 +846,12 @@ public class PrismClient implements ISceneListener, IActionParent, INetworkContr
 
 		if (c == 'L')
 			isSlopeFixed = !isSlopeFixed;
+
+		if (c == 'W')
+		{
+			slope += 0.05f;
+			scene.setSlope(slope);
+		}
 
 		if (c == 'Y')
 			isDebugDecoActive = !isDebugDecoActive;

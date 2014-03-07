@@ -29,16 +29,7 @@ public class WorldRendererLWJGL extends WorldRenderer
 		this.slope = slope;
 	}
 
-	private float calcZ(float y)
-	{
-		float z = -1.5f - (1.0f - y) * slope;
-		if (z > -1.499f)
-			z = -1.499f;
-
-		return z;
-	}
-
-	private float calcNewZ(float y)
+	public float calcNewZ(float y) // TODO make private
 	{
 		// TODO reimplement
 		y = 0.5f - y;
@@ -46,11 +37,12 @@ public class WorldRendererLWJGL extends WorldRenderer
 		float z = -1.5f - (1.0f - y) * slope;
 		if (z > -1.499f)
 			z = -1.499f;
+		else if (z < -6.499f)
+			z = -6.499f;
 
 		return z;
 	}
 
-	// IWorldRenderer2:
 	@Override
 	public void drawPlane(int texCount)
 	{

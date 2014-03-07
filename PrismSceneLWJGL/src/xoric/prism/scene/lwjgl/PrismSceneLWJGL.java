@@ -8,36 +8,31 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
 
 import xoric.prism.data.exceptions.IExceptionSink;
 import xoric.prism.data.exceptions.PrismException;
 import xoric.prism.data.types.FloatPoint;
 import xoric.prism.data.types.IFloatPoint_r;
-import xoric.prism.data.types.IFloatRect_r;
 import xoric.prism.data.types.IPoint_r;
 import xoric.prism.data.types.Point;
 import xoric.prism.scene.IInputListener;
-import xoric.prism.scene.IRendererUI;
-import xoric.prism.scene.IRendererWorld;
 import xoric.prism.scene.IScene;
 import xoric.prism.scene.ISceneListener;
-import xoric.prism.scene.art.TextureInfo;
 import xoric.prism.scene.camera.ICameraTransform;
 import xoric.prism.scene.lwjgl.cleanup.TrashCan;
-import xoric.prism.scene.lwjgl.fbo.IFrameBufferParent;
 import xoric.prism.scene.lwjgl.renderers.UIRendererLWJGL;
 import xoric.prism.scene.lwjgl.renderers.WorldRendererLWJGL;
 import xoric.prism.scene.renderer.IUIRenderer2;
 import xoric.prism.scene.renderer.IWorldRenderer2;
 import xoric.prism.scene.settings.ISceneSettings;
 
-public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IExceptionSink, IFrameBufferParent
+public class PrismSceneLWJGL implements IScene, IExceptionSink//, IFrameBufferParent
 {
-	//	private final TrashCan trashCan;
 	private final InputHandlerLWJGL inputHandler;
-	//	private final ShaderIO2 shaderIO;
-	//	private final FrameBufferIO frameBufferIO;
+	private final MouseProjectorLWJGL mouseProjector;
+	private final FloatPoint mouseInWorld;
+
+	private final ICameraTransform camera;
 
 	private final WorldRendererLWJGL worldRenderer;
 	private final UIRendererLWJGL uiRenderer;
@@ -45,38 +40,28 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 	private FloatPoint frameSize;
 	private Exception exception;
 
-	private int frameBufferID;
+	//	private int frameBufferID;
 
 	private float slope;
 
-	//	private IDefaultShader testingDefaultShader;
-	//	private Texture testingTexture;
-	//	private PrismColor testingColor2;
-	//	private final boolean[] brgba = new boolean[4];
-
 	private int fps;
-
-	private final FloatPoint temp;
-	private final FloatPoint temp2;
 
 	public PrismSceneLWJGL(ICameraTransform cam)
 	{
 		setFps(60);
 
+		//		slope = 0.0f;
 		slope = 0.15f;
+
+		camera = cam;
 
 		worldRenderer = new WorldRendererLWJGL(slope, cam);
 		uiRenderer = new UIRendererLWJGL();
 
 		inputHandler = new InputHandlerLWJGL();
+		mouseProjector = new MouseProjectorLWJGL();
 
-		//		trashCan = new TrashCan();
-		//		shaderIO = new ShaderIO2();
-		//		frameBufferIO = new FrameBufferIO();
-
-		temp = new FloatPoint();
-		temp2 = new FloatPoint();
-
+		mouseInWorld = new FloatPoint();
 	}
 
 	@Override
@@ -198,66 +183,19 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glEnable(GL11.GL_BLEND);
 
-		//		GL11.glEnable(GL11.GL_DEPTH_TEST); // Tiefentest (mit dem Z-Buffer) aktivieren
+		//		GL11.glEnable(GL11.GL_DEPTH_TEST); // TODO: just a test
+	}
 
-		// generate a frame buffer
-		//		boolean isFboEnabled = GLContext.getCapabilities().GL_EXT_framebuffer_object;
-		//		frameBufferID = 0;
-		//		if (isFboEnabled)
-		//		{
-		//			IntBuffer buffer = ByteBuffer.allocateDirect(1 * 4).order(ByteOrder.nativeOrder()).asIntBuffer(); // allocate a 1 int byte buffer
-		//			EXTFramebufferObject.glGenFramebuffersEXT(buffer); // generate
-		//			frameBufferID = buffer.get();
-		//			System.out.println("frame buffer id: " + frameBufferID);
-		//		}
-		//		if (frameBufferID <= 0)
-		//		{
-		//			PrismException e = new PrismException();
-		//			e.setText(UserErrorText.FRAME_BUFFER_ERROR);
-		//			throw e;
-		//		}
+	@Override
+	public IFloatPoint_r getMouseOnScreen()
+	{
+		return inputHandler.getMouseOnScreen();
+	}
 
-		//		try
-		//		{
-		//			AllShaders.load(shaderIO);
-		//		}
-		//		catch (Exception e2)
-		//		{
-		//			receiveException(e2);
-		//		}
-
-		//		try
-		//		{
-		//			// TODO: throws an exception on netbook
-		//			testingDefaultShader = ShaderIO2.createShader(new File("../debug/defaultShader.vert"), new File("../debug/defaultShader.frag"));
-		//			testingDefaultShader.activate();
-		//		}
-		//		catch (PrismException e)
-		//		{
-		//			e.code.print();
-		//		}
-
-		/*
-		testingColor2 = new PrismColor();
-		testingColor2.set(1.0f, 0.0f, 0.0f, 1.0f);
-
-		try
-		{
-			textures = new TextureIO[3];
-			textures[0] = new TextureIO(new FileInputStream("../debug/g1.png"));
-			textures[1] = new TextureIO(new FileInputStream("../debug/g2.png"));
-			textures[2] = new TextureIO(new FileInputStream("../debug/john.png"));
-			testingTexture = TextureBinderLWJGL.createFromFile(new File("../debug/john.png"));
-			GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_REPLACE);
-			textures[0].init();
-			textures[1].init();
-			textures[2].init();
-		}
-		catch (IOException e1)
-		{
-			e1.printStackTrace();
-		}
-		*/
+	@Override
+	public IFloatPoint_r getMouseInWorld()
+	{
+		return mouseInWorld;
 	}
 
 	@Override
@@ -310,6 +248,12 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 						setStage(true);
 						client.drawWorld(worldRenderer);
 
+						// calculate mouseInWorld
+						mouseProjector.update();
+						mouseInWorld.x = 0.5f + mouseProjector.getMouseInWorld().getX();
+						mouseInWorld.y = 0.5f - mouseProjector.getMouseInWorld().getY();
+						camera.transformNormalizedScreenToWorld(mouseInWorld, mouseInWorld);
+
 						setStage(false);
 						client.drawUI(uiRenderer);
 
@@ -356,16 +300,21 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 		client.onClosingScene(exception);
 	}
 
-	@Override
 	public void setStage(boolean isWorldStage)
 	{
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
 
 		if (isWorldStage)
+		{
 			GL11.glFrustum(-0.5, 0.5, -0.5, 0.5, 1.5, 6.5);
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
+		}
 		else
+		{
 			GL11.glOrtho(0.0f, 1.0f, 0.0f, 1.0f, 1.0f, -1.0f);
+			GL11.glDisable(GL11.GL_DEPTH_TEST);
+		}
 
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 
@@ -386,452 +335,8 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 	public void setSlope(float slope)
 	{
 		this.slope = slope;
-		worldRenderer.setSlope(slope);
-	}
-
-	@Override
-	public void drawSprite(TextureInfo texInfo, IFloatRect_r rect)
-	{
-		GL11.glBegin(GL11.GL_QUADS);
-
-		float x = rect.getTopLeft().getX() / frameSize.x;
-		float y = 1.0f - rect.getTopLeft().getY() / frameSize.y;
-		float w = rect.getSize().getX() / frameSize.x;
-		float h = -(rect.getSize().getY() / frameSize.y);
-
-		IFloatPoint_r tl = texInfo.getRect().getTopLeft();
-		IFloatPoint_r br = texInfo.getRect().getBottomRight();
-
-		if (texInfo.isFlippedH())
-		{
-			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
-			GL11.glVertex2f(x, y);
-			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
-			GL11.glVertex2f(x + w, y);
-			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
-			GL11.glVertex2f(x + w, y + h);
-			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
-			GL11.glVertex2f(x, y + h);
-		}
-		else
-		{
-			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
-			GL11.glVertex2f(x, y);
-			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
-			GL11.glVertex2f(x + w, y);
-			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
-			GL11.glVertex2f(x + w, y + h);
-			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
-			GL11.glVertex2f(x, y + h);
-		}
-		GL11.glEnd();
-	}
-
-	//	@Override
-	//	public void drawSprite(IFloatRect_r texRect, IFloatPoint_r position, IFloatPoint_r size)
-	//	{
-	//		GL11.glBegin(GL11.GL_QUADS);
-	//
-	//		float x = rect.getTopLeft().getX();
-	//		float y = rect.getTopLeft().getY();
-	//		float w = rect.getSize().getX();
-	//		float h = rect.getSize().getY();
-	//
-	//		IFloatPoint_r tl = texRect.getTopLeft();
-	//		IFloatPoint_r br = texRect.getBottomRight();
-	//
-	//		GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
-	//		GL11.glVertex2f(x, y);
-	//		GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
-	//		GL11.glVertex2f(x + w, y);
-	//		GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
-	//		GL11.glVertex2f(x + w, y + h);
-	//		GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
-	//		GL11.glVertex2f(x, y + h);
-	//
-	//		GL11.glEnd();
-	//	}
-
-	@Override
-	public void drawSprite(IFloatRect_r texRect, IFloatRect_r screenRect)
-	{
-		GL11.glBegin(GL11.GL_QUADS);
-
-		/* checked */
-		float x = screenRect.getTopLeft().getX() / frameSize.x;
-		float y = 1.0f - screenRect.getTopLeft().getY() / frameSize.y;
-		float w = screenRect.getSize().getX() / frameSize.x;
-		float h = -screenRect.getSize().getY() / frameSize.y;
-
-		IFloatPoint_r tl = texRect.getTopLeft();
-		IFloatPoint_r br = texRect.getBottomRight();
-
-		GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
-		GL11.glVertex2f(x, y);
-		GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
-		GL11.glVertex2f(x + w, y);
-		GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
-		GL11.glVertex2f(x + w, y + h);
-		GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
-		GL11.glVertex2f(x, y + h);
-
-		GL11.glEnd();
-	}
-
-	//	@Override
-	//	public void drawPlane(TextureInfo texInfo, IFloatRect_r rect)
-	//	{
-	//		GL11.glBegin(GL11.GL_QUADS);
-	//
-	//		float x = -0.5f + rect.getTopLeft().getX();
-	//		float y0 = rect.getTopLeft().getY();
-	//		float y = -0.5f + y0;
-	//		float w = rect.getSize().getX();
-	//		float h = rect.getSize().getY();
-	//		float zFront = calcZ(y0);
-	//		float zBack = calcZ(y0 + h);
-	//
-	//		IFloatPoint_r tl = texInfo.getRect().getTopLeft();
-	//		IFloatPoint_r br = texInfo.getRect().getBottomRight();
-	//
-	//		if (texInfo.isFlippedH())
-	//		{
-	//			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
-	//			GL11.glVertex3f(x, y, zFront);
-	//			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
-	//			GL11.glVertex3f(x + w, y, zFront);
-	//			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
-	//			GL11.glVertex3f(x + w, y + h, zBack);
-	//			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
-	//			GL11.glVertex3f(x, y + h, zBack);
-	//		}
-	//		else
-	//		{
-	//			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
-	//			GL11.glVertex3f(x, y, zFront);
-	//			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
-	//			GL11.glVertex3f(x + w, y, zFront);
-	//			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
-	//			GL11.glVertex3f(x + w, y + h, zBack);
-	//			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
-	//			GL11.glVertex3f(x, y + h, zBack);
-	//		}
-	//
-	//		//		GL11.glTexCoord2f(0.0f, 0.0f);
-	//		//		GL11.glVertex3f(x, y, zFront);
-	//		//		GL11.glTexCoord2f(1.0f, 0.0f);
-	//		//		GL11.glVertex3f(x + w, y, zFront);
-	//		//		GL11.glTexCoord2f(1.0f, 1.0f);
-	//		//		GL11.glVertex3f(x + w, y + h, zBack);
-	//		//		GL11.glTexCoord2f(0.0f, 1.0f);
-	//		//		GL11.glVertex3f(x, y + h, zBack);
-	//
-	//		GL11.glEnd();
-	//	}
-	@Override
-	public void drawPlane(TextureInfo texInfo, IFloatRect_r screenRect)
-	{
-		GL11.glBegin(GL11.GL_QUADS);
-
-		float x = -0.5f + screenRect.getTopLeft().getX();
-		float y0 = 1.0f - screenRect.getTopLeft().getY();
-		float y = -0.5f + y0;
-		float w = screenRect.getSize().getX();
-		float h = -screenRect.getSize().getY();
-		float zFront = calcZ(y0);
-		float zBack = calcZ(y0 + h);
-
-		IFloatPoint_r tl = texInfo.getRect().getTopLeft();
-		IFloatPoint_r br = texInfo.getRect().getBottomRight();
-
-		if (texInfo.isFlippedH())
-		{
-			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
-			GL11.glVertex3f(x, y, zFront);
-			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
-			GL11.glVertex3f(x + w, y, zFront);
-			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
-			GL11.glVertex3f(x + w, y + h, zBack);
-			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
-			GL11.glVertex3f(x, y + h, zBack);
-		}
-		else
-		{
-			GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
-			GL11.glVertex3f(x, y, zFront);
-			GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
-			GL11.glVertex3f(x + w, y, zFront);
-			GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
-			GL11.glVertex3f(x + w, y + h, zBack);
-			GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
-			GL11.glVertex3f(x, y + h, zBack);
-		}
-
-		GL11.glEnd();
-	}
-
-	@Override
-	public void drawPlane(IFloatRect_r texRect, IFloatRect_r screenRect, float z)
-	{
-		GL11.glBegin(GL11.GL_QUADS);
-
-		float x = -0.5f + screenRect.getTopLeft().getX(); // TODO code duplication (see implementation above)
-		float y0 = 1.0f - screenRect.getTopLeft().getY();
-		float y = -0.5f + y0;
-		float w = screenRect.getSize().getX();
-		float h = -screenRect.getSize().getY();
-		float zFront = calcZ(y0) + z;
-		float zBack = calcZ(y0 + h) + z;
-
-		IFloatPoint_r tl = texRect.getTopLeft();
-		IFloatPoint_r br = texRect.getBottomRight();
-
-		GL11.glTexCoord2f(tl.getX(), 1.0f - tl.getY());
-		GL11.glVertex3f(x, y, zFront);
-		GL11.glTexCoord2f(br.getX(), 1.0f - tl.getY());
-		GL11.glVertex3f(x + w, y, zFront);
-		GL11.glTexCoord2f(br.getX(), 1.0f - br.getY());
-		GL11.glVertex3f(x + w, y + h, zBack);
-		GL11.glTexCoord2f(tl.getX(), 1.0f - br.getY());
-		GL11.glVertex3f(x, y + h, zBack);
-
-		GL11.glEnd();
-	}
-
-	@Override
-	public void drawMaskPlane(IFloatRect_r texRect, IFloatRect_r maskRect, IFloatRect_r screenRect)
-	{
-		GL11.glBegin(GL11.GL_QUADS);
-
-		float x = -0.5f + screenRect.getTopLeft().getX(); // TODO code duplication (see implementations above)
-		float y0 = 1.0f - screenRect.getTopLeft().getY();
-		float y = -0.5f + y0;
-		float w = screenRect.getSize().getX();
-		float h = -screenRect.getSize().getY();
-		float zFront = calcZ(y0);
-		float zBack = calcZ(y0 + h);
-
-		IFloatPoint_r tl0 = texRect.getTopLeft();
-		IFloatPoint_r br0 = texRect.getBottomRight();
-
-		IFloatPoint_r tl1 = maskRect.getTopLeft();
-		IFloatPoint_r br1 = maskRect.getBottomRight();
-
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, tl0.getX(), 1.0f - tl0.getY());
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, tl1.getX(), 1.0f - tl1.getY());
-		GL11.glVertex3f(x, y, zFront);
-
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, br0.getX(), 1.0f - tl0.getY());
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, br1.getX(), 1.0f - tl1.getY());
-		GL11.glVertex3f(x + w, y, zFront);
-
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, br0.getX(), 1.0f - br0.getY());
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, br1.getX(), 1.0f - br1.getY());
-		GL11.glVertex3f(x + w, y + h, zBack);
-
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, tl0.getX(), 1.0f - br0.getY());
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, tl1.getX(), 1.0f - br1.getY());
-		GL11.glVertex3f(x, y + h, zBack);
-
-		GL11.glEnd();
-	}
-
-	// IRendererWorld:
-	@Override
-	public void drawMask2Plane(IFloatRect_r texRect, IFloatRect_r mask1Rect, IFloatRect_r mask2Rect, IFloatRect_r screenRect)
-	{
-		GL11.glBegin(GL11.GL_QUADS);
-
-		float x = -0.5f + screenRect.getTopLeft().getX(); // TODO code duplication (see implementations above)
-		float y0 = 1.0f - screenRect.getTopLeft().getY();
-		float y = -0.5f + y0;
-		float w = screenRect.getSize().getX();
-		float h = -screenRect.getSize().getY();
-		float zFront = calcZ(y0);
-		float zBack = calcZ(y0 + h);
-
-		IFloatPoint_r tl0 = texRect.getTopLeft();
-		IFloatPoint_r br0 = texRect.getBottomRight();
-
-		IFloatPoint_r tl1 = mask1Rect.getTopLeft();
-		IFloatPoint_r br1 = mask1Rect.getBottomRight();
-
-		IFloatPoint_r tl2 = mask2Rect.getTopLeft();
-		IFloatPoint_r br2 = mask2Rect.getBottomRight();
-
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, tl0.getX(), 1.0f - tl0.getY());
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, tl1.getX(), 1.0f - tl1.getY());
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE2, tl2.getX(), 1.0f - tl2.getY());
-		GL11.glVertex3f(x, y, zFront);
-
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, br0.getX(), 1.0f - tl0.getY());
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, br1.getX(), 1.0f - tl1.getY());
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE2, br2.getX(), 1.0f - tl2.getY());
-		GL11.glVertex3f(x + w, y, zFront);
-
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, br0.getX(), 1.0f - br0.getY());
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, br1.getX(), 1.0f - br1.getY());
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE2, br2.getX(), 1.0f - br2.getY());
-		GL11.glVertex3f(x + w, y + h, zBack);
-
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, tl0.getX(), 1.0f - br0.getY());
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, tl1.getX(), 1.0f - br1.getY());
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE2, tl2.getX(), 1.0f - br2.getY());
-		GL11.glVertex3f(x, y + h, zBack);
-
-		GL11.glEnd();
-	}
-
-	@Override
-	public void drawObject(TextureInfo texInfo, IFloatPoint_r position, IFloatPoint_r size, float z)
-	{
-		GL11.glBegin(GL11.GL_QUADS);
-
-		float x = -0.5f + position.getX();
-		float y0 = position.getY();
-		// variation 1:
-		//		float y = -0.5f + y0; // TODO y is currently flipped
-		// variation 2:
-		float y = 0.5f - y0;
-		// --
-		float w = size.getX();
-		float h = size.getY();
-		// variation 1:
-		//		z = calcZ(y0) + z;
-		// variation 2:
-		z = calcZAlt(y0) + z;
-		// --
-		x -= w * 0.5f;
-
-		//		System.out.println("renderer received texture coordinates " + texInfo.getRect().getTopLeft());
-
-		IFloatPoint_r tl = texInfo.getRect().getTopLeft();
-		IFloatPoint_r br = texInfo.getRect().getBottomRight();
-
-		// flipping the texture's y-coordinates
-		// TODO: vertically flip textures before binding?
-		temp.y = 1.0f - tl.getY();
-		temp2.y = 1.0f - br.getY();
-
-		if (texInfo.isFlippedH())
-		{
-			GL11.glTexCoord2f(br.getX(), temp2.getY());
-			GL11.glVertex3f(x, y, z);
-			GL11.glTexCoord2f(tl.getX(), temp2.getY());
-			GL11.glVertex3f(x + w, y, z);
-			GL11.glTexCoord2f(tl.getX(), temp.getY());
-			GL11.glVertex3f(x + w, y + h, z);
-			GL11.glTexCoord2f(br.getX(), temp.getY());
-			GL11.glVertex3f(x, y + h, z);
-		}
-		else
-		{
-			GL11.glTexCoord2f(tl.getX(), temp2.getY());
-			GL11.glVertex3f(x, y, z);
-			GL11.glTexCoord2f(br.getX(), temp2.getY());
-			GL11.glVertex3f(x + w, y, z);
-			GL11.glTexCoord2f(br.getX(), temp.getY());
-			GL11.glVertex3f(x + w, y + h, z);
-			GL11.glTexCoord2f(tl.getX(), temp.getY());
-			GL11.glVertex3f(x, y + h, z);
-		}
-
-		//		if (texInfo.isFlippedH())
-		//		{
-		//			GL11.glTexCoord2f(br.getX(), tl.getY());
-		//			GL11.glVertex3f(x, y, z);
-		//			GL11.glTexCoord2f(tl.getX(), tl.getY());
-		//			GL11.glVertex3f(x + w, y, z);
-		//			GL11.glTexCoord2f(tl.getX(), br.getY());
-		//			GL11.glVertex3f(x + w, y + h, z);
-		//			GL11.glTexCoord2f(br.getX(), br.getY());
-		//			GL11.glVertex3f(x, y + h, z);
-		//		}
-		//		else
-		//		{
-		//			GL11.glTexCoord2f(tl.getX(), tl.getY());
-		//			GL11.glVertex3f(x, y, z);
-		//			GL11.glTexCoord2f(br.getX(), tl.getY());
-		//			GL11.glVertex3f(x + w, y, z);
-		//			GL11.glTexCoord2f(br.getX(), br.getY());
-		//			GL11.glVertex3f(x + w, y + h, z);
-		//			GL11.glTexCoord2f(tl.getX(), br.getY());
-		//			GL11.glVertex3f(x, y + h, z);
-		//		}
-
-		GL11.glEnd();
-	}
-
-	// IRendererWorld:
-	@Override
-	public void drawObject(TextureInfo texInfo, TextureInfo maskInfo, IFloatPoint_r position, IFloatPoint_r size)
-	{
-		GL11.glBegin(GL11.GL_QUADS);
-
-		float x = -0.5f + position.getX();
-		float y0 = position.getY();
-		float y = 0.5f - y0;
-		// --
-		float w = size.getX();
-		float h = size.getY();
-		float z = calcZAlt(y0);
-		// --
-		x -= w * 0.5f;
-
-		float ya = y;
-		float yb = y - h;
-
-		//		System.out.println("renderer received texture coordinates " + texInfo.getRect().getTopLeft());
-
-		IFloatPoint_r tl0 = texInfo.getRect().getTopLeft();
-		IFloatPoint_r br0 = texInfo.getRect().getBottomRight();
-
-		IFloatPoint_r tl1 = maskInfo.getRect().getTopLeft();
-		IFloatPoint_r br1 = maskInfo.getRect().getBottomRight();
-
-		// flipping the texture's y-coordinates
-		// TODO: vertically flip textures before binding?
-
-		// TODO: consider flipH
-
-		temp.y = 1.0f - tl0.getY();
-		temp2.y = 1.0f - br0.getY();
-
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, tl0.getX(), temp.y);
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, tl1.getX(), 1.0f - tl1.getY());
-		GL11.glVertex3f(x, ya, z);
-
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, br0.getX(), temp.y);
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, br1.getX(), 1.0f - tl1.getY());
-		GL11.glVertex3f(x + w, ya, z);
-
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, br0.getX(), temp2.y);
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, br1.getX(), 1.0f - br1.getY());
-		GL11.glVertex3f(x + w, yb, z);
-
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE0, tl0.getX(), temp2.y);
-		GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, tl1.getX(), 1.0f - br1.getY());
-		GL11.glVertex3f(x, yb, z);
-	}
-
-	// variation 2:
-	private float calcZAlt(float y)
-	{
-		float z = -1.5f - (1.0f - y) * slope;
-		if (z > -1.499f)
-			z = -1.499f;
-
-		return z;
-	}
-
-	// variation 1:
-	private float calcZ(float y)
-	{
-		float z = -1.5f - y * slope;
-		if (z > -1.499f)
-			z = -1.499f;
-
-		return z;
+		this.worldRenderer.setSlope(slope);
+		this.inputHandler.onSlopeChanged();
 	}
 
 	@Override
@@ -853,73 +358,81 @@ public class PrismSceneLWJGL implements IScene, IRendererWorld, IRendererUI, IEx
 		return slope;
 	}
 
-	// IScene:
-	@Override
-	public void applyPerspective(FloatPoint p)
-	{
-		p.y = (p.y - 0.048333f) * 1.050787723f;
-
-		float hollow = p.y < 0.5f ? p.y : 1.0f - p.y;
-		hollow *= 2.0f * 0.025f;
-
-		p.y += hollow;
-
-		float f = 1.0f - p.y / 1.0f;
-		float fx = 0.045f * f;
-		float s = 1.0f / (1.0f - fx * 2.0f);
-
-		p.x = (p.x - fx) * s;
-	}
-
-	// IExceptionSink:
 	@Override
 	public void receiveException(Exception e)
 	{
 		if (exception == null)
 			exception = e;
 	}
-
-	// IFrameBufferParent:
-	@Override
-	public void resetOrthoExperimental()
-	{
-		GL11.glLoadIdentity();
-		GL11.glOrtho(0, frameSize.x, frameSize.y, 0, 0, 1);
-	}
-
 	/*
-	public void draw(DrawInfo drawInfo, IFloatRect_r screenRect)
-	{
-		//		public void drawPlane(TextureInfo texInfo, IFloatRect_r rect);
-		//		public void drawPlane(IFloatRect_r texRect, IFloatRect_r rect);
-
-		GL11.glte
-		
-		FloatRectR quadRect = drawInfo.getQuadRect();
-
-		gl2.glBegin(GL2.GL_QUADS);
+		@Override
+		public void testMouseTransform(float x, float y)
 		{
-			// gl2.glTexCoord2f(textureRect.getX(), textureRect.getY());
-			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE0, drawInfo.getTextureRect().getX(), drawInfo.getTextureRect().getY());
-			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE1, textureRect2.getX(), textureRect2.getY());
-			gl2.glVertex3f(quadRect.getX(), quadRect.getY(), 0.0f);
-
-			// gl2.glTexCoord2f(textureRect.calcX2(), textureRect.getY());
-			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE0, drawInfo.getTextureRect().calcX2(), drawInfo.getTextureRect().getY());
-			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE1, textureRect2.calcX2(), textureRect2.getY());
-			gl2.glVertex3f(quadRect.calcX2(), quadRect.getY(), 0.0f);
-
-			// gl2.glTexCoord2f(textureRect.calcX2(), textureRect.calcY2());
-			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE0, drawInfo.getTextureRect().calcX2(), drawInfo.getTextureRect().calcY2());
-			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE1, textureRect2.calcX2(), textureRect2.calcY2());
-			gl2.glVertex3f(quadRect.calcX2(), quadRect.calcY2(), 0.0f);
-
-			// gl2.glTexCoord2f(textureRect.getX(), textureRect.getY2());
-			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE0, drawInfo.getTextureRect().getX(), drawInfo.getTextureRect().calcY2());
-			gl2.glMultiTexCoord2f(GL2.GL_TEXTURE1, textureRect2.getX(), textureRect2.calcY2());
-			gl2.glVertex3f(quadRect.getX(), quadRect.calcY2(), 0.0f);
+			//		test2(x, y);
 		}
-		gl2.glEnd();
-	}
-	*/
+
+		private static final FloatBuffer modelview = BufferUtils.createFloatBuffer(16);
+		private static final FloatBuffer projection = BufferUtils.createFloatBuffer(16);
+		private static final IntBuffer viewport = BufferUtils.createIntBuffer(16);
+		private static final FloatBuffer screenDepth = BufferUtils.createFloatBuffer(1);
+		private static final FloatBuffer posExact = BufferUtils.createFloatBuffer(3);
+
+		private void test2()
+		{
+			int x = Mouse.getX();
+			int y = Mouse.getY();
+
+			// get the current modelView matrix, projection matrix and viewport
+			GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelview);
+			GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
+			GL11.glGetInteger(GL11.GL_VIEWPORT, viewport);
+
+			// read the screen depth under the mouse pointer
+			GL11.glReadPixels(x, y, 1, 1, GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT, screenDepth);
+
+			// transform mouse position to world coordinates
+			boolean b = GLU.gluUnProject(x, y, screenDepth.get(0), modelview, projection, viewport, posExact);
+
+			String s;
+			if (b)
+			{
+				s = "mouse: " + x + ", " + y + ", " + screenDepth.get(0) + " -> world: " + decimalFormat.format(posExact.get(0)) + ", "
+						+ decimalFormat.format(posExact.get(1)) + ", " + decimalFormat.format(posExact.get(2));
+			}
+			else
+			{
+				s = "gluUnProject returned false";
+			}
+			Display.setTitle(s);
+		}
+
+		private static void printMatrix(String name, FloatBuffer f)
+		{
+			int i = 0;
+			System.out.println(name + "Matrix:");
+
+			for (int y = 0; y < 4; ++y)
+			{
+				for (int x = 0; x < 4; ++x)
+				{
+					System.out.print(f.get(i++));
+					if (x < 4 - 1)
+						System.out.print(",");
+					System.out.print("\t");
+				}
+				System.out.println();
+			}
+			System.out.println(".");
+		}
+
+		private static DecimalFormat decimalFormat = new DecimalFormat("#.####");
+		static
+		{
+			DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.GERMAN);
+			otherSymbols.setDecimalSeparator(',');
+			otherSymbols.setGroupingSeparator('.');
+			decimalFormat.setMinimumFractionDigits(4);
+			decimalFormat.setDecimalFormatSymbols(otherSymbols);
+		}
+		*/
 }

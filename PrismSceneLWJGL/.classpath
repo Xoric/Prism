@@ -10,5 +10,10 @@
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismData"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PrismSceneBase"/>
+	<classpathentry kind="lib" path="/lwjgl-2.9.1/jar/lwjgl_util.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://www.lwjgl.org/javadoc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

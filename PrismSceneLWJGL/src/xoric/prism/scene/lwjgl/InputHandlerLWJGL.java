@@ -12,31 +12,42 @@ import xoric.prism.scene.IInputListener;
 
 public class InputHandlerLWJGL
 {
+	private int buttonCount;
+	private boolean[] isButtonDown;
+
 	private IInputListener listener;
 	private IFloatPoint_r frameSize;
 	private int windowHeight;
 
-	private final Point mouseInt;
-	private final FloatPoint mouse;
-
-	private boolean isLeftButtonDown;
-	private boolean isRightButtonDown;
+	private final Point mouseInt; // in pixels (int)
+	private final FloatPoint mouseOnScreen; // in pixels (float)
 
 	private final KeyRepeater repeater;
 
 	public InputHandlerLWJGL()
 	{
 		mouseInt = new Point();
-		mouse = new FloatPoint();
+		mouseOnScreen = new FloatPoint();
 		repeater = new KeyRepeater();
+
 	}
 
 	public void initialize(IInputListener listener, IFloatPoint_r frameSize)//int windowHeight)
 	{
+		buttonCount = Mouse.getButtonCount();
+		if (buttonCount <= 0)
+			buttonCount = 5;
+		isButtonDown = new boolean[buttonCount];
+
 		this.listener = listener;
 		this.repeater.setListener(listener);
 		this.windowHeight = (int) frameSize.getY();// windowHeight;
 		this.frameSize = frameSize;
+	}
+
+	public IFloatPoint_r getMouseOnScreen()
+	{
+		return mouseOnScreen;
 	}
 
 	public void update(int passedMs)
@@ -45,46 +56,33 @@ public class InputHandlerLWJGL
 		int x = Mouse.getX();
 		int y = windowHeight - Mouse.getY();
 
-		if (x != mouse.x || y != mouse.y)
+		if (x != mouseInt.x || y != mouseInt.y)
 		{
-			mouse.x = x / frameSize.getX();
-			mouse.y = y / frameSize.getY();
-			//			mouse.x = x;
-			//			mouse.y = y;
 			mouseInt.x = x;
 			mouseInt.y = y;
 
-			listener.onMouseMove(mouse);
+			mouseOnScreen.x = x;
+			mouseOnScreen.y = y;
+
+			listener.onMouseMove();
 		}
 
-		// check left mouse button
-		boolean b = Mouse.isButtonDown(0);
-		// --
-		if (isLeftButtonDown != b)
+		// check mouse buttons
+		for (int b = 0; b < buttonCount; ++b)
 		{
-			if (b)
-				listener.onMouseDown(mouse, true);
-			else
-				listener.onMouseUp(mouse, true);
-
-			isLeftButtonDown = b;
-		}
-
-		// check right mouse button
-		b = Mouse.isButtonDown(1);
-		// --
-		if (isRightButtonDown != b)
-		{
-			if (b)
-				listener.onMouseDown(mouse, false);
-			else
-				listener.onMouseUp(mouse, false);
-
-			isRightButtonDown = b;
+			if (!isButtonDown[b] && Mouse.isButtonDown(b))
+			{
+				listener.onMouseDown(b);
+				isButtonDown[b] = true;
+			}
+			else if (isButtonDown[b] && !Mouse.isButtonDown(b))
+			{
+				listener.onMouseUp(b);
+				isButtonDown[b] = false;
+			}
 		}
 
 		// check if an arrow button is being hold down
-
 		if (repeater.isActive())
 		{
 			if (Keyboard.isKeyDown(repeater.getKey()))
@@ -187,5 +185,11 @@ public class InputHandlerLWJGL
 				repeater.setKeyChar(key, c);
 			//			System.out.println("character key: " + c + " (" + (int) c + ")");
 		}
+	}
+
+	public void onSlopeChanged()
+	{
+		// slope has changed -> mouseInWorld has to be recalculated on next update
+		mouseInt.x = -1;
 	}
 }
