@@ -17,6 +17,8 @@ public class PrismUI implements IDrawableUI, IInputListener
 {
 	private final IExceptionSink exceptionSink;
 
+	private final IFloatPoint_r mouseOnScreen;
+
 	//	private final IActionParent client;
 	private final IActionExecuter actionExecuter;
 	private final FloatRect screenRect;
@@ -24,18 +26,18 @@ public class PrismUI implements IDrawableUI, IInputListener
 	private final List<UIWindow> windows;
 	private UIWindow activeComponentWindow;
 	private IActiveUI activeComponent;
-	private final FloatPoint newestMouse;
 	private final FloatPoint lastMouse;
 
 	private boolean isMouseDown;
 
-	public PrismUI(IExceptionSink exceptionSink, IActionExecuter actionExecuter)
+	public PrismUI(IExceptionSink exceptionSink, IActionExecuter actionExecuter, IFloatPoint_r mouseOnScreen)
 	{
 		this.exceptionSink = exceptionSink;
 		this.actionExecuter = actionExecuter;
+		this.mouseOnScreen = mouseOnScreen;
+
 		this.screenRect = new FloatRect();
 		this.windows = new ArrayList<UIWindow>();
-		this.newestMouse = new FloatPoint();
 		this.lastMouse = new FloatPoint();
 	}
 
@@ -159,19 +161,16 @@ public class PrismUI implements IDrawableUI, IInputListener
 		return false;
 	}
 
-	// IInputListener:
 	@Override
-	public boolean onMouseDown(IFloatPoint_r mouse, boolean isLeft)
+	public boolean onMouseDown(int button)
 	{
 		isMouseDown = true;
 		IActiveUI ac = null;
-		newestMouse.copyFrom(mouse);
-		newestMouse.multiply(screenRect.getSize());
 
 		for (int i = windows.size() - 1; i >= 0; --i)
 		{
 			UIWindow w = windows.get(i);
-			ac = w.mouseDown(newestMouse);
+			ac = w.mouseDown(mouseOnScreen);
 
 			if (activeComponent != null)
 				activeComponent.setFocus(false);
@@ -189,39 +188,31 @@ public class PrismUI implements IDrawableUI, IInputListener
 		return false;
 	}
 
-	// IInputListener:
 	@Override
-	public void onMouseMove(IFloatPoint_r mouse)
+	public void onMouseMove()
 	{
-		newestMouse.copyFrom(mouse);
-		newestMouse.multiply(screenRect.getSize());
-
 		if (isMouseDown && activeComponent instanceof UIWindow && ((UIWindow) activeComponent).isMoveable())
 		{
 			UIWindow w = (UIWindow) activeComponent;
-			float dx = newestMouse.x - lastMouse.x;
-			float dy = newestMouse.y - lastMouse.y;
+			float dx = mouseOnScreen.getX() - lastMouse.x;
+			float dy = mouseOnScreen.getY() - lastMouse.y;
 
 			if (w.isResizing())
 				w.resize(dx, dy);
 			else
 				w.moveBy(dx, dy);
 		}
-		lastMouse.copyFrom(newestMouse);
+		lastMouse.copyFrom(mouseOnScreen);
 	}
 
-	// IInputListener:
 	@Override
-	public void onMouseUp(IFloatPoint_r mouse, boolean isLeft)
+	public void onMouseUp(int button)
 	{
 		isMouseDown = false;
 
 		if (activeComponent != null)
 		{
-			newestMouse.copyFrom(mouse);
-			newestMouse.multiply(screenRect.getSize());
-
-			if (activeComponent.containsMouse(newestMouse))
+			if (activeComponent.containsMouse(mouseOnScreen))
 			{
 				try
 				{
